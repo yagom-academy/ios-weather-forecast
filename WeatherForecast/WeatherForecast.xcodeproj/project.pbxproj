@@ -93,7 +93,6 @@
 			children = (
 				2859EEF025B551CF00C5BC2A /* Data */,
 				2859EEDA25B54BB700C5BC2A /* CurrentWeather.swift */,
-				2859EEDF25B54BD000C5BC2A /* ForecastItem.swift */,
 				2859EEE425B54FC900C5BC2A /* Forecast.swift */,
 			);
 			path = Item;
@@ -102,6 +101,7 @@
 		2859EEF025B551CF00C5BC2A /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				2859EEDF25B54BD000C5BC2A /* ForecastItem.swift */,
 				2859EEF425B5521600C5BC2A /* Temperature.swift */,
 				2859EEFF25B5527E00C5BC2A /* WeatherInformation.swift */,
 				2859EF0425B5530800C5BC2A /* CityInformation.swift */,
