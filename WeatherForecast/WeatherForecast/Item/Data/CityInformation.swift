@@ -8,9 +8,9 @@
 import Foundation
 
 struct CityInformation: Codable {
-    let addressName: String
+    let address: String
     
     enum CodingKeys: String, CodingKey {
-        case addressName = "name"
+        case address = "name"
     }
 }
