@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WeatherForecastItem {
+struct WeatherForecastItem: Codable {
     let temperature: Temperature
     let weather: Weather
     
