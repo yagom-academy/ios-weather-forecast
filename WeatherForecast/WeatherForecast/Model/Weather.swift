@@ -8,5 +8,9 @@
 import Foundation
 
 struct Weather {
+    let iconID: String
     
+    enum CodingKeys: String, CodingKey {
+        case iconID = "icon"
+    }
 }
