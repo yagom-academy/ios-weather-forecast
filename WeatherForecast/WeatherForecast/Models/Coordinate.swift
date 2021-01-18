@@ -1,11 +1,11 @@
 import Foundation
 
-struct Coordinate {
+struct Coordinate: Codable {
     let longitude: Double   //경도
     let latitude: Double    //위도
     
     enum CodingKeys: String, CodingKey {
-        case longtitude = "lon"
+        case longitude = "lon"
         case latitude = "lat"
     }
 }
