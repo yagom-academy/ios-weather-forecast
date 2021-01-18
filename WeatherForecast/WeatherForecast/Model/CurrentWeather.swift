@@ -8,9 +8,11 @@
 import Foundation
 
 struct CurrentWeather: Codable {
+    let weather: Weather
     let temperature: Temperature
     
     enum CodingKeys: String, CodingKey {
+        case weather
         case temperature = "main"
     }
 }
