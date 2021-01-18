@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		41F9033925B5B0D2002C4188 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9033825B5B0D2002C4188 /* CurrentWeather.swift */; };
 		41F9034125B5B370002C4188 /* Coord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9034025B5B370002C4188 /* Coord.swift */; };
+		41F9034625B5B3C5002C4188 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9034525B5B3C5002C4188 /* Weather.swift */; };
 		C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */; };
 		C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */; };
 		C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */; };
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		41F9033825B5B0D2002C4188 /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
 		41F9034025B5B370002C4188 /* Coord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coord.swift; sourceTree = "<group>"; };
+		41F9034525B5B3C5002C4188 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		C79C8CF025ADDDF200EEE3F1 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			children = (
 				41F9033825B5B0D2002C4188 /* CurrentWeather.swift */,
 				41F9034025B5B370002C4188 /* Coord.swift */,
+				41F9034525B5B3C5002C4188 /* Weather.swift */,
 			);
 			path = WeatherJSONType;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 				41F9034125B5B370002C4188 /* Coord.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
 				41F9033925B5B0D2002C4188 /* CurrentWeather.swift in Sources */,
+				41F9034625B5B3C5002C4188 /* Weather.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
