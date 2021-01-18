@@ -9,7 +9,7 @@ import Foundation
 
 struct ForecastItem: Codable {
     let dateTime: Int64
-    let temperature: Temperature
+    let temperature: TemperatureInformation
     let weather: WeatherInformation
     
     enum CodingKeys: String, CodingKey {
