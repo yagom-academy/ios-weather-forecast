@@ -9,9 +9,18 @@ import Foundation
 
 struct Main: Codable {
     let temp: Double
-    let feels_like: Double
+    let feelsLike: Double
     let pressure: Int
     let humidity: Int
-    let temp_min: Double
-    let temp_max: Double
+    let tempMin: Double
+    let tempMax: Double
+    
+    enum CodingKeys: String, CodingKey {
+        case temp
+        case feelsLike = "feels_like"
+        case pressure
+        case humidity
+        case tempMin = "temp_min"
+        case tempMax = "temp_max"
+    }
 }
