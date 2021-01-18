@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+struct CityInformation: Codable {
+    let addressName: String
+    
+    enum CodingKeys: String, CodingKey {
+        case addressName = "name"
+    }
+}
