@@ -9,5 +9,6 @@ import Foundation
 
 struct ForecastItem: Codable {
     let dateTime: Int64
-    
+    let temperatureInformation: Temperature
+    let weatherInformation: WeatherInformation
 }
