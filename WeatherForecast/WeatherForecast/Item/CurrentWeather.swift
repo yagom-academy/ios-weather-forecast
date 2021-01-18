@@ -9,8 +9,8 @@ import Foundation
 
 struct CurrentWeather: Codable {
     let addressName: String
-    let temperature: TemperatureInformation
-    let weather: WeatherInformation
+    let temperature: Temperature
+    let weather: Weather
     
     enum CodingKeys: String, CodingKey {
         case addressName = "name"

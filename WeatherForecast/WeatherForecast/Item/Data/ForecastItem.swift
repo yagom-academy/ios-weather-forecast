@@ -9,8 +9,8 @@ import Foundation
 
 struct ForecastItem: Codable {
     let dateTime: Date
-    let temperature: TemperatureInformation
-    let weather: WeatherInformation
+    let temperature: Temperature
+    let weather: Weather
     
     enum CodingKeys: String, CodingKey {
         case dateTime = "dt"

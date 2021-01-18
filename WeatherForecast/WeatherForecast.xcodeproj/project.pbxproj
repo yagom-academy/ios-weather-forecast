@@ -10,9 +10,9 @@
 		2859EEDB25B54BB700C5BC2A /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2859EEDA25B54BB700C5BC2A /* CurrentWeather.swift */; };
 		2859EEE025B54BD000C5BC2A /* ForecastItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2859EEDF25B54BD000C5BC2A /* ForecastItem.swift */; };
 		2859EEE525B54FC900C5BC2A /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2859EEE425B54FC900C5BC2A /* Forecast.swift */; };
-		2859EEF525B5521600C5BC2A /* TemperatureInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2859EEF425B5521600C5BC2A /* TemperatureInformation.swift */; };
-		2859EF0025B5527E00C5BC2A /* WeatherInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2859EEFF25B5527E00C5BC2A /* WeatherInformation.swift */; };
-		2859EF0525B5530800C5BC2A /* CityInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2859EF0425B5530800C5BC2A /* CityInformation.swift */; };
+		2859EEF525B5521600C5BC2A /* Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2859EEF425B5521600C5BC2A /* Temperature.swift */; };
+		2859EF0025B5527E00C5BC2A /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2859EEFF25B5527E00C5BC2A /* Weather.swift */; };
+		2859EF0525B5530800C5BC2A /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2859EF0425B5530800C5BC2A /* City.swift */; };
 		C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */; };
 		C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */; };
 		C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */; };
@@ -44,9 +44,9 @@
 		2859EEDA25B54BB700C5BC2A /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
 		2859EEDF25B54BD000C5BC2A /* ForecastItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastItem.swift; sourceTree = "<group>"; };
 		2859EEE425B54FC900C5BC2A /* Forecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
-		2859EEF425B5521600C5BC2A /* TemperatureInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureInformation.swift; sourceTree = "<group>"; };
-		2859EEFF25B5527E00C5BC2A /* WeatherInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInformation.swift; sourceTree = "<group>"; };
-		2859EF0425B5530800C5BC2A /* CityInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityInformation.swift; sourceTree = "<group>"; };
+		2859EEF425B5521600C5BC2A /* Temperature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temperature.swift; sourceTree = "<group>"; };
+		2859EEFF25B5527E00C5BC2A /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		2859EF0425B5530800C5BC2A /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		C79C8CF025ADDDF200EEE3F1 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -102,9 +102,9 @@
 			isa = PBXGroup;
 			children = (
 				2859EEDF25B54BD000C5BC2A /* ForecastItem.swift */,
-				2859EEF425B5521600C5BC2A /* TemperatureInformation.swift */,
-				2859EEFF25B5527E00C5BC2A /* WeatherInformation.swift */,
-				2859EF0425B5530800C5BC2A /* CityInformation.swift */,
+				2859EEF425B5521600C5BC2A /* Temperature.swift */,
+				2859EEFF25B5527E00C5BC2A /* Weather.swift */,
+				2859EF0425B5530800C5BC2A /* City.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -293,11 +293,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				2859EEE025B54BD000C5BC2A /* ForecastItem.swift in Sources */,
-				2859EF0025B5527E00C5BC2A /* WeatherInformation.swift in Sources */,
+				2859EF0025B5527E00C5BC2A /* Weather.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
-				2859EF0525B5530800C5BC2A /* CityInformation.swift in Sources */,
-				2859EEF525B5521600C5BC2A /* TemperatureInformation.swift in Sources */,
+				2859EF0525B5530800C5BC2A /* City.swift in Sources */,
+				2859EEF525B5521600C5BC2A /* Temperature.swift in Sources */,
 				2859EEDB25B54BB700C5BC2A /* CurrentWeather.swift in Sources */,
 				2859EEE525B54FC900C5BC2A /* Forecast.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,

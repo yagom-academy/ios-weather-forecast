@@ -10,7 +10,7 @@ import Foundation
 struct Forecast: Codable {
     let itemCount: Int
     let list: [ForecastItem]
-    let city: CityInformation
+    let city: City
     
     enum CodingKeys: String, CodingKey {
         case itemCount = "cnt"
