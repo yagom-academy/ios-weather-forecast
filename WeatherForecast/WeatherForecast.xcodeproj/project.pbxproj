@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B42813AD25B5D2CA006F9FE9 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42813AC25B5D2CA006F9FE9 /* Coordinate.swift */; };
 		B42813B525B5D36B006F9FE9 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42813B425B5D36B006F9FE9 /* Weather.swift */; };
+		B42813BA25B5D5A7006F9FE9 /* Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42813B925B5D5A7006F9FE9 /* Temperature.swift */; };
 		C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */; };
 		C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */; };
 		C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */; };
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		B42813AC25B5D2CA006F9FE9 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 		B42813B425B5D36B006F9FE9 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		B42813B925B5D5A7006F9FE9 /* Temperature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temperature.swift; sourceTree = "<group>"; };
 		C79C8CF025ADDDF200EEE3F1 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			children = (
 				B42813AC25B5D2CA006F9FE9 /* Coordinate.swift */,
 				B42813B425B5D36B006F9FE9 /* Weather.swift */,
+				B42813B925B5D5A7006F9FE9 /* Temperature.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 			files = (
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
+				B42813BA25B5D5A7006F9FE9 /* Temperature.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
 				B42813AD25B5D2CA006F9FE9 /* Coordinate.swift in Sources */,
 				B42813B525B5D36B006F9FE9 /* Weather.swift in Sources */,
