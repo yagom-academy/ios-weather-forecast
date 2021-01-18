@@ -8,7 +8,7 @@
 import Foundation
 
 struct ForecastItem: Codable {
-    let dateTime: Double
+    let dateTime: Date
     let temperature: TemperatureInformation
     let weather: WeatherInformation
     
