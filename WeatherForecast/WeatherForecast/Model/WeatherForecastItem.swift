@@ -8,5 +8,11 @@
 import Foundation
 
 struct WeatherForecastItem {
+    let temperature: Temperature
+    let weather: Weather
     
+    enum CodingKeys: String, CodingKey {
+        case temperature = "main"
+        case weather
+    }
 }
