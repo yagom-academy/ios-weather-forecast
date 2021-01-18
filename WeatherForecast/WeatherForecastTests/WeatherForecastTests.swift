@@ -28,5 +28,35 @@ class WeatherForecastTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
+    
+    func test_currentweather_jsonType() throws {
+        guard let url = Bundle.main.url(forResource: "Current", withExtension: "json") else {
+            XCTFail()
+            return
+        }
+        let data = try Data(contentsOf: url)
+        do {
+            let currentWeather = try JSONDecoder().decode(CurrentWeather.self, from: data)
+            XCTAssertEqual(currentWeather.cityID, 420006353)
+            XCTAssertEqual(currentWeather.coordinate.latitude, 37.39)
+        } catch {
+            XCTFail()
+        }
+    }
+    
+    func test_ForecastFiveDays_jsonType() throws {
+        guard let url = Bundle.main.url(forResource: "FiveDays", withExtension: "json") else {
+            XCTFail()
+            return
+        }
+        let data = try Data(contentsOf: url)
+        do {
+            let forecastFiveDays = try JSONDecoder().decode(ForecastFiveDays.self, from: data)
+            XCTAssertEqual(forecastFiveDays.numberOfTimeStamp, 40)
+            XCTAssertEqual(forecastFiveDays.forecastList[0].dataTimeText, "2020-08-04 18:00:00")
+        } catch {
+            XCTFail()
+        }
+    }
 
 }
