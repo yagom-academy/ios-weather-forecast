@@ -14,6 +14,7 @@ class WeatherForecastTests: XCTestCase {
         
         return data
     }()
+    
     private let foreCastFiveDaysData: Data = { () -> Data in
         let apiURL = "https://api.openweathermap.org/data/2.5/forecast?lat=35&lon=139&appid==f08f782b840c2494b77e036d6bf2f3de"
         let data = try! Data(contentsOf: URL(string: apiURL)!, options: Data.ReadingOptions())
@@ -29,7 +30,15 @@ class WeatherForecastTests: XCTestCase {
         try super.tearDownWithError()
     }
 
-    func testExample() throws {
-
+    func testCurrentWeatherDataDecoding() throws {
+        let result = try! JSONDecoder().decode(CurrentWeather.self, from: currentWeatherData)
+        
+        print(result.city)
+        print(result.temperature.current)
+        print(result.temperature.feelsLike)
+        print(result.temperature.humidity)
+        print(result.temperature.max)
+        print(result.temperature.min)
+        print(result.weather[0].icon)
     }
 }
