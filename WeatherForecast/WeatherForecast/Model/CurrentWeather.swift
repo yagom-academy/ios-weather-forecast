@@ -12,6 +12,8 @@ struct CurrentWeather: Decodable {
     private let weathers: [Weather]
     let temperature: Temperature
     let utc: Int
+    let cityID: Int
+    let cityName: String
     
     var weather: Weather {
         return weathers[0]
@@ -22,5 +24,7 @@ struct CurrentWeather: Decodable {
         case weathers = "weather"
         case temperature = "main"
         case utc = "dt"
+        case cityID = "id"
+        case cityName = "name"
     }
 }
