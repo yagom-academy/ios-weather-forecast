@@ -8,14 +8,29 @@
 import Foundation
 
 struct CurrentWeather: Codable {
-    let coord: Coord
+    let coord: Coord?
     let weather: [Weather]
+    let base: String?
     let main: Main
     let wind: Wind
     let clouds: Clouds
-    let dt: Int
-    let sys: Sys
+    let dateTime: Int
+    let local: Sys
     let timezone: Int?
     let id: Int?
     let name: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case coord
+        case weather
+        case base
+        case main
+        case wind
+        case clouds
+        case dateTime = "dt"
+        case local = "sys"
+        case timezone
+        case id
+        case name
+    }
 }
