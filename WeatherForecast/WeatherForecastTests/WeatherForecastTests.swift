@@ -8,25 +8,41 @@ import XCTest
 @testable import WeatherForecast
 
 class WeatherForecastTests: XCTestCase {
-
+    private let currentWeatherData: Data = { () -> Data in
+        let apiURL = "https://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=f08f782b840c2494b77e036d6bf2f3de"
+        let data = try! Data(contentsOf: URL(string: apiURL)!, options: Data.ReadingOptions())
+        
+        return data
+    }()
+    
+    private let foreCastFiveDaysData: Data = { () -> Data in
+        let apiURL = "https://api.openweathermap.org/data/2.5/forecast?lat=35&lon=139&appid=f08f782b840c2494b77e036d6bf2f3de"
+        let data = try! Data(contentsOf: URL(string: apiURL)!, options: Data.ReadingOptions())
+        
+        return data
+    }()
+    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        try super.setUpWithError()
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        try super.tearDownWithError()
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testCurrentWeatherDataDecoding() throws {
+        let result = try! JSONDecoder().decode(CurrentWeather.self, from: currentWeatherData)
+        
+        print(result.city)
+        print(result.temperature)
+        print(result.weather[0].icon)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func testForeCastFiveDaysData() throws {
+        let result = try! JSONDecoder().decode(ForecastFiveDays.self, from: foreCastFiveDaysData)
+        
+        print(result.timeStampsCount)
+        print(result.list)
     }
-
+    
 }
