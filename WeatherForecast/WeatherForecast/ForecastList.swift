@@ -10,7 +10,7 @@ import Foundation
 struct ForecastList: Codable {
     let temperature: Temperature
     let date: Date
-    let weather: Weather
+    let weather: [Weather]
     
     enum CodingKeys: String, CodingKey {
         case temperature = "main"
