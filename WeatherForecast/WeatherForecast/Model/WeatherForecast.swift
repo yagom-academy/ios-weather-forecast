@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct WeatherForecast: Codable {
+struct WeatherForecast: Decodable {
     let list: [WeatherForecastItem]
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Weather: Codable {
+struct Weather: Decodable {
     let iconID: String
     
     var iconURL: String {
