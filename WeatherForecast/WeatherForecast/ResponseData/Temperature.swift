@@ -13,15 +13,20 @@ struct Temperature: Codable {
     let temp_max: Double
     
     var average: String {
-        let averageText = String(format:"%.1f", (temp-32)/1.8)
+        let average = UnitTemperature.celsius.converter.value(fromBaseUnitValue: temp)
+        let averageText = String(format:"%.1f", average)
         return averageText
     }
+    
     var minimum: String {
-        let minimumText = String(format:"%.1f", (temp_min-32)/1.8)
+        let minimum = UnitTemperature.celsius.converter.value(fromBaseUnitValue: temp_min)
+        let minimumText = String(format:"%.1f", minimum)
         return minimumText
     }
+    
     var maximum: String {
-        let maximumText = String(format:"%.1f", (temp_max-32)/1.8)
+        let maximum = UnitTemperature.celsius.converter.value(fromBaseUnitValue: temp_max)
+        let maximumText = String(format:"%.1f", maximum)
         return maximumText
     }
 }
