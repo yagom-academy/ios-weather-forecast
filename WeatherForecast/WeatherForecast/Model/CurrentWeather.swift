@@ -11,10 +11,12 @@ struct CurrentWeather: Decodable {
     let coordinate: Coordinate
     let weather: [Weather]
     let temperature: Temperature
+    let base: String
     
     enum CodingKeys: String, CodingKey {
         case coordinate = "coord"
         case weather
         case temperature = "main"
+        case base
     }
 }

@@ -8,13 +8,19 @@
 import Foundation
 
 struct Temperature: Decodable {
-    let currentTemperatrue: Double
-    let minimumTemperature: Double
-    let maximumTemperature: Double
+    let current: Double
+    let humanFeels: Double
+    let minimum: Double
+    let maximum: Double
+    let atmosphericPressure: Int
+    let humidity: Int
     
     enum CodingKeys: String, CodingKey {
-        case currentTemperatrue = "temp"
-        case minimumTemperature = "temp_min"
-        case maximumTemperature = "temp_max"
+        case current = "temp"
+        case humanFeels = "feels_like"
+        case minimum = "temp_min"
+        case maximum = "temp_max"
+        case atmosphericPressure = "pressure"
+        case humidity
     }
 }
