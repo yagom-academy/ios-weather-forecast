@@ -8,15 +8,11 @@
 import Foundation
 
 struct ForecastFiveDays: Codable {
-    let date: String
     let numberOfTimestamps: Int
-    let weather: [Weather]
-    let temperature: Temperature
+    let list: [ForecastList]
     
     enum CodingKeys:String, CodingKey {
-        case date = "dt_txt"
         case numberOfTimestamps = "cnt"
-        case weather = "weather"
-        case temperature = "main"
+        case list
     }
 }
