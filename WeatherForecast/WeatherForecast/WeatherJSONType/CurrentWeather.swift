@@ -19,6 +19,7 @@ struct CurrentWeather: Codable {
     let timezone: Int?
     let id: Int?
     let name: String?
+    let visibility: Int
     
     enum CodingKeys: String, CodingKey {
         case coord
@@ -32,5 +33,6 @@ struct CurrentWeather: Codable {
         case timezone
         case id
         case name
+        case visibility
     }
 }
