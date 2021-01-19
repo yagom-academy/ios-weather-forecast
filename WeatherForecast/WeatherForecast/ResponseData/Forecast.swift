@@ -8,6 +8,12 @@
 import Foundation
 
 struct Forecast: Codable {
+    let timestampCount: Int
     let list: [FivedaysForecast]
     let city: City
+    
+    enum CodingKeys: String, CodingKey {
+        case timestampCount = "cnt"
+        case list, city
+    }
 }
