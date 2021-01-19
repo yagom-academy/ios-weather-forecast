@@ -8,24 +8,30 @@
 import Foundation
 
 struct Temperature: Decodable {
-    let temp: Double
-    let temp_min: Double
-    let temp_max: Double
+    let kelvinAverage: Double
+    let kelvinMinimum: Double
+    let kelvinMaximum: Double
     
-    var average: String {
-        let average = UnitTemperature.celsius.converter.value(fromBaseUnitValue: temp)
+    enum CodingKeys: String, CodingKey {
+        case kelvinAverage = "temp"
+        case kelvinMinimum = "temp_min"
+        case kelvinMaximum = "temp_max"
+    }
+    
+    var selsiusAverage: String {
+        let average = UnitTemperature.celsius.converter.value(fromBaseUnitValue: kelvinAverage)
         let averageText = String(format:"%.1f", average)
         return averageText
     }
     
-    var minimum: String {
-        let minimum = UnitTemperature.celsius.converter.value(fromBaseUnitValue: temp_min)
+    var selsiusMinimum: String {
+        let minimum = UnitTemperature.celsius.converter.value(fromBaseUnitValue: kelvinMinimum)
         let minimumText = String(format:"%.1f", minimum)
         return minimumText
     }
     
-    var maximum: String {
-        let maximum = UnitTemperature.celsius.converter.value(fromBaseUnitValue: temp_max)
+    var selsiusMaximum: String {
+        let maximum = UnitTemperature.celsius.converter.value(fromBaseUnitValue: kelvinMaximum)
         let maximumText = String(format:"%.1f", maximum)
         return maximumText
     }
