@@ -8,10 +8,12 @@
 import Foundation
 
 struct CurrentWeather: Decodable {
+    let coordinate: Coordinate
     let weather: Weather
     let temperature: Temperature
     
     enum CodingKeys: String, CodingKey {
+        case coordinate = "coord"
         case weather
         case temperature = "main"
     }
