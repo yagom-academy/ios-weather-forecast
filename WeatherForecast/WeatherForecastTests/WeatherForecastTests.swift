@@ -74,5 +74,14 @@ class WeatherForecastTests: XCTestCase {
         weatherModel.request(information: .CurrentWeather, latitude: 37.5665, logitude: 126.9779)
         wait(for: [testExpectation], timeout: 5)
     }
+    
+    func testRequestFiveDayForecast() {
+        let testExpectation = expectation(description: "Success")
+        let dummy = DummyWeatherModelDelegate(testExpectation: testExpectation)
+        var weatherModel = WeatherModel()
+        weatherModel.delegate = dummy
+        weatherModel.request(information: .FiveDayForecast, latitude: 37.5665, logitude: 126.9779)
+        wait(for: [testExpectation], timeout: 5)
+    }
 
 }
