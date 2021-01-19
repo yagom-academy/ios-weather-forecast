@@ -9,7 +9,7 @@ import Foundation
 
 struct CurrentWeather: Codable {
     let cityName: String
-    let icon: WeatherIcon
+    let icon: [WeatherIcon]
     let temperature: Temperature
     
     enum CodingKeys: String, CodingKey {

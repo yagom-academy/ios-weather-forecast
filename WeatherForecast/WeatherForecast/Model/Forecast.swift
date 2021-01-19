@@ -9,7 +9,7 @@ import Foundation
 
 struct Forecast: Codable {
     let dateTime: Date
-    let icon: WeatherIcon
+    let icon: [WeatherIcon]
     let temperature: Temperature
     
     enum CodingKeys: String, CodingKey {
