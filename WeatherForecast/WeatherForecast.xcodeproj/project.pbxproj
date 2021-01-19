@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		827EE3F625B6802D008A35BC /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827EE3F225B6802D008A35BC /* CurrentWeather.swift */; };
+		827EE3F725B6802D008A35BC /* ForecastFiveDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827EE3F325B6802D008A35BC /* ForecastFiveDays.swift */; };
+		827EE3F825B6802D008A35BC /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827EE3F425B6802D008A35BC /* Weather.swift */; };
+		827EE3F925B6802D008A35BC /* Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827EE3F525B6802D008A35BC /* Temperature.swift */; };
+		827EE3FE25B684C0008A35BC /* ForecastList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827EE3FD25B684C0008A35BC /* ForecastList.swift */; };
 		C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */; };
 		C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */; };
 		C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */; };
@@ -35,6 +40,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		827EE3F225B6802D008A35BC /* CurrentWeather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
+		827EE3F325B6802D008A35BC /* ForecastFiveDays.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForecastFiveDays.swift; sourceTree = "<group>"; };
+		827EE3F425B6802D008A35BC /* Weather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		827EE3F525B6802D008A35BC /* Temperature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temperature.swift; sourceTree = "<group>"; };
+		827EE3FD25B684C0008A35BC /* ForecastList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastList.swift; sourceTree = "<group>"; };
 		C79C8CF025ADDDF200EEE3F1 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -100,6 +110,11 @@
 			isa = PBXGroup;
 			children = (
 				C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */,
+				827EE3F225B6802D008A35BC /* CurrentWeather.swift */,
+				827EE3F325B6802D008A35BC /* ForecastFiveDays.swift */,
+				827EE3FD25B684C0008A35BC /* ForecastList.swift */,
+				827EE3F525B6802D008A35BC /* Temperature.swift */,
+				827EE3F425B6802D008A35BC /* Weather.swift */,
 				C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */,
 				C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */,
 				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
@@ -258,9 +273,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				827EE3FE25B684C0008A35BC /* ForecastList.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
+				827EE3F625B6802D008A35BC /* CurrentWeather.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
+				827EE3F825B6802D008A35BC /* Weather.swift in Sources */,
+				827EE3F925B6802D008A35BC /* Temperature.swift in Sources */,
+				827EE3F725B6802D008A35BC /* ForecastFiveDays.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
