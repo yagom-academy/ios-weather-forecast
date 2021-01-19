@@ -101,10 +101,10 @@
 		56F94C3B25B73A2B00A98430 /* Submodel */ = {
 			isa = PBXGroup;
 			children = (
-				56A9972A25B5E75F001D3DE8 /* Temperature.swift */,
-				56A9972F25B5EC93001D3DE8 /* Weather.swift */,
-				56A9974525B600A9001D3DE8 /* WeatherForecastItem.swift */,
 				56038AB425B73EDF00EECEA4 /* Coordinate.swift */,
+				56A9972F25B5EC93001D3DE8 /* Weather.swift */,
+				56A9972A25B5E75F001D3DE8 /* Temperature.swift */,
+				56A9974525B600A9001D3DE8 /* WeatherForecastItem.swift */,
 			);
 			path = Submodel;
 			sourceTree = "<group>";
