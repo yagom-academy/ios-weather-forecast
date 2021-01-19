@@ -89,11 +89,11 @@
 		3468C9B725B698D600E4D662 /* JSONData */ = {
 			isa = PBXGroup;
 			children = (
+				3468C9AD25B695A500E4D662 /* Weather.swift */,
+				3468C9A825B68CB600E4D662 /* Temperature.swift */,
+				3468C9A325B68A7400E4D662 /* CurrentWeather.swift */,
 				3468C9B225B6969500E4D662 /* Forecast.swift */,
 				3468C9BB25B69D4200E4D662 /* ForecastFiveDays.swift */,
-				3468C9A325B68A7400E4D662 /* CurrentWeather.swift */,
-				3468C9A825B68CB600E4D662 /* Temperature.swift */,
-				3468C9AD25B695A500E4D662 /* Weather.swift */,
 			);
 			path = JSONData;
 			sourceTree = "<group>";
@@ -504,7 +504,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = WeatherForecastTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -525,7 +525,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = WeatherForecastTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
