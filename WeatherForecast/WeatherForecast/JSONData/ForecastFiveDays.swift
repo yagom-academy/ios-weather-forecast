@@ -1,7 +1,7 @@
 
 import Foundation
 
-struct ForecastFiveDays: Codable {
+struct ForecastFiveDays: Decodable {
     let timeStampsCount: Int
     let list: [Forecast]
     

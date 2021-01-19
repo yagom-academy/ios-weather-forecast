@@ -1,7 +1,7 @@
 
 import Foundation
 
-struct Forecast: Codable {
+struct Forecast: Decodable {
     let dateTime: String
     let weather: [Weather]
     let temperature: Temperature

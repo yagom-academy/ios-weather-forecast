@@ -1,7 +1,7 @@
 
 import Foundation
 
-struct CurrentWeather: Codable {
+struct CurrentWeather: Decodable {
     let city: String
     let weather: [Weather]
     let temperature: Temperature
