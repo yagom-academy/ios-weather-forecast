@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FivedaysForecast: Codable {
+struct FivedaysForecast: Decodable {
     let temperature: Temperature
     let weatherIcon: [WeatherIcon]
     let dateTimeText: Date
