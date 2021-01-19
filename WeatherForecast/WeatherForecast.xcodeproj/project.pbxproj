@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9AB6162E25B6C7270014E132 /* WeatherIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB6162D25B6C7270014E132 /* WeatherIcon.swift */; };
 		9AB6163325B6C9D80014E132 /* Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB6163225B6C9D80014E132 /* Temperature.swift */; };
+		9AB6163825B6CB250014E132 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB6163725B6CB250014E132 /* CurrentWeather.swift */; };
 		C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */; };
 		C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */; };
 		C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */; };
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		9AB6162D25B6C7270014E132 /* WeatherIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIcon.swift; sourceTree = "<group>"; };
 		9AB6163225B6C9D80014E132 /* Temperature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temperature.swift; sourceTree = "<group>"; };
+		9AB6163725B6CB250014E132 /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
 		C79C8CF025ADDDF200EEE3F1 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
 				9AB6162D25B6C7270014E132 /* WeatherIcon.swift */,
 				9AB6163225B6C9D80014E132 /* Temperature.swift */,
+				9AB6163725B6CB250014E132 /* CurrentWeather.swift */,
 				C79C8CFC25ADDDF300EEE3F1 /* Assets.xcassets */,
 				C79C8CFE25ADDDF300EEE3F1 /* LaunchScreen.storyboard */,
 				C79C8D0125ADDDF300EEE3F1 /* Info.plist */,
@@ -268,6 +271,7 @@
 				9AB6162E25B6C7270014E132 /* WeatherIcon.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
 				9AB6163325B6C9D80014E132 /* Temperature.swift in Sources */,
+				9AB6163825B6CB250014E132 /* CurrentWeather.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
