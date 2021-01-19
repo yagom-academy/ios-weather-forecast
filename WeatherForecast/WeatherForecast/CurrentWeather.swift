@@ -11,7 +11,7 @@ struct CurrentWeather: Codable {
     let city: String
     let temperature: Temperature
     let weather: [Weather]
-    
+
     enum CodingKeys: String, CodingKey {
         case city = "name"
         case temperature = "main"
