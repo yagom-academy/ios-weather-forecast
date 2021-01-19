@@ -11,5 +11,3 @@ struct Response {
     let currentWeather: CurrentWeather
     let forecast: Forecast
 }
-
-
