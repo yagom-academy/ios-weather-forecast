@@ -22,6 +22,7 @@
 		FD45353025B6B0A400E667BB /* WeatherIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD45352F25B6B0A400E667BB /* WeatherIcon.swift */; };
 		FD45353525B6B11000E667BB /* Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD45353425B6B11000E667BB /* Temperature.swift */; };
 		FD45355825B6BC2B00E667BB /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD45355725B6BC2B00E667BB /* City.swift */; };
+		FD45356F25B6D77600E667BB /* FivedaysForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD45356E25B6D77600E667BB /* FivedaysForecast.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		FD45352F25B6B0A400E667BB /* WeatherIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIcon.swift; sourceTree = "<group>"; };
 		FD45353425B6B11000E667BB /* Temperature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temperature.swift; sourceTree = "<group>"; };
 		FD45355725B6BC2B00E667BB /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		FD45356E25B6D77600E667BB /* FivedaysForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FivedaysForecast.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +154,7 @@
 				FD45352A25B6AFCC00E667BB /* Coord.swift */,
 				FD45352F25B6B0A400E667BB /* WeatherIcon.swift */,
 				FD45353425B6B11000E667BB /* Temperature.swift */,
+				FD45356E25B6D77600E667BB /* FivedaysForecast.swift */,
 				FD45355725B6BC2B00E667BB /* City.swift */,
 			);
 			path = ResponseData;
@@ -288,6 +291,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD45353525B6B11000E667BB /* Temperature.swift in Sources */,
+				FD45356F25B6D77600E667BB /* FivedaysForecast.swift in Sources */,
 				FD45353025B6B0A400E667BB /* WeatherIcon.swift in Sources */,
 				FD45352B25B6AFCC00E667BB /* Coord.swift in Sources */,
 				FD45355825B6BC2B00E667BB /* City.swift in Sources */,

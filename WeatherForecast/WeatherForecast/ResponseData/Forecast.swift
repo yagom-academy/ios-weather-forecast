@@ -8,6 +8,6 @@
 import Foundation
 
 struct Forecast: Codable {
-    let list: [CurrentWeather]
+    let list: [FivedaysForecast]
     let city: City
 }
