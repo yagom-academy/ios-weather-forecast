@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct FiveDaysWeatherInformation: Decodable {
-    let count: Int
+struct FiveDaysForecast: Decodable {
+    let listCount: Int
     let city: CityForAccess
     let list: [ListForAccess]
 
     enum CodingKeys: String, CodingKey {
-        case count = "cnt"
+        case listCount = "cnt"
         case city
         case list
     }
