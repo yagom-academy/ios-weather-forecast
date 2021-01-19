@@ -13,6 +13,9 @@
 		260B2D2D25B5D0B2009E529D /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260B2D2C25B5D0B2009E529D /* Forecast.swift */; };
 		260B2D3525B5D312009E529D /* ForecastList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260B2D3425B5D312009E529D /* ForecastList.swift */; };
 		260B2D4F25B6933F009E529D /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260B2D4E25B6933F009E529D /* Coordinate.swift */; };
+		260B2D5425B69673009E529D /* Wind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260B2D5325B69673009E529D /* Wind.swift */; };
+		260B2D5925B6979E009E529D /* Clouds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260B2D5825B6979E009E529D /* Clouds.swift */; };
+		260B2D5E25B69882009E529D /* Sys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260B2D5D25B69882009E529D /* Sys.swift */; };
 		C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */; };
 		C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */; };
 		C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */; };
@@ -47,6 +50,9 @@
 		260B2D2C25B5D0B2009E529D /* Forecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
 		260B2D3425B5D312009E529D /* ForecastList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastList.swift; sourceTree = "<group>"; };
 		260B2D4E25B6933F009E529D /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
+		260B2D5325B69673009E529D /* Wind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wind.swift; sourceTree = "<group>"; };
+		260B2D5825B6979E009E529D /* Clouds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clouds.swift; sourceTree = "<group>"; };
+		260B2D5D25B69882009E529D /* Sys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sys.swift; sourceTree = "<group>"; };
 		C79C8CF025ADDDF200EEE3F1 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +103,9 @@
 				260B2D2C25B5D0B2009E529D /* Forecast.swift */,
 				260B2D3425B5D312009E529D /* ForecastList.swift */,
 				260B2D4E25B6933F009E529D /* Coordinate.swift */,
+				260B2D5325B69673009E529D /* Wind.swift */,
+				260B2D5825B6979E009E529D /* Clouds.swift */,
+				260B2D5D25B69882009E529D /* Sys.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -285,7 +294,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				260B2D3525B5D312009E529D /* ForecastList.swift in Sources */,
+				260B2D5425B69673009E529D /* Wind.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
+				260B2D5925B6979E009E529D /* Clouds.swift in Sources */,
 				260B2D2325B5D025009E529D /* WeatherIcon.swift in Sources */,
 				260B2D2D25B5D0B2009E529D /* Forecast.swift in Sources */,
 				260B2D2825B5D091009E529D /* Temperature.swift in Sources */,
@@ -293,6 +304,7 @@
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
 				260B2D1E25B5AA45009E529D /* CurrentWeather.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
+				260B2D5E25B69882009E529D /* Sys.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
