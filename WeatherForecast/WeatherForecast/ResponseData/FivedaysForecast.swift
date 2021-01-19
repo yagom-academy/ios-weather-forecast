@@ -8,15 +8,13 @@
 import Foundation
 
 struct FivedaysForecast: Codable {
-    let dateTime: Date
     let temperature: Temperature
     let weatherIcon: [WeatherIcon]
-    let dataTimeText: Date
+    let dateTimeText: Date
     
     enum CodingKeys: String, CodingKey {
-        case dateTime = "dt"
         case temperature = "main"
         case weatherIcon = "weather"
-        case dataTimeText = "dt_txt"
+        case dateTimeText = "dt_txt"
     }
 }
