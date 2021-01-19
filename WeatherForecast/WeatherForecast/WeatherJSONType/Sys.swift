@@ -11,4 +11,12 @@ struct Sys: Codable {
     let country: String?
     let sunrise: Int?
     let sunset: Int?
+    let partOfTheDay: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case country
+        case sunrise
+        case sunset
+        case partOfTheDay = "pod"
+    }
 }
