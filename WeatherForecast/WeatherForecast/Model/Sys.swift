@@ -10,7 +10,7 @@ import Foundation
 struct Sys: Codable {
     let type: Int
     let id: Int
-    let message: Double
+    let message: Double?
     let country: String
     let sunrise: Double
     let sunset: Double
