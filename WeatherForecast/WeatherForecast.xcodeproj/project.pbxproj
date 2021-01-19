@@ -22,6 +22,7 @@
 		FD45353025B6B0A400E667BB /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD45352F25B6B0A400E667BB /* Weather.swift */; };
 		FD45353525B6B11000E667BB /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD45353425B6B11000E667BB /* Main.swift */; };
 		FD45353A25B6B20F00E667BB /* Wind.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD45353925B6B20F00E667BB /* Wind.swift */; };
+		FD45353F25B6B29400E667BB /* Clouds.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD45353E25B6B29400E667BB /* Clouds.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		FD45352F25B6B0A400E667BB /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		FD45353425B6B11000E667BB /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		FD45353925B6B20F00E667BB /* Wind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wind.swift; sourceTree = "<group>"; };
+		FD45353E25B6B29400E667BB /* Clouds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clouds.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +154,7 @@
 				FD45352F25B6B0A400E667BB /* Weather.swift */,
 				FD45353425B6B11000E667BB /* Main.swift */,
 				FD45353925B6B20F00E667BB /* Wind.swift */,
+				FD45353E25B6B29400E667BB /* Clouds.swift */,
 				FD45351F25B6A0E800E667BB /* Forecast.swift */,
 			);
 			path = ResponseData;
@@ -290,6 +293,7 @@
 				FD45353525B6B11000E667BB /* Main.swift in Sources */,
 				FD45353A25B6B20F00E667BB /* Wind.swift in Sources */,
 				FD45353025B6B0A400E667BB /* Weather.swift in Sources */,
+				FD45353F25B6B29400E667BB /* Clouds.swift in Sources */,
 				FD45352B25B6AFCC00E667BB /* Coord.swift in Sources */,
 				FD45351525B69DE900E667BB /* Response.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
