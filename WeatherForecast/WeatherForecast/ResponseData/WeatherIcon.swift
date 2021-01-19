@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct Weather: Codable {
+struct WeatherIcon: Codable {
     let icon : String
 }
