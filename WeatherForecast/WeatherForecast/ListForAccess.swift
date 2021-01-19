@@ -9,12 +9,12 @@ import Foundation
 
 struct ListForAccess: Decodable {
     let temperature: Temperature
-    let icon: WeatherIcon
+    let weather: [Weather]
     let dateWithHours: String
 
     enum CodingKeys: String, CodingKey {
         case temperature = "main"
-        case icon = "weather"
+        case weather
         case dateWithHours = "dt_txt"
     }
 }
