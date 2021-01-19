@@ -52,5 +52,18 @@ class WeatherForecastTests: XCTestCase {
         }
     }
     
+    struct DummyWeatherModelDelegate: WeatherModelDelegate {
+        let testExpectation: XCTestExpectation
+        
+        func setCurrentWeather(from response: CurrentWeatherResponse) {
+            print(response)
+            testExpectation.fulfill()
+        }
+        
+        func setFiveDayForecast(from response: FiveDayForecastResponse) {
+            print(response)
+            testExpectation.fulfill()
+        }
+    }
 
 }
