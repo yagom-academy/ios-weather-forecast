@@ -8,13 +8,20 @@
 import Foundation
 
 struct Temperature: Codable {
-    let average: Double
-    let minimum: Double
-    let maximum: Double
+    let temp: Double
+    let temp_min: Double
+    let temp_max: Double
     
-    enum CodingKeys: String, CodingKey {
-        case average = "temp"
-        case minimum = "temp_min"
-        case maximum = "temp_max"
+    var average: String {
+        let averageText = String(format:"%.1f", (temp-32)/1.8)
+        return averageText
+    }
+    var minimum: String {
+        let minimumText = String(format:"%.1f", (temp_min-32)/1.8)
+        return minimumText
+    }
+    var maximum: String {
+        let maximumText = String(format:"%.1f", (temp_max-32)/1.8)
+        return maximumText
     }
 }
