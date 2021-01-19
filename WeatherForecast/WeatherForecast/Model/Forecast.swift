@@ -1,9 +1,9 @@
 import Foundation
 
 struct Forecast: Decodable {
-    let icon: [WeatherIcon]
-    let temperature: Temperature
-    let dateTime: String
+    private let icon: [WeatherIcon]
+    private let temperature: Temperature
+    private let dateTime: String
     
     enum CodingKeys: String, CodingKey {
         case icon = "weather"
