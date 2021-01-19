@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Sys: Codable {
+struct Local: Codable {
     let country: String?
     let sunrise: Int?
     let sunset: Int?

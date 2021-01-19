@@ -15,7 +15,7 @@ struct CurrentWeather: Codable {
     let wind: Wind
     let clouds: Clouds
     let dateTime: Int
-    let local: Sys
+    let local: Local
     let timezone: Int?
     let id: Int?
     let name: String?
