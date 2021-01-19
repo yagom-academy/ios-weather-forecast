@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Temperature: Codable {
+struct Temperature: Decodable {
     let currentTemperature: Double
     let minTemperature: Double
     let maxTemperature: Double
