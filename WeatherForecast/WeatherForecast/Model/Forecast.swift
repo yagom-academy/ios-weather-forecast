@@ -1,6 +1,6 @@
 import Foundation
 
-struct Forecast: Codable {
+struct Forecast: Decodable {
     let icon: [WeatherIcon]
     let temperature: Temperature
     let dateTime: String

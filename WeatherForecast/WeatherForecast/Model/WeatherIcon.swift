@@ -1,6 +1,6 @@
 import Foundation
 
-struct WeatherIcon: Codable {
+struct WeatherIcon: Decodable {
     let name: String
     
     enum CodingKeys: String, CodingKey {
