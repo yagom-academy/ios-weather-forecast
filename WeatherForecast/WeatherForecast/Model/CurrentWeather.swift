@@ -10,8 +10,8 @@ import Foundation
 struct CurrentWeather: Decodable {
     let coordinate: Coordinate
     private let weathers: [Weather]
-    let base: String
     let temperature: Temperature
+    let utc: Int
     
     var weather: Weather {
         return weathers[0]
@@ -20,7 +20,7 @@ struct CurrentWeather: Decodable {
     enum CodingKeys: String, CodingKey {
         case coordinate = "coord"
         case weathers = "weather"
-        case base
         case temperature = "main"
+        case utc = "dt"
     }
 }
