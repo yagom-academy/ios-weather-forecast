@@ -90,12 +90,20 @@
 			isa = PBXGroup;
 			children = (
 				56A9971F25B5E243001D3DE8 /* CurrentWeather.swift */,
-				56A9972A25B5E75F001D3DE8 /* Temperature.swift */,
-				56A9972F25B5EC93001D3DE8 /* Weather.swift */,
 				56A9974025B5FF59001D3DE8 /* WeatherForecast.swift */,
-				56A9974525B600A9001D3DE8 /* WeatherForecastItem.swift */,
+				56F94C3B25B73A2B00A98430 /* Submodel */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		56F94C3B25B73A2B00A98430 /* Submodel */ = {
+			isa = PBXGroup;
+			children = (
+				56A9972A25B5E75F001D3DE8 /* Temperature.swift */,
+				56A9972F25B5EC93001D3DE8 /* Weather.swift */,
+				56A9974525B600A9001D3DE8 /* WeatherForecastItem.swift */,
+			);
+			path = Submodel;
 			sourceTree = "<group>";
 		};
 		C79C8CE725ADDDF200EEE3F1 = {
