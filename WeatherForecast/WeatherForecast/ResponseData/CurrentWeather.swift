@@ -11,6 +11,7 @@ struct CurrentWeather: Codable {
     let coord: Coord
     let weather: [Weather]
     let temperature: Temperature
+    let dt: Int
     let timezone: Int
     let cityName: String
     
@@ -18,6 +19,7 @@ struct CurrentWeather: Codable {
         case coord
         case weather
         case temperature = "main"
+        case dt
         case timezone
         case cityName = "name"
     }
