@@ -12,6 +12,6 @@ struct Sys: Codable {
     let id: Int
     let message: Double
     let country: String
-    let sunrise: Date
-    let sunset: Date
+    let sunrise: Double
+    let sunset: Double
 }
