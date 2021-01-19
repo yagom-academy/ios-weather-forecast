@@ -146,10 +146,10 @@
 			isa = PBXGroup;
 			children = (
 				FD45351A25B6A0B000E667BB /* CurrentWeather.swift */,
+				FD45351F25B6A0E800E667BB /* Forecast.swift */,
 				FD45352A25B6AFCC00E667BB /* Coord.swift */,
 				FD45352F25B6B0A400E667BB /* Weather.swift */,
 				FD45353425B6B11000E667BB /* Temperature.swift */,
-				FD45351F25B6A0E800E667BB /* Forecast.swift */,
 			);
 			path = ResponseData;
 			sourceTree = "<group>";
