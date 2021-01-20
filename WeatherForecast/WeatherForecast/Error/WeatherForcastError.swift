@@ -10,6 +10,7 @@ import Foundation
 enum WeatherForcastError: Error {
     case getCoordinate
     case openSettings
+    case convertURL
     case unknown
 }
 
@@ -20,6 +21,8 @@ extension WeatherForcastError: LocalizedError {
             return "좌표를 가져오는 중 오류가 발생했습니다.\n잠시 후 다시 시도해 주세요."
         case .openSettings:
             return "설정 화면 이동에 실패했습니다.\n잠시 후 다시 시도해 주세요."
+        case .convertURL:
+            return "URL 변환에 실패했습니다.\n잠시 후 다시 시도해 주세요."
         case .unknown:
             return "알 수 없는 오류가 발생했습니다.\n잠시 후 다시 시도해 주세요."
         }
