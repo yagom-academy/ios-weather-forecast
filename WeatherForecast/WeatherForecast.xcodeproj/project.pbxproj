@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B42813AD25B5D2CA006F9FE9 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42813AC25B5D2CA006F9FE9 /* Coordinate.swift */; };
+		B42813AD25B5D2CA006F9FE9 /* LocationDegree.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42813AC25B5D2CA006F9FE9 /* LocationDegree.swift */; };
 		B42813B525B5D36B006F9FE9 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42813B425B5D36B006F9FE9 /* Weather.swift */; };
 		B42813BA25B5D5A7006F9FE9 /* Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42813B925B5D5A7006F9FE9 /* Temperature.swift */; };
 		B42813BF25B5E5C3006F9FE9 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42813BE25B5E5C3006F9FE9 /* CurrentWeather.swift */; };
@@ -43,7 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B42813AC25B5D2CA006F9FE9 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
+		B42813AC25B5D2CA006F9FE9 /* LocationDegree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDegree.swift; sourceTree = "<group>"; };
 		B42813B425B5D36B006F9FE9 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		B42813B925B5D5A7006F9FE9 /* Temperature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temperature.swift; sourceTree = "<group>"; };
 		B42813BE25B5E5C3006F9FE9 /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
@@ -95,7 +95,7 @@
 		B42813AB25B5D29A006F9FE9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B42813AC25B5D2CA006F9FE9 /* Coordinate.swift */,
+				B42813AC25B5D2CA006F9FE9 /* LocationDegree.swift */,
 				B42813B425B5D36B006F9FE9 /* Weather.swift */,
 				B42813B925B5D5A7006F9FE9 /* Temperature.swift */,
 				B42813BE25B5E5C3006F9FE9 /* CurrentWeather.swift */,
@@ -307,7 +307,7 @@
 				B42813CC25B5EA3B006F9FE9 /* Forecast.swift in Sources */,
 				B42813C425B5E9B4006F9FE9 /* ForecastFiveDays.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
-				B42813AD25B5D2CA006F9FE9 /* Coordinate.swift in Sources */,
+				B42813AD25B5D2CA006F9FE9 /* LocationDegree.swift in Sources */,
 				B42813B525B5D36B006F9FE9 /* Weather.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
