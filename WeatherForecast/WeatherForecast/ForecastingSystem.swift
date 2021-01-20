@@ -61,20 +61,6 @@ struct City: Decodable {
     }
 }
 
-enum SystemFeature {
-    case currentWeather
-    case fiveDaysForecasting
-    
-    var pathKeyword: String {
-        switch self {
-        case .currentWeather:
-            return "weather"
-        case .fiveDaysForecasting:
-            return "forecast"
-        }
-    }
-}
-
 struct ForecastingInformation: Decodable {
     var dateTimeCalculation: Double
     var temperature: Temperature
@@ -97,12 +83,25 @@ struct FiveDaysForecastingInformation: Decodable {
     }
 }
 
+enum SystemFeature {
+    case currentWeather
+    case fiveDaysForecasting
+    
+    var pathKeyword: String {
+        switch self {
+        case .currentWeather:
+            return "weather"
+        case .fiveDaysForecasting:
+            return "forecast"
+        }
+    }
+}
+
 struct ForecastingSystem {
     private let myKey = "2ce6e0d6185aa981602d52eb6e89fa16"
     private let baseURL = "https://api.openweathermap.org/data/2.5"
-    
     private var requestCall: URL?
-    let coordinateToSearch = GeographicCoordinate(latitude: 37.4943514, longitude: 127.0633398)
+    private let coordinateToSearch = GeographicCoordinate(latitude: 37.4943514, longitude: 127.0633398)
     
     func searchForCurrentWeather() {
         guard let requestCall = makeRequestCall(for: .currentWeather) else {
@@ -116,6 +115,7 @@ struct ForecastingSystem {
     
     func searchForFiveDaysForecasting() {
         guard let requestCall = makeRequestCall(for: .fiveDaysForecasting) else {
+            print("URL 생성 실패")
             return
         }
         
