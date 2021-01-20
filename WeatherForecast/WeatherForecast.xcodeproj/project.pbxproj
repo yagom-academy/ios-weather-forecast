@@ -15,6 +15,8 @@
 		C79C8D0B25ADDDF400EEE3F1 /* WeatherForecastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8D0A25ADDDF400EEE3F1 /* WeatherForecastTests.swift */; };
 		C79C8D1625ADDDF400EEE3F1 /* WeatherForecastUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8D1525ADDDF400EEE3F1 /* WeatherForecastUITests.swift */; };
 		D9B27DE025B69BDD00F9ABF5 /* ForecastingSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B27DDF25B69BDD00F9ABF5 /* ForecastingSystem.swift */; };
+		D9B27DEF25B868D700F9ABF5 /* CurrentWeatherInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B27DEE25B868D700F9ABF5 /* CurrentWeatherInformation.swift */; };
+		D9B27DF425B8690D00F9ABF5 /* FiveDaysForecastingInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B27DF325B8690D00F9ABF5 /* FiveDaysForecastingInformation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		C79C8D1525ADDDF400EEE3F1 /* WeatherForecastUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecastUITests.swift; sourceTree = "<group>"; };
 		C79C8D1725ADDDF400EEE3F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9B27DDF25B69BDD00F9ABF5 /* ForecastingSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastingSystem.swift; sourceTree = "<group>"; };
+		D9B27DEE25B868D700F9ABF5 /* CurrentWeatherInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherInformation.swift; sourceTree = "<group>"; };
+		D9B27DF325B8690D00F9ABF5 /* FiveDaysForecastingInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDaysForecastingInformation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,13 +103,13 @@
 		C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */ = {
 			isa = PBXGroup;
 			children = (
+				D9B27DF825B8834100F9ABF5 /*  Model */,
 				C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */,
 				C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */,
 				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
 				C79C8CFC25ADDDF300EEE3F1 /* Assets.xcassets */,
 				C79C8CFE25ADDDF300EEE3F1 /* LaunchScreen.storyboard */,
 				C79C8D0125ADDDF300EEE3F1 /* Info.plist */,
-				D9B27DDF25B69BDD00F9ABF5 /* ForecastingSystem.swift */,
 			);
 			path = WeatherForecast;
 			sourceTree = "<group>";
@@ -126,6 +130,16 @@
 				C79C8D1725ADDDF400EEE3F1 /* Info.plist */,
 			);
 			path = WeatherForecastUITests;
+			sourceTree = "<group>";
+		};
+		D9B27DF825B8834100F9ABF5 /*  Model */ = {
+			isa = PBXGroup;
+			children = (
+				D9B27DDF25B69BDD00F9ABF5 /* ForecastingSystem.swift */,
+				D9B27DEE25B868D700F9ABF5 /* CurrentWeatherInformation.swift */,
+				D9B27DF325B8690D00F9ABF5 /* FiveDaysForecastingInformation.swift */,
+			);
+			path = " Model";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,8 +273,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9B27DE025B69BDD00F9ABF5 /* ForecastingSystem.swift in Sources */,
+				D9B27DF425B8690D00F9ABF5 /* FiveDaysForecastingInformation.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
+				D9B27DEF25B868D700F9ABF5 /* CurrentWeatherInformation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
