@@ -16,7 +16,9 @@ class WeatherForecastTests: XCTestCase {
         let result = try JSONDecoder().decode(CurrentWeather.self, from: jsonData)
         
         print("현재 날씨예보 아이콘: " + "\(result.icon)")
-        print("현재 날씨예보 온도: " + "\(result.temperature)")
+        print("현재 날씨예보 평균온도: " + "\(result.temperature.celsiusAverage)")
+        print("현재 날씨예보 최저온도: " + "\(result.temperature.celsiusMinimum)")
+        print("현재 날씨예보 최고온도: " + "\(result.temperature.celsiusMaximum)")
     }
     
     func testForecastListDataDecoding() throws {
