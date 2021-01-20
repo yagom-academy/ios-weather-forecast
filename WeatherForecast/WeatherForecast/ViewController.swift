@@ -18,6 +18,14 @@ class ViewController: UIViewController {
     private func setUpData(coordinate: Coordinate) {
         
     }
+    
+    private func makeCurrentWeatherData(with coordinate: Coordinate) {
+        let session = URLSession(configuration: .default)
+        let currentWeatherURLString = NetworkConfig.makeWeatherUrlString(type: .current, latitude: coordinate.latitude, longitude: coordinate.latitude)
+        guard let currentWeatherUrl = URL(string: currentWeatherURLString) else {
+            return showError(WeatherForcastError.convertURL, handler: nil)
+        }
+    }
 }
 
 // MARK: - CLLocationManager Delegate
