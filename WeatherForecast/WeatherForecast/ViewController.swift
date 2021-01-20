@@ -18,15 +18,56 @@ class ViewController: UIViewController {
     }
     
     private func setUpData(coordinate: Coordinate) {
-        
+        makeCurrentWeatherData(with: coordinate)
+        makeFiveDaysForecast(with: coordinate)
     }
     
     private func makeCurrentWeatherData(with coordinate: Coordinate) {
         let session = URLSession(configuration: .default)
-        let currentWeatherURLString = NetworkConfig.makeWeatherUrlString(type: .current, latitude: coordinate.latitude, longitude: coordinate.latitude)
+        let currentWeatherURLString = NetworkConfig.makeWeatherUrlString(type: .current, latitude: coordinate.latitude, longitude: coordinate.longitude)
         guard let currentWeatherUrl = URL(string: currentWeatherURLString) else {
-            return showError(WeatherForcastError.convertURL, handler: nil)
+            let errorAlert = self.makeErrorAlert(WeatherForcastError.convertURL, handler: nil)
+            return showError(errorAlert)
         }
+        let dataTask = session.dataTask(with: currentWeatherUrl) { data, response, error in
+            guard let responseData = data else {
+                let errorAlert = self.makeErrorAlert(WeatherForcastError.getData, handler: nil)
+                return self.showError(errorAlert)
+            }
+            do {
+                self.currentWeather = try JSONDecoder().decode(CurrentWeather.self, from: responseData)
+            } catch {
+                let errorAlert = self.makeErrorAlert(WeatherForcastError.convertWeatherData, handler: nil)
+                return self.showError(errorAlert)
+            }
+        }
+        dataTask.resume()
+    }
+    
+    private func makeFiveDaysForecast(with coordinate: Coordinate) {
+        let session = URLSession(configuration: .default)
+        let fiveDaysForecastURLString = NetworkConfig.makeWeatherUrlString(type: .fiveDaysForecast, latitude: coordinate.latitude, longitude: coordinate.longitude)
+        guard let fiveDaysForecastUrl = URL(string: fiveDaysForecastURLString) else {
+            let errorAlert = self.makeErrorAlert(WeatherForcastError.convertURL, handler: nil)
+            return showError(errorAlert)
+        }
+        let dataTask = session.dataTask(with: fiveDaysForecastUrl) { data, response, error in
+            guard let responseData = data else {
+                let errorAlert = self.makeErrorAlert(WeatherForcastError.getData, handler: nil)
+                return self.showError(errorAlert)
+            }
+            do {
+                self.fiveDaysForecast = try JSONDecoder().decode(Forecast.self, from: responseData)
+            } catch {
+                let errorAlert = self.makeErrorAlert(WeatherForcastError.convertWeatherData, handler: nil)
+                return self.showError(errorAlert)
+            }
+        }
+        dataTask.resume()
+    }
+    
+    private func showError(_ with: UIAlertController) {
+        self.present(with, animated: true, completion: nil)
     }
 }
 
