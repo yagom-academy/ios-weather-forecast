@@ -7,20 +7,6 @@
 
 import Foundation
 
-struct FivedaysForecastWeathers: Decodable {
-    var code: String
-    var message: Double
-    var count: Int
-    var weathers: [Weather]
-    
-    enum CodingKeys: String, CodingKey {
-        case code = "cod"
-        case message
-        case count = "cnt"
-        case weathers = "list"
-    }
-}
-
 struct Weather: Decodable {
     var dateTime: Int
     var temperature: Temperature
