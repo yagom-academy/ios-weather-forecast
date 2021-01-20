@@ -64,6 +64,15 @@ struct City: Decodable {
 enum SystemFeature {
     case currentWeather
     case fiveDaysForecasting
+    
+    var pathKeyword: String {
+        switch self {
+        case .currentWeather:
+            return "weather"
+        case .fiveDaysForecasting:
+            return "forecast"
+        }
+    }
 }
 
 struct ForecastingInformation: Decodable {
@@ -97,8 +106,10 @@ struct ForecastingSystem {
     
     func searchForCurrentWeather() {
         guard let requestCall = makeRequestCall(for: .currentWeather) else {
+            print("URL 생성 실패")
             return
         }
+        
         let dataTask = makeDataTask(with: requestCall, for: .currentWeather)
         dataTask.resume()
     }
@@ -107,20 +118,13 @@ struct ForecastingSystem {
         guard let requestCall = makeRequestCall(for: .fiveDaysForecasting) else {
             return
         }
+        
         let dataTask = makeDataTask(with: requestCall, for: .fiveDaysForecasting)
         dataTask.resume()
     }
     
     private func makeRequestCall(for feature: SystemFeature) -> URL? {
-        let requestURL: URL?
-        
-        switch feature {
-        case .currentWeather:
-            requestURL = URL(string: "\(baseURL)/weather?lat=\(coordinateToSearch.latitude)&lon=\(coordinateToSearch.longitude)&units=metric&appid=\(myKey)")
-        case .fiveDaysForecasting:
-            requestURL = URL(string: "\(baseURL)/forecast?lat=\(coordinateToSearch.latitude)&lon=\(coordinateToSearch.longitude)&units=metric&appid=\(myKey)")
-        }
-        
+        let requestURL = URL(string: "\(baseURL)/\(feature.pathKeyword)?lat=\(coordinateToSearch.latitude)&lon=\(coordinateToSearch.longitude)&units=metric&appid=\(myKey)")
         return requestURL
     }
     
@@ -131,12 +135,12 @@ struct ForecastingSystem {
                 switch feature {
                 case .currentWeather:
                     let forecastInformation = try? JSONDecoder().decode(CurrentWeatherInformation.self, from: resultData)
-                    print(forecastInformation)
+                    print(forecastInformation ?? "")
                 case .fiveDaysForecasting:
                     let forecastInformation = try? JSONDecoder().decode(FiveDaysForecastingInformation.self, from: resultData)
-                    print(forecastInformation)
+                    print(forecastInformation ?? "")
                 }
-               
+                
             }
         }
         
