@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct FiveDaysWeather: Codable {
+struct FiveDaysWeather {
     let forecastList: [ThenWeather]
 }
