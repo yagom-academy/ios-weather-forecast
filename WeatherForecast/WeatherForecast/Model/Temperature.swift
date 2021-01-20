@@ -1,9 +1,9 @@
 import Foundation
 
 struct Temperature: Decodable {
-    let average: Double
-    let minimum: Double
-    let maximum: Double
+    private let average: Double
+    private let minimum: Double
+    private let maximum: Double
     
     var celsiusAverage: Double {
         return UnitTemperature.celsius.converter.value(fromBaseUnitValue: self.average)
