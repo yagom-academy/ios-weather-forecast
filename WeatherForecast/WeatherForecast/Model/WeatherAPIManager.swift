@@ -23,7 +23,7 @@ struct WeatherAPIManager {
         }
     }
     
-    var delegate: WeatherModelDelegate?
+    var delegate: WeatherAPIManagerDelegate?
     private let decoder = JSONDecoder()
     private let appId = "02989ef69361857d2d2779ea712468b7"
     
