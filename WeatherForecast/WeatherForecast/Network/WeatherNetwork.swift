@@ -8,11 +8,11 @@
 import Foundation
 
 class WeatherNetwork {
-    static let shared = WeatherNetwork()
-    private init() {}
-    
-    func loadData(from url: URL, completion: @escaping ((Result<Data?, WeatherForcastError>) -> Void)) {
-        URLSession.shared.dataTask(with: url) { data, response, error in
+    static func loadData(from url: URL, completion: @escaping ((Result<Data?, WeatherForcastError>) -> Void)) {
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "GET"
+
+        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if error != nil {
                 completion(.failure(.network))
             }
