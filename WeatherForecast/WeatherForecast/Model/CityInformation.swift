@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct CityForAccess: Decodable {
-    let coordinates: Coordinates
+struct CityInformation: Decodable {
+    let coord: Coordinates
 
     enum CordingKeys: String, CodingKey {
-        case coordinates = "coord"
+        case coord = "coord"
     }
 }

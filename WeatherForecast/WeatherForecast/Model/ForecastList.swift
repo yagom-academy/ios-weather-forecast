@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ListForAccess: Decodable {
+struct ForecastList: Decodable {
     let temperature: Temperature
     let weather: [Weather]
     let dateWithHours: String
