@@ -105,4 +105,20 @@ struct ForecastingSystem {
         
         dataTask.resume()
     }
+    
+    func searchForFiveDaysForecasting() {
+        guard let requestCall = URL(string: "\(baseURL)/forecast?lat=\(coordinateToSearch.latitude)&lon=\(coordinateToSearch.longitude)&units=metric&appid=\(myKey)") else {
+            preconditionFailure("Failed to construct URL")
+        }
+        
+        let urlSession = URLSession.shared
+        let dataTask = urlSession.dataTask(with: requestCall) { (data, response, error) in
+            if let resultData = data {
+                let fiveDaysForecastingInformation = try? JSONDecoder().decode(FiveDaysForecastingInformation.self, from: resultData)
+                print(fiveDaysForecastingInformation)
+            }
+        }
+        
+        dataTask.resume()
+    }
 }
