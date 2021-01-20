@@ -9,29 +9,6 @@ import Foundation
 
 struct FiveDayForecast: Decodable {
     struct Forcast: Decodable {
-        struct Main: Decodable {
-            let temperature: Double
-            let temperatureFeelsLike: Double
-            let temperatureMinimum: Double
-            let temperatureMaximum: Double
-            let pressure: Int
-            let humidity: Int
-            let seaLevel: Int
-            let groundLevel: Int
-            let temperatureKF: Double
-            
-            enum CodingKeys: String, CodingKey {
-                case pressure, humidity
-                case temperature = "temp"
-                case temperatureFeelsLike = "feels_like"
-                case temperatureMinimum = "temp_min"
-                case temperatureMaximum = "temp_max"
-                case seaLevel = "sea_level"
-                case groundLevel = "grnd_level"
-                case temperatureKF = "temp_kf"
-            }
-        }
-        
         struct System: Decodable {
             let partOfTheDay: String
             
@@ -41,7 +18,6 @@ struct FiveDayForecast: Decodable {
         }
         
         let dateTime: Int
-        let main: Main
         let weather: [CurrentWeather.Weather]
         let clouds: CurrentWeather.Clouds
         let wind: CurrentWeather.Wind
