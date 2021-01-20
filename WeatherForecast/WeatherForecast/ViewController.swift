@@ -5,6 +5,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private let apiKey: String = "02337d7f6423f1596383c1797c318936"
     private var latitude: Double = 37.68382
     private var longitude: Double = 126.742401
+    private var locationAddress: String = ""
     
     private let locationManager = CLLocationManager()
     
@@ -28,9 +29,28 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
         latitude = coordinate.latitude
         longitude = coordinate.longitude
+        
+        convertToAddress()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("위치허용을 누르지 않아 정보를 받아올 수 없습니다.")
+    }
+    
+    func convertToAddress() {
+        let geoCoder = CLGeocoder()
+        let location = CLLocation(latitude: latitude, longitude: longitude)
+        let locale = Locale(identifier: "Ko-kr")
+        
+        geoCoder.reverseGeocodeLocation(location, preferredLocale: locale, completionHandler: {(placemarks, error) in
+            if let address: [CLPlacemark] = placemarks {
+                guard let city = address.last?.administrativeArea,
+                      let district = address.last?.thoroughfare else {
+                    print("시/구 정보 불러오는데 실패하였습니다.")
+                    return
+                }
+                self.locationAddress = "\(city) \(district)"
+            }
+        })
     }
 }
