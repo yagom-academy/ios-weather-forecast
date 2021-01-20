@@ -25,6 +25,11 @@ struct CurrentWeather: Decodable {
         let icon: String
     }
     
+    struct Temperature: Decodable {
+        let value: Double
+        let feelsLikeValue: Double
+        let minimumValue: Double
+        let maximumValue: Double
     }
     
     struct Wind: Decodable {
