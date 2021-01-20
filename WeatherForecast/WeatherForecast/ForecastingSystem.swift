@@ -84,6 +84,25 @@ struct FiveDaysForecastingInformation: Decodable {
 }
 
 struct ForecastingSystem {
-    var currentWeatherInformation: CurrentWeatherInformation
-    var fiveDaysForecastingInformation: FiveDaysForecastingInformation
+    private let myKey = "2ce6e0d6185aa981602d52eb6e89fa16"
+    private let baseURL = "https://api.openweathermap.org/data/2.5"
+    
+    private var requestCall: URL?
+    let coordinateToSearch = GeographicCoordinate(latitude: 37.4943514, longitude: 127.0633398)
+    
+    func searchForCurrentWeather() {
+        guard let requestCall = URL(string: "\(baseURL)/weather?lat=\(coordinateToSearch.latitude)&lon=\(coordinateToSearch.longitude)&units=metric&appid=\(myKey)") else {
+            preconditionFailure("Failed to construct URL")
+        }
+        
+        let urlSession = URLSession.shared
+        let dataTask = urlSession.dataTask(with: requestCall) { (data, response, error) in
+            if let resultData = data {
+                let forecastInformation = try? JSONDecoder().decode(CurrentWeatherInformation.self, from: resultData)
+                print(forecastInformation)
+            }
+        }
+        
+        dataTask.resume()
+    }
 }
