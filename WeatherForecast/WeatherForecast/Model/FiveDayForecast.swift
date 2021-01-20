@@ -46,6 +46,18 @@ struct FiveDayForecast: Decodable {
             case system = "sys"
             case dateTimeText = "dt_txt"
         }
+        
+        enum AdditionalInfoKeys: String, CodingKey {
+            case pressure, humidity
+            case temperature = "temp"
+            case temperatureFeelsLike = "feels_like"
+            case temperatureMinimum = "temp_min"
+            case temperatureMaximum = "temp_max"
+            case seaLevel = "sea_level"
+            case groundLevel = "grnd_level"
+            case temperatureKF = "temp_kf"
+        }
+        
     }
     
     struct City: Decodable {
