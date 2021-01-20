@@ -22,52 +22,49 @@ class ViewController: UIViewController {
         makeFiveDaysForecast(with: coordinate)
     }
     
+    // MARK: - make weather data
     private func makeCurrentWeatherData(with coordinate: Coordinate) {
-        let session = URLSession(configuration: .default)
         let currentWeatherURLString = NetworkConfig.makeWeatherUrlString(type: .current, coordinate: coordinate)
         guard let currentWeatherUrl = URL(string: currentWeatherURLString) else {
-            let errorAlert = self.makeErrorAlert(WeatherForcastError.convertURL, handler: nil)
-            return showError(errorAlert)
+            return self.showErrorAlert(WeatherForcastError.convertURL, handler: nil)
         }
-        let dataTask = session.dataTask(with: currentWeatherUrl) { data, response, error in
-            guard let responseData = data else {
-                let errorAlert = self.makeErrorAlert(WeatherForcastError.getData, handler: nil)
-                return self.showError(errorAlert)
-            }
-            do {
-                self.currentWeather = try JSONDecoder().decode(CurrentWeather.self, from: responseData)
-            } catch {
-                let errorAlert = self.makeErrorAlert(WeatherForcastError.convertWeatherData, handler: nil)
-                return self.showError(errorAlert)
+        WeatherNetwork.loadData(from: currentWeatherUrl) { result in
+            switch result {
+            case .failure(let error):
+                return self.showErrorAlert(error, handler: nil)
+            case .success(let data):
+                guard let currentWeatherData = data else {
+                    return self.showErrorAlert(WeatherForcastError.getData, handler: nil)
+                }
+                do {
+                    self.currentWeather = try JSONDecoder().decode(CurrentWeather.self, from: currentWeatherData)
+                } catch {
+                    return self.showErrorAlert(WeatherForcastError.convertWeatherData, handler: nil)
+                }
             }
         }
-        dataTask.resume()
     }
     
     private func makeFiveDaysForecast(with coordinate: Coordinate) {
-        let session = URLSession(configuration: .default)
         let fiveDaysForecastURLString = NetworkConfig.makeWeatherUrlString(type: .fiveDaysForecast, coordinate: coordinate)
         guard let fiveDaysForecastUrl = URL(string: fiveDaysForecastURLString) else {
-            let errorAlert = self.makeErrorAlert(WeatherForcastError.convertURL, handler: nil)
-            return showError(errorAlert)
+            return self.showErrorAlert(WeatherForcastError.convertURL, handler: nil)
         }
-        let dataTask = session.dataTask(with: fiveDaysForecastUrl) { data, response, error in
-            guard let responseData = data else {
-                let errorAlert = self.makeErrorAlert(WeatherForcastError.getData, handler: nil)
-                return self.showError(errorAlert)
-            }
-            do {
-                self.fiveDaysForecast = try JSONDecoder().decode(Forecast.self, from: responseData)
-            } catch {
-                let errorAlert = self.makeErrorAlert(WeatherForcastError.convertWeatherData, handler: nil)
-                return self.showError(errorAlert)
+        WeatherNetwork.loadData(from: fiveDaysForecastUrl) { result in
+            switch result {
+            case .failure(let error):
+                return self.showErrorAlert(error, handler: nil)
+            case .success(let data):
+                guard let fiveDaysForecastData = data else {
+                    return self.showErrorAlert(WeatherForcastError.getData, handler: nil)
+                }
+                do {
+                    self.fiveDaysForecast = try JSONDecoder().decode(Forecast.self, from: fiveDaysForecastData)
+                } catch {
+                    return self.showErrorAlert(WeatherForcastError.convertWeatherData, handler: nil)
+                }
             }
         }
-        dataTask.resume()
-    }
-    
-    private func showError(_ with: UIAlertController) {
-        self.present(with, animated: true, completion: nil)
     }
 }
 
@@ -112,8 +109,7 @@ extension ViewController: CLLocationManagerDelegate {
         if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(settingsUrl)
         } else {
-            let errorAlert = self.makeErrorAlert(WeatherForcastError.openSettings, handler: nil)
-            return showError(errorAlert)
+            return self.showErrorAlert(WeatherForcastError.openSettings, handler: nil)
         }
     }
     
@@ -124,15 +120,13 @@ extension ViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let coordinate = locationManager.location?.coordinate else {
-            let errorAlert = self.makeErrorAlert(WeatherForcastError.getCoordinate, handler: nil)
-            return showError(errorAlert)
+            return self.showErrorAlert(WeatherForcastError.getCoordinate, handler: nil)
         }
         setUpData(coordinate: Coordinate(latitude: coordinate.latitude, longitude: coordinate.longitude))
     }
     
     // MARK: - handling error in CLLocationManager
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        let errorAlert = self.makeErrorAlert(error, handler: nil)
-        return showError(errorAlert)
+        return self.showErrorAlert(error, handler: nil)
     }
 }
