@@ -9,6 +9,8 @@ import CoreLocation
 
 class ViewController: UIViewController {
     private let locationManager = CLLocationManager()
+    private var currentWeather: CurrentWeather? = nil
+    private var fiveDaysForecast: Forecast? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
