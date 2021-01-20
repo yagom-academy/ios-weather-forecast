@@ -122,7 +122,8 @@ struct ForecastingSystem {
         let dataTask = makeDataTask(with: requestCall, for: .fiveDaysForecasting)
         dataTask.resume()
     }
-    
+}
+extension ForecastingSystem {
     private func makeRequestCall(for feature: SystemFeature) -> URL? {
         let requestURL = URL(string: "\(baseURL)/\(feature.pathKeyword)?lat=\(coordinateToSearch.latitude)&lon=\(coordinateToSearch.longitude)&units=metric&appid=\(myKey)")
         return requestURL
@@ -140,7 +141,6 @@ struct ForecastingSystem {
                     let forecastInformation = try? JSONDecoder().decode(FiveDaysForecastingInformation.self, from: resultData)
                     print(forecastInformation ?? "")
                 }
-                
             }
         }
         
