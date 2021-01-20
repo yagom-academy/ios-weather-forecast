@@ -14,6 +14,7 @@ struct Forecast: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case timestampCount = "cnt"
-        case list, city
+        case list
+        case city
     }
 }

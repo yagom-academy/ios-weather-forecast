@@ -12,14 +12,22 @@ class ViewController: UIViewController {
     var latitude: Double?
     var longitude: Double?
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         setUserCoordinate()
         guard let userLatitude = latitude, let userLongitude = longitude else {
             return
         }
-        FindAPI.find(userLatitude, userLongitude) { currentWeatherInfo in
-            print("온도: \(currentWeatherInfo.temperature.selsiusAverage)")
-            print("city: \(currentWeatherInfo.cityName)")
+        
+        WeatherAPI.findCurrentWeather(userLatitude, userLongitude) { currentWeather in
+            print("도시 : \(currentWeather.cityName)")
+        }
+        
+        WeatherAPI.findFivedaysForecast(userLatitude, userLongitude) { forecastInfo in
+            print("temperature : \(forecastInfo.list[0].temperature)")
+            print("몇개야 : \(forecastInfo.timestampCount)")
+            print("도시이름 : \(forecastInfo.city.name)")
+            print("dateTime : \(forecastInfo.list[0].dateTimeText)")
         }
         print("위치정보 \(userLatitude), \(userLongitude)")
     }

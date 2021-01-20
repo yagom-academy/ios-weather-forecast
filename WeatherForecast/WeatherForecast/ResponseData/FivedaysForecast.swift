@@ -10,7 +10,7 @@ import Foundation
 struct FivedaysForecast: Decodable {
     let temperature: Temperature
     let weatherIcon: [WeatherIcon]
-    let dateTimeText: Date
+    let dateTimeText: String
     
     enum CodingKeys: String, CodingKey {
         case temperature = "main"
