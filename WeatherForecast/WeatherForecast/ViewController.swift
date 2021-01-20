@@ -38,13 +38,34 @@ extension ViewController: CLLocationManagerDelegate {
             locationManager.startUpdatingLocation()
             searchCoordinate()
         case .denied:
-            // TODO: handle don't have permission -> move settings UI
-            break
+            deniedLocationPermission()
         default:
             return
         }
     }
     
+    // MARK: - handling denied location permission
+    private func deniedLocationPermission() {
+        let alertController = UIAlertController(title: nil, message: "위치 정보를 허용해야 일기예보를 볼 수 있습니다.\n설정 화면으로 이동할까요?", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "이동", style: .default) { _ in
+            self.openSettings()
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func openSettings() {
+        if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(settingsUrl)
+        } else {
+            self.showError(WeatherForcastError.openSettings, handler: nil)
+        }
+    }
+    
+    // MARK: - tracking user location
     private func searchCoordinate() {
         locationManager.requestLocation()
     }
@@ -56,6 +77,7 @@ extension ViewController: CLLocationManagerDelegate {
         setUpData(coordinate: Coordinate(latitude: coordinate.latitude, longitudh: coordinate.longitude))
     }
     
+    // MARK: - handling error in CLLocationManager
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         return self.showError(error, handler: nil)
     }
