@@ -25,21 +25,6 @@ struct CurrentWeather: Decodable {
         let icon: String
     }
     
-    struct Main: Decodable {
-        let temperature: Double
-        let temperatureFeelsLike: Double
-        let temperatureMinimum: Double
-        let temperatureMaximum: Double
-        let pressure: Int
-        let humidity: Int
-        
-        enum CodingKeys: String, CodingKey {
-            case pressure, humidity
-            case temperature = "temp"
-            case temperatureFeelsLike = "feels_like"
-            case temperatureMinimum = "temp_min"
-            case temperatureMaximum = "temp_max"
-        }
     }
     
     struct Wind: Decodable {
