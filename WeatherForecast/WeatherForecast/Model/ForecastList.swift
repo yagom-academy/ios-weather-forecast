@@ -9,12 +9,19 @@ import Foundation
 
 struct ForecastList: Decodable {
     let temperature: Temperature
-    let weather: [Weather]
+    private let weatherInformation: [Weather]
     let dateWithHours: String
+
+    var weather: Weather {
+        guard let weatherIcon = weatherInformation.first else {
+            fatalError("Data is missed.")
+        }
+        return weatherIcon
+    }
 
     enum CodingKeys: String, CodingKey {
         case temperature = "main"
-        case weather
+        case weatherInformation
         case dateWithHours = "dt_txt"
     }
 }
