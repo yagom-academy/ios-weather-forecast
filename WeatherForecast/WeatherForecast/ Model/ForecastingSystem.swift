@@ -21,34 +21,30 @@ struct ForecastingSystem {
     private var requestCall: URL?
     private let coordinateToSearch = GeographicCoordinate(latitude: 37.4943514, longitude: 127.0633398)
     
-    func searchForCurrentWeather() {
-        guard let requestCall = makeRequestCall(for: .currentWeather) else {
+    func makeModel(responding feature: SystemFeature) {
+        guard let requestCall = makeRequestCall(for: feature) else {
             print("URL 생성 실패")
             return
         }
         
-        self.matchDataWithCurrentWeather(with: requestCall) { result in
-            switch result {
-            case .success(let forecastInformation):
-                print(forecastInformation)
-            case .failure(let error):
-                print(error)
+        switch feature {
+        case .currentWeather:
+            matchDataWithCurrentWeather(with: requestCall) { result in
+                switch result {
+                case .success(let forecastInformation):
+                    print(forecastInformation)
+                case .failure(let error):
+                    print(error)
+                }
             }
-        }
-    }
-    
-    func searchForFiveDaysForecasting() {
-        guard let requestCall = makeRequestCall(for: .fiveDaysForecasting) else {
-            print("URL 생성 실패")
-            return
-        }
-        
-        self.matchDataWithFiveDaysForecasting(with: requestCall) { result in
-            switch result {
-            case .success(let forecastInformation):
-                print(forecastInformation)
-            case .failure(let error):
-                print(error)
+        case .fiveDaysForecasting:
+            matchDataWithFiveDaysForecasting(with: requestCall) { result in
+                switch result {
+                case .success(let forecastInformation):
+                    print(forecastInformation)
+                case .failure(let error):
+                    print(error)
+                }
             }
         }
     }
@@ -66,7 +62,7 @@ extension ForecastingSystem {
                 completion(.failure(.invalidData))
                 return
             }
-    
+            
             do {
                 let forecastInformation = try JSONDecoder().decode(CurrentWeatherInformation.self, from: receivedData)
                 completion(.success(forecastInformation))
@@ -84,7 +80,7 @@ extension ForecastingSystem {
                 completion(.failure(.invalidData))
                 return
             }
-    
+            
             do {
                 let forecastInformation = try JSONDecoder().decode(FiveDaysForecastingInformation.self, from: receivedData)
                 completion(.success(forecastInformation))

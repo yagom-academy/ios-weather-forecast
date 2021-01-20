@@ -11,8 +11,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let test = ForecastingSystem()
-        test.searchForCurrentWeather()
-        test.searchForFiveDaysForecasting()
+        test.makeModel(responding: .currentWeather)
+        test.makeModel(responding: .fiveDaysForecasting)
     }
 
 
