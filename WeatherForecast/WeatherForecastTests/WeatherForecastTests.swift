@@ -19,60 +19,39 @@ class WeatherForecastTests: XCTestCase {
 
     func testDecodeResponseDataOfCurrentWeatherAPI() {
         // Given-When-Then (준비-실행-검증)
-        
         // Given
         guard let dataAsset = NSDataAsset(name: "ExampleResponseOfCurrentWeather") else {
+            XCTFail("Failed to load dataAsset")
             return
         }
         let jsonDecoder = JSONDecoder()
         let decodedData: CurrentWeather
-        
-        let coordinateLongitude = -122.08
-        let coordinateLatitude = 37.39
-        
-        let weatherConditionID = 800
-        let weatherGroup = "Clear"
-        let weatherDescription = "clear sky"
-        let weatherIcon = "01d"
-        
-        let temperatureCurrent = 282.55
-        let temperatureHumanFeels = 281.86
-        let temperatureMinimum = 280.37
-        let temperatureMaximum = 284.26
-        let temperatureAtmosphericPressure = 1023
-        let temperatureHumidity = 100
-        
-        let utc = 1560350645
-        let cityID = 420006353
-        let cityName = "Mountain View"
-        
+            
         do {
             // When
             decodedData = try jsonDecoder.decode(CurrentWeather.self, from: dataAsset.data)
             
             // Then
-            XCTAssertEqual(decodedData.coordinate.longitude, coordinateLongitude)
-            XCTAssertEqual(decodedData.coordinate.latitude, coordinateLatitude)
+            XCTAssertEqual(decodedData.coordinate.longitude, -122.08)
+            XCTAssertEqual(decodedData.coordinate.latitude, 37.39)
             
-            XCTAssertEqual(decodedData.weather.conditionID, weatherConditionID)
-            XCTAssertEqual(decodedData.weather.group, weatherGroup)
-            XCTAssertEqual(decodedData.weather.description, weatherDescription)
-            XCTAssertEqual(decodedData.weather.iconID, weatherIcon)
+            XCTAssertEqual(decodedData.weather.conditionID, 800)
+            XCTAssertEqual(decodedData.weather.group, "Clear")
+            XCTAssertEqual(decodedData.weather.description, "clear sky")
+            XCTAssertEqual(decodedData.weather.iconID, "01d")
             
-            XCTAssertEqual(decodedData.temperature.current, temperatureCurrent)
-            XCTAssertEqual(decodedData.temperature.humanFeels, temperatureHumanFeels)
-            XCTAssertEqual(decodedData.temperature.minimum, temperatureMinimum)
-            XCTAssertEqual(decodedData.temperature.maximum, temperatureMaximum)
-            XCTAssertEqual(decodedData.temperature.atmosphericPressure, temperatureAtmosphericPressure)
-            XCTAssertEqual(decodedData.temperature.humidity, temperatureHumidity)
+            XCTAssertEqual(decodedData.temperature.current, 282.55)
+            XCTAssertEqual(decodedData.temperature.humanFeels, 281.86)
+            XCTAssertEqual(decodedData.temperature.minimum, 280.37)
+            XCTAssertEqual(decodedData.temperature.maximum, 284.26)
+            XCTAssertEqual(decodedData.temperature.atmosphericPressure, 1023)
+            XCTAssertEqual(decodedData.temperature.humidity, 100)
             
-            XCTAssertEqual(decodedData.utc, utc)
-            XCTAssertEqual(decodedData.cityID, cityID)
-            XCTAssertEqual(decodedData.cityName, cityName)
+            XCTAssertEqual(decodedData.utc, 1560350645)
+            XCTAssertEqual(decodedData.cityID, 420006353)
+            XCTAssertEqual(decodedData.cityName, "Mountain View")
         } catch {
-            print(error.localizedDescription)
+            XCTFail("\(error)")
         }
-        
     }
-
 }
