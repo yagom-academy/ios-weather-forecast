@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     
     private func makeCurrentWeatherData(with coordinate: Coordinate) {
         let session = URLSession(configuration: .default)
-        let currentWeatherURLString = NetworkConfig.makeWeatherUrlString(type: .current, latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let currentWeatherURLString = NetworkConfig.makeWeatherUrlString(type: .current, coordinate: coordinate)
         guard let currentWeatherUrl = URL(string: currentWeatherURLString) else {
             let errorAlert = self.makeErrorAlert(WeatherForcastError.convertURL, handler: nil)
             return showError(errorAlert)
@@ -46,7 +46,7 @@ class ViewController: UIViewController {
     
     private func makeFiveDaysForecast(with coordinate: Coordinate) {
         let session = URLSession(configuration: .default)
-        let fiveDaysForecastURLString = NetworkConfig.makeWeatherUrlString(type: .fiveDaysForecast, latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let fiveDaysForecastURLString = NetworkConfig.makeWeatherUrlString(type: .fiveDaysForecast, coordinate: coordinate)
         guard let fiveDaysForecastUrl = URL(string: fiveDaysForecastURLString) else {
             let errorAlert = self.makeErrorAlert(WeatherForcastError.convertURL, handler: nil)
             return showError(errorAlert)
@@ -71,8 +71,8 @@ class ViewController: UIViewController {
     }
 }
 
-// MARK: - CLLocationManager Delegate
 extension ViewController: CLLocationManagerDelegate {
+    // MARK: - setUp LocationManager & checkPermission
     private func setUpLocationManager() {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
