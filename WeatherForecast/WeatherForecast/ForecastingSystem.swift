@@ -24,14 +24,14 @@ struct Weather: Decodable {
 }
 
 struct Temperature: Decodable {
-    var currentTemperature: Double
-    var minimumTemperature: Double
-    var maximumTemperature: Double
+    var currentMeasurement: Double
+    var minimumMeasurement: Double
+    var maximumMeasurement: Double
     
     private enum CodingKeys: String, CodingKey {
-        case currentTemperature = "temp"
-        case minimumTemperature = "temp_min"
-        case maximumTemperature = "temp_max"
+        case currentMeasurement = "temp"
+        case minimumMeasurement = "temp_min"
+        case maximumMeasurement = "temp_max"
     }
 }
 
