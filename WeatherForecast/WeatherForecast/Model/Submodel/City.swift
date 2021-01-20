@@ -11,4 +11,10 @@ struct City: Decodable {
     let id: Int
     let name: String
     let coordinate: Coordinate
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case coordinate = "coord"
+    }
 }
