@@ -32,28 +32,15 @@ struct WeatherAPIManager {
             return
         }
         
-        guard var urlComponents = URLComponents(string: information.apiURL) else {
+        guard let urlRequest = urlRequest(apiURL: information.apiURL, latitude: latitude, logitude: logitude) else {
             return
         }
         
-        urlComponents.queryItems = [
-            URLQueryItem(name: "lat", value: String(latitude)),
-            URLQueryItem(name: "lon", value: String(logitude)),
-            URLQueryItem(name: "appid", value: appId),
-            URLQueryItem(name: "units", value: "metric")
-        ]
-        
-        guard let url = urlComponents.url else {
-            return
-        }
-        
-        let urlRequest = URLRequest(url: url)
-        let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
+        let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, urlResponse, error) in
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
-            
             guard let data = data else {
                 return
             }
@@ -71,7 +58,28 @@ struct WeatherAPIManager {
                 print(error.localizedDescription)
             }
         }
-        
         dataTask.resume()
+    }
+    
+    private func queryItems(latitude: Double, logitude: Double) -> [URLQueryItem] {
+        let queryItems = [
+            URLQueryItem(name: "lat", value: String(latitude)),
+            URLQueryItem(name: "lon", value: String(logitude)),
+            URLQueryItem(name: "appid", value: appId),
+            URLQueryItem(name: "units", value: "metric")
+        ]
+        return queryItems
+    }
+    
+    private func urlRequest(apiURL: String, latitude: Double, logitude: Double) -> URLRequest? {
+        guard var urlComponents = URLComponents(string: apiURL) else {
+            return nil
+        }
+        urlComponents.queryItems = queryItems(latitude: latitude, logitude: logitude)
+        guard let url = urlComponents.url else {
+            return nil
+        }
+        let urlRequest = URLRequest(url: url)
+        return urlRequest
     }
 }
