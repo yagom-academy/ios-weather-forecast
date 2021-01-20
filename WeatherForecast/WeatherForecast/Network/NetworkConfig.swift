@@ -13,7 +13,7 @@ struct NetworkConfig {
     private static let currentWeatherAPI = "https://api.openweathermap.org/data/2.5/weather?"
     private static let fiveDaysForecastAPI = "https://api.openweathermap.org/data/2.5/forecast?"
     
-    static func makeWeatherUrlString(type: WeatherAPI, latitude: Double, longitude: Double) -> String {
+    static func makeWeatherUrlString(type: WeatherAPI, coordinate: Coordinate) -> String {
         var urlString: String
         switch type {
         case .current:
@@ -21,7 +21,8 @@ struct NetworkConfig {
         case .fiveDaysForecast:
             urlString = NetworkConfig.fiveDaysForecastAPI
         }
-        let queryString = String(format: NetworkConfig.queryFormat, latitude, longitude, NetworkConfig.appId)
+        
+        let queryString = String(format: NetworkConfig.queryFormat, coordinate.latitude, coordinate.longitude, NetworkConfig.appId)
         urlString.append(queryString)
         
         return urlString
