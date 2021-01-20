@@ -78,4 +78,13 @@ struct CurrentWeather: Decodable {
         case system = "sys"
         case code = "cod"
     }
+    
+    enum AdditionalInfoKeys: String, CodingKey {
+        case pressure, humidity
+        case temperature = "temp"
+        case temperatureFeelsLike = "feels_like"
+        case temperatureMinimum = "temp_min"
+        case temperatureMaximum = "temp_max"
+    }
+    
 }
