@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ForecastItem: Codable {
+struct ForecastItem: Decodable{
     let dateTime: Date
     let temperature: Temperature
     let weather: Weather

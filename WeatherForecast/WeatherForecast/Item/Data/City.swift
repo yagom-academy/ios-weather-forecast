@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct City: Codable {
+struct City: Decodable {
     let address: String
     
     enum CodingKeys: String, CodingKey {
