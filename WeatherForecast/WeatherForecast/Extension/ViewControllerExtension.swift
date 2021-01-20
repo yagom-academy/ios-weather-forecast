@@ -9,7 +9,7 @@ import UIKit
 import CoreLocation
 
 extension ViewController {
-    func showError(_ error: Error, handler: ((UIAlertAction) -> Void)?) {
+    func makeErrorAlert(_ error: Error, handler: ((UIAlertAction) -> Void)?) -> UIAlertController {
         var errorMessage: String
         
         if let weatherForcastError = error as? WeatherForcastError {
@@ -23,7 +23,6 @@ extension ViewController {
         let alertController = UIAlertController(title: "오류", message: errorMessage, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default, handler: handler)
         alertController.addAction(okAction)
-        
-        self.present(alertController, animated: true, completion: nil)
+        return alertController
     }
 }
