@@ -12,6 +12,7 @@ enum WeatherForcastError: Error {
     case openSettings
     case convertURL
     case getData
+    case network
     case convertWeatherData
     case unknown
 }
@@ -27,6 +28,8 @@ extension WeatherForcastError: LocalizedError {
             return "URL 변환에 실패했습니다.\n잠시 후 다시 시도해 주세요."
         case .getData:
             return "데이터를 가져오는 중 오류가 발생했습니다.\n잠시 후 다시 시도해 주세요."
+        case .network:
+            return "네트워크에 문제가 있습니다.\n잠시 후 다시 시도해 주세요."
         case .convertWeatherData:
             return "데이터를 변환하는 중 오류가 발생했습니다.\n잠시 후 다시 시도해 주세요."
         case .unknown:
