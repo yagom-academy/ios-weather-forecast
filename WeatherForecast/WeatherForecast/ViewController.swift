@@ -32,7 +32,7 @@ extension ViewController: CLLocationManagerDelegate {
         checkLocationPermission()
     }
     
-    func checkLocationPermission() {
+    private func checkLocationPermission() {
         switch CLLocationManager.authorizationStatus() {
         case .authorizedAlways, .authorizedWhenInUse:
             locationManager.startUpdatingLocation()
@@ -51,7 +51,7 @@ extension ViewController: CLLocationManagerDelegate {
             self.openSettings()
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
+
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
         self.present(alertController, animated: true, completion: nil)
