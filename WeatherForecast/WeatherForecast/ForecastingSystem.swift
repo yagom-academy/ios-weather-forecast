@@ -99,31 +99,15 @@ struct ForecastingSystem {
         guard let requestCall = makeRequestCall(for: .currentWeather) else {
             return
         }
-        
-        let urlSession = URLSession.shared
-        let dataTask = urlSession.dataTask(with: requestCall) { (data, response, error) in
-            if let resultData = data {
-                let forecastInformation = try? JSONDecoder().decode(CurrentWeatherInformation.self, from: resultData)
-                print(forecastInformation)
-            }
-        }
-        
+        let dataTask = makeDataTask(with: requestCall, for: .currentWeather)
         dataTask.resume()
     }
     
     func searchForFiveDaysForecasting() {
-        guard let requestCall = URL(string: "\(baseURL)/forecast?lat=\(coordinateToSearch.latitude)&lon=\(coordinateToSearch.longitude)&units=metric&appid=\(myKey)") else {
-            preconditionFailure("Failed to construct URL")
+        guard let requestCall = makeRequestCall(for: .fiveDaysForecasting) else {
+            return
         }
-        
-        let urlSession = URLSession.shared
-        let dataTask = urlSession.dataTask(with: requestCall) { (data, response, error) in
-            if let resultData = data {
-                let fiveDaysForecastingInformation = try? JSONDecoder().decode(FiveDaysForecastingInformation.self, from: resultData)
-                print(fiveDaysForecastingInformation)
-            }
-        }
-        
+        let dataTask = makeDataTask(with: requestCall, for: .fiveDaysForecasting)
         dataTask.resume()
     }
     
@@ -138,5 +122,24 @@ struct ForecastingSystem {
         }
         
         return requestURL
+    }
+    
+    private func makeDataTask(with requestURL: URL, for feature: SystemFeature) -> URLSessionDataTask {
+        let urlSession = URLSession.shared
+        let dataTask = urlSession.dataTask(with: requestURL) { (data, response, error) in
+            if let resultData = data {
+                switch feature {
+                case .currentWeather:
+                    let forecastInformation = try? JSONDecoder().decode(CurrentWeatherInformation.self, from: resultData)
+                    print(forecastInformation)
+                case .fiveDaysForecasting:
+                    let forecastInformation = try? JSONDecoder().decode(FiveDaysForecastingInformation.self, from: resultData)
+                    print(forecastInformation)
+                }
+               
+            }
+        }
+        
+        return dataTask
     }
 }
