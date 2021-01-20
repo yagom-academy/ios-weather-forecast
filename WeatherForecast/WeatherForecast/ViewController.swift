@@ -112,7 +112,8 @@ extension ViewController: CLLocationManagerDelegate {
         if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(settingsUrl)
         } else {
-            self.showError(WeatherForcastError.openSettings, handler: nil)
+            let errorAlert = self.makeErrorAlert(WeatherForcastError.openSettings, handler: nil)
+            return showError(errorAlert)
         }
     }
     
@@ -123,13 +124,15 @@ extension ViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let coordinate = locationManager.location?.coordinate else {
-            return self.showError(WeatherForcastError.getCoordinate, handler: nil)
+            let errorAlert = self.makeErrorAlert(WeatherForcastError.getCoordinate, handler: nil)
+            return showError(errorAlert)
         }
-        setUpData(coordinate: Coordinate(latitude: coordinate.latitude, longitudh: coordinate.longitude))
+        setUpData(coordinate: Coordinate(latitude: coordinate.latitude, longitude: coordinate.longitude))
     }
     
     // MARK: - handling error in CLLocationManager
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        return self.showError(error, handler: nil)
+        let errorAlert = self.makeErrorAlert(error, handler: nil)
+        return showError(errorAlert)
     }
 }
