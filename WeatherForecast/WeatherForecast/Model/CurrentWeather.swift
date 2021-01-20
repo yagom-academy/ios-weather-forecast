@@ -58,10 +58,12 @@ struct CurrentWeather: Decodable {
     let coordinate: Coordinate
     let weather: [Weather]
     let base: String
-    let main: Main
     let visibility: Int
     let wind: Wind
     let clouds: Clouds
+    let pressure: Int
+    let humidity: Int
+    let temperature: Temperature
     let dateTime: Int
     let system: System
     let timezone: Int
