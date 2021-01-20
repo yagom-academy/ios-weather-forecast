@@ -9,7 +9,15 @@ import UIKit
 
 extension ViewController {
     func showError(_ error: Error, handler: ((UIAlertAction) -> Void)?) {
-        let alertController = UIAlertController(title: "오류", message: "", preferredStyle: .alert)
+        var errorMessage: String
+        
+        if let weatherForcastError = error as? WeatherForcastError {
+            errorMessage = weatherForcastError.localizedDescription
+        } else {
+            errorMessage = WeatherForcastError.unknown.localizedDescription
+        }
+        
+        let alertController = UIAlertController(title: "오류", message: errorMessage, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default, handler: handler)
         alertController.addAction(okAction)
         
