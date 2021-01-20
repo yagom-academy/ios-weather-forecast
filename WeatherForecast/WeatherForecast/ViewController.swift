@@ -8,6 +8,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private var locationAddress: String = ""
     
     private let locationManager = CLLocationManager()
+    private var currentWeather: CurrentWeather?
+    private var forecastList: ForecastList?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,5 +59,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func formattingUrl(lat: Double, lon: Double, api: String) -> String {
         let url: String = "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(api)"
         return url
+    }
+    
+    func currentWeatherDataDecoding() {
+        guard let currentWeatherUrl = URL(string: formattingUrl(lat: latitude, lon: longitude, api: apiKey)) else {
+            print("해당 URL 주소가 없습니다.")
+            return
+        }
+        
+        guard let jsonData = try! String(contentsOf: currentWeatherUrl).data(using: .utf8) else {
+            print("JSON 데이터가 없습니다.")
+            return
+        }
+        
+        let result = try! JSONDecoder().decode(CurrentWeather.self, from: jsonData)
     }
 }
