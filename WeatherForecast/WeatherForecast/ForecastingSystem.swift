@@ -61,6 +61,11 @@ struct City: Decodable {
     }
 }
 
+enum SystemFeature {
+    case currentWeather
+    case fiveDaysForecasting
+}
+
 struct ForecastingInformation: Decodable {
     var dateTimeCalculation: Double
     var temperature: Temperature
@@ -91,8 +96,8 @@ struct ForecastingSystem {
     let coordinateToSearch = GeographicCoordinate(latitude: 37.4943514, longitude: 127.0633398)
     
     func searchForCurrentWeather() {
-        guard let requestCall = URL(string: "\(baseURL)/weather?lat=\(coordinateToSearch.latitude)&lon=\(coordinateToSearch.longitude)&units=metric&appid=\(myKey)") else {
-            preconditionFailure("Failed to construct URL")
+        guard let requestCall = makeRequestCall(for: .currentWeather) else {
+            return
         }
         
         let urlSession = URLSession.shared
@@ -120,5 +125,18 @@ struct ForecastingSystem {
         }
         
         dataTask.resume()
+    }
+    
+    private func makeRequestCall(for feature: SystemFeature) -> URL? {
+        let requestURL: URL?
+        
+        switch feature {
+        case .currentWeather:
+            requestURL = URL(string: "\(baseURL)/weather?lat=\(coordinateToSearch.latitude)&lon=\(coordinateToSearch.longitude)&units=metric&appid=\(myKey)")
+        case .fiveDaysForecasting:
+            requestURL = URL(string: "\(baseURL)/forecast?lat=\(coordinateToSearch.latitude)&lon=\(coordinateToSearch.longitude)&units=metric&appid=\(myKey)")
+        }
+        
+        return requestURL
     }
 }
