@@ -126,14 +126,14 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		2859EED925B54B9000C5BC2A /* Item */ = {
+		2859EED925B54B9000C5BC2A /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				2859EEF025B551CF00C5BC2A /* Data */,
 				2859EEDA25B54BB700C5BC2A /* CurrentWeather.swift */,
 				2859EEE425B54FC900C5BC2A /* Forecast.swift */,
 			);
-			path = Item;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		2859EEF025B551CF00C5BC2A /* Data */ = {
@@ -174,7 +174,7 @@
 				2824445425B86BBF00256407 /* Network */,
 				2824444225B8532D00256407 /* Error */,
 				2824443925B848E800256407 /* Extension */,
-				2859EED925B54B9000C5BC2A /* Item */,
+				2859EED925B54B9000C5BC2A /* Model */,
 				C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */,
 				C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */,
 				C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */,
