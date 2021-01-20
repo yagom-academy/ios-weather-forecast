@@ -8,9 +8,22 @@
 import Foundation
 
 struct Temperature: Decodable {
-    let average: Double
-    let maximum: Double
-    let minimum: Double
+    private let average: Double
+    private let maximum: Double
+    private let minimum: Double
+
+    var celiusAverage: Double {
+        let convertedValue =  UnitTemperature.celsius.converter.value(fromBaseUnitValue: average)
+        return (round(convertedValue * 10)) / 10
+    }
+    var celiusMaximum: Double {
+        let convertedValue = UnitTemperature.celsius.converter.value(fromBaseUnitValue: maximum)
+        return (round(convertedValue * 10)) / 10
+    }
+    var celiusMinimum: Double {
+        let convertedValue = UnitTemperature.celsius.converter.value(fromBaseUnitValue: minimum)
+        return (round(convertedValue * 10)) / 10
+    }
 
     enum CodingKeys: String, CodingKey {
         case average = "temp"
