@@ -74,4 +74,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         let result = try! JSONDecoder().decode(CurrentWeather.self, from: jsonData)
     }
+    
+    func forecastListDataDecoding() {
+        guard let forecastListUrl = URL(string: formattingUrl(lat: latitude, lon: longitude, api: apiKey)) else {
+            print("해당 URL 주소가 없습니다.")
+            return
+        }
+        
+        guard let jsonData = try! String(contentsOf: forecastListUrl).data(using: .utf8) else {
+            print("JSON 데이터가 없습니다.")
+            return
+        }
+        
+        let result = try! JSONDecoder().decode(ForecastList.self, from: jsonData)
+    }
 }
