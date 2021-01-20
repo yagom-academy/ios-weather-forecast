@@ -7,7 +7,7 @@ import Foundation
 /// - max : 최고 기온
 /// - pressure : 기압
 /// - humidity : 습도
-struct Temperature: Codable {
+struct Temperature: Decodable {
     let actual: Double
     let feelsLike: Double
     let min: Double
