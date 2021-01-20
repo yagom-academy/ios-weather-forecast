@@ -53,4 +53,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
         })
     }
+    
+    func formattingUrl(lat: Double, lon: Double, api: String) -> String {
+        let url: String = "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(api)"
+        return url
+    }
 }
