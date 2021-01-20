@@ -9,12 +9,12 @@ import Foundation
 
 struct CurrentWeather: Codable {
     let weatherIcon: [Weather]
-    let city: City
+    let location: String
     let temperature: Temperature
     
     enum CodingKeys: String, CodingKey {
         case weatherIcon = "weather"
-        case city = "city"
+        case location = "name"
         case temperature = "main"
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct City: Codable {
+struct Location: Codable {
     let name: String
     
     enum CodingKeys: String, CodingKey {
