@@ -15,6 +15,11 @@ enum SystemFeature {
     }
 }
 
+enum NetworkError: Error {
+    case invalidData
+    case invalidValue
+}
+
 struct ForecastingSystem {
     private let myKey = "2ce6e0d6185aa981602d52eb6e89fa16"
     private let baseURL = "https://api.openweathermap.org/data/2.5"
@@ -90,9 +95,4 @@ extension ForecastingSystem {
         }
         dataTask.resume()
     }
-}
-
-enum NetworkError: Error {
-    case invalidData
-    case invalidValue
 }
