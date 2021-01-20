@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 extension ViewController {
     func showError(_ error: Error, handler: ((UIAlertAction) -> Void)?) {
@@ -13,6 +14,8 @@ extension ViewController {
         
         if let weatherForcastError = error as? WeatherForcastError {
             errorMessage = weatherForcastError.localizedDescription
+        } else if let clLocationError = error as? CLError {
+            errorMessage = clLocationError.localizedDescription
         } else {
             errorMessage = WeatherForcastError.unknown.localizedDescription
         }
