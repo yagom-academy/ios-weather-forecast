@@ -9,5 +9,5 @@ import Foundation
 
 struct Coordinate {
     let latitude: Double
-    let longitudh: Double
+    let longitude: Double
 }
