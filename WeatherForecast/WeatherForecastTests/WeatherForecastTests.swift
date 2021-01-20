@@ -25,7 +25,7 @@ class WeatherForecastTests: XCTestCase {
         }
         
         do {
-            let result = try decoder.decode(CurrentWeatherResponse.self, from: data)
+            let result = try decoder.decode(CurrentWeather.self, from: data)
             print(result)
         } catch {
             XCTFail(error.localizedDescription)
@@ -45,22 +45,22 @@ class WeatherForecastTests: XCTestCase {
         }
         
         do {
-            let result = try decoder.decode(FiveDayForecastResponse.self, from: data)
+            let result = try decoder.decode(FiveDayForecast.self, from: data)
             print(result)
         } catch {
             XCTFail(error.localizedDescription)
         }
     }
     
-    struct DummyWeatherModelDelegate: WeatherModelDelegate {
+    struct DummyWeatherAPIManagerDelegate: WeatherAPIManagerDelegate {
         let testExpectation: XCTestExpectation
         
-        func setCurrentWeather(from response: CurrentWeatherResponse) {
+        func setCurrentWeather(from response: CurrentWeather) {
             print(response)
             testExpectation.fulfill()
         }
         
-        func setFiveDayForecast(from response: FiveDayForecastResponse) {
+        func setFiveDayForecast(from response: FiveDayForecast) {
             print(response)
             testExpectation.fulfill()
         }
@@ -68,19 +68,19 @@ class WeatherForecastTests: XCTestCase {
     
     func testRequestCurrentWeather() {
         let testExpectation = expectation(description: "Success")
-        let dummy = DummyWeatherModelDelegate(testExpectation: testExpectation)
-        var weatherModel = WeatherModel()
-        weatherModel.delegate = dummy
-        weatherModel.request(information: .CurrentWeather, latitude: 37.5665, logitude: 126.9779)
+        let dummy = DummyWeatherAPIManagerDelegate(testExpectation: testExpectation)
+        var weatherAPIManager = WeatherAPIManager()
+        weatherAPIManager.delegate = dummy
+        weatherAPIManager.request(information: .CurrentWeather, latitude: 37.5665, logitude: 126.9779)
         wait(for: [testExpectation], timeout: 5)
     }
     
     func testRequestFiveDayForecast() {
         let testExpectation = expectation(description: "Success")
-        let dummy = DummyWeatherModelDelegate(testExpectation: testExpectation)
-        var weatherModel = WeatherModel()
-        weatherModel.delegate = dummy
-        weatherModel.request(information: .FiveDayForecast, latitude: 37.5665, logitude: 126.9779)
+        let dummy = DummyWeatherAPIManagerDelegate(testExpectation: testExpectation)
+        var weatherAPIManager = WeatherAPIManager()
+        weatherAPIManager.delegate = dummy
+        weatherAPIManager.request(information: .FiveDayForecast, latitude: 37.5665, logitude: 126.9779)
         wait(for: [testExpectation], timeout: 5)
     }
 
