@@ -10,7 +10,7 @@ import Foundation
 struct ForecastItem: Decodable{
     let dateTime: Date
     let temperature: Temperature
-    let weather: Weather
+    let weather: [Weather]
     
     enum CodingKeys: String, CodingKey {
         case dateTime = "dt"
