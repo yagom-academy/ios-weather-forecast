@@ -87,4 +87,28 @@ struct CurrentWeather: Decodable {
         case temperatureMaximum = "temp_max"
     }
     
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        coordinate = try values.decode(Coordinate.self, forKey: .coordinate)
+        weather = try values.decode([Weather].self, forKey: .weather)
+        base = try values.decode(String.self, forKey: .base)
+        visibility = try values.decode(Int.self, forKey: .visibility)
+        wind = try values.decode(Wind.self, forKey: .wind)
+        clouds = try values.decode(Clouds.self, forKey: .clouds)
+        dateTime = try values.decode(Int.self, forKey: .dateTime)
+        system = try values.decode(System.self, forKey: .system)
+        timezone = try values.decode(Int.self, forKey: .timezone)
+        id = try values.decode(Int.self, forKey: .id)
+        name = try values.decode(String.self, forKey: .name)
+        code = try values.decode(Int.self, forKey: .code)
+        
+        let additionalInfo = try values.nestedContainer(keyedBy: AdditionalInfoKeys.self, forKey: .main)
+        pressure = try additionalInfo.decode(Int.self, forKey: .pressure)
+        humidity = try additionalInfo.decode(Int.self, forKey: .humidity)
+        let temperatureValue = try additionalInfo.decode(Double.self, forKey: .temperature)
+        let temperatureFeelsLikeValue = try additionalInfo.decode(Double.self, forKey: .temperatureFeelsLike)
+        let temperatureMinimum = try additionalInfo.decode(Double.self, forKey: .temperatureMinimum)
+        let temperatureMaximum = try additionalInfo.decode(Double.self, forKey: .temperatureMaximum)
+        temperature = Temperature(value: temperatureValue, feelsLikeValue: temperatureFeelsLikeValue, minimumValue: temperatureMinimum, maximumValue: temperatureMaximum)
+    }
 }
