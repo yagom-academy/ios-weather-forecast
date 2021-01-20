@@ -8,17 +8,23 @@ import UIKit
 import CoreLocation
 
 class ViewController: UIViewController {
-
     var locationManager: CLLocationManager!
     var latitude: Double?
     var longitude: Double?
     override func viewDidLoad() {
         super.viewDidLoad()
         setUserCoordinate()
+        guard let userLatitude = latitude, let userLongitude = longitude else {
+            return
+        }
+        WeatherAPI.find(userLatitude, userLongitude) { currentWeatherInfo in
+            //테이블뷰?
+        }
+        print("위치정보 \(userLatitude), \(userLongitude)")
     }
 }
 
-extension ViewController: CLLocationManagerDelegate {
+extension ViewController: CLLocationManagerDelegate { //사용자위치정보셋
     func setUserCoordinate() {
         locationManager = CLLocationManager()
         locationManager.delegate = self
@@ -34,4 +40,5 @@ extension ViewController: CLLocationManagerDelegate {
         longitude = coor?.longitude
     }
 }
+
 

@@ -21,7 +21,7 @@
 		FD45353525B6B11000E667BB /* Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD45353425B6B11000E667BB /* Temperature.swift */; };
 		FD45355825B6BC2B00E667BB /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD45355725B6BC2B00E667BB /* City.swift */; };
 		FD45356F25B6D77600E667BB /* FivedaysForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD45356E25B6D77600E667BB /* FivedaysForecast.swift */; };
-		FD4535A125B7714F00E667BB /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4535A025B7714F00E667BB /* Response.swift */; };
+		FD4535A125B7714F00E667BB /* WeatherAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4535A025B7714F00E667BB /* WeatherAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +62,7 @@
 		FD45353425B6B11000E667BB /* Temperature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temperature.swift; sourceTree = "<group>"; };
 		FD45355725B6BC2B00E667BB /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		FD45356E25B6D77600E667BB /* FivedaysForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FivedaysForecast.swift; sourceTree = "<group>"; };
-		FD4535A025B7714F00E667BB /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		FD4535A025B7714F00E667BB /* WeatherAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,7 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				FD45351925B6A08300E667BB /* ResponseData */,
-				FD4535A025B7714F00E667BB /* Response.swift */,
+				FD4535A025B7714F00E667BB /* WeatherAPI.swift */,
 				C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */,
 				C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */,
 				C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */,
@@ -291,7 +291,7 @@
 				FD45356F25B6D77600E667BB /* FivedaysForecast.swift in Sources */,
 				FD45353025B6B0A400E667BB /* WeatherIcon.swift in Sources */,
 				FD45355825B6BC2B00E667BB /* City.swift in Sources */,
-				FD4535A125B7714F00E667BB /* Response.swift in Sources */,
+				FD4535A125B7714F00E667BB /* WeatherAPI.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
 				FD45351B25B6A0B000E667BB /* CurrentWeather.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
