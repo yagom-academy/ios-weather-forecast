@@ -1,6 +1,6 @@
 import Foundation
 
-struct Coordinate: Decodable {
+struct LocationDegree: Decodable {
     let longitude: Double   //경도
     let latitude: Double    //위도
     

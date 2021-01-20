@@ -38,7 +38,7 @@ class WeatherForecastTests: XCTestCase {
         do {
             let currentWeather = try JSONDecoder().decode(CurrentWeather.self, from: data)
             XCTAssertEqual(currentWeather.cityID, 420006353)
-            XCTAssertEqual(currentWeather.coordinate.latitude, 37.39)
+            XCTAssertEqual(currentWeather.locationDegree.latitude, 37.39)
             XCTAssertEqual(currentWeather.weather?.id, 800)
         } catch {
             XCTFail()
