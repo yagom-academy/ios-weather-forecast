@@ -83,3 +83,7 @@ struct FiveDaysForecastingInformation: Decodable {
     }
 }
 
+struct ForecastingSystem {
+    var currentWeatherInformation: CurrentWeatherInformation
+    var fiveDaysForecastingInformation: FiveDaysForecastingInformation
+}
