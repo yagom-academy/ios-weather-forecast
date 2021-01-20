@@ -30,6 +30,11 @@ struct FiveDayForecast: Decodable {
         let clouds: CurrentWeather.Clouds
         let wind: CurrentWeather.Wind
         let visibility: Int
+        let pressure: Int
+        let humidity: Int
+        let seaLevel: Int
+        let groundLevel: Int
+        let temperature: Temperature
         let probabilityPrecipitation: Double
         let system: System
         let dateTimeText: String
