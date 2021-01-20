@@ -17,8 +17,9 @@ class ViewController: UIViewController {
         guard let userLatitude = latitude, let userLongitude = longitude else {
             return
         }
-        WeatherAPI.find(userLatitude, userLongitude) { currentWeatherInfo in
-            //테이블뷰?
+        FindAPI.find(userLatitude, userLongitude) { currentWeatherInfo in
+            print("온도: \(currentWeatherInfo.temperature.selsiusAverage)")
+            print("city: \(currentWeatherInfo.cityName)")
         }
         print("위치정보 \(userLatitude), \(userLongitude)")
     }
