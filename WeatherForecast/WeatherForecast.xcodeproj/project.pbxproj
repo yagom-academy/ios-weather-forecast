@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2824443525B842D000256407 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2824443425B842D000256407 /* Coordinate.swift */; };
+		2824443B25B8491000256407 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2824443A25B8491000256407 /* ViewControllerExtension.swift */; };
+		2824444425B8533600256407 /* WeatherForcastError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2824444325B8533600256407 /* WeatherForcastError.swift */; };
 		2859EEDB25B54BB700C5BC2A /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2859EEDA25B54BB700C5BC2A /* CurrentWeather.swift */; };
 		2859EEE025B54BD000C5BC2A /* ForecastItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2859EEDF25B54BD000C5BC2A /* ForecastItem.swift */; };
 		2859EEE525B54FC900C5BC2A /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2859EEE425B54FC900C5BC2A /* Forecast.swift */; };
@@ -41,6 +44,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2824443425B842D000256407 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
+		2824443A25B8491000256407 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
+		2824444325B8533600256407 /* WeatherForcastError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForcastError.swift; sourceTree = "<group>"; };
 		2859EEDA25B54BB700C5BC2A /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
 		2859EEDF25B54BD000C5BC2A /* ForecastItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastItem.swift; sourceTree = "<group>"; };
 		2859EEE425B54FC900C5BC2A /* Forecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
@@ -88,6 +94,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2824443925B848E800256407 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				2824443A25B8491000256407 /* ViewControllerExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		2824444225B8532D00256407 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				2824444325B8533600256407 /* WeatherForcastError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		2859EED925B54B9000C5BC2A /* Item */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +127,7 @@
 				2859EEF425B5521600C5BC2A /* Temperature.swift */,
 				2859EEFF25B5527E00C5BC2A /* Weather.swift */,
 				2859EF0425B5530800C5BC2A /* City.swift */,
+				2824443425B842D000256407 /* Coordinate.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -132,6 +155,8 @@
 		C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */ = {
 			isa = PBXGroup;
 			children = (
+				2824444225B8532D00256407 /* Error */,
+				2824443925B848E800256407 /* Extension */,
 				2859EED925B54B9000C5BC2A /* Item */,
 				C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */,
 				C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */,
@@ -299,8 +324,11 @@
 				2859EF0525B5530800C5BC2A /* City.swift in Sources */,
 				2859EEF525B5521600C5BC2A /* Temperature.swift in Sources */,
 				2859EEDB25B54BB700C5BC2A /* CurrentWeather.swift in Sources */,
+				2824444425B8533600256407 /* WeatherForcastError.swift in Sources */,
+				2824443B25B8491000256407 /* ViewControllerExtension.swift in Sources */,
 				2859EEE525B54FC900C5BC2A /* Forecast.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
+				2824443525B842D000256407 /* Coordinate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,6 +505,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6VQP8JUW36;
 				INFOPLIST_FILE = WeatherForecast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -496,6 +525,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6VQP8JUW36;
 				INFOPLIST_FILE = WeatherForecast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
