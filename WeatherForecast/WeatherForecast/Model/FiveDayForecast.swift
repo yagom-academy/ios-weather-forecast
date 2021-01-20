@@ -58,6 +58,29 @@ struct FiveDayForecast: Decodable {
             case temperatureKF = "temp_kf"
         }
         
+        init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: CodingKeys.self)
+            dateTime = try values.decode(Int.self, forKey: .dateTime)
+            weather = try values.decode([CurrentWeather.Weather].self, forKey: .weather)
+            clouds = try values.decode(CurrentWeather.Clouds.self, forKey: .clouds)
+            wind = try values.decode(CurrentWeather.Wind.self, forKey: .wind)
+            visibility = try values.decode(Int.self, forKey: .visibility)
+            system = try values.decode(System.self, forKey: .system)
+            dateTimeText = try values.decode(String.self, forKey: .dateTimeText)
+            probabilityPrecipitation = try values.decode(Double.self, forKey: .probabilityPrecipitation)
+            
+            let additionalInfo = try values.nestedContainer(keyedBy: AdditionalInfoKeys.self, forKey: .main)
+            pressure = try additionalInfo.decode(Int.self, forKey: .pressure)
+            humidity = try additionalInfo.decode(Int.self, forKey: .humidity)
+            seaLevel = try additionalInfo.decode(Int.self, forKey: .seaLevel)
+            groundLevel = try additionalInfo.decode(Int.self, forKey: .groundLevel)
+            let temperatureValue = try additionalInfo.decode(Double.self, forKey: .temperature)
+            let temperatureFeelsLikeValue = try additionalInfo.decode(Double.self, forKey: .temperatureFeelsLike)
+            let temperatureMinimum = try additionalInfo.decode(Double.self, forKey: .temperatureMinimum)
+            let temperatureMaximum = try additionalInfo.decode(Double.self, forKey: .temperatureMaximum)
+            let temperatureKF = try additionalInfo.decode(Double.self, forKey: .temperatureKF)
+            temperature = Temperature(value: temperatureValue, feelsLikeValue: temperatureFeelsLikeValue, minimumValue: temperatureMinimum, maximumValue: temperatureMaximum, kfValue: temperatureKF)
+        }
     }
     
     struct City: Decodable {
