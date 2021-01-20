@@ -23,14 +23,6 @@ struct Weather: Decodable {
     }
 }
 
-struct CountryInformation: Decodable {
-    var code: String
-    
-    private enum CodingKeys: String, CodingKey {
-        case code = "country"
-    }
-}
-
 struct Temperature: Decodable {
     var currentTemperature: Double
     var minimumTemperature: Double
@@ -43,13 +35,11 @@ struct Temperature: Decodable {
     }
 }
 
-
 struct CurrentWeatherInformation: Decodable {
     var geographicCoordinate: GeographicCoordinate
     var dataTimeCalculation: Double
     var cityName: String
     var weather: [Weather]
-    var countryInformation: CountryInformation
     var temperature: Temperature
     
     private enum CodingKeys: String, CodingKey {
@@ -57,7 +47,6 @@ struct CurrentWeatherInformation: Decodable {
         case dataTimeCalculation = "dt"
         case cityName = "name"
         case weather
-        case countryInformation = "sys"
         case temperature = "main"
     }
 }
