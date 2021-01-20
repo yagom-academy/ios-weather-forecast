@@ -8,11 +8,23 @@
 import Foundation
 
 struct CurrentWeather: Decodable {
-    let weather: Weather
+    let coordinate: Coordinate
+    private let weathers: [Weather]
     let temperature: Temperature
+    let utc: Int
+    let cityID: Int
+    let cityName: String
+    
+    var weather: Weather {
+        return weathers[0]
+    }
     
     enum CodingKeys: String, CodingKey {
-        case weather
+        case coordinate = "coord"
+        case weathers = "weather"
         case temperature = "main"
+        case utc = "dt"
+        case cityID = "id"
+        case cityName = "name"
     }
 }

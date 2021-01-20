@@ -8,13 +8,19 @@
 import Foundation
 
 struct WeatherForecastItem: Decodable {
+    let utc: Int
     let temperature: Temperature
-    let weather: Weather
+    private let weathers: [Weather]
     let dateTimeString: String
     
+    var weather: Weather {
+        return weathers[0]
+    }
+    
     enum CodingKeys: String, CodingKey {
+        case utc = "dt"
         case temperature = "main"
-        case weather
+        case weathers = "weather"
         case dateTimeString = "dt_txt"
     }
 }
