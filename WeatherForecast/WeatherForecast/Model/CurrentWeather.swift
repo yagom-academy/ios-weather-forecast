@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CurrentWeatherResponse: Decodable {
+struct CurrentWeather: Decodable {
     struct Coordinate: Decodable {
         let longitude: Double
         let latitude: Double

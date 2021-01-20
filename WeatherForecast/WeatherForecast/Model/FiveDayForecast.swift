@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FiveDayForecastResponse: Decodable {
+struct FiveDayForecast: Decodable {
     struct Forcast: Decodable {
         struct Main: Decodable {
             let temperature: Double
@@ -42,9 +42,9 @@ struct FiveDayForecastResponse: Decodable {
         
         let dateTime: Int
         let main: Main
-        let weather: [CurrentWeatherResponse.Weather]
-        let clouds: CurrentWeatherResponse.Clouds
-        let wind: CurrentWeatherResponse.Wind
+        let weather: [CurrentWeather.Weather]
+        let clouds: CurrentWeather.Clouds
+        let wind: CurrentWeather.Wind
         let visibility: Int
         let probabilityPrecipitation: Double
         let system: System
@@ -62,7 +62,7 @@ struct FiveDayForecastResponse: Decodable {
     struct City: Decodable {
         let id: Int
         let name: String
-        let coordinate: CurrentWeatherResponse.Coordinate
+        let coordinate: CurrentWeather.Coordinate
         let country: String
         let population: Int
         let timezone: Int

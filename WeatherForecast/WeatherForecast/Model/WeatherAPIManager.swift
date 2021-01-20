@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WeatherModel {
+struct WeatherAPIManager {
     enum Information {
         case CurrentWeather
         case FiveDayForecast
@@ -61,10 +61,10 @@ struct WeatherModel {
             do {
                 switch information {
                 case .CurrentWeather:
-                    let response = try decoder.decode(CurrentWeatherResponse.self, from: data)
+                    let response = try decoder.decode(CurrentWeather.self, from: data)
                     delegate.setCurrentWeather(from: response)
                 case .FiveDayForecast:
-                    let response = try decoder.decode(FiveDayForecastResponse.self, from: data)
+                    let response = try decoder.decode(FiveDayForecast.self, from: data)
                     delegate.setFiveDayForecast(from: response)
                 }
             } catch {
