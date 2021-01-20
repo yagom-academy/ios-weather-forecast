@@ -9,7 +9,7 @@ import Foundation
 
 struct NetworkConfig {
     private static let appId = "dfae32caf228b6ced799aaadfd1babec"
-    private static let queryFormat = "lat=%d&lon=%d&appid=%@"
+    private static let queryFormat = "lat=%f&lon=%f&appid=%@"
     private static let currentWeatherAPI = "https://api.openweathermap.org/data/2.5/weather?"
     private static let fiveDaysForecastAPI = "https://api.openweathermap.org/data/2.5/forecast?"
     
