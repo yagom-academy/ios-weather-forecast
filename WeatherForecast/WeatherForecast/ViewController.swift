@@ -8,7 +8,7 @@ import UIKit
 import CoreLocation
 
 class ViewController: UIViewController {
-    var locationManager: CLLocationManager!
+    var locationManager = CLLocationManager()
     var latitude: Double = DefaultLocation.latitude.value
     var longitude: Double = DefaultLocation.longtitude.value
     var address: String = DefaultAddress.address.value
@@ -34,7 +34,6 @@ extension ViewController: CLLocationManagerDelegate {
     }
     
     func prepareCoordinate() {
-        locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -84,3 +83,4 @@ extension ViewController: CLLocationManagerDelegate {
         }
     }
 }
+
