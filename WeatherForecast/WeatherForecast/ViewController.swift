@@ -60,13 +60,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         })
     }
     
-    func formattingUrl(lat: Double, lon: Double, api: String) -> String {
+    func formattingCurrentWeatherUrl(lat: Double, lon: Double, api: String) -> String {
         let url: String = "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(api)"
         return url
     }
     
+    func formattingForecastUrl(lat: Double, lon: Double, api: String) -> String {
+        let url: String = "https://api.openweathermap.org/data/2.5/forecast?lat=\(lat)&lon=\(lon)&appid=\(api)"
+        return url
+    }
+    
     func currentWeatherDataDecoding() {
-        guard let currentWeatherUrl = URL(string: formattingUrl(lat: latitude, lon: longitude, api: apiKey)) else {
+        guard let currentWeatherUrl = URL(string: formattingCurrentWeatherUrl(lat: latitude, lon: longitude, api: apiKey)) else {
             print("해당 URL 주소가 없습니다.")
             return
         }
@@ -80,7 +85,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func forecastListDataDecoding() {
-        guard let forecastListUrl = URL(string: formattingUrl(lat: latitude, lon: longitude, api: apiKey)) else {
+        guard let forecastListUrl = URL(string: formattingForecastUrl(lat: latitude, lon: longitude, api: apiKey)) else {
             print("해당 URL 주소가 없습니다.")
             return
         }
