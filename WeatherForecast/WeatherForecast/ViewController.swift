@@ -23,7 +23,48 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: CLLocationManagerDelegate {
-    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let currentLocationCoordinate = locations.last?.coordinate else {
+            return
+        }
+        appDelegate?.locationManager.stopUpdatingLocation()
+        let lat = CLLocationDegrees(CGFloat(currentLocationCoordinate.latitude))
+        let lon = CLLocationDegrees(CGFloat(currentLocationCoordinate.longitude))
+        
+        WeatherForecastManager.shared.loadData(lat: lat, lon: lon, api: WeatherAPI.forecast) { result in
+            switch result {
+            case .success(let data):
+                guard let forecastData = data else {
+                    return self.errorHandling(error: .failGetData)
+                }
+                do {
+                    let forecastList: ForecastList = try JSONDecoder().decode(ForecastList.self, from: forecastData)
+                    print(forecastList)
+                } catch {
+                    self.errorHandling(error: .failDecode)
+                }
+            case .failure(let error):
+                self.errorHandling(error: error)
+            }
+        }
+        
+        WeatherForecastManager.shared.loadData(lat: lat, lon: lon, api: WeatherAPI.current) { result in
+            switch result {
+            case .success(let data):
+                guard let currentData = data else {
+                    return self.errorHandling(error: .failGetData)
+                }
+                do {
+                    let currentWeather: CurrentWeather = try JSONDecoder().decode(CurrentWeather.self, from: currentData)
+                    print(currentWeather)
+                } catch {
+                    self.errorHandling(error: .failDecode)
+                }
+            case .failure(let error):
+                self.errorHandling(error: error)
+            }
+        }
+    }
 }
 
 extension ViewController {
