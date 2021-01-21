@@ -15,13 +15,6 @@ struct CurrentWeather: Decodable {
         let icon: String
     }
     
-    struct Temperature: Decodable {
-        let value: Double
-        let feelsLikeValue: Double
-        let minimumValue: Double
-        let maximumValue: Double
-    }
-    
     struct Wind: Decodable {
         let speed: Double
         let degree: Int
@@ -99,6 +92,6 @@ struct CurrentWeather: Decodable {
         let temperatureFeelsLikeValue = try additionalInfo.decode(Double.self, forKey: .temperatureFeelsLike)
         let temperatureMinimum = try additionalInfo.decode(Double.self, forKey: .temperatureMinimum)
         let temperatureMaximum = try additionalInfo.decode(Double.self, forKey: .temperatureMaximum)
-        temperature = Temperature(value: temperatureValue, feelsLikeValue: temperatureFeelsLikeValue, minimumValue: temperatureMinimum, maximumValue: temperatureMaximum)
+        temperature = Temperature(value: temperatureValue, feelsLikeValue: temperatureFeelsLikeValue, minimumValue: temperatureMinimum, maximumValue: temperatureMaximum, kfValue: nil)
     }
 }

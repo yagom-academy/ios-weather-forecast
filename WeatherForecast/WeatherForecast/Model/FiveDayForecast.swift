@@ -17,14 +17,6 @@ struct FiveDayForecast: Decodable {
             }
         }
         
-        struct Temperature: Decodable {
-            let value: Double
-            let feelsLikeValue: Double
-            let minimumValue: Double
-            let maximumValue: Double
-            let kfValue: Double
-        }
-        
         let dateTime: Int
         let weather: [CurrentWeather.Weather]
         let clouds: CurrentWeather.Clouds
