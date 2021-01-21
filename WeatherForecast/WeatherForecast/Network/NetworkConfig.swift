@@ -8,22 +8,19 @@
 import Foundation
 
 struct NetworkConfig {
+    private static let baseURL = "https://api.openweathermap.org/data/2.5/"
     private static let appId = "dfae32caf228b6ced799aaadfd1babec"
     private static let queryFormat = "lat=%f&lon=%f&appid=%@"
-    private static let currentWeatherAPI = "https://api.openweathermap.org/data/2.5/weather?"
-    private static let fiveDaysForecastAPI = "https://api.openweathermap.org/data/2.5/forecast?"
+    private static let matrics = "&units=metric"
     
-    static func makeWeatherUrlString(type: WeatherAPI, coordinate: Coordinate) -> String {
-        var urlString: String
-        switch type {
-        case .current:
-            urlString = NetworkConfig.currentWeatherAPI
-        case .fiveDaysForecast:
-            urlString = NetworkConfig.fiveDaysForecastAPI
-        }
+    static func makeWeatherUrlString(type: WeatherAPIKey, coordinate: Coordinate) -> String {
+        var urlString = baseURL
+        urlString.append(type.rawValue)
+        urlString.append("?")
         
         let queryString = String(format: NetworkConfig.queryFormat, coordinate.latitude, coordinate.longitude, NetworkConfig.appId)
         urlString.append(queryString)
+        urlString.append(matrics)
         
         return urlString
     }
