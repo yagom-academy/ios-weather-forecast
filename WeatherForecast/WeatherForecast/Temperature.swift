@@ -14,7 +14,7 @@ struct Temperature: Codable {
     
     enum CodingKeys: String, CodingKey {
         case currentTemperature = "temp"
-        case minimumTemperature = "min_temp"
-        case maximumTemperature = "max_temp"
+        case minimumTemperature = "temp_min"
+        case maximumTemperature = "temp_max"
     }
 }
