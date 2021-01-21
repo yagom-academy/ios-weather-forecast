@@ -11,9 +11,6 @@ enum App {
     case key
     case cuurentWeather
     case fivedaysForecast
-    case latitude
-    case longtitude
-    case address
     
     var text: String {
         switch self {
@@ -23,37 +20,41 @@ enum App {
             return "key값 오류"
         }
     }
-    
+
     var URL: String {
+        let url = "https://api.openweathermap.org/data/2.5/"
         switch self {
         case .cuurentWeather:
-            return "https://api.openweathermap.org/data/2.5/weather?"
+            return "\(url)weather?"
         case .fivedaysForecast:
-            return "https://api.openweathermap.org/data/2.5/forecast?"
+            return "\(url)forecast?"
         default:
             return "URL 오류"
         }
     }
+}
+
+enum DefaultLocation {
+    case latitude
+    case longtitude
     
-    var coordinateValue: Double {
+    var value: Double {
         switch self {
         case .latitude:
             return 37.659835498082685
         case .longtitude:
             return 126.33721714704042
-        default:
-            return 0
         }
     }
+}
+
+enum DefaultAddress {
+    case address
     
     var value: String {
         switch self {
         case .address:
-            return "인천광역시 매음리"
-        default:
-            return "위치정보 없음"
+            return ""
         }
     }
-    
 }
-
