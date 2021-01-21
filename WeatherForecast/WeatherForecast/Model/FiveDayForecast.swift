@@ -8,21 +8,13 @@
 import Foundation
 
 struct FiveDayForecast: Decodable {
-    struct Forcast: Decodable {
+    struct Forecast: Decodable {
         struct System: Decodable {
             let partOfTheDay: String
             
             enum CodingKeys: String, CodingKey {
                 case partOfTheDay = "pod"
             }
-        }
-        
-        struct Temperature: Decodable {
-            let value: Double
-            let feelsLikeValue: Double
-            let minimumValue: Double
-            let maximumValue: Double
-            let kfValue: Double
         }
         
         let dateTime: Int
@@ -86,7 +78,7 @@ struct FiveDayForecast: Decodable {
     struct City: Decodable {
         let id: Int
         let name: String
-        let coordinate: CurrentWeather.Coordinate
+        let coordinate: Coordinate
         let country: String
         let population: Int
         let timezone: Int
@@ -102,13 +94,13 @@ struct FiveDayForecast: Decodable {
     let code: String
     let message: Int
     let count: Int
-    let forcasts: [Forcast]
+    let forecasts: [Forecast]
     let city: City
     
     enum CodingKeys: String, CodingKey {
         case message, city
         case code = "cod"
         case count = "cnt"
-        case forcasts = "list"
+        case forecasts = "list"
     }
 }
