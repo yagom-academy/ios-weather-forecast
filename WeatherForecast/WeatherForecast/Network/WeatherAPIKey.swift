@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum WeatherAPI {
-    case current
-    case fiveDaysForecast
+enum WeatherAPIKey: String {
+    case current = "weather"
+    case fiveDaysForecast = "forecast"
 }
