@@ -8,7 +8,7 @@
 import Foundation
 
 struct FiveDayForecast: Decodable {
-    struct Forcast: Decodable {
+    struct Forecast: Decodable {
         struct System: Decodable {
             let partOfTheDay: String
             
@@ -102,13 +102,13 @@ struct FiveDayForecast: Decodable {
     let code: String
     let message: Int
     let count: Int
-    let forcasts: [Forcast]
+    let forecasts: [Forecast]
     let city: City
     
     enum CodingKeys: String, CodingKey {
         case message, city
         case code = "cod"
         case count = "cnt"
-        case forcasts = "list"
+        case forecasts = "list"
     }
 }
