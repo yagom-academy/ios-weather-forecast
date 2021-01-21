@@ -9,11 +9,13 @@ import CoreLocation
 
 class WeatherForecastViewController: UIViewController {
     
-    var locationManager = CLLocationManager()
+    let geoCoder = CLGeocoder()
+    let locationManager = CLLocationManager()
     var currentLocation: CLLocation?
     var weatherAPIManager = WeatherAPIManager()
     var currentWeather: CurrentWeather?
     var fiveDayForecast: FiveDayForecast?
+    var address: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,9 +43,38 @@ extension WeatherForecastViewController: CLLocationManagerDelegate {
                 return
             }
             self.currentLocation = currentLocation
+            setPlacemark(currentLocation)
             weatherAPIManager.request(information: .CurrentWeather, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
             weatherAPIManager.request(information: .FiveDayForecast, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
         }
+    }
+    
+    func setPlacemark(_ location: CLLocation) {
+        geoCoder.reverseGeocodeLocation(location) { (placemarks, error) in
+            if let placemark = placemarks?.first {
+                self.setAddress(placemark)
+            }
+        }
+    }
+    
+    func setAddress(_ placemark: CLPlacemark) {
+        var address = ""
+        if let state = placemark.administrativeArea {
+            address += state
+        }
+        if let city = placemark.locality {
+            if address != "" {
+                address += " "
+            }
+            address += city
+        }
+        if let district = placemark.subLocality {
+            if address != "" {
+                address += " "
+            }
+            address += district
+        }
+        self.address = address
     }
 }
 
