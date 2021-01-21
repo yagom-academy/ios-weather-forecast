@@ -11,6 +11,9 @@ final class ViewController: UIViewController, CLLocationManagerDelegate {
     
     private var currentWeather: CurrentWeather?
     private var forecastFiveDays: ForecastFiveDays?
+    private var locationManager: CLLocationManager!
+    private var latitude: Double?
+    private var longitude: Double?
     
     private func decodeCurrentWeaterFromAPI() {
         let session = URLSession(configuration: .default)
@@ -62,9 +65,30 @@ final class ViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
+        
         decodeCurrentWeaterFromAPI()
         decodeForecastFiveDaysFromAPI()
     }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let coordinate = locationManager.location?.coordinate else {
+            return
+        }
+        latitude = coordinate.latitude
+        longitude = coordinate.longitude
+        
+        print(latitude, longitude)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        //show error
+    }
+    
 }
 
 
