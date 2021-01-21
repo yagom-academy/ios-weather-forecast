@@ -31,4 +31,18 @@ enum App {
             return "URL 오류"
         }
     }
+    
+    enum coordinate {
+        case latitude
+        case longtitude
+        
+        var value: Double {
+            switch self {
+            case .latitude:
+                return 37.68382
+            case .longtitude:
+                return 126.742401
+            }
+        }
+    }
 }

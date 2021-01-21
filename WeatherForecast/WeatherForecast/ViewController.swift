@@ -9,8 +9,8 @@ import CoreLocation
 
 class ViewController: UIViewController {
     var locationManager: CLLocationManager!
-    var latitude: Double?
-    var longitude: Double?
+    var latitude: Double? = App.coordinate.latitude.value
+    var longitude: Double? = App.coordinate.longtitude.value
     override func viewDidLoad() {
         
         super.viewDidLoad()
