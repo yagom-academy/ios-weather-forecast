@@ -1,7 +1,8 @@
 //
-//  WeatherForecastUITests - WeatherForecastUITests.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
+//  WeatherForecastUITests
+//  WeatherForecastUITests.swift
+//
+//  Created by Kyungmin Lee on 2021/01/22.
 // 
 
 import XCTest

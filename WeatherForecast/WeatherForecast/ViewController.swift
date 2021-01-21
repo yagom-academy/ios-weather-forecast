@@ -1,7 +1,8 @@
 //
-//  WeatherForecast - ViewController.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
+//  WeatherForecast
+//  ViewController.swift
+//
+//  Created by Kyungmin Lee on 2021/01/22.
 // 
 
 import UIKit
