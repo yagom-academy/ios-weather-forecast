@@ -14,13 +14,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        settingLocationManager()
         searchForLocationInformation()
     }
     
-    func searchForLocationInformation() {
+    func settingLocationManager() {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    }
+    
+    func searchForLocationInformation() {
         locationManager.requestLocation()
     }
     
