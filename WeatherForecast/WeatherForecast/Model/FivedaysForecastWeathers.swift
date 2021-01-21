@@ -8,10 +8,10 @@
 import Foundation
 
 struct FivedaysForecastWeathers: Decodable {
-    var code: String
-    var message: Double
-    var count: Int
-    var weathers: [Weather]
+    let code: String
+    let message: Double
+    let count: Int
+    let weathers: [Weather]
     
     enum CodingKeys: String, CodingKey {
         case code = "cod"

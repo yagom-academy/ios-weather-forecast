@@ -8,9 +8,9 @@
 import Foundation
 
 struct Weather: Decodable {
-    var dateTime: Int
-    var temperature: Temperature
-    var weatherIcon: [WeatherIcon]
+    let dateTime: Int
+    let temperature: Temperature
+    let weatherIcon: [WeatherIcon]
     
     enum CodingKeys: String, CodingKey {
         case dateTime = "dt"
@@ -20,9 +20,9 @@ struct Weather: Decodable {
 }
 
 struct Temperature: Decodable {
-    var avg: Double
-    var min: Double
-    var max: Double
+    let avg: Double
+    let min: Double
+    let max: Double
     
     enum CodingKeys: String, CodingKey {
         case avg = "temp"
@@ -32,7 +32,7 @@ struct Temperature: Decodable {
 }
 
 struct WeatherIcon: Decodable {
-    var id: String
+    let id: String
     
     enum CodingKeys: String, CodingKey {
         case id = "icon"
