@@ -64,6 +64,10 @@ extension ViewController: CLLocationManagerDelegate {
                 self.errorHandling(error: error)
             }
         }
+        
+        func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+            showAlert(with: WeatherForecastError.failGetCurrentLocation)
+        }
     }
 }
 
