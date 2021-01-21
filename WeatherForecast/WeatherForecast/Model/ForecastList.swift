@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ForecastList: Codable {
+struct ForecastList: Decodable {
     let list: [Forecast]
     let count: Int
     
