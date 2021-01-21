@@ -5,12 +5,25 @@
 // 
 
 import UIKit
+import CoreLocation
 
 class ViewController: UIViewController {
+    let appDelegate = UIApplication.shared.delegate as? AppDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpLocationManager()
     }
+    
+    private func setUpLocationManager() {
+        appDelegate?.locationManager.delegate = self
+        appDelegate?.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        appDelegate?.locationManager.startUpdatingLocation()
+    }
+}
+
+extension ViewController: CLLocationManagerDelegate {
+    
 }
 
 extension ViewController {
