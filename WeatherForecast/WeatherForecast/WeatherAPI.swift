@@ -17,7 +17,8 @@ class WeatherAPI {
         urlComponents.queryItems = [
             URLQueryItem(name: "lat", value: "\(latitude)"),
             URLQueryItem(name: "lon", value: "\(longitude)"),
-            URLQueryItem(name: "appid", value: App.key.text)
+            URLQueryItem(name: "appid", value: App.key.text),
+            URLQueryItem(name: "units", value: "metric")
         ]
         guard let requestURL = urlComponents.url else {
             return
@@ -53,7 +54,8 @@ class WeatherAPI {
         urlComponents.queryItems = [
             URLQueryItem(name: "lat", value: "\(latitude)"),
             URLQueryItem(name: "lon", value: "\(longitude)"),
-            URLQueryItem(name: "appid", value: App.key.text)
+            URLQueryItem(name: "appid", value: App.key.text),
+            URLQueryItem(name: "units", value: "metric")
         ]
         guard let requestURL = urlComponents.url else {
             return

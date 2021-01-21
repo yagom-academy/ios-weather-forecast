@@ -9,45 +9,74 @@ import CoreLocation
 
 class ViewController: UIViewController {
     var locationManager: CLLocationManager!
-    var latitude: Double? = App.coordinate.latitude.value
-    var longitude: Double? = App.coordinate.longtitude.value
+    var latitude: Double = App.latitude.coordinateValue
+    var longitude: Double = App.longtitude.coordinateValue
+    var address: String = App.address.value
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        setUserCoordinate()
-        guard let userLatitude = latitude, let userLongitude = longitude else {
-            return
-        }
-        
-        WeatherAPI.findCurrentWeather(userLatitude, userLongitude) { currentWeather in
+        setCoordinateAndGetAddress()
+        WeatherAPI.findCurrentWeather(latitude, longitude) { currentWeather in
             print("도시 : \(currentWeather.cityName)")
         }
         
-        WeatherAPI.findFivedaysForecast(userLatitude, userLongitude) { forecastInfo in
+        WeatherAPI.findFivedaysForecast(latitude, longitude) { forecastInfo in
             print("temperature : \(forecastInfo.list[0].temperature)")
             print("몇개야 : \(forecastInfo.timestampCount)")
             print("도시이름 : \(forecastInfo.city.name)")
             print("dateTime : \(forecastInfo.list[0].dateTimeText)")
         }
-        print("위치정보 \(userLatitude), \(userLongitude)")
+        print("위치정보 \(latitude), \(longitude)")
     }
 }
 
-extension ViewController: CLLocationManagerDelegate { //사용자위치정보셋
-    func setUserCoordinate() {
+extension ViewController: CLLocationManagerDelegate {
+    
+    func setCoordinateAndGetAddress() {
+        setCoordinate()
+        getAddress()
+    }
+    
+    func setCoordinate() {
         locationManager = CLLocationManager()
         locationManager.delegate = self
-        //포그라운드일때 위치 추적 권한 요청
         locationManager.requestWhenInUseAuthorization()
-        //베터라에 맞게 권장되는 최적의 정확도
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        //위치업데이트
         locationManager.startUpdatingLocation()
-        //위경도 가져오기
-        let coor = locationManager.location?.coordinate
-        latitude = coor?.latitude
-        longitude = coor?.longitude
+
+        guard let coordinate = locationManager.location?.coordinate else {
+            print("현재위치정보 알수없음")
+            return
+        }
+        latitude = coordinate.latitude
+        longitude = coordinate.longitude
+        print(latitude)
+        print(longitude)
+    }
+    
+    func getAddress() {
+        let geoCoder = CLGeocoder()
+        let location = CLLocation(latitude: latitude, longitude: longitude)
+        let locale = Locale(identifier: "Ko-kr")
+
+        geoCoder.reverseGeocodeLocation(location, preferredLocale: locale) { (placemarks, error) in
+            guard error == nil, let _ = placemarks?.first else {
+                print("위치정보없음")
+                return
+            }
+            if let addressInfo: [CLPlacemark] = placemarks {
+                guard let city = addressInfo.last?.administrativeArea,
+                      let district = addressInfo.last?.locality else {
+                    print("주소못찾음")
+                    return
+                }
+                self.address = "\(String(describing: city)) \(String(describing: district))"
+                print(self.address)
+            }
+        }
     }
 }
+
 
 

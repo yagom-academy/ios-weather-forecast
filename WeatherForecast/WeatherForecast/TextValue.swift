@@ -11,6 +11,9 @@ enum App {
     case key
     case cuurentWeather
     case fivedaysForecast
+    case latitude
+    case longtitude
+    case address
     
     var text: String {
         switch self {
@@ -32,17 +35,25 @@ enum App {
         }
     }
     
-    enum coordinate {
-        case latitude
-        case longtitude
-        
-        var value: Double {
-            switch self {
-            case .latitude:
-                return 37.68382
-            case .longtitude:
-                return 126.742401
-            }
+    var coordinateValue: Double {
+        switch self {
+        case .latitude:
+            return 37.659835498082685
+        case .longtitude:
+            return 126.33721714704042
+        default:
+            return 0
         }
     }
+    
+    var value: String {
+        switch self {
+        case .address:
+            return "인천광역시 매음리"
+        default:
+            return "위치정보 없음"
+        }
+    }
+    
 }
+
