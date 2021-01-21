@@ -86,7 +86,7 @@ struct FiveDayForecast: Decodable {
     struct City: Decodable {
         let id: Int
         let name: String
-        let coordinate: CurrentWeather.Coordinate
+        let coordinate: Coordinate
         let country: String
         let population: Int
         let timezone: Int

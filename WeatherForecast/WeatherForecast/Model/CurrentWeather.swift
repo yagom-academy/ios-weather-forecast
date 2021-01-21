@@ -8,16 +8,6 @@
 import Foundation
 
 struct CurrentWeather: Decodable {
-    struct Coordinate: Decodable {
-        let longitude: Double
-        let latitude: Double
-        
-        enum CodingKeys: String, CodingKey {
-            case longitude = "lon"
-            case latitude = "lat"
-        }
-    }
-    
     struct Weather: Decodable {
         let id: Int
         let main: String
