@@ -7,11 +7,24 @@
 
 import Foundation
 
-class Weather {
-    static let shared = Weather()
+class WeatherModel {
+    static let shared = WeatherModel()
     private init() {}
     
     private(set) var item: CurrentWeather? = nil
     
-    func 
+    func fetchData(with coordinate: Coordinate, _ callback: @escaping (_ item: CurrentWeather?) -> Void) {
+        let urlString = NetworkConfig.makeWeatherUrlString(type: .current, coordinate: coordinate)
+        guard let url = URL(string: urlString) else {
+             return
+        }
+        WeatherNetwork.loadData(from: url, with: CurrentWeather.self) { result in
+            switch result {
+            case .failure:
+                callback(nil)
+            case .success(let data):
+                callback(data)
+            }
+        }
+    }
 }
