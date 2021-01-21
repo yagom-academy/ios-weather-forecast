@@ -10,12 +10,12 @@ import Foundation
 struct Weather: Decodable {
     let dateTime: Int
     let temperature: Temperature
-    let weatherIcon: [WeatherIcon]
+    let main: [MainWeather]
     
     enum CodingKeys: String, CodingKey {
         case dateTime = "dt"
         case temperature = "main"
-        case weatherIcon = "weather"
+        case main = "weather"
     }
 }
 
@@ -31,10 +31,14 @@ struct Temperature: Decodable {
     }
 }
 
-struct WeatherIcon: Decodable {
-    let id: String
+struct MainWeather: Decodable {
+    let iconId: String
+    let group: String
+    let condition: String
     
     enum CodingKeys: String, CodingKey {
-        case id = "icon"
+        case iconId = "icon"
+        case group = "main"
+        case condition = "description"
     }
 }
