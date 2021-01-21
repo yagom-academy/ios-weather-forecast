@@ -21,4 +21,33 @@ extension ViewController {
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
     }
+    
+    private func errorHandling(error: WeatherForecastError) {
+        switch error {
+        case .failGetCurrentLocation:
+            DispatchQueue.main.async {
+                self.showAlert(with: .failGetCurrentLocation)
+            }
+        case .failFetchData:
+            DispatchQueue.main.async {
+                self.showAlert(with: .failFetchData)
+            }
+        case .failMatchingMimeType:
+            DispatchQueue.main.async {
+                self.showAlert(with: .failMatchingMimeType)
+            }
+        case .failTransportData:
+            DispatchQueue.main.async {
+                self.showAlert(with: .failTransportData)
+            }
+        case .failGetData:
+            DispatchQueue.main.async {
+                self.showAlert(with: .failGetData)
+            }
+        case .failDecode:
+            DispatchQueue.main.async {
+                self.showAlert(with: .failDecode)
+            }
+        }
+    }
 }
