@@ -20,7 +20,6 @@ class ViewController: UIViewController {
         WeatherAPI.findCurrentWeather(latitude, longitude) { currentWeather in
             //code
         }
-        
         WeatherAPI.findFivedaysForecast(latitude, longitude) { forecastInfo in
             //code
         }
@@ -30,17 +29,30 @@ class ViewController: UIViewController {
 extension ViewController: CLLocationManagerDelegate {
     
     func setCoordinateAndGetAddress() {
-        setCoordinate()
+        prepareCoordinate()
         getAddress()
     }
     
-    func setCoordinate() {
+    func prepareCoordinate() {
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.startUpdatingLocation()
-
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch CLLocationManager.authorizationStatus() {
+        case .authorizedAlways, .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
+            setCoordinate()
+        case .denied:
+            print("사용자로부터 거절됨")
+        default:
+            return
+        }
+    }
+    
+    func setCoordinate() {
         guard let coordinate = locationManager.location?.coordinate else {
             print("현재위치정보(경도,위도) 알수없음")
             return
@@ -72,6 +84,3 @@ extension ViewController: CLLocationManagerDelegate {
         }
     }
 }
-
-
-

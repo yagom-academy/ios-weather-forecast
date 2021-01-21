@@ -20,9 +20,7 @@ class WeatherAPI {
             URLQueryItem(name: "appid", value: App.key.text),
             URLQueryItem(name: "units", value: "metric")
         ]
-        guard let requestURL = urlComponents.url else {
-            return
-        }
+        guard let requestURL = urlComponents.url else { return }
         let dataTask = session.dataTask(with: requestURL) { (data, response, error) in
             let successRange = 200..<300
             guard error == nil,
