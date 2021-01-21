@@ -43,13 +43,13 @@ extension WeatherForecastViewController: CLLocationManagerDelegate {
                 return
             }
             self.currentLocation = currentLocation
-            setPlacemark(currentLocation)
+            placemarkToSetAddress(from: currentLocation)
             weatherAPIManager.request(information: .CurrentWeather, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
             weatherAPIManager.request(information: .FiveDayForecast, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
         }
     }
     
-    func setPlacemark(_ location: CLLocation) {
+    func placemarkToSetAddress(from location: CLLocation) {
         geoCoder.reverseGeocodeLocation(location) { (placemarks, error) in
             if let placemark = placemarks?.first {
                 self.setAddress(placemark)
