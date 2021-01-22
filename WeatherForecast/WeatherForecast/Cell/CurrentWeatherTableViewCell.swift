@@ -8,13 +8,7 @@
 import UIKit
 
 class CurrentWeatherTableViewCell: UITableViewCell {
-    private let temperatureSign = "°"
-    private let minMaxTemperatureFormat = "최저 %f° 최고 %f°"
-    
     private let weatherImageWidth: CGFloat = 60
-    private let basicAddressString = "주소"
-    private let basicMinMaxTemperatureString = "최소, 최대 기온"
-    private let basicAverageTemperatureString = "평균 기온"
     
     // MARK: - UI Property
     private lazy var weatherImageView: UIImageView = {
@@ -29,21 +23,21 @@ class CurrentWeatherTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
-        label.text = self.basicAddressString
+        label.text = WeatherString.basic
         return label
     }()
     private lazy var minMaxTemperatureLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
-        label.text = self.basicMinMaxTemperatureString
+        label.text = WeatherString.basic
         return label
     }()
     private lazy var averageTemperatureLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .title1)
-        label.text = self.basicAverageTemperatureString
+        label.text = WeatherString.basic
         return label
     }()
     
