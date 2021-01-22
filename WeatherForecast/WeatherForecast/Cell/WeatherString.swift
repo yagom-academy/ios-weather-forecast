@@ -9,6 +9,6 @@ import Foundation
 
 enum WeatherString {
     static let basic = "-"
-    static let temperatureSign = "°"
-    static let minMaxTemperatureFormat = "최저 %f° 최고 %f°"
+    static let minMaxTemperatureFormat = "최저 %.1f° 최고 %.1f°"
+    static let averageTemperatureFormat = "%.1f°"
 }
