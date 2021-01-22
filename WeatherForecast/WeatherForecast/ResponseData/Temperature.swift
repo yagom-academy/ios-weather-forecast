@@ -8,13 +8,13 @@
 import Foundation
 
 struct Temperature: Decodable {
-    let average: Double
-    let minimum: Double
-    let maximum: Double
+    let celciusAverage: Double
+    let celciusMinimum: Double
+    let celciusMaximum: Double
     
     enum CodingKeys: String, CodingKey {
-        case average = "temp"
-        case minimum = "temp_min"
-        case maximum = "temp_max"
+        case celciusAverage = "temp"
+        case celciusMinimum = "temp_min"
+        case celciusMaximum = "temp_max"
     }
 }
