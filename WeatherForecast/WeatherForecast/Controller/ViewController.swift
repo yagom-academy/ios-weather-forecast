@@ -12,25 +12,22 @@ class ViewController: UIViewController {
     @IBOutlet weak var testLabel1: UILabel!
     @IBOutlet weak var testLabel2: UILabel!
     
-    var latitude: Double?
-    var longitude: Double?
     var currentWeather: CurrentWeather?
     var forecastFiveDays: ForecastFiveDays?
     let locationManager = CLLocationManager()
+    let geocoder = CLGeocoder()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setCLLocation()
     }
-    
-
 }
 
 // MARK: Decode
 extension ViewController {
-    func updateCurrentWeather(latitude: Double, longitude: Double) throws {
-        let apiURL = "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=f08f782b840c2494b77e036d6bf2f3de"
+    func updateCurrentWeather(location: CLLocation) throws {
+        let apiURL = "https://api.openweathermap.org/data/2.5/weather?lat=\(location.coordinate.latitude)&lon=\(location.coordinate.longitude)&appid=f08f782b840c2494b77e036d6bf2f3de"
         guard let url = URL(string: apiURL) else {
             throw InternalError.invalidURL
         }
@@ -41,8 +38,8 @@ extension ViewController {
         }
     }
     
-    func updateForecastFiveDays(latitude: Double, longitude: Double) throws {
-        let apiURL = "https://api.openweathermap.org/data/2.5/forecast?lat=\(latitude)&lon=\(longitude)&appid=f08f782b840c2494b77e036d6bf2f3de"
+    func updateForecastFiveDays(location: CLLocation) throws {
+        let apiURL = "https://api.openweathermap.org/data/2.5/forecast?lat=\(location.coordinate.latitude)&lon=\(location.coordinate.longitude)&appid=f08f782b840c2494b77e036d6bf2f3de"
         guard let url = URL(string: apiURL) else {
             throw InternalError.invalidURL
         }
@@ -63,15 +60,26 @@ extension ViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let coordinate  = locationManager.location?.coordinate else {
+        guard let location = locationManager.location else {
             return
         }
         
-        self.latitude = coordinate.latitude
-        self.longitude = coordinate.longitude
+        do {
+            try updateCurrentWeather(location: location)
+        } catch {
+            print(error)
+        }
         
         // 아이폰에서 테스트하기 위한 코드
-        self.testLabel1.text = "위도: \(latitude!)"
-        self.testLabel2.text = "경도: \(longitude!)"
+        self.testLabel1.text = "위도: \(location.coordinate.latitude)" + "경도: \(location.coordinate.longitude)"
+        self.testLabel2.text = "\(currentWeather?.city)"
     }
 }
+//
+//extension ViewController {
+//    func geo()  {
+//        geocoder.reverseGeocodeLocation(location) { ([CLPlacemark]?, Error?) in
+//            <#code#>
+//        }
+//    }
+//}
