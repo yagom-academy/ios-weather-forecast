@@ -19,11 +19,18 @@ class ViewController: UIViewController {
         
         return locationManager
     }()
+
+    private var currentCoordinate: CLLocationCoordinate2D!
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        requestCurrentCoordinate()
+    }
+    
+    // MARK: - Methods
+    private func requestCurrentCoordinate() {
         locationManager.startUpdatingLocation()
     }
 }
@@ -31,6 +38,9 @@ class ViewController: UIViewController {
 // MARK: - CLLocationManagerDelegate Methods
 extension ViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
+        if let currentCoordinate = locations.last?.coordinate {
+            locationManager.stopUpdatingLocation()
+            self.currentCoordinate = currentCoordinate
+        }
     }
 }
