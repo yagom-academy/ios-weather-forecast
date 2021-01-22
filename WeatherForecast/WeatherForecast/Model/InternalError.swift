@@ -1,5 +1,6 @@
 
 enum InternalError: Error {
-    case InvalidURL
+    case invalidURL
+    case failedServeData
 }
 
