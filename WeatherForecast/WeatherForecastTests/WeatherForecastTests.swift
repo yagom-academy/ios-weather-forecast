@@ -71,7 +71,7 @@ class WeatherForecastTests: XCTestCase {
         let dummy = DummyWeatherAPIManagerDelegate(testExpectation: testExpectation)
         var weatherAPIManager = WeatherAPIManager()
         weatherAPIManager.delegate = dummy
-        weatherAPIManager.request(information: .CurrentWeather, latitude: 37.5665, logitude: 126.9779)
+        weatherAPIManager.request(information: .currentWeather, latitude: 37.5665, logitude: 126.9779)
         wait(for: [testExpectation], timeout: 5)
     }
     
@@ -80,7 +80,7 @@ class WeatherForecastTests: XCTestCase {
         let dummy = DummyWeatherAPIManagerDelegate(testExpectation: testExpectation)
         var weatherAPIManager = WeatherAPIManager()
         weatherAPIManager.delegate = dummy
-        weatherAPIManager.request(information: .FiveDayForecast, latitude: 37.5665, logitude: 126.9779)
+        weatherAPIManager.request(information: .fiveDayForecast, latitude: 37.5665, logitude: 126.9779)
         wait(for: [testExpectation], timeout: 5)
     }
 
