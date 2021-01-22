@@ -79,6 +79,8 @@ class CurrentWeatherTableViewCell: UITableViewCell {
     }
     
     func setUpUI(with weather: CurrentWeather?) {
+        // TODO: add image
+        
         
     }
 }
