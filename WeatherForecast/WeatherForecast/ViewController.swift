@@ -68,9 +68,9 @@ extension ViewController: CLLocationManagerDelegate {
         geoCoder.reverseGeocodeLocation(location, preferredLocale: locale) { (placemark, error) in
             guard error == nil,
                 let addressInfo: [CLPlacemark] = placemark,
-                let lastAddress = addressInfo.last,
-                let city = lastAddress.administrativeArea,
-                let district = lastAddress.locality else {
+                let address = addressInfo.first,
+                let city = address.administrativeArea,
+                let district = address.locality else {
                 print(Error.geocodeLocationError.message)
                 return
             }
