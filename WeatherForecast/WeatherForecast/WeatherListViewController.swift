@@ -8,7 +8,11 @@
 import UIKit
 
 class WeatherListViewController: UIViewController {
-    private var fivedaysForecastWeathers: [Weather] = []
+    private var fivedaysForecastWeathers: [Weather] = [] {
+        didSet {
+            print(fivedaysForecastWeathers)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +24,7 @@ extension WeatherListViewController {
     private func setUp() {
         guard let coordinate = LocationManager.shared.locationCoordinate else { return }
         LocationManager.shared.getLocalizationString(in: "Ko-kr") { (locationString) in
-            // 화면에 세팅
+            print(locationString)
         }
         WeatherManager.shared.getCurrentWeather(of: coordinate) { [weak self] (weather) in
             DispatchQueue.main.async {
@@ -34,6 +38,6 @@ extension WeatherListViewController {
     }
     
     private func setCurrentWeather(_ weather: Weather) {
-        // 화면에 current Weather 값 세팅
+        print(weather)
     }
 }
