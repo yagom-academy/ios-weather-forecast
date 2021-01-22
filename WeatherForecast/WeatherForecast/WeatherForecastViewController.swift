@@ -9,7 +9,6 @@ import CoreLocation
 
 class WeatherForecastViewController: UIViewController {
     
-    let geoCoder = CLGeocoder()
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation?
     var weatherAPIManager = WeatherAPIManager()
@@ -50,7 +49,7 @@ extension WeatherForecastViewController: CLLocationManagerDelegate {
     }
     
     func placemarkToSetAddress(from location: CLLocation) {
-        geoCoder.reverseGeocodeLocation(location) { (placemarks, error) in
+        CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) in
             if let placemark = placemarks?.first {
                 self.setAddress(placemark)
             }
