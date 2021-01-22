@@ -13,7 +13,7 @@ struct NetworkConfig {
     private static let queryFormat = "lat=%f&lon=%f&appid=%@"
     private static let matrics = "&units=metric"
     
-    static func makeWeatherUrlString(type: WeatherAPIKey, coordinate: Coordinate) -> String {
+    static func makeWeatherUrlString(type: WeatherAPITypes, coordinate: Coordinate) -> String {
         var urlString = weatherURL
         urlString.append(type.rawValue)
         urlString.append("?")
