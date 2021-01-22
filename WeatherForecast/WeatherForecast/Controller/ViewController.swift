@@ -89,9 +89,10 @@ extension ViewController {
             guard let address: CLPlacemark = place?.last else {
                 return
             }
-            guard let country = address.country, let administrativeArea = address.administrativeArea, let locality = address.locality else {
-                return
-            }
+            
+            let country = address.country ?? ""
+            let administrativeArea = address.administrativeArea ??  ""
+            let locality = address.locality ?? ""
             
             // 아이폰에서 테스트하기 위한 코드
             self.testLabel3.text = "\(country) \(administrativeArea) \(locality)"
