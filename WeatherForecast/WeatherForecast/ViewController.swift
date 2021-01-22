@@ -85,7 +85,6 @@ extension ViewController: CLLocationManagerDelegate {
     private func checkLocationPermission() {
         switch CLLocationManager.authorizationStatus() {
         case .authorizedAlways, .authorizedWhenInUse:
-            locationManager.startUpdatingLocation()
             searchCoordinate()
         case .denied:
             deniedLocationPermission()
