@@ -9,32 +9,42 @@ import CoreLocation
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
     let locationManager = CLLocationManager()
+    var currentAddress = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.startUpdatingLocation()
-        
-        if let coordinate = locationManager.location?.coordinate {
-            let openWeather = OpenWeather()
+        currentLocationUpdate()
+//        if let coordinate = locationManager.location?.coordinate {
+//            let openWeather = OpenWeather()
 //            openWeather.currentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
 //            openWeather.forecastWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
-//            Thread.sleep(forTimeInterval: 3)
-        }
-        
-        currentLocation()
+//        })
     }
     
-    func currentLocation() {
+    func currentLocationUpdate() {
         if let location = locationManager.location {
             CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) in
                 if let placemark = placemarks {
-                    print("location: \(placemark[0].location)")
-                    print("name: \(placemark[0].name)")
-                    print("country: \(placemark[0].country)")
+                    
+                    if let country = placemark[0].country {
+                        self.currentAddress = country + " "
+                    }
+
+                    if let city = placemark[0].administrativeArea {
+                        self.currentAddress += city + " "
+                    }
+
+                    if let locality = placemark[0].locality {
+                        self.currentAddress += locality + " "
+                    }
+
+                    if let name = placemark[0].name {
+                        self.currentAddress += name
+                    }
+                    
+                    print("실행")
                 }
             }
         }
