@@ -5,7 +5,7 @@ enum SystemFeature {
     case currentWeather
     case fiveDaysForecasting
     
-    let pathKeyword: String {
+    var pathKeyword: String {
         switch self {
         case .currentWeather:
             return "weather"
