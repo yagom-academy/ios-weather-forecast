@@ -14,8 +14,8 @@ struct URLManager {
         case forecastFiveDays = "forecast?"
     }
     
-    let defaultURL = "https://api.openweathermap.org/data/2.5/"
-    let apiID = "f08f782b840c2494b77e036d6bf2f3de"
+    private let defaultURL = "https://api.openweathermap.org/data/2.5/"
+    private let apiID = "f08f782b840c2494b77e036d6bf2f3de"
 
     func makeURL(APItype: APItype, location: CLLocation) -> URL? {
         var url = URLComponents(string: defaultURL + APItype.rawValue)

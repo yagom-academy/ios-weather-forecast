@@ -8,7 +8,7 @@
 import Foundation
 
 class APIJSONDecoder <T: Decodable> {
-    let defaultSession = URLSession(configuration: .default)
+    private let defaultSession = URLSession(configuration: .default)
         
     func decodeAPIData(url: URL, result: @escaping (T) -> ()) {
         let datatask = defaultSession.dataTask(with: url) { data, response, error in

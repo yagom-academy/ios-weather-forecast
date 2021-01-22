@@ -13,10 +13,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var testLabel2: UILabel!
     @IBOutlet weak var testLabel3: UILabel!
     
-    var currentWeather: CurrentWeather?
-    var forecastFiveDays: ForecastFiveDays?
-    let locationManager = CLLocationManager()
-    let urlManager = URLManager()
+    private var currentWeather: CurrentWeather?
+    private var forecastFiveDays: ForecastFiveDays?
+    private let locationManager = CLLocationManager()
+    private let urlManager = URLManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +27,7 @@ class ViewController: UIViewController {
 
 // MARK: Decode
 extension ViewController {
-    func updateCurrentWeather(location: CLLocation) throws {
+    private func updateCurrentWeather(location: CLLocation) throws {
         guard let apiURL = urlManager.makeURL(APItype: .currentWeather, location: location) else {
             throw InternalError.invalidURL
         }
@@ -38,7 +38,7 @@ extension ViewController {
         }
     }
     
-    func updateForecastFiveDays(location: CLLocation) throws {
+    private func updateForecastFiveDays(location: CLLocation) throws {
         guard let apiURL = urlManager.makeURL(APItype: .forecastFiveDays, location: location) else {
             throw InternalError.invalidURL
         }
@@ -52,7 +52,7 @@ extension ViewController {
 
 // MARK: CLLocationManagerDelegate
 extension ViewController: CLLocationManagerDelegate {
-    func setCLLocation() {
+    private func setCLLocation() {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -80,7 +80,7 @@ extension ViewController: CLLocationManagerDelegate {
 
 // MARK: Geocoder
 extension ViewController {
-    func convertToAddress(location: CLLocation) {
+    private func convertToAddress(location: CLLocation) {
         let geoCoder: CLGeocoder = CLGeocoder()
         let local: Locale = Locale(identifier: "Ko-kr")
         
