@@ -9,7 +9,6 @@ import Foundation
 
 class APIJSONDecoder <T: Decodable> {
     let defaultSession = URLSession(configuration: .default)
-    var decodeResult: T?
         
     func decodeAPIData(url: URL, result: @escaping (T) -> ()) {
         let datatask = defaultSession.dataTask(with: url) { data, response, error in
@@ -19,12 +18,11 @@ class APIJSONDecoder <T: Decodable> {
             }
             
             do {
-                self.decodeResult = try JSONDecoder().decode(T.self, from: data)
+                let decodeResult: T = try JSONDecoder().decode(T.self, from: data)
+                result(decodeResult)
             } catch {
                 print(error)
             }
-            
-            result(self.decodeResult!)
         }
         
         datatask.resume()
