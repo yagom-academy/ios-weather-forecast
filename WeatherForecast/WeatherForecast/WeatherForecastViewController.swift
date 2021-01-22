@@ -42,16 +42,19 @@ extension WeatherForecastViewController: CLLocationManagerDelegate {
                 return
             }
             self.currentLocation = currentLocation
-            placemarkToSetAddress(from: currentLocation)
+            requestAddress(of: currentLocation) { (currentAddress) in
+                self.currentAddress = currentAddress
+            }
             weatherAPIManager.request(information: .CurrentWeather, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
             weatherAPIManager.request(information: .FiveDayForecast, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
         }
     }
     
-    func placemarkToSetAddress(from location: CLLocation) {
+    func requestAddress(of location: CLLocation, _ completionHandler: @escaping (String) -> Void ) {
         CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) in
             if let placemark = placemarks?.first {
-                self.setAddress(placemark)
+                let currentAddress = self.address(from: placemark)
+                completionHandler(currentAddress)
             }
         }
     }
