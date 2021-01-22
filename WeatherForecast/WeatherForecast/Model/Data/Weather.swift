@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Weather: Codable {
+struct Weather: Decodable {
     let iconName: String
     
     enum CodingKeys: String, CodingKey {
