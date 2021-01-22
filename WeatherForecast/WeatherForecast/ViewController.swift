@@ -16,9 +16,14 @@ final class ViewController: UIViewController, CLLocationManagerDelegate {
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
     
-    private func decodeCurrentWeaterFromAPI() {
+    private func setUpAPI(latitude: Double, longitude: Double) {
+        decodeCurrentWeaterFromAPI(latitude: latitude, longitude: longitude)
+        decodeForecastFiveDaysFromAPI(latitude: latitude, longitude: longitude)
+    }
+    
+    private func decodeCurrentWeaterFromAPI(latitude: Double, longitude: Double) {
         let session = URLSession(configuration: .default)
-        guard let url:URL = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=36.12960776717609&lon=128.31720057056822&appid=bdc8daed0ec51c18dfc0d8b9c84bb17c&units=metric") else {
+        guard let url:URL = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=bdc8daed0ec51c18dfc0d8b9c84bb17c&units=metric") else {
             return
         }
         let dataTask = session.dataTask(with: url) { data,_,error  in
@@ -34,9 +39,9 @@ final class ViewController: UIViewController, CLLocationManagerDelegate {
         dataTask.resume()
     }
 
-    private func decodeForecastFiveDaysFromAPI() {
+    private func decodeForecastFiveDaysFromAPI(latitude: Double, longitude: Double) {
         let session = URLSession(configuration: .default)
-        guard let url:URL = URL(string: "https://api.openweathermap.org/data/2.5/forecast?lat=36.12960776717609&lon=128.31720057056822&appid=bdc8daed0ec51c18dfc0d8b9c84bb17c&units=metric") else {
+        guard let url:URL = URL(string: "https://api.openweathermap.org/data/2.5/forecast?lat=\(latitude)&lon=\(longitude)&appid=bdc8daed0ec51c18dfc0d8b9c84bb17c&units=metric") else {
             return
         }
         let dataTask = session.dataTask(with: url) { data,_,error  in
@@ -52,12 +57,16 @@ final class ViewController: UIViewController, CLLocationManagerDelegate {
         dataTask.resume()
     }
     
-    @IBAction func printWeather() {
+    @IBAction func printCurrentWeather() {
         dump(currentWeather)
     }
     
     @IBAction func printForecastFiveDays() {
         dump(forecastFiveDays)
+    }
+    
+    @IBAction func printCurrentAddress() {
+        print(currentAddress)
     }
     
     override func viewDidLoad() {
@@ -67,9 +76,6 @@ final class ViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
-        
-        decodeCurrentWeaterFromAPI()
-        decodeForecastFiveDaysFromAPI()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -78,11 +84,12 @@ final class ViewController: UIViewController, CLLocationManagerDelegate {
         }
         latitude = coordinate.latitude
         longitude = coordinate.longitude
+        setUpAPI(latitude: latitude, longitude: longitude)
         convertToAddress(latitude: latitude, longitude: longitude)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        //show error
+        print(error.localizedDescription)
     }
     
     func convertToAddress(latitude: Double, longitude: Double) {
