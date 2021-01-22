@@ -24,7 +24,7 @@ enum LocationError: Error {
 
 final class LocationManager {
     static let shared = LocationManager()
-    
+    private let geoCoder: CLGeocoder = CLGeocoder()
     private lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
         manager.desiredAccuracy = kCLLocationAccuracyBest
@@ -33,7 +33,6 @@ final class LocationManager {
         return manager
     }()
     private var location: CLLocation?
-    
     var locationCoordinate: Coordinate? {
         get {
             guard let location = location else { return nil }
@@ -58,7 +57,6 @@ final class LocationManager {
     func getLocalizationString(in locale: String, completion: @escaping (String) -> Void) {
         guard let location = location else { return }
         
-        let geoCoder: CLGeocoder = CLGeocoder()
         geoCoder.reverseGeocodeLocation(location, preferredLocale: Locale(identifier: locale)) { (place, error) in
             if let address: [CLPlacemark] = place,
                let lastAddress: CLPlacemark = address.last,
