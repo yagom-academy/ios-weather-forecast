@@ -78,9 +78,23 @@ class CurrentWeatherTableViewCell: UITableViewCell {
         containerStack.addArrangedSubview(averageTemperatureLabel)
     }
     
+    override func prepareForReuse() {
+        resetUI()
+    }
+    
     func setUpUI(with weather: CurrentWeather?) {
         // TODO: add image
-        
-        
+        addressLabel.text = WeatherModel.shared.address
+        guard let currentWeather = weather else {
+            return resetUI()
+        }
+        minMaxTemperatureLabel.text = String(format: WeatherString.minMaxTemperatureFormat, currentWeather.temperature.minTemperature, currentWeather.temperature.maxTemperature)
+        averageTemperatureLabel.text = String(format: WeatherString.averageTemperatureFormat, currentWeather.temperature.averageTemperature)
+    }
+    
+    private func resetUI() {
+        addressLabel.text = WeatherString.basic
+        minMaxTemperatureLabel.text = WeatherString.basic
+        averageTemperatureLabel.text = WeatherString.basic
     }
 }
