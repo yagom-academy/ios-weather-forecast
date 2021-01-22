@@ -65,6 +65,7 @@ struct WeatherManager {
     }
     
     static let shared = WeatherManager()
+    private let jsonDecoder = JSONDecoder()
     private init() {}
     
     func getCurrentWeather(of coordinate: Coordinate, completion: @escaping (Weather) -> Void) {
@@ -75,7 +76,7 @@ struct WeatherManager {
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let data = data {
                 do {
-                    let response: Weather = try JSONDecoder().decode(Weather.self, from: data)
+                    let response: Weather = try jsonDecoder.decode(Weather.self, from: data)
                     completion(response)
                 } catch let error {
                     print(WeatherError.apiCallError.errorMessage)
@@ -93,7 +94,7 @@ struct WeatherManager {
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let data = data {
                 do {
-                    let response: FivedaysForecastWeathers = try JSONDecoder().decode(FivedaysForecastWeathers.self, from: data)
+                    let response: FivedaysForecastWeathers = try jsonDecoder.decode(FivedaysForecastWeathers.self, from: data)
                     completion(response.weathers)
                 } catch let error {
                     print(WeatherError.apiCallError.errorMessage)
