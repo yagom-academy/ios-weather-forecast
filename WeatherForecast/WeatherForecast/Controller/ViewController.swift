@@ -8,6 +8,10 @@ import UIKit
 import CoreLocation
 
 class ViewController: UIViewController {
+    // 아이폰에서 테스트하기 위한 임시 레이블
+    @IBOutlet weak var testLabel1: UILabel!
+    @IBOutlet weak var testLabel2: UILabel!
+    
     var latitude: Double?
     var longitude: Double?
     var currentWeather: CurrentWeather?
@@ -18,19 +22,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         setCLLocation()
-        
-        print(latitude)
-        print(longitude)
-        
-//        do {
-//            try decodeCurrentWeather(latitude: latitude!, longitude: longitude!)
-//            try decodeForecastFiveDays(latitude: latitude!, longitude: longitude!)
-//        } catch {
-//            print(error)
-//        }
-//
-//        sleep(3)
-//        print(currentWeather!.city)
     }
     
 
@@ -38,7 +29,7 @@ class ViewController: UIViewController {
 
 // MARK: Decode
 extension ViewController {
-    func decodeCurrentWeather(latitude: Double, longitude: Double) throws {
+    func updateCurrentWeather(latitude: Double, longitude: Double) throws {
         let apiURL = "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=f08f782b840c2494b77e036d6bf2f3de"
         guard let url = URL(string: apiURL) else {
             throw InternalError.invalidURL
@@ -50,7 +41,7 @@ extension ViewController {
         }
     }
     
-    func decodeForecastFiveDays(latitude: Double, longitude: Double) throws {
+    func updateForecastFiveDays(latitude: Double, longitude: Double) throws {
         let apiURL = "https://api.openweathermap.org/data/2.5/forecast?lat=\(latitude)&lon=\(longitude)&appid=f08f782b840c2494b77e036d6bf2f3de"
         guard let url = URL(string: apiURL) else {
             throw InternalError.invalidURL
@@ -78,5 +69,9 @@ extension ViewController: CLLocationManagerDelegate {
         
         self.latitude = coordinate.latitude
         self.longitude = coordinate.longitude
+        
+        // 아이폰에서 테스트하기 위한 코드
+        self.testLabel1.text = "위도: \(latitude!)"
+        self.testLabel2.text = "경도: \(longitude!)"
     }
 }
