@@ -9,13 +9,12 @@ import CoreLocation
 
 class WeatherForecastViewController: UIViewController {
     
-    let geoCoder = CLGeocoder()
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation?
+    var currentAddress: String?
     var weatherAPIManager = WeatherAPIManager()
     var currentWeather: CurrentWeather?
     var fiveDayForecast: FiveDayForecast?
-    var address: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,21 +42,24 @@ extension WeatherForecastViewController: CLLocationManagerDelegate {
                 return
             }
             self.currentLocation = currentLocation
-            placemarkToSetAddress(from: currentLocation)
+            requestAddress(of: currentLocation) { (currentAddress) in
+                self.currentAddress = currentAddress
+            }
             weatherAPIManager.request(information: .CurrentWeather, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
             weatherAPIManager.request(information: .FiveDayForecast, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
         }
     }
     
-    func placemarkToSetAddress(from location: CLLocation) {
-        geoCoder.reverseGeocodeLocation(location) { (placemarks, error) in
+    func requestAddress(of location: CLLocation, _ completionHandler: @escaping (String) -> Void ) {
+        CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) in
             if let placemark = placemarks?.first {
-                self.setAddress(placemark)
+                let currentAddress = self.address(from: placemark)
+                completionHandler(currentAddress)
             }
         }
     }
     
-    func setAddress(_ placemark: CLPlacemark) {
+    func address(from placemark: CLPlacemark) -> String {
         var address = ""
         if let state = placemark.administrativeArea {
             address += state
@@ -74,7 +76,7 @@ extension WeatherForecastViewController: CLLocationManagerDelegate {
             }
             address += district
         }
-        self.address = address
+        return address
     }
 }
 
