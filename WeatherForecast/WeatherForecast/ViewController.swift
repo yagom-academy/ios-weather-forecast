@@ -32,7 +32,7 @@ final class ViewController: UIViewController, CLLocationManagerDelegate {
     
     private func decodeCurrentWeaterFromAPI(latitude: Double, longitude: Double) {
         let session = URLSession(configuration: .default)
-        guard let url:URL = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=bdc8daed0ec51c18dfc0d8b9c84bb17c&units=metric") else {
+        guard let url:URL = URLManager.common.MakeURL(mode: .currentWeather, latitude: latitude, lontitude: longitude) else {
             return
         }
         let dataTask = session.dataTask(with: url) { data,_,error  in
@@ -50,7 +50,7 @@ final class ViewController: UIViewController, CLLocationManagerDelegate {
 
     private func decodeForecastFiveDaysFromAPI(latitude: Double, longitude: Double) {
         let session = URLSession(configuration: .default)
-        guard let url:URL = URL(string: "https://api.openweathermap.org/data/2.5/forecast?lat=\(latitude)&lon=\(longitude)&appid=bdc8daed0ec51c18dfc0d8b9c84bb17c&units=metric") else {
+        guard let url:URL = URLManager.common.MakeURL(mode: .forecastFiveDays, latitude: latitude, lontitude: longitude) else {
             return
         }
         let dataTask = session.dataTask(with: url) { data,_,error  in
