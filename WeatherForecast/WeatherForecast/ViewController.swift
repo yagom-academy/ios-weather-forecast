@@ -95,7 +95,7 @@ final class ViewController: UIViewController, CLLocationManagerDelegate {
     func convertToAddress(latitude: Double, longitude: Double) {
         let geoCoder: CLGeocoder = CLGeocoder()
         let coordinate: CLLocation = CLLocation(latitude: latitude, longitude: longitude)
-        let local: Locale = Locale(identifier: InitialValue.emptyString)
+        let local: Locale = Locale(identifier: InitialValue.localIdentifier)
         geoCoder.reverseGeocodeLocation(coordinate, preferredLocale: local) { place, _ in
             guard let address: [CLPlacemark] = place, let state = address.last?.administrativeArea, let city = address.first?.locality, let township = address.first?.subLocality else {
                 return
