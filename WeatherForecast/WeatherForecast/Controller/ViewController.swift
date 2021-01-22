@@ -18,5 +18,5 @@ class ViewController: UIViewController {
 
 // MARK: Decode
 extension ViewController {
-
+    let decoder = APIJSONDecoder()
 }
