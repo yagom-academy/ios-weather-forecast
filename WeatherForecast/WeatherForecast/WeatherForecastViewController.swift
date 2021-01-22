@@ -56,7 +56,7 @@ extension WeatherForecastViewController: CLLocationManagerDelegate {
         }
     }
     
-    func setAddress(_ placemark: CLPlacemark) {
+    func address(from placemark: CLPlacemark) -> String {
         var address = ""
         if let state = placemark.administrativeArea {
             address += state
@@ -73,7 +73,7 @@ extension WeatherForecastViewController: CLLocationManagerDelegate {
             }
             address += district
         }
-        self.address = address
+        return address
     }
 }
 
