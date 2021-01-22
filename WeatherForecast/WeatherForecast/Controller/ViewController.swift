@@ -15,13 +15,12 @@ class ViewController: UIViewController {
         
         do {
             try decodeCurrentWeather(latitude: 35, longitude: 139)
+            try decodeForecastFiveDays(latitude: 35, longitude: 139)
         } catch {
             print(error)
         }
         
         sleep(3)
-        
-        print(currentWeather!.city)
     }
     
 
@@ -41,5 +40,15 @@ extension ViewController {
         }
     }
     
-//    func decodeFore
+    func decodeForecastFiveDays(latitude: Double, longitude: Double) throws {
+        let apiURL = "https://api.openweathermap.org/data/2.5/forecast?lat=\(latitude)&lon=\(longitude)&appid=f08f782b840c2494b77e036d6bf2f3de"
+        guard let url = URL(string: apiURL) else {
+            throw InternalError.invalidURL
+        }
+
+        let apiDecoder = APIJSONDecoder<ForecastFiveDays>()
+        apiDecoder.decodeAPIData(url: url) { result in
+            self.forecastFiveDays = result
+        }
+    }
 }
