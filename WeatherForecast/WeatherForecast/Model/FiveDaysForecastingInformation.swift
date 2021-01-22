@@ -14,21 +14,21 @@ struct City: Decodable {
 struct ForecastingInformation: Decodable {
     var dateTimeCalculation: Double
     var temperature: Temperature
-    var weather: [Weather]
+    var weathers: [Weather]
     
     private enum CodingKeys: String, CodingKey {
         case dateTimeCalculation = "dt"
         case temperature = "main"
-        case weather
+        case weathers = "weather"
     }
 }
 
 struct FiveDaysForecastingInformation: Decodable {
-    var forecastingList: [ForecastingInformation]
+    var forecastingInformationList: [ForecastingInformation]
     var city: City
     
     private enum CodingKeys: String, CodingKey {
-        case forecastingList = "list"
+        case forecastingInformationList = "list"
         case city
     }
 }
