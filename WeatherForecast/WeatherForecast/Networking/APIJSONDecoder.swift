@@ -21,7 +21,7 @@ class APIJSONDecoder <T: Decodable> {
                 let decodeResult: T = try JSONDecoder().decode(T.self, from: data)
                 result(.success(decodeResult))
             } catch {
-                print(error)
+                result(.failure(.failedServeData))
             }
         }
         
