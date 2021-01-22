@@ -11,10 +11,10 @@ class WeatherForecastViewController: UIViewController {
     
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation?
+    var address: String?
     var weatherAPIManager = WeatherAPIManager()
     var currentWeather: CurrentWeather?
     var fiveDayForecast: FiveDayForecast?
-    var address: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
