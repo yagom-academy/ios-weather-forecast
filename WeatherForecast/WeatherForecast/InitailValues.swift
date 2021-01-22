@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+enum InitialValue {
+    static let latitude = 0.0
+    static let longitude = 0.0
+    static let emptyString = ""
+    static let localIdentifier = "Ko-kr"
+}

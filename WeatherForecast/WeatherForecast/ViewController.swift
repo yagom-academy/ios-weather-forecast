@@ -12,9 +12,18 @@ final class ViewController: UIViewController, CLLocationManagerDelegate {
     private var currentWeather: CurrentWeather?
     private var forecastFiveDays: ForecastFiveDays?
     private var locationManager: CLLocationManager!
-    private var currentAddress: String = ""
-    private var latitude: Double = 0.0
-    private var longitude: Double = 0.0
+    private var currentAddress: String = InitialValue.emptyString
+    private var latitude: Double = InitialValue.latitude
+    private var longitude: Double = InitialValue.longitude
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
+    }
     
     private func setUpAPI(latitude: Double, longitude: Double) {
         decodeCurrentWeaterFromAPI(latitude: latitude, longitude: longitude)
@@ -69,15 +78,6 @@ final class ViewController: UIViewController, CLLocationManagerDelegate {
         print(currentAddress)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.requestLocation()
-    }
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let coordinate = locationManager.location?.coordinate else {
             return
@@ -95,7 +95,7 @@ final class ViewController: UIViewController, CLLocationManagerDelegate {
     func convertToAddress(latitude: Double, longitude: Double) {
         let geoCoder: CLGeocoder = CLGeocoder()
         let coordinate: CLLocation = CLLocation(latitude: latitude, longitude: longitude)
-        let local: Locale = Locale(identifier: "Ko-kr")
+        let local: Locale = Locale(identifier: InitialValue.emptyString)
         geoCoder.reverseGeocodeLocation(coordinate, preferredLocale: local) { place, _ in
             guard let address: [CLPlacemark] = place, let state = address.last?.administrativeArea, let city = address.first?.locality, let township = address.first?.subLocality else {
                 return
