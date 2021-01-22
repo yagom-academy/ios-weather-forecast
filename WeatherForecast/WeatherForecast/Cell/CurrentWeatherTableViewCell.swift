@@ -53,7 +53,6 @@ class CurrentWeatherTableViewCell: UITableViewCell {
         
         setUpWeatherImage()
         setUpTemperatureStack()
-        
         setUpUI(with: nil)
     }
     
