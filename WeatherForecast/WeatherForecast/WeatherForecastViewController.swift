@@ -11,7 +11,7 @@ class WeatherForecastViewController: UIViewController {
     
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation?
-    var address: String?
+    var currentAddress: String?
     var weatherAPIManager = WeatherAPIManager()
     var currentWeather: CurrentWeather?
     var fiveDayForecast: FiveDayForecast?
