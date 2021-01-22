@@ -65,12 +65,12 @@ extension ViewController: CLLocationManagerDelegate {
         let location = CLLocation(latitude: latitude, longitude: longitude)
         let locale = Locale(identifier: "Ko-kr")
 
-        geoCoder.reverseGeocodeLocation(location, preferredLocale: locale) { (placemarks, error) in
-            guard error == nil, let _ = placemarks?.first else {
+        geoCoder.reverseGeocodeLocation(location, preferredLocale: locale) { (placemark, error) in
+            guard error == nil, let _ = placemark?.first else {
                 print(Error.geocodeLocationError.message)
                 return
             }
-            guard let addressInfo: [CLPlacemark] = placemarks else {
+            guard let addressInfo: [CLPlacemark] = placemark else {
                 print(Error.geocodeLocationError.message)
                 return
             }

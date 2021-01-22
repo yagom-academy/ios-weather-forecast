@@ -10,11 +10,9 @@ import Foundation
 struct Forecast: Decodable {
     let timestampCount: Int
     let list: [FivedaysForecast]
-    let city: City
     
     enum CodingKeys: String, CodingKey {
         case timestampCount = "cnt"
         case list
-        case city
     }
 }
