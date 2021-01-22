@@ -7,14 +7,10 @@
 
 import Foundation
 
-struct WeatherIcon: Codable {
+struct WeatherIcon: Decodable {
     let name: String
-    let main: String
-    let description: String
-    let id: Int
     
     enum CodingKeys: String, CodingKey {
         case name = "icon"
-        case main, description, id
     }
 }
