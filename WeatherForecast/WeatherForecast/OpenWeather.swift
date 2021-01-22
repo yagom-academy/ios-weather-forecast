@@ -15,6 +15,7 @@ struct OpenWeather {
         guard let url = URL(string: requestUrl) else {
             return
         }
+
         let dataTask = urlSession.dataTask(with: url) { (data, url, error) in
             guard error == nil else {
                 return

@@ -7,7 +7,7 @@
 import UIKit
 import CoreLocation
 
-class ViewController: UIViewController, CLLocationManagerDelegate {
+class ViewController: UIViewController {
     let locationManager = CLLocationManager()
     var currentAddress = ""
 
@@ -16,11 +16,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         locationManager.requestWhenInUseAuthorization()
         currentLocationUpdate()
-//        if let coordinate = locationManager.location?.coordinate {
-//            let openWeather = OpenWeather()
-//            openWeather.currentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
-//            openWeather.forecastWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
-//        })
+        
+        if let coordinate = locationManager.location?.coordinate {
+            let openWeather = OpenWeather()
+            openWeather.currentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            openWeather.forecastWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        }
     }
     
     func currentLocationUpdate() {
@@ -43,8 +44,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     if let name = placemark[0].name {
                         self.currentAddress += name
                     }
-                    
-                    print("실행")
                 }
             }
         }
