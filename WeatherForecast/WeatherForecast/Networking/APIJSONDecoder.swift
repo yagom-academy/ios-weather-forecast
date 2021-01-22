@@ -10,16 +10,16 @@ import Foundation
 class APIJSONDecoder <T: Decodable> {
     private let defaultSession = URLSession(configuration: .default)
         
-    func decodeAPIData(url: URL, result: @escaping (T) -> ()) {
+    func decodeAPIData(url: URL, result: @escaping (Result<T, InternalError>) -> ()) {
         let datatask = defaultSession.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else {
-                print(InternalError.failedServeData)
+                result(.failure(.invalidURL))
                 return
             }
             
             do {
                 let decodeResult: T = try JSONDecoder().decode(T.self, from: data)
-                result(decodeResult)
+                result(.success(decodeResult))
             } catch {
                 print(error)
             }

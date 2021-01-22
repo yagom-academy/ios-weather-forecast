@@ -27,25 +27,38 @@ class ViewController: UIViewController {
 
 // MARK: Decode
 extension ViewController {
-    private func updateCurrentWeather(location: CLLocation) throws {
+    private func updateCurrentWeather(location: CLLocation) {
         guard let apiURL = urlManager.makeURL(APItype: .currentWeather, location: location) else {
-            throw InternalError.invalidURL
+            showErrorAlert(type: .invalidURL)
+            return
         }
 
         let apiDecoder = APIJSONDecoder<CurrentWeather>()
         apiDecoder.decodeAPIData(url: apiURL) { result in
-            self.currentWeather = result
+            switch result {
+            case .success(let data):
+                self.currentWeather = data
+            case .failure(let error):
+                self.showErrorAlert(type: error)
+            }
+            
         }
     }
     
-    private func updateForecastFiveDays(location: CLLocation) throws {
+    private func updateForecastFiveDays(location: CLLocation) {
         guard let apiURL = urlManager.makeURL(APItype: .forecastFiveDays, location: location) else {
-            throw InternalError.invalidURL
+            showErrorAlert(type: .invalidURL)
+            return
         }
         
         let apiDecoder = APIJSONDecoder<ForecastFiveDays>()
         apiDecoder.decodeAPIData(url: apiURL) { result in
-            self.forecastFiveDays = result
+            switch result {
+            case .success(let data):
+                self.forecastFiveDays = data
+            case .failure(let error):
+                self.showErrorAlert(type: error)
+            }
         }
     }
 }
@@ -61,15 +74,12 @@ extension ViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let currentLocation = locationManager.location else {
+            showErrorAlert(type: .invalidLocation)
             return
         }
         
-        do {
-            try updateCurrentWeather(location: currentLocation)
-        } catch {
-            print(error)
-        }
-        
+        updateCurrentWeather(location: currentLocation)
+
         // 아이폰에서 테스트하기 위한 코드
         self.testLabel1.text = "위도: \(currentLocation.coordinate.latitude)" + "경도: \(currentLocation.coordinate.longitude)"
         self.testLabel2.text = "\(currentWeather?.city)"
@@ -96,5 +106,15 @@ extension ViewController {
             // 아이폰에서 테스트하기 위한 코드
             self.testLabel3.text = "\(country) \(administrativeArea) \(locality)"
         }
+    }
+}
+
+extension ViewController {
+    func showErrorAlert(type: InternalError) {
+        let alert = UIAlertController(title: type.rawValue, message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
     }
 }
