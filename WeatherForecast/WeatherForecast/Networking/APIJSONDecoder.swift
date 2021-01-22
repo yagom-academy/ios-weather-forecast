@@ -13,7 +13,7 @@ class APIJSONDecoder <T: Decodable> {
     func decodeAPIData(url: URL, result: @escaping (Result<T, InternalError>) -> ()) {
         let datatask = defaultSession.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else {
-                result(.failure(.invalidURL))
+                result(.failure(.failedServeData))
                 return
             }
             
