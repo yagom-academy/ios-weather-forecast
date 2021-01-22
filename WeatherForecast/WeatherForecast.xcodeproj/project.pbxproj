@@ -154,6 +154,13 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
+		2877A6E625BA6157009F0B69 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		C79C8CE725ADDDF200EEE3F1 = {
 			isa = PBXGroup;
 			children = (
@@ -177,6 +184,7 @@
 		C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */ = {
 			isa = PBXGroup;
 			children = (
+				2877A6E625BA6157009F0B69 /* Cell */,
 				2824445425B86BBF00256407 /* Network */,
 				2824444225B8532D00256407 /* Error */,
 				2824443925B848E800256407 /* Extension */,

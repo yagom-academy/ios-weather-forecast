@@ -17,6 +17,10 @@ class ViewController: UIViewController {
         setUpLocationManager()
     }
     
+    private func setUpTable() {
+        
+    }
+    
     private func setUpData(coordinate: Coordinate) {
         self.currentWeather = WeatherModel.shared.item
         self.fiveDaysForecast = ForecastModel.shared.item
