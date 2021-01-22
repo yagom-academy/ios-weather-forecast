@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     var currentWeather: CurrentWeather?
     var forecastFiveDays: ForecastFiveDays?
     let locationManager = CLLocationManager()
+    let urlManager = URLManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,25 +28,23 @@ class ViewController: UIViewController {
 // MARK: Decode
 extension ViewController {
     func updateCurrentWeather(location: CLLocation) throws {
-        let apiURL = "https://api.openweathermap.org/data/2.5/weather?lat=\(location.coordinate.latitude)&lon=\(location.coordinate.longitude)&appid=f08f782b840c2494b77e036d6bf2f3de"
-        guard let url = URL(string: apiURL) else {
+        guard let apiURL = urlManager.makeURL(APItype: .currentWeather, location: location) else {
             throw InternalError.invalidURL
         }
 
         let apiDecoder = APIJSONDecoder<CurrentWeather>()
-        apiDecoder.decodeAPIData(url: url) { result in
+        apiDecoder.decodeAPIData(url: apiURL) { result in
             self.currentWeather = result
         }
     }
     
     func updateForecastFiveDays(location: CLLocation) throws {
-        let apiURL = "https://api.openweathermap.org/data/2.5/forecast?lat=\(location.coordinate.latitude)&lon=\(location.coordinate.longitude)&appid=f08f782b840c2494b77e036d6bf2f3de"
-        guard let url = URL(string: apiURL) else {
+        guard let apiURL = urlManager.makeURL(APItype: .forecastFiveDays, location: location) else {
             throw InternalError.invalidURL
         }
-
+        
         let apiDecoder = APIJSONDecoder<ForecastFiveDays>()
-        apiDecoder.decodeAPIData(url: url) { result in
+        apiDecoder.decodeAPIData(url: apiURL) { result in
             self.forecastFiveDays = result
         }
     }
