@@ -2,8 +2,8 @@
 import Foundation
 
 struct GeographicCoordinate: Decodable {
-    var latitude: Double
-    var longitude: Double
+    let latitude: Double
+    let longitude: Double
     
     private enum CodingKeys: String, CodingKey {
         case latitude = "lat"
@@ -12,10 +12,10 @@ struct GeographicCoordinate: Decodable {
 }
 
 struct Weather: Decodable {
-    var id: Int
-    var main: String
-    var description: String
-    var iconID: String
+    let id: Int
+    let main: String
+    let description: String
+    let iconID: String
     
     private enum CodingKeys: String, CodingKey {
         case id, main, description
@@ -24,9 +24,9 @@ struct Weather: Decodable {
 }
 
 struct Temperature: Decodable {
-    var currentMeasurement: Double
-    var minimumMeasurement: Double
-    var maximumMeasurement: Double
+    let currentMeasurement: Double
+    let minimumMeasurement: Double
+    let maximumMeasurement: Double
     
     private enum CodingKeys: String, CodingKey {
         case currentMeasurement = "temp"
@@ -36,11 +36,11 @@ struct Temperature: Decodable {
 }
 
 struct CurrentWeatherInformation: Decodable {
-    var geographicCoordinate: GeographicCoordinate
-    var dataTimeCalculation: Double
-    var cityName: String
-    var weathers: [Weather]
-    var temperature: Temperature
+    let geographicCoordinate: GeographicCoordinate
+    let dataTimeCalculation: Double
+    let cityName: String
+    let weathers: [Weather]
+    let temperature: Temperature
     
     private enum CodingKeys: String, CodingKey {
         case geographicCoordinate = "coord"
