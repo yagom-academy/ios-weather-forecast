@@ -66,20 +66,17 @@ extension ViewController: CLLocationManagerDelegate {
         let locale = Locale(identifier: "Ko-kr")
 
         geoCoder.reverseGeocodeLocation(location, preferredLocale: locale) { (placemark, error) in
-            guard error == nil, let _ = placemark?.first else {
-                print(Error.geocodeLocationError.message)
-                return
-            }
-            guard let addressInfo: [CLPlacemark] = placemark else {
-                print(Error.geocodeLocationError.message)
-                return
-            }
-            guard let city = addressInfo.last?.administrativeArea,
-                  let district = addressInfo.last?.locality else {
+            guard error == nil,
+                let _ = placemark?.first,
+                let addressInfo: [CLPlacemark] = placemark,
+                let lastAddress = addressInfo.last,
+                let city = lastAddress.administrativeArea,
+                let district = lastAddress.locality else {
                 print(Error.geocodeLocationError.message)
                 return
             }
             self.address = "\(String(describing: city)) \(String(describing: district))"
+            print(self.address)
         }
     }
 }
