@@ -10,6 +10,7 @@ struct OpenWeather {
         requestUrl += "?lat=\(latitude)"
         requestUrl += "&lon=\(longitude)"
         requestUrl += "&appid=\(apiKey)"
+        requestUrl += "&units=metric"
         
         guard let url = URL(string: requestUrl) else {
             return
@@ -36,6 +37,7 @@ struct OpenWeather {
         requestUrl += "?lat=\(latitude)"
         requestUrl += "&lon=\(longitude)"
         requestUrl += "&appid=\(apiKey)"
+        requestUrl += "&units=metric"
         
         guard let url = URL(string: requestUrl) else {
             return
