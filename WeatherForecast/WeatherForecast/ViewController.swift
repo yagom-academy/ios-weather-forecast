@@ -9,7 +9,7 @@ import CoreLocation
 
 class ViewController: UIViewController {
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
-
+    let errorHandleManager = ErrorHandleManager()
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpLocationManager()
@@ -31,81 +31,43 @@ extension ViewController: CLLocationManagerDelegate {
         let lat = CLLocationDegrees(CGFloat(currentLocationCoordinate.latitude))
         let lon = CLLocationDegrees(CGFloat(currentLocationCoordinate.longitude))
         
-        WeatherForecastManager.shared.loadData(lat: lat, lon: lon, api: WeatherAPI.forecast) { result in
+        WeatherForecastManager.shared.loadData(lat: lat, lon: lon, api: WeatherAPI.forecast) { [self] result in
             switch result {
             case .success(let data):
                 guard let forecastData = data else {
-                    return self.errorHandling(error: .failGetData)
+                    return errorHandleManager.errorHandling(error: .failGetData)
                 }
                 do {
                     let forecastList: ForecastList = try JSONDecoder().decode(ForecastList.self, from: forecastData)
                     print(forecastList)
                 } catch {
-                    self.errorHandling(error: .failDecode)
+                    errorHandleManager.errorHandling(error: .failDecode)
                 }
             case .failure(let error):
-                self.errorHandling(error: error)
+                errorHandleManager.errorHandling(error: error)
             }
         }
         
-        WeatherForecastManager.shared.loadData(lat: lat, lon: lon, api: WeatherAPI.current) { result in
+        WeatherForecastManager.shared.loadData(lat: lat, lon: lon, api: WeatherAPI.current) { [self] result in
             switch result {
             case .success(let data):
                 guard let currentData = data else {
-                    return self.errorHandling(error: .failGetData)
+                    return errorHandleManager.errorHandling(error: .failGetData)
                 }
                 do {
                     let currentWeather: CurrentWeather = try JSONDecoder().decode(CurrentWeather.self, from: currentData)
                     print(currentWeather)
                 } catch {
-                    self.errorHandling(error: .failDecode)
+                    errorHandleManager.errorHandling(error: .failDecode)
                 }
             case .failure(let error):
-                self.errorHandling(error: error)
+                errorHandleManager.errorHandling(error: error)
             }
         }
         
         func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-            showAlert(with: WeatherForecastError.failGetCurrentLocation)
+            errorHandleManager.errorHandling(error: .failGetCurrentLocation)
         }
     }
 }
 
-extension ViewController {
-    private func showAlert(with error: WeatherForecastError) {
-        let alert = UIAlertController(title: "오류 발생", message: "\(String(describing: error.localizedDescription)) 앱을 다시 실행시켜주세요.", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default)
-        
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
-    }
-    
-    private func errorHandling(error: WeatherForecastError) {
-        switch error {
-        case .failGetCurrentLocation:
-            DispatchQueue.main.async {
-                self.showAlert(with: .failGetCurrentLocation)
-            }
-        case .failFetchData:
-            DispatchQueue.main.async {
-                self.showAlert(with: .failFetchData)
-            }
-        case .failMatchingMimeType:
-            DispatchQueue.main.async {
-                self.showAlert(with: .failMatchingMimeType)
-            }
-        case .failTransportData:
-            DispatchQueue.main.async {
-                self.showAlert(with: .failTransportData)
-            }
-        case .failGetData:
-            DispatchQueue.main.async {
-                self.showAlert(with: .failGetData)
-            }
-        case .failDecode:
-            DispatchQueue.main.async {
-                self.showAlert(with: .failDecode)
-            }
-        }
-    }
-}
