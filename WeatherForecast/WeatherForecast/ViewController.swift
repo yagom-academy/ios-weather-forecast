@@ -9,7 +9,6 @@ import CoreLocation
 
 class ViewController: UIViewController {
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
-    let errorHandleManager = ErrorHandleManager()
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpLocationManager()
@@ -18,7 +17,6 @@ class ViewController: UIViewController {
     private func setUpLocationManager() {
         appDelegate?.locationManager.delegate = self
         appDelegate?.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        appDelegate?.locationManager.startUpdatingLocation()
     }
 }
 
@@ -35,16 +33,16 @@ extension ViewController: CLLocationManagerDelegate {
             switch result {
             case .success(let data):
                 guard let forecastData = data else {
-                    return errorHandleManager.errorHandling(error: .failGetData)
+                    return errorHandling(error: .failGetData)
                 }
                 do {
                     let forecastList: ForecastList = try JSONDecoder().decode(ForecastList.self, from: forecastData)
                     print(forecastList)
                 } catch {
-                    errorHandleManager.errorHandling(error: .failDecode)
+                    errorHandling(error: .failDecode)
                 }
             case .failure(let error):
-                errorHandleManager.errorHandling(error: error)
+                errorHandling(error: error)
             }
         }
         
@@ -52,21 +50,36 @@ extension ViewController: CLLocationManagerDelegate {
             switch result {
             case .success(let data):
                 guard let currentData = data else {
-                    return errorHandleManager.errorHandling(error: .failGetData)
+                    return errorHandling(error: .failGetData)
                 }
                 do {
                     let currentWeather: CurrentWeather = try JSONDecoder().decode(CurrentWeather.self, from: currentData)
                     print(currentWeather)
                 } catch {
-                    errorHandleManager.errorHandling(error: .failDecode)
+                    errorHandling(error: .failDecode)
                 }
             case .failure(let error):
-                errorHandleManager.errorHandling(error: error)
+                errorHandling(error: error)
             }
         }
-        
-        func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-            errorHandleManager.errorHandling(error: .failGetCurrentLocation)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        showAlert(with: .failGetCurrentLocation)
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        checkLocationAuthorization()
+    }
+    
+    private func checkLocationAuthorization() {
+        switch CLLocationManager.authorizationStatus() {
+        case .authorizedAlways, .authorizedWhenInUse:
+            appDelegate?.locationManager.startUpdatingLocation()
+        case .denied:
+            showAuthorizationAlert(with: .failGetAuthorization)
+        default:
+            return
         }
     }
 }
