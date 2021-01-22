@@ -16,7 +16,6 @@ class ViewController: UIViewController {
     var currentWeather: CurrentWeather?
     var forecastFiveDays: ForecastFiveDays?
     let locationManager = CLLocationManager()
-//    let geocoder = CLGeocoder()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +51,7 @@ extension ViewController {
     }
 }
 
+// MARK: CLLocationManagerDelegate
 extension ViewController: CLLocationManagerDelegate {
     func setCLLocation() {
         locationManager.delegate = self
@@ -79,6 +79,7 @@ extension ViewController: CLLocationManagerDelegate {
     }
 }
 
+// MARK: Geocoder
 extension ViewController {
     func convertToAddress(location: CLLocation) {
         let geoCoder: CLGeocoder = CLGeocoder()
