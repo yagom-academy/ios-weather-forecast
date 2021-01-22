@@ -58,3 +58,21 @@ enum DefaultAddress {
         }
     }
 }
+
+enum Error {
+    case userDenied
+    case locationManagerError
+    case geocodeLocationError
+    
+    var message: String {
+        switch self {
+        case .userDenied:
+            return "사용자 거절"
+        case .locationManagerError:
+            return "위치정보 없음"
+        case .geocodeLocationError:
+            return "주소정보 없음"
+        }
+    }
+    
+}

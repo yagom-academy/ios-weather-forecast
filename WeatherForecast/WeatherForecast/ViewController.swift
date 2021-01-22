@@ -45,7 +45,7 @@ extension ViewController: CLLocationManagerDelegate {
             locationManager.startUpdatingLocation()
             setCoordinate()
         case .denied:
-            print("사용자로부터 거절됨")
+            print(Error.userDenied.message)
         default:
             return
         }
@@ -53,7 +53,7 @@ extension ViewController: CLLocationManagerDelegate {
     
     func setCoordinate() {
         guard let coordinate = locationManager.location?.coordinate else {
-            print("현재위치정보(경도,위도) 알수없음")
+            print(Error.locationManagerError.message)
             return
         }
         latitude = coordinate.latitude
@@ -67,16 +67,16 @@ extension ViewController: CLLocationManagerDelegate {
 
         geoCoder.reverseGeocodeLocation(location, preferredLocale: locale) { (placemarks, error) in
             guard error == nil, let _ = placemarks?.first else {
-                print("에러있음/위치정보없음")
+                print(Error.geocodeLocationError.message)
                 return
             }
             guard let addressInfo: [CLPlacemark] = placemarks else {
-                print("위치정보없음")
+                print(Error.geocodeLocationError.message)
                 return
             }
             guard let city = addressInfo.last?.administrativeArea,
                   let district = addressInfo.last?.locality else {
-                print("주소못찾음")
+                print(Error.geocodeLocationError.message)
                 return
             }
             self.address = "\(String(describing: city)) \(String(describing: district))"
