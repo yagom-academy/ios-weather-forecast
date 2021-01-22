@@ -19,8 +19,16 @@ class ViewController: UIViewController {
         
         return locationManager
     }()
-
-    private var currentCoordinate: CLLocationCoordinate2D!
+    private var currentCoordinate: CLLocationCoordinate2D! {
+        didSet {
+            findCurrentPlacemark()
+        }
+    }
+    private var currentAdress: Adress! {
+        didSet {
+            print("\(currentAdress.administrativeArea) \(currentAdress.locality)")
+        }
+    }
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -32,6 +40,19 @@ class ViewController: UIViewController {
     // MARK: - Methods
     private func requestCurrentCoordinate() {
         locationManager.startUpdatingLocation()
+    }
+    
+    private func findCurrentPlacemark() {
+        let currentLocation = CLLocation(latitude: currentCoordinate.latitude, longitude: currentCoordinate.longitude)
+        CLGeocoder().reverseGeocodeLocation(currentLocation, preferredLocale: nil) { (placemarks, error) in
+            if let errorCode = error {
+                print(errorCode)
+                return
+            }
+            if let administrativeArea = placemarks?.first?.administrativeArea, let locality = placemarks?.first?.locality {
+                self.currentAdress = Adress(administrativeArea: administrativeArea, locality: locality)
+            }
+        }
     }
 }
 
