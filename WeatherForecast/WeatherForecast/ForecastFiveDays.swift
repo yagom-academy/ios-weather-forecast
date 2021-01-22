@@ -11,7 +11,7 @@ struct ForecastFiveDays: Decodable {
     let numberOfTimestamps: Int
     let list: [ForecastList]
     
-    enum CodingKeys:String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case numberOfTimestamps = "cnt"
         case list
     }
