@@ -9,15 +9,15 @@ import Foundation
 
 struct WeatherAPIManager {
     enum Information {
-        case CurrentWeather
-        case FiveDayForecast
+        case currentWeather
+        case fiveDayForecast
         
         var apiURL: String {
             let url = "https://api.openweathermap.org/data/2.5"
             switch self {
-            case .CurrentWeather:
+            case .currentWeather:
                 return "\(url)/weather?"
-            case .FiveDayForecast:
+            case .fiveDayForecast:
                 return "\(url)/forecast?"
             }
         }
@@ -47,10 +47,10 @@ struct WeatherAPIManager {
             
             do {
                 switch information {
-                case .CurrentWeather:
+                case .currentWeather:
                     let response = try decoder.decode(CurrentWeather.self, from: data)
                     delegate.setCurrentWeather(from: response)
-                case .FiveDayForecast:
+                case .fiveDayForecast:
                     let response = try decoder.decode(FiveDayForecast.self, from: data)
                     delegate.setFiveDayForecast(from: response)
                 }
