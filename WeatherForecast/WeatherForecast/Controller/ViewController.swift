@@ -5,22 +5,32 @@
 // 
 
 import UIKit
+import CoreLocation
 
 class ViewController: UIViewController {
+    var latitude: Double?
+    var longitude: Double?
     var currentWeather: CurrentWeather?
     var forecastFiveDays: ForecastFiveDays?
+    let locationManager = CLLocationManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        do {
-            try decodeCurrentWeather(latitude: 35, longitude: 139)
-            try decodeForecastFiveDays(latitude: 35, longitude: 139)
-        } catch {
-            print(error)
-        }
+        setCLLocation()
         
-        sleep(3)
+        print(latitude)
+        print(longitude)
+        
+//        do {
+//            try decodeCurrentWeather(latitude: latitude!, longitude: longitude!)
+//            try decodeForecastFiveDays(latitude: latitude!, longitude: longitude!)
+//        } catch {
+//            print(error)
+//        }
+//
+//        sleep(3)
+//        print(currentWeather!.city)
     }
     
 
@@ -50,5 +60,23 @@ extension ViewController {
         apiDecoder.decodeAPIData(url: url) { result in
             self.forecastFiveDays = result
         }
+    }
+}
+
+extension ViewController: CLLocationManagerDelegate {
+    func setCLLocation() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let coordinate  = locationManager.location?.coordinate else {
+            return
+        }
+        
+        self.latitude = coordinate.latitude
+        self.longitude = coordinate.longitude
     }
 }
