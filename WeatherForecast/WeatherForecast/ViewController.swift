@@ -12,13 +12,44 @@ class ViewController: UIViewController {
     private var currentWeather: CurrentWeather? = nil
     private var fiveDaysForecast: FiveDaysForecast? = nil
     
+    // MARK: - UI property
+    private lazy var weatherTable: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpLocationManager()
+        setUpTable()
+        setUpRefreshControl()
     }
     
     private func setUpTable() {
+        self.view.addSubview(weatherTable)
+        weatherTable.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        weatherTable.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        weatherTable.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        weatherTable.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         
+        weatherTable.dataSource = self
+        
+        weatherTable.register(CurrentWeatherTableViewCell.self, forCellReuseIdentifier: "current")
+        
+        weatherTable.reloadData()
+    }
+    
+    private func setUpRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(updateWeatherTable(_:)), for: .valueChanged)
+        weatherTable.refreshControl = refreshControl
+    }
+    
+    @objc func updateWeatherTable(_ sender: UIRefreshControl) {
+        searchCoordinate()
+        sender.endRefreshing()
+        weatherTable.reloadData()
     }
     
     private func setUpData(coordinate: Coordinate) {
