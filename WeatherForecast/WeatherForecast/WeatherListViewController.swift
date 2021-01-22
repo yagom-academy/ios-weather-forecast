@@ -8,22 +8,32 @@
 import UIKit
 
 class WeatherListViewController: UIViewController {
-
+    private var fivedaysForecastWeathers: [Weather] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUp()
+    }
+}
 
-        // Do any additional setup after loading the view.
+extension WeatherListViewController {
+    private func setUp() {
+        guard let coordinate = LocationManager.shared.locationCoordinate else { return }
+        LocationManager.shared.getLocalizationString(in: "Ko-kr") { (locationString) in
+            // 화면에 세팅
+        }
+        WeatherManager.shared.getCurrentWeather(of: coordinate) { [weak self] (weather) in
+            DispatchQueue.main.async {
+                self?.setCurrentWeather(weather)
+            }
+        }
+        
+        WeatherManager.shared.getFivedaysForecastWeathers(of: coordinate) {
+            self.fivedaysForecastWeathers = $0
+        }
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setCurrentWeather(_ weather: Weather) {
+        // 화면에 current Weather 값 세팅
     }
-    */
-
 }
