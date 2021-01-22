@@ -17,5 +17,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
+        
+        if let coordinate = locationManager.location?.coordinate {
+            let openWeather = OpenWeather()
+            openWeather.currentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            openWeather.forecastWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        }
     }
 }
