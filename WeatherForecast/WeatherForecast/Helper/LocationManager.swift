@@ -8,8 +8,23 @@
 import CoreLocation
 import Foundation
 
+enum LocationError: Error {
+    case loadError
+    case localizeError
+    
+    var errorMessage: String {
+        switch self {
+        case .loadError:
+            return "위치정보를 가져오는데 실패했습니다."
+        case .localizeError:
+            return "위치정보를 localize하는데 실패했습니다."
+        }
+    }
+}
+
 final class LocationManager {
     static let shared = LocationManager()
+    
     private lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
         manager.desiredAccuracy = kCLLocationAccuracyBest
@@ -18,6 +33,7 @@ final class LocationManager {
         return manager
     }()
     private var location: CLLocation?
+    
     var locationCoordinate: Coordinate? {
         get {
             guard let location = location else { return nil }
@@ -35,7 +51,7 @@ final class LocationManager {
         if let location = locationManager.location {
             self.location = location
         } else {
-            print("현재 위치정보를 가져오는데 실패했습니다.")
+            print(LocationError.loadError.errorMessage)
         }
     }
     
@@ -50,7 +66,7 @@ final class LocationManager {
                let locality = lastAddress.locality {
                 completion("\(area) \(locality)")
             } else {
-                print("위치정보를 localize하는데 실패했습니다")
+                print(LocationError.localizeError.errorMessage)
             }
         }
     }

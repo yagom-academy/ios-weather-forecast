@@ -7,6 +7,17 @@
 
 import Foundation
 
+enum WeatherError: Error {
+    case apiCallError
+    
+    var errorMessage: String {
+        switch self {
+        case .apiCallError:
+            return "데이터를 가져오는데 실패했습니다."
+        }
+    }
+}
+
 struct WeatherManager {
     private enum ServiceApi {
         case currentWeather(Double, Double)
@@ -67,7 +78,8 @@ struct WeatherManager {
                     let response: Weather = try JSONDecoder().decode(Weather.self, from: data)
                     completion(response)
                 } catch let error {
-                    print(error)
+                    print(WeatherError.apiCallError.errorMessage)
+                    print(error.localizedDescription)
                 }
             }
         }.resume()
@@ -84,6 +96,7 @@ struct WeatherManager {
                     let response: FivedaysForecastWeathers = try JSONDecoder().decode(FivedaysForecastWeathers.self, from: data)
                     completion(response.weathers)
                 } catch let error {
+                    print(WeatherError.apiCallError.errorMessage)
                     print(error.localizedDescription)
                 }
             }
@@ -94,7 +107,10 @@ struct WeatherManager {
         guard let url = ServiceApi.weatherIconImage(id).fullUrl else { return }
         
         DispatchQueue.global().async {
-            guard let data = try? Data(contentsOf: url) else { return }
+            guard let data = try? Data(contentsOf: url) else {
+                print(WeatherError.apiCallError.errorMessage)
+                return
+            }
             completion(data)
         }
     }
