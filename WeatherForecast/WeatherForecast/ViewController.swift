@@ -14,14 +14,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-        currentLocationUpdate()
+        locationManager.startUpdatingLocation()
         
-        if let coordinate = locationManager.location?.coordinate {
-            let openWeather = OpenWeather()
-            openWeather.currentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
-            openWeather.forecastWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        }
+//        if let coordinate = locationManager.location?.coordinate {
+//            let openWeather = OpenWeather()
+//            openWeather.currentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
+//            openWeather.forecastWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
+//        }
     }
     
     func currentLocationUpdate() {
@@ -47,5 +48,11 @@ class ViewController: UIViewController {
                 }
             }
         }
+    }
+}
+
+extension ViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        currentLocationUpdate()
     }
 }
