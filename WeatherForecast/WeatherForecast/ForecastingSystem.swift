@@ -8,14 +8,14 @@ struct ForecastingSystem {
     private let coordinateToSearch = GeographicCoordinate(latitude: 37.4943514, longitude: 127.0633398)
     
     public enum NetworkError: Error {
-        case invaliURL
+        case invalidURL
         case invalidData
         case decodingFailure
     }
 
     public func announceCurrentWeather(result: @escaping (Result<CurrentWeatherInformation,NetworkError>) -> Void) {
         guard let requestURL = makeRequestURL(with: "weather") else {
-            print(NetworkError.invaliURL)
+            print(NetworkError.invalidURL)
             return
         }
         
@@ -24,7 +24,7 @@ struct ForecastingSystem {
     
     public func announceFiveDaysForecasting(result: @escaping (Result<FiveDaysForecastingInformation,NetworkError>) -> Void) {
         guard let requestURL = makeRequestURL(with: "forecast") else {
-            print(NetworkError.invaliURL)
+            print(NetworkError.invalidURL)
             return
         }
         
