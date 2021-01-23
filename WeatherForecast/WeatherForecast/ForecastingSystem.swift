@@ -1,20 +1,6 @@
 
 import Foundation
 
-enum SystemFeature {
-    case currentWeather
-    case fiveDaysForecasting
-    
-    var pathKeyword: String {
-        switch self {
-        case .currentWeather:
-            return "weather"
-        case .fiveDaysForecasting:
-            return "forecast"
-        }
-    }
-}
-
 struct ForecastingSystem {
     private let myKey = "2ce6e0d6185aa981602d52eb6e89fa16"
     private let baseURL = "https://api.openweathermap.org/data/2.5"
