@@ -28,32 +28,28 @@ struct WeatherAPIManager {
         guard let delegate = delegate else {
             return
         }
-        
         guard let apiURL = apiURLs[information],
               let urlRequest = getURLRequest(apiURL: apiURL, latitude: latitude, logitude: logitude) else {
             return
         }
         
-        URLSession.shared.dataTask(with: urlRequest) { (data, urlResponse, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            guard let data = data else {
-                return
-            }
-            
-            do {
-                switch information {
-                case .currentWeather:
-                    let response = try decoder.decode(CurrentWeather.self, from: data)
-                    delegate.setCurrentWeather(from: response)
-                case .fiveDayForecast:
-                    let response = try decoder.decode(FiveDayForecast.self, from: data)
-                    delegate.setFiveDayForecast(from: response)
+        URLSession.shared.dataTask(with: urlRequest) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    switch information {
+                    case .currentWeather:
+                        let response = try decoder.decode(CurrentWeather.self, from: data)
+                        delegate.setCurrentWeather(from: response)
+                    case .fiveDayForecast:
+                        let response = try decoder.decode(FiveDayForecast.self, from: data)
+                        delegate.setFiveDayForecast(from: response)
+                    }
+                } catch {
+                    delegate.handleAPIError(WeatherAPIManagerError.decodingError)
                 }
-            } catch {
-                print(error.localizedDescription)
+            case .failure(let error):
+                delegate.handleAPIError(WeatherAPIManagerError.networkFailure(error))
             }
         }.resume()
     }
