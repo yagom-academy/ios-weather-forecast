@@ -2,8 +2,8 @@
 import Foundation
 
 struct City: Decodable {
-    var name: String
-    var geographicCoordinate: GeographicCoordinate
+    let name: String
+    let geographicCoordinate: GeographicCoordinate
     
     private enum CodingKeys: String, CodingKey {
         case name
@@ -12,23 +12,23 @@ struct City: Decodable {
 }
 
 struct ForecastingInformation: Decodable {
-    var dateTimeCalculation: Double
-    var temperature: Temperature
-    var weather: [Weather]
+    let dateTimeCalculation: Double
+    let temperature: Temperature
+    let weathers: [Weather]
     
     private enum CodingKeys: String, CodingKey {
         case dateTimeCalculation = "dt"
         case temperature = "main"
-        case weather
+        case weathers = "weather"
     }
 }
 
 struct FiveDaysForecastingInformation: Decodable {
-    var forecastingList: [ForecastingInformation]
-    var city: City
+    let forecastingInformationList: [ForecastingInformation]
+    let city: City
     
     private enum CodingKeys: String, CodingKey {
-        case forecastingList = "list"
+        case forecastingInformationList = "list"
         case city
     }
 }
