@@ -42,6 +42,17 @@ class WeatherForecastViewController: UIViewController {
 }
 
 extension WeatherForecastViewController: WeatherAPIManagerDelegate {
+    func handleAPIError(_ apiError: WeatherAPIManagerError) {
+        let title = "오류"
+        switch apiError {
+        case .decodingError:
+            showAlert(title: title, message: "날씨 데이터 변환에 실패하였습니다.")
+        case .networkFailure(let error):
+            print(error.localizedDescription)
+            showAlert(title: title, message: "네트워크 문제로 오류가 발생하였습니다.")
+        }
+    }
+    
     func setCurrentWeather(from response: CurrentWeather) {
         self.currentWeather = response
     }
