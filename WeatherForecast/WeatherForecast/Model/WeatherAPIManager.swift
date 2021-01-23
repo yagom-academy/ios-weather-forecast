@@ -53,7 +53,7 @@ struct WeatherAPIManager {
         }.resume()
     }
     
-    private func queryItems(latitude: Double, logitude: Double) -> [URLQueryItem] {
+    private func getQueryItems(latitude: Double, logitude: Double) -> [URLQueryItem] {
         let queryItems = [
             URLQueryItem(name: "lat", value: String(latitude)),
             URLQueryItem(name: "lon", value: String(logitude)),
@@ -67,7 +67,7 @@ struct WeatherAPIManager {
         guard var urlComponents = URLComponents(string: apiURL) else {
             return nil
         }
-        urlComponents.queryItems = queryItems(latitude: latitude, logitude: logitude)
+        urlComponents.queryItems = getQueryItems(latitude: latitude, logitude: logitude)
         guard let url = urlComponents.url else {
             return nil
         }
