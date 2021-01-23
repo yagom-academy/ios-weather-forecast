@@ -59,6 +59,14 @@ extension WeatherForecastViewController: WeatherLocationManagerDelegate {
     func setLocation(_ location: CLLocation) {
         self.currentLocation = location
     }
+}
+
+extension WeatherForecastViewController {
+    func requestWeatherInformation() {
+        guard let currentLocation = self.currentLocation else {
+            return
         }
+        self.weatherAPIManager.request(information: .currentWeather, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
+        self.weatherAPIManager.request(information: .fiveDayForecast, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
     }
 }
