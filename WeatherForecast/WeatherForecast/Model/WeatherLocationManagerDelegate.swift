@@ -6,3 +6,9 @@
 //
 
 import Foundation
+import CoreLocation
+
+protocol WeatherLocationManagerDelegate: class {
+    func setAddress(_ address: String)
+    func setLocation(_ location: CLLocation)
+}
