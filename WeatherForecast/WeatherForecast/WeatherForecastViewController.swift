@@ -69,4 +69,11 @@ extension WeatherForecastViewController {
         self.weatherAPIManager.request(information: .currentWeather, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
         self.weatherAPIManager.request(information: .fiveDayForecast, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
     }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let cancelButton = UIAlertAction(title: "확인", style: .cancel, handler: nil)
+        alert.addAction(cancelButton)
+        self.present(alert, animated: true, completion: nil)
+   }
 }
