@@ -55,7 +55,7 @@ extension ViewController: CLLocationManagerDelegate {
         currentLocationUpdate()
         
         if let coordinate = locationManager.location?.coordinate {
-            let openWeather = OpenWeather()
+            let openWeather = WeatherCenter()
             openWeather.currentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) {
                 data, urlResponse, error in
                 self.currentWeather = data

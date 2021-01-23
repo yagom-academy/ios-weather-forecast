@@ -1,6 +1,6 @@
 import Foundation
 
-struct OpenWeather {
+struct WeatherCenter {
     let apiKey = "56e736f23fc45bb2308686053888de92"
     let urlSession = URLSession(configuration: .default)
     let jsonDecoder = JSONDecoder()

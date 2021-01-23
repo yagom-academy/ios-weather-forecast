@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4170D11525BB11F100735320 /* OpenWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4170D11425BB11F100735320 /* OpenWeather.swift */; };
+		4170D11525BB11F100735320 /* WeatherCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4170D11425BB11F100735320 /* WeatherCenter.swift */; };
 		41F9033925B5B0D2002C4188 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9033825B5B0D2002C4188 /* CurrentWeather.swift */; };
 		41F9034125B5B370002C4188 /* Coord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9034025B5B370002C4188 /* Coord.swift */; };
 		41F9034625B5B3C5002C4188 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9034525B5B3C5002C4188 /* Weather.swift */; };
@@ -45,7 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4170D11425BB11F100735320 /* OpenWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeather.swift; sourceTree = "<group>"; };
+		4170D11425BB11F100735320 /* WeatherCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCenter.swift; sourceTree = "<group>"; };
 		41F9033825B5B0D2002C4188 /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
 		41F9034025B5B370002C4188 /* Coord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coord.swift; sourceTree = "<group>"; };
 		41F9034525B5B3C5002C4188 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
@@ -138,7 +138,7 @@
 				C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */,
 				C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */,
 				C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */,
-				4170D11425BB11F100735320 /* OpenWeather.swift */,
+				4170D11425BB11F100735320 /* WeatherCenter.swift */,
 				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
 				C79C8CFC25ADDDF300EEE3F1 /* Assets.xcassets */,
 				C79C8CFE25ADDDF300EEE3F1 /* LaunchScreen.storyboard */,
@@ -297,7 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
-				4170D11525BB11F100735320 /* OpenWeather.swift in Sources */,
+				4170D11525BB11F100735320 /* WeatherCenter.swift in Sources */,
 				41F9034125B5B370002C4188 /* Coord.swift in Sources */,
 				41F9036425B5BA1E002C4188 /* City.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
