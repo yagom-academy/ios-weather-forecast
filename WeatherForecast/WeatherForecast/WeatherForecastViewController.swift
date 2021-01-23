@@ -36,7 +36,7 @@ class WeatherForecastViewController: UIViewController {
         super.viewDidLoad()
         weatherAPIManager.delegate = self
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestAuthorization()
     }
 
 }
@@ -51,48 +51,9 @@ extension WeatherForecastViewController: WeatherAPIManagerDelegate {
     }
 }
 
-extension WeatherForecastViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-            guard let currentLocation = locationManager.location else {
-                return
-            }
-            self.currentLocation = currentLocation
-            requestAddress(of: currentLocation) { (currentAddress) in
-                self.currentAddress = currentAddress
-            }
-            weatherAPIManager.request(information: .currentWeather, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
-            weatherAPIManager.request(information: .fiveDayForecast, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
-        }
     }
     
-    func requestAddress(of location: CLLocation, _ completionHandler: @escaping (String) -> Void ) {
-        CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) in
-            if let placemark = placemarks?.first {
-                let currentAddress = self.address(from: placemark)
-                completionHandler(currentAddress)
-            }
-        }
     }
-    
-    func address(from placemark: CLPlacemark) -> String {
-        var address = ""
-        if let state = placemark.administrativeArea {
-            address += state
         }
-        if let city = placemark.locality {
-            if address != "" {
-                address += " "
-            }
-            address += city
-        }
-        if let district = placemark.subLocality {
-            if address != "" {
-                address += " "
-            }
-            address += district
-        }
-        return address
     }
 }
-
