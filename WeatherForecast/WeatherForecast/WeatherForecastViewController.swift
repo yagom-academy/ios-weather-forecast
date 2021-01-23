@@ -9,13 +9,29 @@ import CoreLocation
 
 class WeatherForecastViewController: UIViewController {
     
-    let locationManager = CLLocationManager()
-    var currentLocation: CLLocation?
-    var currentAddress: String?
-    var weatherAPIManager = WeatherAPIManager()
-    var currentWeather: CurrentWeather?
-    var fiveDayForecast: FiveDayForecast?
-
+    private let locationManager = WeatherLocationManager()
+    private var weatherAPIManager = WeatherAPIManager()
+    private var currentLocation: CLLocation? {
+        didSet {
+            requestWeatherInformation()
+        }
+    }
+    private var currentAddress: String? {
+        didSet {
+            // TODO: 주소 레이블 초기화
+        }
+    }
+    private var currentWeather: CurrentWeather? {
+        didSet {
+            // TODO: 현재 날씨 셀 내용 초기화
+        }
+    }
+    private var fiveDayForecast: FiveDayForecast? {
+        didSet {
+            // TODO: 5일 날씨 예보 셀 내용 초기화
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         weatherAPIManager.delegate = self
