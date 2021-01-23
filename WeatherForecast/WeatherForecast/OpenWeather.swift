@@ -4,16 +4,19 @@ struct OpenWeather {
     let apiKey = "56e736f23fc45bb2308686053888de92"
     let urlSession = URLSession(configuration: .default)
     let jsonDecoder = JSONDecoder()
-    let weatherURL = "https://api.openweathermap.org/data/2.5"
+    let baseURL = "https://api.openweathermap.org/data/2.5"
     
     func currentWeather(latitude: Double, longitude: Double, completionHandler: @escaping (CurrentWeather?, URLResponse?, Error?) -> Void) {
-        var requestUrl = weatherURL + "/weather"
-        requestUrl += "?lat=\(latitude)"
-        requestUrl += "&lon=\(longitude)"
-        requestUrl += "&appid=\(apiKey)"
-        requestUrl += "&units=metric"
+        let currentWeatherURL = baseURL + "/weather"
+        var currentComponent = URLComponents(string: currentWeatherURL)
+        let lat = URLQueryItem(name: "lat", value: "\(latitude)")
+        let lon = URLQueryItem(name: "lon", value: "\(longitude)")
+        let appid = URLQueryItem(name: "appid", value: apiKey)
+        let units = URLQueryItem(name: "units", value: "metric")
         
-        guard let url = URL(string: requestUrl) else {
+        currentComponent?.queryItems = [lat, lon, appid, units]
+        
+        guard let url = currentComponent?.url else {
             return
         }
 
@@ -37,13 +40,16 @@ struct OpenWeather {
     }
     
     func forecastWeather(latitude: Double, longitude: Double, completionHandler: @escaping (ForecastWeather?, URLResponse?, Error?) -> Void) {
-        var requestUrl = weatherURL + "/forecast"
-        requestUrl += "?lat=\(latitude)"
-        requestUrl += "&lon=\(longitude)"
-        requestUrl += "&appid=\(apiKey)"
-        requestUrl += "&units=metric"
+        let forecastWeatherURl = baseURL + "/forecast"
+        var forecastComponent = URLComponents(string: forecastWeatherURl)
+        let lat = URLQueryItem(name: "lat", value: "\(latitude)")
+        let lon = URLQueryItem(name: "lon", value: "\(longitude)")
+        let appid = URLQueryItem(name: "appid", value: apiKey)
+        let units = URLQueryItem(name: "units", value: "metric")
         
-        guard let url = URL(string: requestUrl) else {
+        forecastComponent?.queryItems = [lat, lon, appid, units]
+        
+        guard let url = forecastComponent?.url else {
             return
         }
         
