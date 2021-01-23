@@ -29,12 +29,36 @@ class ViewController: UIViewController {
             print("\(currentAdress.administrativeArea) \(currentAdress.locality)")
         }
     }
+    private var currentWeather: CurrentWeather!
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         requestCurrentCoordinate()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // for test
+        let seoulCoord = CLLocationCoordinate2D(latitude: 37.572849, longitude: 126.976829)
+        CurrentWeatherAPI.shared.getData(coordinate: seoulCoord) { result in
+            switch result {
+            case .success(let currentWeather):
+                print("\(currentWeather.cityName): \(currentWeather.temperature.currentCelsius)도")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        WeatherForecastAPI.shared.getData(coordinate: seoulCoord) { result in
+            switch result {
+            case .success(let weatherForecast):
+                print("\(weatherForecast.city.name): \(weatherForecast.list[0].temperature.currentCelsius)도 - \(weatherForecast.list[0].utc)UTC")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     // MARK: - Methods
