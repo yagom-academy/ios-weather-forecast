@@ -9,23 +9,50 @@ import CoreLocation
 
 class WeatherForecastViewController: UIViewController {
     
-    let locationManager = CLLocationManager()
-    var currentLocation: CLLocation?
-    var currentAddress: String?
-    var weatherAPIManager = WeatherAPIManager()
-    var currentWeather: CurrentWeather?
-    var fiveDayForecast: FiveDayForecast?
-
+    private let locationManager = WeatherLocationManager()
+    private var weatherAPIManager = WeatherAPIManager()
+    private var currentLocation: CLLocation? {
+        didSet {
+            requestWeatherInformation()
+        }
+    }
+    private var currentAddress: String? {
+        didSet {
+            // TODO: 주소 레이블 초기화
+        }
+    }
+    private var currentWeather: CurrentWeather? {
+        didSet {
+            // TODO: 현재 날씨 셀 내용 초기화
+        }
+    }
+    private var fiveDayForecast: FiveDayForecast? {
+        didSet {
+            // TODO: 5일 날씨 예보 셀 내용 초기화
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         weatherAPIManager.delegate = self
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestAuthorization()
     }
 
 }
 
 extension WeatherForecastViewController: WeatherAPIManagerDelegate {
+    func handleAPIError(_ apiError: WeatherAPIManagerError) {
+        let title = "오류"
+        switch apiError {
+        case .decodingError:
+            showAlert(title: title, message: "날씨 데이터 변환에 실패하였습니다.")
+        case .networkFailure(let error):
+            print(error.localizedDescription)
+            showAlert(title: title, message: "네트워크 문제로 오류가 발생하였습니다.")
+        }
+    }
+    
     func setCurrentWeather(from response: CurrentWeather) {
         self.currentWeather = response
     }
@@ -35,48 +62,29 @@ extension WeatherForecastViewController: WeatherAPIManagerDelegate {
     }
 }
 
-extension WeatherForecastViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-            guard let currentLocation = locationManager.location else {
-                return
-            }
-            self.currentLocation = currentLocation
-            requestAddress(of: currentLocation) { (currentAddress) in
-                self.currentAddress = currentAddress
-            }
-            weatherAPIManager.request(information: .currentWeather, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
-            weatherAPIManager.request(information: .fiveDayForecast, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
-        }
+extension WeatherForecastViewController: WeatherLocationManagerDelegate {
+    func setAddress(_ address: String) {
+        self.currentAddress = address
     }
     
-    func requestAddress(of location: CLLocation, _ completionHandler: @escaping (String) -> Void ) {
-        CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) in
-            if let placemark = placemarks?.first {
-                let currentAddress = self.address(from: placemark)
-                completionHandler(currentAddress)
-            }
-        }
-    }
-    
-    func address(from placemark: CLPlacemark) -> String {
-        var address = ""
-        if let state = placemark.administrativeArea {
-            address += state
-        }
-        if let city = placemark.locality {
-            if address != "" {
-                address += " "
-            }
-            address += city
-        }
-        if let district = placemark.subLocality {
-            if address != "" {
-                address += " "
-            }
-            address += district
-        }
-        return address
+    func setLocation(_ location: CLLocation) {
+        self.currentLocation = location
     }
 }
 
+extension WeatherForecastViewController {
+    func requestWeatherInformation() {
+        guard let currentLocation = self.currentLocation else {
+            return
+        }
+        self.weatherAPIManager.request(information: .currentWeather, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
+        self.weatherAPIManager.request(information: .fiveDayForecast, latitude: currentLocation.coordinate.latitude, logitude: currentLocation.coordinate.longitude)
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let cancelButton = UIAlertAction(title: "확인", style: .cancel, handler: nil)
+        alert.addAction(cancelButton)
+        self.present(alert, animated: true, completion: nil)
+   }
+}
