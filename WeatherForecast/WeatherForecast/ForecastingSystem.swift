@@ -14,7 +14,7 @@ struct ForecastingSystem {
     }
 
     public func fetchCurrentWeather(result: @escaping (Result<CurrentWeatherInformation,NetworkError>) -> Void) {
-        guard let requestURL = URL(string: "\(baseURL)/weather?lat=\(coordinateToSearch.latitude)&lon=\(coordinateToSearch.longitude)&units=\(temperatureUnit)&appid=\(myKey)") else {
+        guard let requestURL = makeRequestURL(with: "weather") else {
             print(NetworkError.invaliURL)
             return
         }
@@ -23,8 +23,8 @@ struct ForecastingSystem {
     }
     
     public func fetchFiveDaysForecasting(result: @escaping (Result<FiveDaysForecastingInformation,NetworkError>) -> Void) {
-        guard let requestURL = URL(string: "\(baseURL)/forecast?lat=\(coordinateToSearch.latitude)&lon=\(coordinateToSearch.longitude)&units=\(temperatureUnit)&appid=\(myKey)") else {
-            print("URL 생성 error")
+        guard let requestURL = makeRequestURL(with: "forecast") else {
+            print(NetworkError.invaliURL)
             return
         }
         
@@ -33,6 +33,13 @@ struct ForecastingSystem {
 }
 
 extension ForecastingSystem {
+    private func makeRequestURL(with keyword: String) -> URL? {
+        if let validateURL =  URL(string:"\(baseURL)/\(keyword)?lat=\(coordinateToSearch.latitude)&lon=\(coordinateToSearch.longitude)&units=\(temperatureUnit)&appid=\(myKey)") {
+            return validateURL
+        }
+        return nil
+    }
+    
     private func fetchResource<T: Decodable>(url: URL, completion: @escaping (Result<T, NetworkError>) -> Void) {
         let dataTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let receivedData = data else {
