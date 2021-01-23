@@ -45,7 +45,7 @@ class ViewController: UIViewController {
         CurrentWeatherAPI.shared.getData(coordinate: CLLocationCoordinate2D(latitude: 37.572849, longitude: 126.976829)) { result in
             switch result {
             case .success(let currentWeather):
-                print(currentWeather.cityName + "\(currentWeather.temperature.current)도")
+                print("\(currentWeather.cityName): \(currentWeather.temperature.currentCelsius)도")
             case .failure(let error):
                 print(error.localizedDescription)
             }

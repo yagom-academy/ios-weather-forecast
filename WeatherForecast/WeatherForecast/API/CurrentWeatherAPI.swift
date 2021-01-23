@@ -24,7 +24,7 @@ class CurrentWeatherAPI {
     private init() {}
     
     func getData(coordinate: CLLocationCoordinate2D, completionHandler: @escaping (Result<CurrentWeather, APIError>) -> Void) {
-        guard let url = URL(string: "\(baseURL)lat=\(coordinate.latitude)&lon=\(coordinate.longitude)&appid=\(apiKey)") else {
+        guard let url = URL(string: "\(baseURL)lat=\(coordinate.latitude)&lon=\(coordinate.longitude)&units=metric&appid=\(apiKey)") else {
             completionHandler(.failure(.invalidURL))
             return
         }
