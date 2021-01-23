@@ -10,9 +10,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let test = ForecastingSystem()
+        let forecastSystem = ForecastingSystem()
         
-        test.fetchCurrentWeather { (result) in
+        forecastSystem.announceCurrentWeather { (result) in
             switch result {
             case .success(let forecastingInformation):
                 print(forecastingInformation)
@@ -21,7 +21,7 @@ class ViewController: UIViewController {
             }
         }
         
-        test.fetchFiveDaysForecasting { (result) in
+        forecastSystem.announceFiveDaysForecasting { (result) in
             switch result {
             case .success(let forecastingInformation):
                 print(forecastingInformation)

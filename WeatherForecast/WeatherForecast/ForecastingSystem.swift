@@ -13,7 +13,7 @@ struct ForecastingSystem {
         case decodingFailure
     }
 
-    public func fetchCurrentWeather(result: @escaping (Result<CurrentWeatherInformation,NetworkError>) -> Void) {
+    public func announceCurrentWeather(result: @escaping (Result<CurrentWeatherInformation,NetworkError>) -> Void) {
         guard let requestURL = makeRequestURL(with: "weather") else {
             print(NetworkError.invaliURL)
             return
@@ -22,7 +22,7 @@ struct ForecastingSystem {
         fetchResource(url: requestURL, completion: result)
     }
     
-    public func fetchFiveDaysForecasting(result: @escaping (Result<FiveDaysForecastingInformation,NetworkError>) -> Void) {
+    public func announceFiveDaysForecasting(result: @escaping (Result<FiveDaysForecastingInformation,NetworkError>) -> Void) {
         guard let requestURL = makeRequestURL(with: "forecast") else {
             print(NetworkError.invaliURL)
             return
