@@ -96,7 +96,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		368D19B825B6E14B00E0655B /* Model */ = {
+		368D1A7725BC622100E0655B /* WeatherAPIManager */ = {
 			isa = PBXGroup;
 			children = (
 				368D19C125B6E3BC00E0655B /* CurrentWeather.swift */,
@@ -105,10 +105,17 @@
 				368D19CE25B6E58E00E0655B /* WeatherAPIManagerDelegate.swift */,
 				368D1A3225B9BF2800E0655B /* Coordinate.swift */,
 				368D1A3725B9C00D00E0655B /* Temperature.swift */,
-				368D1A6D25BC182500E0655B /* WeatherLocationManager.swift */,
-				368D1A7225BC441400E0655B /* WeatherLocationManagerDelegate.swift */,
 			);
-			path = Model;
+			path = WeatherAPIManager;
+			sourceTree = "<group>";
+		};
+		368D1A7825BC623B00E0655B /* WeatherLocationManager */ = {
+			isa = PBXGroup;
+			children = (
+				368D1A7225BC441400E0655B /* WeatherLocationManagerDelegate.swift */,
+				368D1A6D25BC182500E0655B /* WeatherLocationManager.swift */,
+			);
+			path = WeatherLocationManager;
 			sourceTree = "<group>";
 		};
 		C79C8CE725ADDDF200EEE3F1 = {
@@ -134,7 +141,8 @@
 		C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */ = {
 			isa = PBXGroup;
 			children = (
-				368D19B825B6E14B00E0655B /* Model */,
+				368D1A7825BC623B00E0655B /* WeatherLocationManager */,
+				368D1A7725BC622100E0655B /* WeatherAPIManager */,
 				C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */,
 				C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */,
 				C79C8CF725ADDDF200EEE3F1 /* WeatherForecastViewController.swift */,
