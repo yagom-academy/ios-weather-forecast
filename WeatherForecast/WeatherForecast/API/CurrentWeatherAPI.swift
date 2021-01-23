@@ -8,5 +8,7 @@
 import Foundation
 
 class CurrentWeatherAPI {
+    static let shared: CurrentWeatherAPI = CurrentWeatherAPI()
     
+    private init() {}
 }
