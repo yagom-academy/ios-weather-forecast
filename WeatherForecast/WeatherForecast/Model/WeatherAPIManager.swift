@@ -63,7 +63,7 @@ struct WeatherAPIManager {
         return queryItems
     }
     
-    private func urlRequest(apiURL: String, latitude: Double, logitude: Double) -> URLRequest? {
+    private func getURLRequest(apiURL: String, latitude: Double, logitude: Double) -> URLRequest? {
         guard var urlComponents = URLComponents(string: apiURL) else {
             return nil
         }
