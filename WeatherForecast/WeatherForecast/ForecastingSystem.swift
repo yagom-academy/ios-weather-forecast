@@ -5,7 +5,7 @@ struct ForecastingSystem {
     private let urlMaker = URLMaker()
     private let coordinateToSearch = GeographicCoordinate(latitude: 37.4943514, longitude: 127.0633398)
     
-    public enum NetworkError: Error {
+    enum NetworkError: Error {
         case invalidData
         case decodingFailure
     }
