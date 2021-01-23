@@ -11,10 +11,23 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let test = ForecastingSystem()
-        test.makeModel(responding: .currentWeather)
-        test.makeModel(responding: .fiveDaysForecasting)
+        
+        test.fetchCurrentWeather { (result) in
+            switch result {
+            case .success(let forecastingInformation):
+                print(forecastingInformation)
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
+        test.fetchFiveDaysForecasting { (result) in
+            switch result {
+            case .success(let forecastingInformation):
+                print(forecastingInformation)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
-
-
 }
-
