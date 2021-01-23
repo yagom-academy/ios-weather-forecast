@@ -14,8 +14,8 @@ class ViewController: UIViewController {
         
         forecastSystem.announceCurrentWeather { (result) in
             switch result {
-            case .success(let forecastingInformation):
-                print(forecastingInformation)
+            case .success(let currentWeatherInformation):
+                print(currentWeatherInformation)
             case .failure(let error):
                 print(error)
             }
@@ -23,8 +23,8 @@ class ViewController: UIViewController {
         
         forecastSystem.announceFiveDaysForecasting { (result) in
             switch result {
-            case .success(let forecastingInformation):
-                print(forecastingInformation)
+            case .success(let fiveDaysForecastingInformation):
+                print(fiveDaysForecastingInformation)
             case .failure(let error):
                 print(error)
             }
