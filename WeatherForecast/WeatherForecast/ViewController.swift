@@ -23,6 +23,36 @@ class ViewController: UIViewController {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+    }
+    
+    func currentLocationUpdate() {
+        if let location = locationManager.location {
+            CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) in
+                if let placemark = placemarks {
+                    if let country = placemark.first?.country {
+                        self.currentAddress = country + " "
+                    }
+
+                    if let city = placemark.first?.administrativeArea {
+                        self.currentAddress += city + " "
+                    }
+
+                    if let locality = placemark.first?.locality {
+                        self.currentAddress += locality + " "
+                    }
+
+                    if let name = placemark.first?.name {
+                        self.currentAddress += name
+                    }
+                }
+            }
+        }
+    }
+}
+
+extension ViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        currentLocationUpdate()
         
         if let coordinate = locationManager.location?.coordinate {
             let openWeather = OpenWeather()
@@ -39,36 +69,5 @@ class ViewController: UIViewController {
                 self.forecastWeatherError = error
             }
         }
-    }
-    
-    func currentLocationUpdate() {
-        if let location = locationManager.location {
-            CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) in
-                if let placemark = placemarks {
-                    
-                    if let country = placemark[0].country {
-                        self.currentAddress = country + " "
-                    }
-
-                    if let city = placemark[0].administrativeArea {
-                        self.currentAddress += city + " "
-                    }
-
-                    if let locality = placemark[0].locality {
-                        self.currentAddress += locality + " "
-                    }
-
-                    if let name = placemark[0].name {
-                        self.currentAddress += name
-                    }
-                }
-            }
-        }
-    }
-}
-
-extension ViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        currentLocationUpdate()
     }
 }

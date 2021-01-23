@@ -25,7 +25,6 @@ struct OpenWeather {
             do {
                 if let receivedData = data {
                     let decodedData = try jsonDecoder.decode(CurrentWeather.self, from: receivedData)
-                    print(decodedData)
                     completionHandler(decodedData, url, error)
                 }
             } catch {
@@ -57,7 +56,6 @@ struct OpenWeather {
                 if let receivedData = data {
                     let decodedData = try jsonDecoder.decode(ForecastWeather.self, from: receivedData)
                     completionHandler(decodedData, url, error)
-                    print(decodedData)
                 }
             } catch {
                 completionHandler(nil, url, error)
