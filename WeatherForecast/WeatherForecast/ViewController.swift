@@ -41,37 +41,15 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=37.572849&lon=126.976829&units=metric&lang=kr&appid=d581ffc8458e8085899bfe16c04fe7da") else {
-            return
-        }
-        
-        let session = URLSession(configuration: .default)
-        let dataTask: URLSessionDataTask = session.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            guard let data = data else {
-                return
-            }
-            
-            do {
-                let currentWeather: CurrentWeather = try JSONDecoder().decode(CurrentWeather.self, from: data)
-                self.currentWeather = currentWeather
-                
-                DispatchQueue.main.async {
-                    print("Response Done")
-                    print("\(self.currentWeather.coordinate.latitude), \(self.currentWeather.coordinate.longitude)")
-                    print("\(self.currentWeather.cityName)")
-                    print(self.currentWeather.weather.description)
-                    print("온도: \(self.currentWeather.temperature.current)")
-                }
-            } catch(let error) {
+        // for test
+        CurrentWeatherAPI.shared.getData(coordinate: CLLocationCoordinate2D(latitude: 37.572849, longitude: 126.976829)) { result in
+            switch result {
+            case .success(let currentWeather):
+                print(currentWeather.cityName + "\(currentWeather.temperature.current)도")
+            case .failure(let error):
                 print(error.localizedDescription)
             }
         }
-        
-        dataTask.resume()
     }
     
     // MARK: - Methods
