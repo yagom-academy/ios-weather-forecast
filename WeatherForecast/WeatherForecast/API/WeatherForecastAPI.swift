@@ -40,10 +40,9 @@ class WeatherForecastAPI {
                 return
             }
             
-            do {
-                let decodedData: WeatherForecast = try JSONDecoder().decode(WeatherForecast.self, from: data)
+            if let decodedData: WeatherForecast = try? JSONDecoder().decode(WeatherForecast.self, from: data) {
                 completionHandler(.success(decodedData))
-            } catch {
+            } else {
                 completionHandler(.failure(.invalidData))
             }
         }
