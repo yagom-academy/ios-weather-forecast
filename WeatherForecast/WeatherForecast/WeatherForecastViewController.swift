@@ -51,8 +51,13 @@ extension WeatherForecastViewController: WeatherAPIManagerDelegate {
     }
 }
 
+extension WeatherForecastViewController: WeatherLocationManagerDelegate {
+    func setAddress(_ address: String) {
+        self.currentAddress = address
     }
     
+    func setLocation(_ location: CLLocation) {
+        self.currentLocation = location
     }
         }
     }
