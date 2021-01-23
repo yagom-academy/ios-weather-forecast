@@ -10,4 +10,5 @@ import Foundation
 protocol WeatherAPIManagerDelegate {
     func setCurrentWeather(from response: CurrentWeather)
     func setFiveDayForecast(from response: FiveDayForecast)
+    func handleAPIError(_ apiError: WeatherAPIManagerError)
 }
