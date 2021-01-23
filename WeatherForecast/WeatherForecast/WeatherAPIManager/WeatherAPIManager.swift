@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum WeatherAPIManagerError {
+    case networkFailure(Error)
+    case decodingError
+}
+
 struct WeatherAPIManager {
     enum Information {
         case currentWeather
