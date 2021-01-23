@@ -10,6 +10,12 @@ import CoreLocation
 class ViewController: UIViewController {
     let locationManager = CLLocationManager()
     var currentAddress = ""
+    var currentWeather: CurrentWeather?
+    var currentWeatherURLResponse: URLResponse?
+    var currentWeatherError: Error?
+    var forecastWeather: ForecastWeather?
+    var forecastWeatherURLResponse: URLResponse?
+    var forecastWeatherError: Error?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,11 +24,21 @@ class ViewController: UIViewController {
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         
-//        if let coordinate = locationManager.location?.coordinate {
-//            let openWeather = OpenWeather()
-//            openWeather.currentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
-//            openWeather.forecastWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
-//        }
+        if let coordinate = locationManager.location?.coordinate {
+            let openWeather = OpenWeather()
+            openWeather.currentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) {
+                data, urlResponse, error in
+                self.currentWeather = data
+                self.currentWeatherURLResponse = urlResponse
+                self.currentWeatherError = error
+            }
+            openWeather.forecastWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) {
+                data, urlResponse, error in
+                self.forecastWeather = data
+                self.forecastWeatherURLResponse = urlResponse
+                self.forecastWeatherError = error
+            }
+        }
     }
     
     func currentLocationUpdate() {
