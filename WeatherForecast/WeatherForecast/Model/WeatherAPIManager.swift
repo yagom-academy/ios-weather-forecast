@@ -11,28 +11,21 @@ struct WeatherAPIManager {
     enum Information {
         case currentWeather
         case fiveDayForecast
-        
-        var apiURL: String {
-            let url = "https://api.openweathermap.org/data/2.5"
-            switch self {
-            case .currentWeather:
-                return "\(url)/weather?"
-            case .fiveDayForecast:
-                return "\(url)/forecast?"
-            }
-        }
     }
     
     var delegate: WeatherAPIManagerDelegate?
     private let decoder = JSONDecoder()
     private let appId = "02989ef69361857d2d2779ea712468b7"
+    private let apiURLs: [Information: String] = [.currentWeather: "https://api.openweathermap.org/data/2.5/weather?",
+                                                  .fiveDayForecast: "https://api.openweathermap.org/data/2.5/forecast?"]
     
     func request(information: Information, latitude: Double, logitude: Double) {
         guard let delegate = delegate else {
             return
         }
         
-        guard let urlRequest = urlRequest(apiURL: information.apiURL, latitude: latitude, logitude: logitude) else {
+        guard let apiURL = apiURLs[information],
+              let urlRequest = getURLRequest(apiURL: apiURL, latitude: latitude, logitude: logitude) else {
             return
         }
         
