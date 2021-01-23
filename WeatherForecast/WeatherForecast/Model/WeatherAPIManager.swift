@@ -29,7 +29,7 @@ struct WeatherAPIManager {
             return
         }
         
-        let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, urlResponse, error) in
+        URLSession.shared.dataTask(with: urlRequest) { (data, urlResponse, error) in
             if let error = error {
                 print(error.localizedDescription)
                 return
@@ -50,8 +50,7 @@ struct WeatherAPIManager {
             } catch {
                 print(error.localizedDescription)
             }
-        }
-        dataTask.resume()
+        }.resume()
     }
     
     private func queryItems(latitude: Double, logitude: Double) -> [URLQueryItem] {
