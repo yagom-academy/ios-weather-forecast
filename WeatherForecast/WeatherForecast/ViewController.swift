@@ -21,12 +21,12 @@ class ViewController: UIViewController {
     }()
     private var currentCoordinate: CLLocationCoordinate2D! {
         didSet {
-            findCurrentPlacemark()
+            findCurrentAddress()
         }
     }
-    private var currentAdress: Adress! {
+    private var currentAddress: Address! {
         didSet {
-            print("\(currentAdress.administrativeArea) \(currentAdress.locality)")
+            print("\(currentAddress.administrativeArea) \(currentAddress.locality)")
         }
     }
     private var currentWeather: CurrentWeather!
@@ -66,7 +66,7 @@ class ViewController: UIViewController {
         locationManager.startUpdatingLocation()
     }
     
-    private func findCurrentPlacemark() {
+    private func findCurrentAddress() {
         let currentLocation = CLLocation(latitude: currentCoordinate.latitude, longitude: currentCoordinate.longitude)
         CLGeocoder().reverseGeocodeLocation(currentLocation, preferredLocale: nil) { (placemarks, error) in
             if let errorCode = error {
@@ -74,7 +74,7 @@ class ViewController: UIViewController {
                 return
             }
             if let administrativeArea = placemarks?.first?.administrativeArea, let locality = placemarks?.first?.locality {
-                self.currentAdress = Adress(administrativeArea: administrativeArea, locality: locality)
+                self.currentAddress = Address(administrativeArea: administrativeArea, locality: locality)
             }
         }
     }

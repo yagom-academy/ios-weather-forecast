@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Adress {
+struct Address {
     var administrativeArea: String
     var locality: String
 }
