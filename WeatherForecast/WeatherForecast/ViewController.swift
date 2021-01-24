@@ -165,10 +165,12 @@ extension ViewController: UITableViewDataSource {
                             }
                         }
                         currentWeatherCell.cityNameLabel.text = self.locationCoordinate.address
-                        if let min = self.currentWeather?.temperature.minimun, let max = self.currentWeather?.temperature.maximum {
-                            currentWeatherCell.minAndMaxTemperatureLabel.text = "최저: \(min) 최고 :\(max)"
+                        if let min = self.currentWeather?.temperature.minimun,
+                           let max = self.currentWeather?.temperature.maximum,
+                           let average = self.currentWeather?.temperature.average {
+                            currentWeatherCell.minAndMaxTemperatureLabel.text = "최저: \(min)° 최고 :\(max)°"
+                            currentWeatherCell.averageTemperatureLabel.text = "\(average)°"
                         }
-                        currentWeatherCell.averageTemperatureLabel.text = self.currentWeather?.temperature.average.description
                     }
                 case .failure(let error):
                     errorHandling(error: error)
@@ -214,7 +216,7 @@ extension ViewController: UITableViewDataSource {
                 }
             }
             if let avergateTemperature = self.forecastList?.list[indexPath.row].temperature.average {
-                forecastWeatherCell.averageTemperatureLabel.text = String(avergateTemperature)
+                forecastWeatherCell.averageTemperatureLabel.text = String(avergateTemperature) + "°"
             }
             
             return forecastWeatherCell
