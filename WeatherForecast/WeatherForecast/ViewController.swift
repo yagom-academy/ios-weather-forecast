@@ -18,6 +18,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         setUpLocationManager()
         setUpTableView()
+        setUpRefresh()
     }
     
     private func setUpTableView() {
@@ -41,6 +42,19 @@ class ViewController: UIViewController {
     private func setUpLocationManager() {
         appDelegate?.locationManager.delegate = self
         appDelegate?.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    }
+    
+    private func setUpRefresh() {
+        let refresh: UIRefreshControl = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(updateUI(refresh:)), for: .valueChanged)
+        refresh.tintColor = .orange
+        weatherTableView.refreshControl = refresh
+    }
+    
+    @objc func updateUI(refresh: UIRefreshControl) {
+        appDelegate?.locationManager.requestLocation()
+        refresh.endRefreshing()
+        weatherTableView.reloadData()
     }
 }
 
@@ -132,9 +146,72 @@ extension ViewController: UITableViewDataSource {
         case 0:
             let currentWeatherCell = weatherTableView.dequeueReusableCell(withIdentifier: "CurrentWeatherTableViewCell") as! CurrentWeatherTableViewCell
             
+            guard let imageID = currentWeather?.icon[0].name else {
+                return currentWeatherCell
+            }
+            
+            WeatherForecastManager.shared.loadImage(imageID: imageID) { [self] result in
+                switch result {
+                case .success(let data):
+                    guard let image = data else {
+                        return errorHandling(error: .failGetData)
+                    }
+                    DispatchQueue.main.async {
+                        if let index: IndexPath = tableView.indexPath(for: currentWeatherCell){
+                            if index.row == indexPath.row {
+                                currentWeatherCell.weatherImage.image = UIImage(data: image)
+                            }
+                        }
+                        currentWeatherCell.cityNameLabel.text = self.locationCoordinate.address
+                        if let min = self.currentWeather?.temperature.minimun, let max = self.currentWeather?.temperature.maximum {
+                            currentWeatherCell.minAndMaxTemperatureLabel.text = "최저: \(min) 최고 :\(max)"
+                        }
+                        currentWeatherCell.averageTemperatureLabel.text = self.currentWeather?.temperature.average.description
+                    }
+                case .failure(let error):
+                    errorHandling(error: error)
+                }
+            }
+            
             return currentWeatherCell
         default:
             let forecastWeatherCell = weatherTableView.dequeueReusableCell(withIdentifier: "ForecastTableViewCell") as! ForecastTableViewCell
+            
+            guard let imageID = forecastList?.list[indexPath.row].weatehrIcon[0].name else {
+                return forecastWeatherCell
+            }
+            WeatherForecastManager.shared.loadImage(imageID: imageID) { [self] result in
+                switch result {
+                case .success(let data):
+                    guard let image = data else {
+                        return errorHandling(error: .failGetData)
+                    }
+                    DispatchQueue.main.async {
+                        if let index: IndexPath = tableView.indexPath(for: forecastWeatherCell){
+                            if index.row == indexPath.row {
+                                forecastWeatherCell.weatherImage.image = UIImage(data: image)
+                            }
+                        }
+                    }
+                case .failure(let error):
+                    errorHandling(error: error)
+                }
+            }
+            
+            if let dateTime = self.forecastList?.list[indexPath.row].dateTime {
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                formatter.timeZone = NSTimeZone(name: "UTC") as TimeZone?
+                if let date = formatter.date(from: dateTime) {
+                    formatter.locale = Locale(identifier: "ko")
+                    formatter.dateFormat = "MM/dd(E) HH시"
+                    let dateTimeString = formatter.string(from: date)
+                    forecastWeatherCell.timeDateLabel.text = dateTimeString
+                }
+            }
+            if let avergateTemperature = self.forecastList?.list[indexPath.row].temperature.average {
+                forecastWeatherCell.averageTemperatureLabel.text = String(avergateTemperature)
+            }
             
             return forecastWeatherCell
         }
