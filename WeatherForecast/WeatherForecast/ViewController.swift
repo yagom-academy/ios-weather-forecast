@@ -67,14 +67,14 @@ class ViewController: UIViewController {
                 return self.showErrorAlert(WeatherForcastError.getData, handler: nil)
             }
             self.currentWeather = currentWeatherItem
-            print("🌄")
+            debugPrint("🌄")
         }
         ForecastModel.shared.fetchData(with: coordinate) { item in
             guard let forecastItem = item else {
                 return self.showErrorAlert(WeatherForcastError.getData, handler: nil)
             }
             self.fiveDaysForecast = forecastItem
-            print("🎑")
+            debugPrint("🎑")
         }
     }
     
@@ -135,7 +135,7 @@ extension ViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("🔥")
+        debugPrint("🔥")
         guard let coordinate = appDelegate?.locationManager.location?.coordinate else {
             return self.showErrorAlert(WeatherForcastError.getCoordinate, handler: nil)
         }
