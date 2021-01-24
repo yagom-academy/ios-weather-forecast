@@ -58,7 +58,6 @@ class ViewController: UIViewController {
     @objc func updateWeatherTable(_ sender: UIRefreshControl) {
         searchCoordinate()
         sender.endRefreshing()
-        updateTable()
     }
     
     private func setUpData(coordinate: Coordinate) {
@@ -175,8 +174,4 @@ extension ViewController: UITableViewDataSource {
         cell.setUpUI(with: self.fiveDaysForecast?.list[indexPath.row - 1])
         return cell
     }
-}
-
-extension ViewController: UITableViewDelegate {
-    
 }
