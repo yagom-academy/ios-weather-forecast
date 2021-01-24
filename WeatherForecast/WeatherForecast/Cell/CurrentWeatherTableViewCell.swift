@@ -47,7 +47,6 @@ class CurrentWeatherTableViewCell: UITableViewCell {
         
         setUpWeatherImage()
         setUpTemperatureStack()
-        setUpUI(with: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -66,7 +65,6 @@ class CurrentWeatherTableViewCell: UITableViewCell {
         containerStack.translatesAutoresizingMaskIntoConstraints = false
         containerStack.axis = .vertical
         containerStack.spacing = 10
-        containerStack.heightAnchor.constraint(greaterThanOrEqualToConstant: weatherImageWidth).isActive = true
         contentView.addSubview(containerStack)
         containerStack.leadingAnchor.constraint(equalTo: weatherImageView.trailingAnchor, constant: 20).isActive = true
         containerStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
