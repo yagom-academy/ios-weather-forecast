@@ -1,8 +1,8 @@
 //
 //  WeatherForecast - ViewController.swift
-//  Created by yagom. 
+//  Created by yagom.
 //  Copyright © yagom. All rights reserved.
-// 
+//
 
 import UIKit
 import CoreLocation
@@ -50,8 +50,12 @@ extension ViewController: CLLocationManagerDelegate {
             return
         }
         appDelegate?.locationManager.stopUpdatingLocation()
-        let lat = CLLocationDegrees(CGFloat(currentLocationCoordinate.latitude))
-        let lon = CLLocationDegrees(CGFloat(currentLocationCoordinate.longitude))
+        locationCoordinate.coordinate = currentLocationCoordinate
+        locationCoordinate.convertToAddressWith(coordinate: currentLocationCoordinate)
+        
+        guard let lat = locationCoordinate.coordinate?.latitude, let lon = locationCoordinate.coordinate?.longitude else {
+            return
+        }
         
         WeatherForecastManager.shared.loadData(lat: lat, lon: lon, api: WeatherAPI.forecast) { [self] result in
             switch result {
