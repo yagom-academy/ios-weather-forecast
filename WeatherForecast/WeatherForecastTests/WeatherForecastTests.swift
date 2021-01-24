@@ -1,8 +1,9 @@
 //
-//  WeatherForecastTests - WeatherForecastTests.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
-// 
+//  WeatherForecastTests
+//  WeatherForecastTests.swift
+//
+//  Created by Kyungmin Lee on 2021/01/20.
+//
 
 import XCTest
 @testable import WeatherForecast
@@ -40,10 +41,10 @@ class WeatherForecastTests: XCTestCase {
             XCTAssertEqual(decodedData.weather.description, "clear sky")
             XCTAssertEqual(decodedData.weather.iconID, "01d")
             
-            XCTAssertEqual(decodedData.temperature.current, 282.55)
-            XCTAssertEqual(decodedData.temperature.humanFeels, 281.86)
-            XCTAssertEqual(decodedData.temperature.minimum, 280.37)
-            XCTAssertEqual(decodedData.temperature.maximum, 284.26)
+            XCTAssertEqual(decodedData.temperature.currentCelsius, 282.55)
+            XCTAssertEqual(decodedData.temperature.humanFeelsCelsius, 281.86)
+            XCTAssertEqual(decodedData.temperature.minimumCelsius, 280.37)
+            XCTAssertEqual(decodedData.temperature.maximumCelsius, 284.26)
             XCTAssertEqual(decodedData.temperature.atmosphericPressure, 1023)
             XCTAssertEqual(decodedData.temperature.humidity, 100)
             
@@ -73,10 +74,10 @@ class WeatherForecastTests: XCTestCase {
             XCTAssertEqual(decodedData.count, 3)
             for i in 0..<3 {
                 XCTAssertEqual(decodedData.list[i].utc, 1596564000)
-                XCTAssertEqual(decodedData.list[i].temperature.current, 293.55)
-                XCTAssertEqual(decodedData.list[i].temperature.humanFeels, 293.13)
-                XCTAssertEqual(decodedData.list[i].temperature.minimum, 293.55)
-                XCTAssertEqual(decodedData.list[i].temperature.maximum, 294.05)
+                XCTAssertEqual(decodedData.list[i].temperature.currentCelsius, 293.55)
+                XCTAssertEqual(decodedData.list[i].temperature.humanFeelsCelsius, 293.13)
+                XCTAssertEqual(decodedData.list[i].temperature.minimumCelsius, 293.55)
+                XCTAssertEqual(decodedData.list[i].temperature.maximumCelsius, 294.05)
                 XCTAssertEqual(decodedData.list[i].temperature.atmosphericPressure, 1013)
                 XCTAssertEqual(decodedData.list[i].temperature.humidity, 84)
                 XCTAssertEqual(decodedData.list[i].weather.conditionID, 500)
