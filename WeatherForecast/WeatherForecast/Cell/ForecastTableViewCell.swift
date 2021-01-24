@@ -8,13 +8,12 @@
 import UIKit
 
 class ForecastTableViewCell: UITableViewCell {
-    private let weatherImageWidth: CGFloat = 30
     
     // MARK: - UI Property
     private lazy var dateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.text = WeatherString.basic
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return label
@@ -22,7 +21,7 @@ class ForecastTableViewCell: UITableViewCell {
     private lazy var temperatureLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.text = WeatherString.basic
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
@@ -31,7 +30,6 @@ class ForecastTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
-        imageView.widthAnchor.constraint(equalToConstant: weatherImageWidth).isActive = true
         imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.0).isActive = true
         return imageView
     }()
@@ -57,6 +55,7 @@ class ForecastTableViewCell: UITableViewCell {
         containerStack.translatesAutoresizingMaskIntoConstraints = false
         containerStack.axis = .horizontal
         contentView.addSubview(containerStack)
+        containerStack.spacing = 10
         containerStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
         containerStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
         containerStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
