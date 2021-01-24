@@ -19,7 +19,7 @@ enum WeatherError: Error {
 }
 
 struct WeatherManager {
-    private enum ServiceApi {
+    private enum ServiceAPI {
         case currentWeather(Double, Double)
         case fiveDaysForecastWeathers(Double, Double)
         case weatherIconImage(String)
@@ -37,8 +37,8 @@ struct WeatherManager {
                 return "https://api.openweathermap.org/data/2.5/weather"
             case .fiveDaysForecastWeathers:
                 return "https://api.openweathermap.org/data/2.5/forecast"
-            case .weatherIconImage:
-                return "https://openweathermap.org/img/w"
+            case .weatherIconImage(let id):
+                return "https://openweathermap.org/img/w/\(id)"
             }
         }
         
@@ -47,8 +47,8 @@ struct WeatherManager {
             case let .currentWeather(latitude, longitude),
                  let .fiveDaysForecastWeathers(latitude, longitude):
                 return "lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)"
-            case let .weatherIconImage(id):
-                return "\(id).png"
+            default:
+                return ""
             }
         }
         
@@ -59,7 +59,7 @@ struct WeatherManager {
                 urlComponents?.query = query
                 return urlComponents?.url
             case .weatherIconImage:
-                return URL(string: urlString)?.appendingPathComponent(query)
+                return URL(string: urlString)
             }
         }
     }
@@ -69,7 +69,7 @@ struct WeatherManager {
     private init() {}
     
     func getCurrentWeather(of coordinate: Coordinate, completion: @escaping (Weather) -> Void) {
-        guard let url = ServiceApi.currentWeather(coordinate.latitude, coordinate.longitude).fullUrl else { return }
+        guard let url = ServiceAPI.currentWeather(coordinate.latitude, coordinate.longitude).fullUrl else { return }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -87,7 +87,7 @@ struct WeatherManager {
     }
     
     func getFivedaysForecastWeathers(of coordinate: Coordinate, completion: @escaping ([Weather]) -> Void) {
-        guard let url = ServiceApi.fiveDaysForecastWeathers(coordinate.latitude, coordinate.longitude).fullUrl else { return }
+        guard let url = ServiceAPI.fiveDaysForecastWeathers(coordinate.latitude, coordinate.longitude).fullUrl else { return }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -105,7 +105,7 @@ struct WeatherManager {
     }
     
     func getWeatherImage(id: String, completion: @escaping (Data) -> Void) {
-        guard let url = ServiceApi.weatherIconImage(id).fullUrl else { return }
+        guard let url = ServiceAPI.weatherIconImage(id).fullUrl else { return }
         
         DispatchQueue.global().async {
             guard let data = try? Data(contentsOf: url) else {
