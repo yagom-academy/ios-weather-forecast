@@ -16,12 +16,13 @@ class WeatherListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUp()
+        NotificationCenter.default.addObserver(self, selector: #selector(setUp), name: Notification.Name.locationUpdate, object: nil)
+        LocationManager.shared.updateLocation()
     }
 }
 
 extension WeatherListViewController {
-    private func setUp() {
+    @objc private func setUp() {
         guard let coordinate = LocationManager.shared.locationCoordinate else { return }
         LocationManager.shared.getLocalizationString(in: "Ko-kr") { (locationString) in
             print(locationString)

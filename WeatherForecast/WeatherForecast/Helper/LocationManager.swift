@@ -22,7 +22,7 @@ enum LocationError: Error {
     }
 }
 
-final class LocationManager {
+final class LocationManager: NSObject {
     static let shared = LocationManager()
     private let geoCoder: CLGeocoder = CLGeocoder()
     private lazy var locationManager: CLLocationManager = {
@@ -32,7 +32,11 @@ final class LocationManager {
         
         return manager
     }()
-    private var location: CLLocation?
+    private var location: CLLocation? {
+        didSet {
+            NotificationCenter.default.post(name: .locationUpdate, object: nil)
+        }
+    }
     var locationCoordinate: Coordinate? {
         get {
             guard let location = location else { return nil }
@@ -41,17 +45,13 @@ final class LocationManager {
         }
     }
     
-    private init() {
-        locationManager.startUpdatingLocation()
-        updateLocation()
+    private override init() {
+        super.init()
+        locationManager.delegate = self
     }
     
     func updateLocation() {
-        if let location = locationManager.location {
-            self.location = location
-        } else {
-            print(LocationError.loadError.errorMessage)
-        }
+        locationManager.startUpdatingLocation()
     }
     
     func getLocalizationString(in locale: String, completion: @escaping (String) -> Void) {
@@ -68,4 +68,21 @@ final class LocationManager {
             }
         }
     }
+}
+
+extension LocationManager: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        self.location = location
+        locationManager.stopUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(LocationError.loadError.errorMessage)
+        print(error.localizedDescription)
+    }
+}
+
+extension Notification.Name {
+    static let locationUpdate: Notification.Name = Notification.Name(rawValue: "locationUpdate")
 }
