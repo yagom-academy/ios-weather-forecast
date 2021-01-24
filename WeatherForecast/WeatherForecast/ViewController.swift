@@ -144,7 +144,9 @@ extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            let currentWeatherCell = weatherTableView.dequeueReusableCell(withIdentifier: "CurrentWeatherTableViewCell") as! CurrentWeatherTableViewCell
+            guard let currentWeatherCell = weatherTableView.dequeueReusableCell(withIdentifier: "CurrentWeatherTableViewCell") as? CurrentWeatherTableViewCell else {
+                return UITableViewCell()
+            }
             
             guard let imageID = currentWeather?.icon[0].name else {
                 return currentWeatherCell
@@ -175,7 +177,9 @@ extension ViewController: UITableViewDataSource {
             
             return currentWeatherCell
         default:
-            let forecastWeatherCell = weatherTableView.dequeueReusableCell(withIdentifier: "ForecastTableViewCell") as! ForecastTableViewCell
+            guard let forecastWeatherCell = weatherTableView.dequeueReusableCell(withIdentifier: "ForecastTableViewCell") as? ForecastTableViewCell else {
+                return UITableViewCell()
+            }
             
             guard let imageID = forecastList?.list[indexPath.row].weatehrIcon[0].name else {
                 return forecastWeatherCell
