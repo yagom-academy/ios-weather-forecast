@@ -44,7 +44,6 @@ class ViewController: UIViewController {
         
         weatherTable.dataSource = self
         weatherTable.delegate = self
-        
         weatherTable.register(CurrentWeatherTableViewCell.self, forCellReuseIdentifier: "current")
         weatherTable.register(ForecastTableViewCell.self, forCellReuseIdentifier: "forecast")
     }
@@ -173,5 +172,14 @@ extension ViewController: UITableViewDataSource {
         }
         cell.setUpUI(with: self.fiveDaysForecast?.list[indexPath.row - 1])
         return cell
+    }
+}
+
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return UITableView.automaticDimension
+        }
+        return 50
     }
 }

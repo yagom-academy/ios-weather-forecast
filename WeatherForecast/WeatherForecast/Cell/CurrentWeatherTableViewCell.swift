@@ -81,7 +81,10 @@ class CurrentWeatherTableViewCell: UITableViewCell {
     }
     
     func setUpUI(with weather: CurrentWeather?) {
-        // TODO: add image
+        if let iconName = weather?.weather.first?.iconName {
+            let imageURLString = String(format: WeatherString.imageURLFormat, iconName)
+            weatherImageView.downloadImageFrom(imageURLString)
+        }
         addressLabel.text = WeatherModel.shared.address
         guard let currentWeather = weather else {
             return resetUI()

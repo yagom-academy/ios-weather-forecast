@@ -30,7 +30,8 @@ class ForecastTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
-        imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.0).isActive = true
+        imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1.0).isActive = true
+        imageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return imageView
     }()
 
@@ -67,7 +68,11 @@ class ForecastTableViewCell: UITableViewCell {
     }
     
     func setUpUI(with forecast: ForecastItem?) {
-        // TODO: add image
+        if let iconName = forecast?.weather.first?.iconName {
+            let imageURLString = String(format: WeatherString.imageURLFormat, iconName)
+            weatherImageView.downloadImageFrom(imageURLString)
+        }
+        
         dateLabel.text = forecast?.dateTimeToString
         guard let averageTemperature = forecast?.temperature.averageTemperature else {
             return resetUI()
