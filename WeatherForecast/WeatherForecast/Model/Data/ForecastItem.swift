@@ -18,3 +18,12 @@ struct ForecastItem: Decodable{
         case weather
     }
 }
+
+extension ForecastItem {
+    var dateTimeToString: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd(E) HH시"
+        dateFormatter.locale = Locale(identifier: "ko")
+        return dateFormatter.string(from: self.dateTime)
+    }
+}

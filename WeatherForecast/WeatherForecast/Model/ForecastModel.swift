@@ -23,6 +23,7 @@ class ForecastModel {
             case .failure:
                 callback(nil)
             case .success(let data):
+                self.item = data
                 callback(data)
             }
         }
