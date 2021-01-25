@@ -31,7 +31,7 @@ enum WeatherForecastError: LocalizedError {
         case .failDecode:
             return "데이터를 디코딩하는데 실패하였습니다."
         case .failGetAuthorization:
-            return "사용자 위치 권한을 승인받는다 실패하였습니다."
+            return "사용자 위치 권한을 승인받는데 실패하였습니다."
         }
     }
 }

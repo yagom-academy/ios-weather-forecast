@@ -49,4 +49,37 @@ final class WeatherForecastManager {
         }
         dataTask.resume()
     }
+    
+    func loadImage(imageID: String, completion: @escaping ((Result<Data?, WeatherForecastError>) -> Void)) {
+        let apiURL = Config.weatherImageURL(imageID: imageID)
+        guard let url = URL(string: apiURL) else {
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        let session: URLSession = URLSession(configuration: .default)
+        let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+            
+            if let error = error {
+                print(error.localizedDescription)
+                return completion(.failure(.failTransportData))
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                return completion(.failure(.failFetchData))
+            }
+            
+            guard let mimeType = httpResponse.mimeType, mimeType == "image/png" else {
+                return completion(.failure(.failMatchingMimeType))
+            }
+            
+            guard let data = data else {
+                return completion(.failure(.failGetData))
+            }
+            
+            return completion(.success(data))
+        }
+        dataTask.resume()
+    }
 }
