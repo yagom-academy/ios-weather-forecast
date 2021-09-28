@@ -10,7 +10,6 @@ import Foundation
 protocol APIable {
     var requestType: RequestType { get }
     var url: URL { get }
-    var contentType: ContentType { get }
     var parameter: [String:Any]? { get }
 }
 
@@ -22,16 +21,5 @@ enum RequestType: String {
     
     var methodName: String {
         return self.rawValue
-    }
-}
-
-enum ContentType {
-    case json
-    
-    var description: String {
-        switch self {
-        case .json:
-            return "application/json"
-        }
     }
 }
