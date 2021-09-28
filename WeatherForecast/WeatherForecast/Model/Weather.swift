@@ -8,10 +8,10 @@
 import Foundation
 
 struct Weather: Decodable {
-    let conditionId: Int
-    let kind: String
-    let description: String
-    let iconId: String
+    let conditionId: Int?
+    let kind: String?
+    let description: String?
+    let iconId: String?
     
     enum CodingKeys: String, CodingKey {
         case conditionId = "id"
