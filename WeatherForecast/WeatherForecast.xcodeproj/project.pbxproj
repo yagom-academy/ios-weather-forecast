@@ -21,6 +21,7 @@
 		C91EF69A2702DB9A0013E3D6 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6992702DB9A0013E3D6 /* Coordinate.swift */; };
 		C91EF69C2702E0290013E3D6 /* MainWeatherInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF69B2702E0290013E3D6 /* MainWeatherInformation.swift */; };
 		C91EF69E2702E7430013E3D6 /* Clouds.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF69D2702E7430013E3D6 /* Clouds.swift */; };
+		C91EF6A22702EE630013E3D6 /* Rain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6A12702EE630013E3D6 /* Rain.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		C91EF6992702DB9A0013E3D6 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 		C91EF69B2702E0290013E3D6 /* MainWeatherInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWeatherInformation.swift; sourceTree = "<group>"; };
 		C91EF69D2702E7430013E3D6 /* Clouds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clouds.swift; sourceTree = "<group>"; };
+		C91EF6A12702EE630013E3D6 /* Rain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rain.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 				3F444DBA2702E61600E60AA4 /* Wind.swift */,
 				C91EF69D2702E7430013E3D6 /* Clouds.swift */,
 				3F444DC22702EA6C00E60AA4 /* System.swift */,
+				C91EF6A12702EE630013E3D6 /* Rain.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 				C91EF69C2702E0290013E3D6 /* MainWeatherInformation.swift in Sources */,
 				C91EF69E2702E7430013E3D6 /* Clouds.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
+				C91EF6A22702EE630013E3D6 /* Rain.swift in Sources */,
 				3F444DBB2702E61600E60AA4 /* Wind.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
