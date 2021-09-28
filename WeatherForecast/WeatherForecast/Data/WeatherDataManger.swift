@@ -7,29 +7,73 @@
 
 import Foundation
 
-enum APIError: Error {
+enum APIError: LocalizedError {
     case invalidURL
     case invalidResponse
     case emptyData
     case unknown
+    
+    var errorDescription: String? {
+        switch self {
+        case .invalidURL:
+            return "Invalid URL"
+        case .invalidResponse:
+            return "Invalid Response"
+        case .emptyData:
+            return "Empty Data"
+        case .unknown:
+            return "Unknown"
+        }
+    }
 }
 
 final class WeatherDataManager {
     static let shared = WeatherDataManager()
+    private let appId = "af361cc4ac7bf412119174d64ba296ff"
+    
     private init() {}
     
+    func fetchCurrentWeather(completion: @escaping () -> ()) {
+        let url = "https://api.openweathermap.org/data/2.5/weather?lat=37.557297&lon=126.991934&appid=\(appId)&units=metric&lang=kr"
+        self.fetch(urlString: url) { (result: Result<CurrentWeather, APIError>) in
+            switch result {
+            case .success(let currentWeather):
+                return print(currentWeather)
+            case .failure(let error):
+                self.handleError(error)
+            }
+        }
+    }
+    
+    func fetchFiveDaysWeather(completion: @escaping () -> ()) {
+        let url = "https://api.openweathermap.org/data/2.5/forecast?lat=37.557297&lon=126.991934&appid=\(appId)&units=metric&lang=kr"
+        self.fetch(urlString: url) { (result: Result<FivedaysWeather, APIError>) in
+            switch result {
+            case .success(let currentWeather):
+                return print(currentWeather)
+            case .failure(let error):
+                self.handleError(error)
+            }
+        }
+    }
+    
+    private func handleError(_ error: Error) {
+        if let apiError = error as? APIError {
+            print(apiError)
+        }
+    }
 }
 
 extension WeatherDataManager: JSONDecodable {
-    private func fetch<ParsingType: Codable>(urlString: String, completion: @escaping (Result<ParsingType, Error>) -> ()) {
+    private func fetch<ParsingType: Codable>(urlString: String, completion: @escaping (Result<ParsingType, APIError>) -> ()) {
         guard let url = URL(string: urlString) else {
             completion(.failure(APIError.invalidURL))
             return
         }
         
         URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
+            if let _ = error {
+                completion(.failure(.invalidURL))
                 return
             }
             
@@ -47,8 +91,7 @@ extension WeatherDataManager: JSONDecodable {
                 let data = try self.decodeJSON(ParsingType.self, from: data)
                 completion(.success(data))
             } catch {
-                debugPrint(error.localizedDescription)
-                completion(.failure(error))
+                completion(.failure(.emptyData))
             }
         }.resume()
     }

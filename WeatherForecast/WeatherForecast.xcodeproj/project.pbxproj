@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		27E513C427034D73001BDEBC /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E513C327034D73001BDEBC /* CurrentWeather.swift */; };
-		27E513C627034DD4001BDEBC /* AppKey.md in Resources */ = {isa = PBXBuildFile; fileRef = 27E513C527034DD4001BDEBC /* AppKey.md */; };
 		27E513C927035087001BDEBC /* JSONDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E513C827035087001BDEBC /* JSONDecodable.swift */; };
 		2B38AF8927034F8900081039 /* FiveDaysWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B38AF8827034F8900081039 /* FiveDaysWeather.swift */; };
 		2B38AF8B27035CD200081039 /* WeatherDataManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B38AF8A27035CD200081039 /* WeatherDataManger.swift */; };
@@ -41,7 +40,6 @@
 
 /* Begin PBXFileReference section */
 		27E513C327034D73001BDEBC /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
-		27E513C527034DD4001BDEBC /* AppKey.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AppKey.md; sourceTree = "<group>"; };
 		27E513C827035087001BDEBC /* JSONDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodable.swift; sourceTree = "<group>"; };
 		2B38AF8827034F8900081039 /* FiveDaysWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDaysWeather.swift; sourceTree = "<group>"; };
 		2B38AF8A27035CD200081039 /* WeatherDataManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataManger.swift; sourceTree = "<group>"; };
@@ -136,7 +134,6 @@
 				C79C8CFC25ADDDF300EEE3F1 /* Assets.xcassets */,
 				C79C8CFE25ADDDF300EEE3F1 /* LaunchScreen.storyboard */,
 				C79C8D0125ADDDF300EEE3F1 /* Info.plist */,
-				27E513C527034DD4001BDEBC /* AppKey.md */,
 			);
 			path = WeatherForecast;
 			sourceTree = "<group>";
@@ -264,7 +261,6 @@
 			files = (
 				C79C8D0025ADDDF300EEE3F1 /* LaunchScreen.storyboard in Resources */,
 				C79C8CFD25ADDDF300EEE3F1 /* Assets.xcassets in Resources */,
-				27E513C627034DD4001BDEBC /* AppKey.md in Resources */,
 				C79C8CFB25ADDDF200EEE3F1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
