@@ -28,6 +28,7 @@
 		C91EF6A62702FC290013E3D6 /* FiveDayWeatherForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6A52702FC290013E3D6 /* FiveDayWeatherForecast.swift */; };
 		C91EF6AA2702FD9E0013E3D6 /* WeatherForOneDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6A92702FD9E0013E3D6 /* WeatherForOneDay.swift */; };
 		C91EF6AD270311600013E3D6 /* APIable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6AC270311600013E3D6 /* APIable.swift */; };
+		C91EF6B127035D330013E3D6 /* CurrentWeatherAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6B027035D330013E3D6 /* CurrentWeatherAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		C91EF6A52702FC290013E3D6 /* FiveDayWeatherForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDayWeatherForecast.swift; sourceTree = "<group>"; };
 		C91EF6A92702FD9E0013E3D6 /* WeatherForOneDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForOneDay.swift; sourceTree = "<group>"; };
 		C91EF6AC270311600013E3D6 /* APIable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIable.swift; sourceTree = "<group>"; };
+		C91EF6B027035D330013E3D6 /* CurrentWeatherAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 			children = (
 				C91EF6AC270311600013E3D6 /* APIable.swift */,
 				3F444DE8270325A200E60AA4 /* WeatherAPIable.swift */,
+				C91EF6B027035D330013E3D6 /* CurrentWeatherAPI.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				C91EF6A42702EF880013E3D6 /* City.swift in Sources */,
 				C91EF69E2702E7430013E3D6 /* Clouds.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
+				C91EF6B127035D330013E3D6 /* CurrentWeatherAPI.swift in Sources */,
 				3F444DE9270325A200E60AA4 /* WeatherAPIable.swift in Sources */,
 				C91EF6AA2702FD9E0013E3D6 /* WeatherForOneDay.swift in Sources */,
 				C91EF6A22702EE630013E3D6 /* Rain.swift in Sources */,
