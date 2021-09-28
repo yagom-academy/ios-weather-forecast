@@ -2,7 +2,7 @@
 //  TodayWeatherInfo.swift
 //  WeatherForecast
 //
-//  Created by 이예원 on 2021/09/28.
+//  Created by 샬롯, 수박, 루얀 on 2021/09/28.
 //
 
 import Foundation
@@ -28,21 +28,29 @@ struct WeatherNumericalValue: Codable {
     let pressure: Int
     let humidity: Int
     
+    let seaLevel: Int?
+    let groundLevel: Int?
+    let tempKF: Double?
+    
     enum CodingKeys: String, CodingKey {
         case pressure, humidity
         case temperature = "temp"
         case feelsLike = "feels_like"
         case minimumTemperature = "temp_min"
         case maximumTemperature = "temp_max"
+        case seaLevel = "sea_level"
+        case groundLevel = "grnd_level"
+        case tempKF = "temp_kf"
     }
 }
 
 struct WindNumericalValue: Codable {
     let speed: Double
+    let gust: Double?
     let degree: Int
     
     enum CodingKeys: String, CodingKey {
-        case speed
+        case speed, gust
         case degree = "deg"
     }
 }
