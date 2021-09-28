@@ -21,6 +21,7 @@ struct CurrentWeather: Codable {
     let id: Int
     let name: String
     let cod: Int
+    
     struct Coord: Codable {
         let lon: Double
         let lat: Double
@@ -61,7 +62,7 @@ struct CurrentWeather: Codable {
     struct Sys: Codable {
         let type: Int
         let id: Int
-        let message: Double
+        let message: Double?
         let country: String
         let sunrise: Int
         let sunset: Int
