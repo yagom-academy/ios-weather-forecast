@@ -7,7 +7,7 @@
 
 import Foundation
 
-class WeatherApi {
+class NetworkManager {
     enum APIError: Error, LocalizedError {
         case filePathError
         case plistError
