@@ -8,7 +8,7 @@
 import Foundation
 
 struct Snow: Decodable {
-    let lastThreeHoursVolume: Double
+    let lastThreeHoursVolume: Double?
     
     enum CodingKeys: String, CodingKey {
         case lastThreeHoursVolume = "3h"
