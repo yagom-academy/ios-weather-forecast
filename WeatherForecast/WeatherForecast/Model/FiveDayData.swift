@@ -7,6 +7,26 @@
 
 import Foundation
 
-struct FiveDayData {
+struct FiveDayData: Codable {
+    let cod: Int?
+    let message: Int?
+    let countOfTimestamps: Int?
+    let weatherList: [IntervalData]?
+    let city: City?
     
+    enum CodingKeys: String, CodingKey {
+        case cod, message, city
+        case countOfTimestamps = "cnt"
+        case weatherList = "list"
+    }
+}
+
+struct City: Codable {
+    let id: Int?
+    let name: Int?
+    let coord: Coordinate?
+    let country: String?
+    let timezone: Int?
+    let sunrise: Int?
+    let sunset: Int?
 }
