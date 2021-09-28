@@ -24,6 +24,8 @@
 		C91EF69E2702E7430013E3D6 /* Clouds.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF69D2702E7430013E3D6 /* Clouds.swift */; };
 		C91EF6A22702EE630013E3D6 /* Rain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6A12702EE630013E3D6 /* Rain.swift */; };
 		C91EF6A42702EF880013E3D6 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6A32702EF880013E3D6 /* City.swift */; };
+		C91EF6A62702FC290013E3D6 /* FiveDayWeatherForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6A52702FC290013E3D6 /* FiveDayWeatherForecast.swift */; };
+		C91EF6AA2702FD9E0013E3D6 /* WeatherForOneDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6A92702FD9E0013E3D6 /* WeatherForOneDay.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,8 @@
 		C91EF69D2702E7430013E3D6 /* Clouds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clouds.swift; sourceTree = "<group>"; };
 		C91EF6A12702EE630013E3D6 /* Rain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rain.swift; sourceTree = "<group>"; };
 		C91EF6A32702EF880013E3D6 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		C91EF6A52702FC290013E3D6 /* FiveDayWeatherForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDayWeatherForecast.swift; sourceTree = "<group>"; };
+		C91EF6A92702FD9E0013E3D6 /* WeatherForOneDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForOneDay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +163,8 @@
 				C91EF6A12702EE630013E3D6 /* Rain.swift */,
 				3F444DCA2702EEFC00E60AA4 /* Snow.swift */,
 				C91EF6A32702EF880013E3D6 /* City.swift */,
+				C91EF6A52702FC290013E3D6 /* FiveDayWeatherForecast.swift */,
+				C91EF6A92702FD9E0013E3D6 /* WeatherForOneDay.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -294,10 +300,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C91EF69C2702E0290013E3D6 /* MainWeatherInformation.swift in Sources */,
+				C91EF6A62702FC290013E3D6 /* FiveDayWeatherForecast.swift in Sources */,
 				3F444DCB2702EEFC00E60AA4 /* Snow.swift in Sources */,
 				C91EF6A42702EF880013E3D6 /* City.swift in Sources */,
 				C91EF69E2702E7430013E3D6 /* Clouds.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
+				C91EF6AA2702FD9E0013E3D6 /* WeatherForOneDay.swift in Sources */,
 				C91EF6A22702EE630013E3D6 /* Rain.swift in Sources */,
 				3F444DBB2702E61600E60AA4 /* Wind.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
