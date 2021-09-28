@@ -8,7 +8,15 @@
 import Foundation
 
 protocol WeatherInformation {
-    
+    var weather: [Weather]? { get }
+    var main: MainInformation? { get }
+    var visibility: Int? { get }
+    var wind: Wind? { get }
+    var clouds: Clouds? { get }
+    var date: TimeInterval? { get }
+    var sys: Sys? { get }
+    var rain: Rain? { get }
+    var snow: Snow? { get }
 }
 
 struct Coordinate {
@@ -54,12 +62,22 @@ struct Sys: Codable {
     let pod: String?
 }
 
-struct Rain {
+struct Rain: Codable {
     let oneHour: Int?
     let threeHours: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case oneHour = "1h"
+        case threeHours = "3h"
+    }
 }
 
-struct Snow {
+struct Snow: Codable {
     let oneHour: Int?
     let threeHours: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case oneHour = "1h"
+        case threeHours = "3h"
+    }
 }
