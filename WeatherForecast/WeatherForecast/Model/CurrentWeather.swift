@@ -23,9 +23,9 @@ struct CurrentWeather: Decodable {
     let cod: Int
     
     enum CodingKeys: String, CodingKey {
-      case weather, base, main, visibility, wind, clouds, sys, timeZone, id, name, cod
-      case coordinates = "coord"
-      case calculationTime = "dt"
+        case weather, base, main, visibility, wind, clouds, sys, timeZone, id, name, cod
+        case coordinates = "coord"
+        case calculationTime = "dt"
     }
     
     struct Sys: Decodable {
