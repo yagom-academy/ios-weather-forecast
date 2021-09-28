@@ -26,6 +26,7 @@
 		C91EF6A42702EF880013E3D6 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6A32702EF880013E3D6 /* City.swift */; };
 		C91EF6A62702FC290013E3D6 /* FiveDayWeatherForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6A52702FC290013E3D6 /* FiveDayWeatherForecast.swift */; };
 		C91EF6AA2702FD9E0013E3D6 /* WeatherForOneDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6A92702FD9E0013E3D6 /* WeatherForOneDay.swift */; };
+		C91EF6AD270311600013E3D6 /* APIable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6AC270311600013E3D6 /* APIable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		C91EF6A32702EF880013E3D6 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		C91EF6A52702FC290013E3D6 /* FiveDayWeatherForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDayWeatherForecast.swift; sourceTree = "<group>"; };
 		C91EF6A92702FD9E0013E3D6 /* WeatherForOneDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForOneDay.swift; sourceTree = "<group>"; };
+		C91EF6AC270311600013E3D6 /* APIable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +156,7 @@
 		C91EF6982702DB640013E3D6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C91EF6AB270311510013E3D6 /* API */,
 				C91EF6992702DB9A0013E3D6 /* Coordinate.swift */,
 				3FAE34D42702DD5300A6C510 /* Weather.swift */,
 				C91EF69B2702E0290013E3D6 /* MainWeatherInformation.swift */,
@@ -167,6 +170,14 @@
 				C91EF6A92702FD9E0013E3D6 /* WeatherForOneDay.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		C91EF6AB270311510013E3D6 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				C91EF6AC270311600013E3D6 /* APIable.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -301,6 +312,7 @@
 			files = (
 				C91EF69C2702E0290013E3D6 /* MainWeatherInformation.swift in Sources */,
 				C91EF6A62702FC290013E3D6 /* FiveDayWeatherForecast.swift in Sources */,
+				C91EF6AD270311600013E3D6 /* APIable.swift in Sources */,
 				3F444DCB2702EEFC00E60AA4 /* Snow.swift in Sources */,
 				C91EF6A42702EF880013E3D6 /* City.swift in Sources */,
 				C91EF69E2702E7430013E3D6 /* Clouds.swift in Sources */,
