@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D30520D2702E2B300898455 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D30520C2702E2B300898455 /* CurrentWeather.swift */; };
+		4D3052112702E6CE00898455 /* FiveDaysWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3052102702E6CE00898455 /* FiveDaysWeather.swift */; };
 		C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */; };
 		C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */; };
 		C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */; };
@@ -35,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4D30520C2702E2B300898455 /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
+		4D3052102702E6CE00898455 /* FiveDaysWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDaysWeather.swift; sourceTree = "<group>"; };
 		C79C8CF025ADDDF200EEE3F1 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +110,8 @@
 				C79C8CFC25ADDDF300EEE3F1 /* Assets.xcassets */,
 				C79C8CFE25ADDDF300EEE3F1 /* LaunchScreen.storyboard */,
 				C79C8D0125ADDDF300EEE3F1 /* Info.plist */,
+				4D30520C2702E2B300898455 /* CurrentWeather.swift */,
+				4D3052102702E6CE00898455 /* FiveDaysWeather.swift */,
 			);
 			path = WeatherForecast;
 			sourceTree = "<group>";
@@ -258,7 +264,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D30520D2702E2B300898455 /* CurrentWeather.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
+				4D3052112702E6CE00898455 /* FiveDaysWeather.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
 			);
