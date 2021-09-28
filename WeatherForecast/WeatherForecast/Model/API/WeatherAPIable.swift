@@ -1,11 +1,15 @@
 //
-//  CallType.swift
+//  WeatherAPIable.swift
 //  WeatherForecast
 //
 //  Created by Kim Do hyung on 2021/09/28.
 //
 
 import Foundation
+
+protocol WeatherAPIable {
+    var callType: CallType { get }
+}
 
 enum CallType {
     case cityName(cityName: String, responseFormat: ContentType?,
@@ -14,9 +18,9 @@ enum CallType {
     case cityID(cityID: Int, responseFormat: ContentType?,
                 numberOfTimestamps: Int?, unitsOfMeasurement: MeasurementType?,
                 language: LanguageType?)
-    case geographicCoordinates(latitude: Double, longitude: Double,
-                               responseFormat: ContentType?, numberOfTimestamps: Int?,
-                               unitsOfMeasurement: MeasurementType?, language: LanguageType?)
+    case geographicCoordinates(coordinate: Coordinate, responseFormat: ContentType?,
+                               numberOfTimestamps: Int?, unitsOfMeasurement: MeasurementType?,
+                               language: LanguageType?)
     case ZIPCode(ZIPCode: Int, responseFormat: ContentType?,
                  numberOfTimestamps: Int?, unitsOfMeasurement: MeasurementType?,
                  language: LanguageType?)
