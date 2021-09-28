@@ -18,6 +18,7 @@
 		C79C8D0B25ADDDF400EEE3F1 /* WeatherForecastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8D0A25ADDDF400EEE3F1 /* WeatherForecastTests.swift */; };
 		C79C8D1625ADDDF400EEE3F1 /* WeatherForecastUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8D1525ADDDF400EEE3F1 /* WeatherForecastUITests.swift */; };
 		DFB4AE802703088400183B25 /* FiveDayForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB4AE7F2703088400183B25 /* FiveDayForecast.swift */; };
+		DFB4AE8327031EBB00183B25 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB4AE8227031EBB00183B25 /* ParsingManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		C79C8D1525ADDDF400EEE3F1 /* WeatherForecastUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecastUITests.swift; sourceTree = "<group>"; };
 		C79C8D1725ADDDF400EEE3F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DFB4AE7F2703088400183B25 /* FiveDayForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDayForecast.swift; sourceTree = "<group>"; };
+		DFB4AE8227031EBB00183B25 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 				75207D732703047E00CFA323 /* CurrentWeather.swift */,
 				DFB4AE7F2703088400183B25 /* FiveDayForecast.swift */,
 				75207D7527030D2F00CFA323 /* CommonWeatherType.swift */,
+				DFB4AE8227031EBB00183B25 /* ParsingManager.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -115,6 +118,7 @@
 		C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */ = {
 			isa = PBXGroup;
 			children = (
+				DFB4AE8127031E2A00183B25 /* Controller */,
 				75207D722703039000CFA323 /* Model */,
 				C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */,
 				C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */,
@@ -143,6 +147,13 @@
 				C79C8D1725ADDDF400EEE3F1 /* Info.plist */,
 			);
 			path = WeatherForecastUITests;
+			sourceTree = "<group>";
+		};
+		DFB4AE8127031E2A00183B25 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -279,6 +290,7 @@
 				75207D742703047E00CFA323 /* CurrentWeather.swift in Sources */,
 				DFB4AE802703088400183B25 /* FiveDayForecast.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
+				DFB4AE8327031EBB00183B25 /* ParsingManager.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
 				75207D7627030D2F00CFA323 /* CommonWeatherType.swift in Sources */,
 			);
