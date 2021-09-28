@@ -23,6 +23,7 @@
 		C91EF69C2702E0290013E3D6 /* MainWeatherInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF69B2702E0290013E3D6 /* MainWeatherInformation.swift */; };
 		C91EF69E2702E7430013E3D6 /* Clouds.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF69D2702E7430013E3D6 /* Clouds.swift */; };
 		C91EF6A22702EE630013E3D6 /* Rain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6A12702EE630013E3D6 /* Rain.swift */; };
+		C91EF6A42702EF880013E3D6 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6A32702EF880013E3D6 /* City.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		C91EF69B2702E0290013E3D6 /* MainWeatherInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWeatherInformation.swift; sourceTree = "<group>"; };
 		C91EF69D2702E7430013E3D6 /* Clouds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clouds.swift; sourceTree = "<group>"; };
 		C91EF6A12702EE630013E3D6 /* Rain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rain.swift; sourceTree = "<group>"; };
+		C91EF6A32702EF880013E3D6 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +158,7 @@
 				3F444DC22702EA6C00E60AA4 /* System.swift */,
 				C91EF6A12702EE630013E3D6 /* Rain.swift */,
 				3F444DCA2702EEFC00E60AA4 /* Snow.swift */,
+				C91EF6A32702EF880013E3D6 /* City.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -292,6 +295,7 @@
 			files = (
 				C91EF69C2702E0290013E3D6 /* MainWeatherInformation.swift in Sources */,
 				3F444DCB2702EEFC00E60AA4 /* Snow.swift in Sources */,
+				C91EF6A42702EF880013E3D6 /* City.swift in Sources */,
 				C91EF69E2702E7430013E3D6 /* Clouds.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
 				C91EF6A22702EE630013E3D6 /* Rain.swift in Sources */,
