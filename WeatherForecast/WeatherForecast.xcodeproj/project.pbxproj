@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		75207D742703047E00CFA323 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75207D732703047E00CFA323 /* CurrentWeather.swift */; };
+		75207D7627030D2F00CFA323 /* CommonWeatherType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75207D7527030D2F00CFA323 /* CommonWeatherType.swift */; };
 		C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */; };
 		C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */; };
 		C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		75207D732703047E00CFA323 /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
+		75207D7527030D2F00CFA323 /* CommonWeatherType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWeatherType.swift; sourceTree = "<group>"; };
 		C79C8CF025ADDDF200EEE3F1 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			children = (
 				75207D732703047E00CFA323 /* CurrentWeather.swift */,
 				DFB4AE7F2703088400183B25 /* FiveDayForecast.swift */,
+				75207D7527030D2F00CFA323 /* CommonWeatherType.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 				DFB4AE802703088400183B25 /* FiveDayForecast.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
+				75207D7627030D2F00CFA323 /* CommonWeatherType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
