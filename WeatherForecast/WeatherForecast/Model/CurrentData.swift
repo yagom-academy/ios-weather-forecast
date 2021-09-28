@@ -26,7 +26,7 @@ struct CurrentData: WeatherInformation {
     let cod: Int?
 
     enum CodingKeys: String, CodingKey {
-        case weather, main, visibility, wind, clouds, sys, rain, snow, pop
+        case weather, main, visibility, wind, clouds, sys, rain, snow
         case base, timezone, cod
         case date = "dt"
         case coordinate = "coord"

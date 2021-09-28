@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol WeatherInformation {
+protocol WeatherInformation: Codable {
     var weather: [Weather]? { get }
     var main: MainInformation? { get }
     var visibility: Int? { get }
@@ -19,7 +19,7 @@ protocol WeatherInformation {
     var snow: Snow? { get }
 }
 
-struct Coordinate {
+struct Coordinate: Codable {
     let lon: Double?
     let lat: Double?
 }
