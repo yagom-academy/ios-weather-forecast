@@ -8,13 +8,13 @@
 import Foundation
 
 struct City: Decodable {
-    let id: Int
-    let name: String
-    let coodinate: Coordinate
-    let country: String
-    let timezone: Int
-    let sunriseTime: TimeInterval
-    let sunsetTime: TimeInterval
+    let id: Int?
+    let name: String?
+    let coodinate: Coordinate?
+    let country: String?
+    let timezone: Int?
+    let sunriseTime: TimeInterval?
+    let sunsetTime: TimeInterval?
     
     enum CodingKeys: String, CodingKey {
         case id, name, coodinate, country, timezone
