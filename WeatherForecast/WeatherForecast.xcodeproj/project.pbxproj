@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3A02D4F9DF2E3C13C3B082CD /* Pods_WeatherForecastTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DBF8F98C36FA5DB686E1C7A /* Pods_WeatherForecastTests.framework */; };
 		4DFD0B47F16801AE13C3E3A3 /* Pods_WeatherForecast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 896E7CA1D949ED8DD7233213 /* Pods_WeatherForecast.framework */; };
+		79ED8AB5270304D800F1225B /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 79ED8AB4270304D700F1225B /* .swiftlint.yml */; };
 		975BF4DA7577793921DE34EC /* Pods_WeatherForecast_WeatherForecastUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E3CBF32B5200003A33C4A12 /* Pods_WeatherForecast_WeatherForecastUITests.framework */; };
 		C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */; };
 		C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */; };
@@ -44,6 +45,7 @@
 		3E3CBF32B5200003A33C4A12 /* Pods_WeatherForecast_WeatherForecastUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherForecast_WeatherForecastUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64CAB796822E9BB0C7109143 /* Pods-WeatherForecast.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherForecast.release.xcconfig"; path = "Target Support Files/Pods-WeatherForecast/Pods-WeatherForecast.release.xcconfig"; sourceTree = "<group>"; };
 		68138DC72D007FB396710CD0 /* Pods-WeatherForecast-WeatherForecastUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherForecast-WeatherForecastUITests.debug.xcconfig"; path = "Target Support Files/Pods-WeatherForecast-WeatherForecastUITests/Pods-WeatherForecast-WeatherForecastUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		79ED8AB4270304D700F1225B /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		896E7CA1D949ED8DD7233213 /* Pods_WeatherForecast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherForecast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB1763C195E5BB66C61D4402 /* Pods-WeatherForecastTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherForecastTests.debug.xcconfig"; path = "Target Support Files/Pods-WeatherForecastTests/Pods-WeatherForecastTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C79C8CF025ADDDF200EEE3F1 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +109,7 @@
 		C79C8CE725ADDDF200EEE3F1 = {
 			isa = PBXGroup;
 			children = (
+				79ED8AB4270304D700F1225B /* .swiftlint.yml */,
 				C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */,
 				C79C8D0925ADDDF400EEE3F1 /* WeatherForecastTests */,
 				C79C8D1425ADDDF400EEE3F1 /* WeatherForecastUITests */,
@@ -275,6 +278,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79ED8AB5270304D800F1225B /* .swiftlint.yml in Resources */,
 				C79C8D0025ADDDF300EEE3F1 /* LaunchScreen.storyboard in Resources */,
 				C79C8CFD25ADDDF300EEE3F1 /* Assets.xcassets in Resources */,
 				C79C8CFB25ADDDF200EEE3F1 /* Main.storyboard in Resources */,
