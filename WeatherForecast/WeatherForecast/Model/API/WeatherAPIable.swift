@@ -12,28 +12,45 @@ protocol WeatherAPIable {
 }
 
 enum CallType {
-    case cityName(cityName: String, responseFormat: ContentType?,
-                  numberOfTimestamps: Int?, unitsOfMeasurement: MeasurementType?,
-                  language: LanguageType?)
-    case cityID(cityID: Int, responseFormat: ContentType?,
-                numberOfTimestamps: Int?, unitsOfMeasurement: MeasurementType?,
-                language: LanguageType?)
-    case geographicCoordinates(coordinate: Coordinate, responseFormat: ContentType?,
-                               numberOfTimestamps: Int?, unitsOfMeasurement: MeasurementType?,
-                               language: LanguageType?)
-    case ZIPCode(ZIPCode: Int, responseFormat: ContentType?,
-                 numberOfTimestamps: Int?, unitsOfMeasurement: MeasurementType?,
-                 language: LanguageType?)
+    case cityName(cityName: String, parameter: CommonWeatherAPIParameter?)
+    case cityID(cityID: Int, parameter: CommonWeatherAPIParameter?)
+    case geographicCoordinates(coordinate: Coordinate, parameter: CommonWeatherAPIParameter?)
+    case ZIPCode(ZIPCode: Int, parameter: CommonWeatherAPIParameter?)
 }
 
-enum ContentType {
+struct CommonWeatherAPIParameter {
+    let responseFormat: ContentType?
+    let numberOfTimestamps: Int?
+    let unitsOfMeasurement: MeasurementType?
+    let language: LanguageType?
+    
+    func generateURLQueryItems() -> [URLQueryItem] {
+        let modeItem = generateURLQueryItem(name: "mode",
+                                            value: responseFormat?.formatValue as Any)
+        let cntItem = generateURLQueryItem(name: "cnt",
+                                           value: numberOfTimestamps?.description as Any)
+        let unitsItem = generateURLQueryItem(name: "units",
+                                             value: unitsOfMeasurement?.unitValue as Any)
+        let langItem = generateURLQueryItem(name: "lang",
+                                            value: language?.languageValue as Any)
+        
+        return [modeItem, cntItem, unitsItem, langItem].compactMap { $0 }
+    }
+    
+    private func generateURLQueryItem(name: String, value: Any) -> URLQueryItem? {
+        if NSNull.isEqual(value) {
+            return nil
+        } else {
+            return URLQueryItem(name: name, value: "\(value)")
+        }
+    }
+}
+
+enum ContentType: String {
     case json
     
-    var description: String {
-        switch self {
-        case .json:
-            return "application/json"
-        }
+    var formatValue: String {
+        return self.rawValue
     }
 }
 
@@ -42,7 +59,7 @@ enum MeasurementType: String {
     case metric
     case imperial
     
-    var unitDescription: String {
+    var unitValue: String {
         return self.rawValue
     }
 }
@@ -50,7 +67,7 @@ enum MeasurementType: String {
 enum LanguageType: String {
     case korean = "kr"
     
-    var languageDescription: String {
+    var languageValue: String {
         return self.rawValue
     }
 }
