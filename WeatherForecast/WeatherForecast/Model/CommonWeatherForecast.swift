@@ -10,6 +10,11 @@ import Foundation
 struct Coordinates: Decodable {
     let longitude: Double
     let latitude: Double
+    
+    enum CodingKeys: String, CodingKey {
+        case longitude = "lon"
+        case latitude = "lat"
+    }
 }
 
 struct Clouds: Decodable {
@@ -20,6 +25,11 @@ struct Wind: Decodable {
     let speed: Double
     let degree: Double
     let gust: Double?
+    
+    enum CodingKeys: String, CodingKey {
+        case speed, gust
+        case degree = "deg"
+    }
 }
 
 struct Weather: Decodable {
@@ -30,14 +40,23 @@ struct Weather: Decodable {
 }
 
 struct Main: Decodable {
-    let temp: Double
-    let feelsLike: Double
-    let tempMin: Double
-    let tempMax: Double
+    let temperature: Double
+    let feelsLikeTemperature: Double
+    let minTemperature: Double
+    let maxTemperature: Double
     let pressure: Int
     let humidity: Int
     let seaLevel: Int?
-    let grndLevel: Int?
+    let groundLevel: Int?
     let tempKf: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case pressure, humidity, seaLevel, tempKf
+        case temperature = "temp"
+        case feelsLikeTemperature = "feels_like"
+        case minTemperature = "temp_min"
+        case maxTemperature = "temp_max"
+        case groundLevel = "grnd_level"
+    }
 }
 
