@@ -30,6 +30,26 @@ struct Clouds: Decodable {
     let all: Int
 }
 
+struct Rain: Decodable {
+    let oneHour: Double?
+    let threeHour: Double?
+    
+    enum CodingKeys: String, CodingKey {
+        case oneHour = "1h"
+        case threeHour = "3h"
+    }
+}
+
+struct Snow: Decodable {
+    let oneHour: Double?
+    let threeHour: Double?
+    
+    enum CodingKeys: String, CodingKey {
+        case oneHour = "1h"
+        case threeHour = "3h"
+    }
+}
+
 // MARK: - For CurrentWeather
 struct MainWeatherInfo: Decodable {
     let temp: Double
@@ -52,9 +72,10 @@ struct MainWeatherInfo: Decodable {
 }
 
 struct Sys: Decodable {
-    let type: Int
-    let id: Int
-    let country: String
+    let type: Int?
+    let id: Int?
+    let message: String?
+    let country: String?
     let sunrise: Int
     let sunset: Int
 }
@@ -93,12 +114,14 @@ struct List: Decodable {
     let clouds: Clouds
     let wind: Wind
     let visibility: Int
+    let rain: Rain
+    let snow: Snow
     let pop: Int
     let sys: ListSys
     let dtTxt: String
     
     enum CodingKeys: String, CodingKey {
-        case dt, main, weather,
+        case dt, main, weather, rain, snow,
              clouds, wind, visibility, pop, sys
         case dtTxt = "dt_txt"
     }

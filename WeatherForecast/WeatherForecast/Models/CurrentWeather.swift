@@ -15,6 +15,8 @@ struct CurrentWeather: Decodable {
     let visibility: Int
     let wind: Wind
     let clouds: Clouds
+    let rain: Rain
+    let snow: Snow
     let dt: Int
     let sys: Sys
     let timezone: Int
