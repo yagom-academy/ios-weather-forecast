@@ -33,7 +33,7 @@ struct City: Decodable {
 struct List: Decodable {
     let dt: Int
     let main: Main
-    let weather: Weather
+    let weather: [Weather]
     let cloud: Cloud
     let wind: Wind
     let visibility: Int
