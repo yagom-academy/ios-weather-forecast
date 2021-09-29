@@ -20,6 +20,9 @@
 		D4DDB10127030BA2004996CA /* Decodable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DDB10027030BA2004996CA /* Decodable+Extension.swift */; };
 		D4DDB10727030CB9004996CA /* ParsingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DDB10627030CB9004996CA /* ParsingError.swift */; };
 		E6AF5F7D2702ED08001C4613 /* CommonWeatherForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AF5F7C2702ED08001C4613 /* CommonWeatherForecast.swift */; };
+		E6C277AA27043EA70033FC67 /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = E6C277A927043EA70033FC67 /* APIKey.plist */; };
+		E6C277AD27043F1A0033FC67 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C277AC27043F1A0033FC67 /* NetworkManager.swift */; };
+		E6C277B1270451620033FC67 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C277B0270451620033FC67 /* APIKey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +62,9 @@
 		D4DDB10027030BA2004996CA /* Decodable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Extension.swift"; sourceTree = "<group>"; };
 		D4DDB10627030CB9004996CA /* ParsingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingError.swift; sourceTree = "<group>"; };
 		E6AF5F7C2702ED08001C4613 /* CommonWeatherForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWeatherForecast.swift; sourceTree = "<group>"; };
+		E6C277A927043EA70033FC67 /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
+		E6C277AC27043F1A0033FC67 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		E6C277B0270451620033FC67 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +115,7 @@
 		C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */ = {
 			isa = PBXGroup;
 			children = (
+				E6C277AB27043F050033FC67 /* Manager */,
 				D4DDB10527030CA6004996CA /* Enumeration */,
 				D4DDB0FE27030B83004996CA /* Extension */,
 				E6AF5F7B2702ECD6001C4613 /* Model */,
@@ -119,6 +126,7 @@
 				C79C8CFC25ADDDF300EEE3F1 /* Assets.xcassets */,
 				C79C8CFE25ADDDF300EEE3F1 /* LaunchScreen.storyboard */,
 				C79C8D0125ADDDF300EEE3F1 /* Info.plist */,
+				E6C277A927043EA70033FC67 /* APIKey.plist */,
 			);
 			path = WeatherForecast;
 			sourceTree = "<group>";
@@ -153,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				D4DDB10627030CB9004996CA /* ParsingError.swift */,
+				E6C277B0270451620033FC67 /* APIKey.swift */,
 			);
 			path = Enumeration;
 			sourceTree = "<group>";
@@ -165,6 +174,14 @@
 				D4DDB0F927030203004996CA /* FiveDayWeather.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		E6C277AB27043F050033FC67 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				E6C277AC27043F1A0033FC67 /* NetworkManager.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C79C8D0025ADDDF300EEE3F1 /* LaunchScreen.storyboard in Resources */,
+				E6C277AA27043EA70033FC67 /* APIKey.plist in Resources */,
 				C79C8CFD25ADDDF300EEE3F1 /* Assets.xcassets in Resources */,
 				C79C8CFB25ADDDF200EEE3F1 /* Main.storyboard in Resources */,
 			);
@@ -297,6 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6C277AD27043F1A0033FC67 /* NetworkManager.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
 				D4DDB10127030BA2004996CA /* Decodable+Extension.swift in Sources */,
 				D4DDB0F22702F8FC004996CA /* CurrentWeather.swift in Sources */,
@@ -304,6 +323,7 @@
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
 				E6AF5F7D2702ED08001C4613 /* CommonWeatherForecast.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
+				E6C277B1270451620033FC67 /* APIKey.swift in Sources */,
 				D4DDB0FA27030203004996CA /* FiveDayWeather.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
