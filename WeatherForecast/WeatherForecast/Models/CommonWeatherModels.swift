@@ -9,25 +9,25 @@ import Foundation
 
 // MARK: - For CurrentWeather, FiveDaysWeather
 struct Weather: Decodable {
-    let id: Int
-    let main: String
-    let description: String
-    let icon: String
+    let id: Int?
+    let main: String?
+    let description: String?
+    let icon: String?
 }
 
 struct Coord: Decodable {
-    let lon: Double
-    let lat: Double
+    let lon: Double?
+    let lat: Double?
 }
 
 struct Wind: Decodable {
-    let speed: Double
-    let deg: Int
-    let gust: Double
+    let speed: Double?
+    let deg: Int?
+    let gust: Double?
 }
 
 struct Clouds: Decodable {
-    let all: Int
+    let all: Int?
 }
 
 struct Rain: Decodable {
@@ -52,14 +52,14 @@ struct Snow: Decodable {
 
 // MARK: - For CurrentWeather
 struct MainWeatherInfo: Decodable {
-    let temp: Double
-    let feelsLike: Double
-    let tempMin: Double
-    let tempMax: Double
-    let pressure: Int
-    let humidity: Int
-    let seaLevel: Int
-    let grndLevel: Int
+    let temp: Double?
+    let feelsLike: Double?
+    let tempMin: Double?
+    let tempMax: Double?
+    let pressure: Int?
+    let humidity: Int?
+    let seaLevel: Int?
+    let grndLevel: Int?
     
     enum CodingKeys: String, CodingKey {
         case temp, pressure, humidity
@@ -76,21 +76,21 @@ struct Sys: Decodable {
     let id: Int?
     let message: String?
     let country: String?
-    let sunrise: Int
-    let sunset: Int
+    let sunrise: Int?
+    let sunset: Int?
 }
 
 // MARK: - For FiveDaysWeather
 struct ListMainWeatherInfo: Decodable {
-    let temp: Double
-    let feelsLike: Double
-    let tempMin: Double
-    let tempMax: Double
-    let pressure: Int
-    let humidity: Int
-    let seaLevel: Int
-    let grndLevel: Int
-    let tempKf: Double
+    let temp: Double?
+    let feelsLike: Double?
+    let tempMin: Double?
+    let tempMax: Double?
+    let pressure: Int?
+    let humidity: Int?
+    let seaLevel: Int?
+    let grndLevel: Int?
+    let tempKf: Double?
     
     enum CodingKeys: String, CodingKey {
         case temp, pressure, humidity
@@ -104,21 +104,21 @@ struct ListMainWeatherInfo: Decodable {
 }
 
 struct ListSys: Decodable {
-    let pod: String
+    let pod: String?
 }
 
 struct List: Decodable {
-    let dt: Int
-    let main: ListMainWeatherInfo
-    let weather: [Weather]
-    let clouds: Clouds
-    let wind: Wind
-    let visibility: Int
-    let rain: Rain
-    let snow: Snow
-    let pop: Int
-    let sys: ListSys
-    let dtTxt: String
+    let dt: Int?
+    let main: ListMainWeatherInfo?
+    let weather: [Weather]?
+    let clouds: Clouds?
+    let wind: Wind?
+    let visibility: Int?
+    let rain: Rain?
+    let snow: Snow?
+    let pop: Int?
+    let sys: ListSys?
+    let dtTxt: String?
     
     enum CodingKeys: String, CodingKey {
         case dt, main, weather, rain, snow,
@@ -128,12 +128,12 @@ struct List: Decodable {
 }
 
 struct City: Decodable {
-    let id: Int
-    let name: String
-    let coord: Coord
-    let country: String
-    let population: Int
-    let timezone: Int
-    let sunrise: Int
-    let sunset: Int
+    let id: Int?
+    let name: String?
+    let coord: Coord?
+    let country: String?
+    let population: Int?
+    let timezone: Int?
+    let sunrise: Int?
+    let sunset: Int?
 }

@@ -8,9 +8,9 @@
 import Foundation
 
 struct FiveDaysWeather: Decodable {
-    let cod: String
-    let message: Int
-    let cnt: Int
-    let list: [List]
-    let city: City
+    let cod: String?
+    let message: Int?
+    let cnt: Int?
+    let list: [List]?
+    let city: City?
 }
