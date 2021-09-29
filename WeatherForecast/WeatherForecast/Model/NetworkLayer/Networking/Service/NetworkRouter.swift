@@ -7,19 +7,17 @@
 
 import Foundation
 
-typealias NetworkRouterCompletion = (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> ()
-
 protocol NetworkRouter {
-    //associatedtype EndPointType = EndPoint
+    associatedtype EndPointType = EndPoint
     
-    func request(_ route: EndPoint, _ session: URLSession)
+    func request(_ route: EndPointType, _ session: URLSession)
     func cancel()
 }
 
-class Router: NetworkRouter {
+class Router<EndPointType: EndPoint>: NetworkRouter {
     private var task: URLSessionDataTask?
     
-    func request(_ route: EndPoint, _ session: URLSession) {
+    func request(_ route: EndPointType, _ session: URLSession) {
         do {
             let request = try self.buildRequest(from: route)
             guard let url = request.url else {
@@ -33,19 +31,24 @@ class Router: NetworkRouter {
     }
     
     func cancel() {
+        self.task?.cancel()
     }
     
-    func buildRequest(from route: EndPoint) throws -> URLRequest {
+    private func buildRequest(from route: EndPointType) throws -> URLRequest {
         var request = URLRequest(url: route.baseUrl)
-        
-        switch route.httpTask {
-        case .requestWithUrlParameters(urlParameters: let urlParameter):
-            try self.configureUrlParameter(&request, urlParameter)
+        do {
+            switch route.httpTask {
+            case .requestWithUrlParameters(urlParameters: let urlParameter):
+                try self.configureUrlParameter(&request, urlParameter)
+            }
+        } catch {
+            print(error)
         }
+        
         return request
     }
     
-    func configureUrlParameter(_ request: inout URLRequest, _ urlParameters: Parameters) throws {
+    private func configureUrlParameter(_ request: inout URLRequest, _ urlParameters: Parameters) throws {
         do {
             try URLParameterEncoder.encode(urlRequest: &request, with: urlParameters)
         } catch {
