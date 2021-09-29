@@ -22,6 +22,7 @@ class NetworkManager {
         }
     }
     
+    private let router = Router<WeatherApi>()
     private var apiKey: String {
         get {
             guard let filePath = Bundle.main.path(forResource: "Info", ofType: "plist") else {
@@ -36,5 +37,13 @@ class NetworkManager {
             
             return value
         }
+    }
+    
+    func getCurrentWeatherData(weatherAPI: WeatherApi, _ session: URLSession) {
+        router.request(weatherAPI, session)
+    }
+    
+    func getFiveDaysForecastData(weatherAPI: WeatherApi, _ session: URLSession) {
+        router.request(weatherAPI, session)
     }
 }
