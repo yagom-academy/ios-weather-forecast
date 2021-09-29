@@ -37,6 +37,15 @@ class Router: NetworkRouter {
     
     func buildRequest(from route: EndPoint) throws -> URLRequest {
         let request = URLRequest(url: route.baseUrl)
+        
+        switch route.httpTask {
+        case .requestWithUrlParameters(urlParameters: let urlParameter):
+            try self.configureUrlParameter(urlParameter)
+        }
         return request
+    }
+    
+    func configureUrlParameter(_ urlParameters: Parameters) throws {
+        
     }
 }

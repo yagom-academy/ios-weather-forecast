@@ -9,5 +9,5 @@ import Foundation
 typealias Parameters = [String: Any]
 
 enum HTTPTask {
-    case reqeustWithUrlParameters(urlParameters: Parameters)
+    case requestWithUrlParameters(urlParameters: Parameters)
 }
