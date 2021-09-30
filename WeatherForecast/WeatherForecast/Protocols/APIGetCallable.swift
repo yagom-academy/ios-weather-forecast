@@ -36,7 +36,7 @@ enum APIError: LocalizedError {
     }
 }
 
-protocol APIGetCallable: JSONDecodable {
+protocol APIGetCallable {
    
 }
 
@@ -44,6 +44,7 @@ extension APIGetCallable {
     func callGetAPI<T, S>(_ responseType: T.Type,
                           _ errorType: S.Type,
                           url: String,
+                          decodeManager: JSONDecodable,
                           completion: @escaping (Result<T, Error>) -> Void
     ) where T: Decodable, S: Decodable & Error {
         let successRange = 200...299
@@ -66,7 +67,7 @@ extension APIGetCallable {
                 
                 guard successRange.contains(httpResponse.statusCode) else {
                     if let data = data {
-                        let parsedError = try self.decodedJSON(S.self, from: data)
+                        let parsedError = try decodeManager.decodeJSON(S.self, from: data)
                         completion(.failure(parsedError))
                         return
                     }
@@ -80,7 +81,7 @@ extension APIGetCallable {
                     return
                 }
                 
-                let parsedData = try self.decodedJSON(T.self, from: data)
+                let parsedData = try decodeManager.decodeJSON(T.self, from: data)
                 completion(.success(parsedData))
             } catch let parsingError as ParsingError {
                 completion(.failure(parsingError))
