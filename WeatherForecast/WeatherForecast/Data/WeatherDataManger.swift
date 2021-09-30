@@ -74,7 +74,7 @@ extension WeatherDataManager: JSONDecodable {
         }
         
         URLSession.shared.dataTask(with: url) { data, response, error in
-            if let _ = error {
+            if error != nil {
                 completion(.failure(.invalidURL))
                 return
             }

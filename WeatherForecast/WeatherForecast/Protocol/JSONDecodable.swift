@@ -21,7 +21,9 @@ enum ParsingError: LocalizedError {
     }
 }
 
-protocol JSONDecodable {}
+protocol JSONDecodable {
+    func decodeJSON<T: Decodable>(_ type: T.Type, from data: Data) throws -> T
+}
 
 extension JSONDecodable {
     func decodeJSON<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
