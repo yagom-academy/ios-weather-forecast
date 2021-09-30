@@ -12,7 +12,9 @@ enum WeatherForecastRoute: Route {
     case fiveDay
     
     private static var apiKey: String? {
-        guard let filePath = Bundle.main.path(forResource: APIKey.fileName, ofType: APIKey.fileExtension) else {
+        guard let filePath = Bundle.main.path(forResource: APIKey.fileName,
+                                              ofType: APIKey.fileExtension)
+        else {
             return nil
         }
         
