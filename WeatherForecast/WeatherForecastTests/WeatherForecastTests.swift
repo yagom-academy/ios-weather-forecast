@@ -46,4 +46,8 @@ class WeatherForecastTests: XCTestCase {
         //then
         XCTAssertEqual(expectedValue, outputValue)
     }
+    
+    func test() {
+        
+    }
 }
