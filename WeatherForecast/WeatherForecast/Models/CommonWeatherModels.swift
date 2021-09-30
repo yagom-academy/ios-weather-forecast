@@ -116,10 +116,10 @@ struct List: Decodable {
     let visibility: Int?
     let rain: Rain?
     let snow: Snow?
-    let pop: Int?
+    let pop: Double?
     let sys: ListSys?
     let dtTxt: String?
-    
+
     enum CodingKeys: String, CodingKey {
         case dt, main, weather, rain, snow,
              clouds, wind, visibility, pop, sys
