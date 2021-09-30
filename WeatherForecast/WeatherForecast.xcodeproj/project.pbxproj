@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D303278270600790047599D /* ErrorMessageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D303277270600790047599D /* ErrorMessageProtocol.swift */; };
+		4D30327A2706073A0047599D /* WeatherURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3032792706073A0047599D /* WeatherURL.swift */; };
 		4D30520D2702E2B300898455 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D30520C2702E2B300898455 /* CurrentWeather.swift */; };
 		4D3052112702E6CE00898455 /* FiveDaysWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3052102702E6CE00898455 /* FiveDaysWeather.swift */; };
 		4D3052142702EECB00898455 /* CommonWeatherModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3052132702EECB00898455 /* CommonWeatherModels.swift */; };
@@ -42,6 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4D303277270600790047599D /* ErrorMessageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessageProtocol.swift; sourceTree = "<group>"; };
+		4D3032792706073A0047599D /* WeatherURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherURL.swift; sourceTree = "<group>"; };
 		4D30520C2702E2B300898455 /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
 		4D3052102702E6CE00898455 /* FiveDaysWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDaysWeather.swift; sourceTree = "<group>"; };
 		4D3052132702EECB00898455 /* CommonWeatherModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWeatherModels.swift; sourceTree = "<group>"; };
@@ -90,6 +94,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4D303276270600460047599D /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				4D303277270600790047599D /* ErrorMessageProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		4D3052122702EE7100898455 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				798710D52705DA17008A679C /* APIResource.swift */,
+				4D3032792706073A0047599D /* WeatherURL.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -141,6 +154,7 @@
 		C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */ = {
 			isa = PBXGroup;
 			children = (
+				4D303276270600460047599D /* Protocols */,
 				798710D42705DA03008A679C /* Resources */,
 				4D3052152702FB0600898455 /* Managers */,
 				4D3052122702EE7100898455 /* Models */,
@@ -308,10 +322,12 @@
 				794EC4A52702F32F00F1AF9B /* DecodingManager.swift in Sources */,
 				4D3052172702FB2300898455 /* APIManager.swift in Sources */,
 				4D3052112702E6CE00898455 /* FiveDaysWeather.swift in Sources */,
+				4D303278270600790047599D /* ErrorMessageProtocol.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
 				4D896F6A2704999D00614E6E /* WeatherError.swift in Sources */,
 				798710D62705DA17008A679C /* APIResource.swift in Sources */,
+				4D30327A2706073A0047599D /* WeatherURL.swift in Sources */,
 				4D3052142702EECB00898455 /* CommonWeatherModels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
