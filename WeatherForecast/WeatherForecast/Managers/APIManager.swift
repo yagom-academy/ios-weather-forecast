@@ -42,7 +42,7 @@ class APIManager {
                           resource: APIResource,
                           decodeManager: JSONDecodable,
                           completion: @escaping (Result<T, Error>) -> Void
-    ) where T: Decodable, S: Decodable & Error {
+    ) where T: Decodable, S: Decodable & ErrorMessageProtocol {
         let successRange = 200...299
         
         guard let request = resource.generateRequest() else {
@@ -65,7 +65,7 @@ class APIManager {
                 guard successRange.contains(httpResponse.statusCode) else {
                     if let data = data {
                         let parsedError = try decodeManager.decodeJSON(S.self, from: data)
-                        completion(.failure(parsedError))
+                        completion(.failure(APIError.serverMessage(message: (parsedError as ErrorMessageProtocol).errorMessage)))
                         return
                     }
                     
