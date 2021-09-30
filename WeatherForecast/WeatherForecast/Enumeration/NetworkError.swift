@@ -10,4 +10,5 @@ import Foundation
 enum NetworkError: LocalizedError {
     case badResponse
     case dataIntegrityError
+    case invalidURL
 }
