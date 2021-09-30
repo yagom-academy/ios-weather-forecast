@@ -9,7 +9,7 @@ import Foundation
 
 struct NetworkManager {
     private let rangeOfSuccessState = 200...299
-
+    let watherforcast = WeatherForreCast()
     func getWeatherForecast(of period: Period,
                             latitude: Int,
                             longitude: Int,
@@ -17,7 +17,7 @@ struct NetworkManager {
                             completionHandler: @escaping (Result<Data, Error>) -> Void)
     {
         guard let apiKey = apiKey else { return }
-        var urlComponents = URLComponents(string: "https://api.openweathermap.org/data/2.5/\(period)?")
+        var urlComponents = URLComponents(string: "https://api.openweathermap.org/data/2.5/\(period.path)?")
         let latitudeQuery = URLQueryItem(name: "lat", value: latitude.description)
         let longitudeQuery = URLQueryItem(name: "lon", value: longitude.description)
         let apiKeyQuery = URLQueryItem(name: "appid", value: apiKey)
