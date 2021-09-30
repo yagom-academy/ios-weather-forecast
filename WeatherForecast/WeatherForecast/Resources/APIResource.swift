@@ -26,3 +26,13 @@ struct APIResource {
         }
     }
 }
+
+extension APIResource {
+    init(method: Method, weatherURL: WeatherURL) {
+        self.method = method
+        self.url = weatherURL.generateURLPath()
+    }
+}
+
+
+
