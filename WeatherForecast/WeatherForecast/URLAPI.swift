@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum URLRequest {
+enum URLAPI {
     case getCurrent
     case getForecast
     
@@ -21,13 +21,13 @@ enum URLRequest {
     }
 }
 
-extension URLRequest {
-    func configure(url: URLRequest, latitude: Double, longitude: Double) -> URL? {
+extension URLAPI {
+    func configure(urlAPI: URLAPI, latitude: Double, longitude: Double) -> URL? {
         let apiKey = "1af72e89e05d364984fe32463122135f"
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "api.openweathermap.org"
-        urlComponents.path = url.path
+        urlComponents.path = urlAPI.path
         let lat = URLQueryItem(name: "lat", value: latitude.description)
         let lon = URLQueryItem(name: "lon", value: longitude.description)
         let appId = URLQueryItem(name: "appid", value: apiKey)

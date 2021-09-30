@@ -13,10 +13,30 @@ protocol URLSessionProtocol {
 
 extension URLSession: URLSessionProtocol { }
 
+typealias SessionResult = (Result<Data, Error>) -> ()
+
 class NetworkManager {
-    let session: URLSessionProtocol
+    private let session: URLSessionProtocol
+    private let parsingManager = ParsingManager()
     
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
+    }
+    
+    func request(url: URL, completion: @escaping SessionResult) {
+        let task = session.dataTask(with: url) { data, response, error in
+            guard error == nil else {
+                return
+            }
+            guard let response = response as? HTTPURLResponse,
+                  (200...299).contains(response.statusCode) else {
+                return
+            }
+            guard let data = data else {
+                return
+            }
+            completion(.success(data))
+        }
+        task.resume()
     }
 }
