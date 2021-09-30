@@ -60,6 +60,8 @@ final class WeatherDataManager {
     private func handleError(_ error: Error) {
         if let apiError = error as? APIError {
             print(apiError)
+        } else {
+            print("Oher error: \(error)")
         }
     }
 }
