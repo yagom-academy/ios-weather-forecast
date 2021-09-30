@@ -13,5 +13,5 @@ protocol Route {
     var path: String { get }
     var httpMethod: HTTPMethod { get }
     
-    func buildRequest(with parameters: [URLQueryItem]) -> URLRequest
+    static func createParameters(latitude: Int, longitude: Int) -> [URLQueryItem]
 }
