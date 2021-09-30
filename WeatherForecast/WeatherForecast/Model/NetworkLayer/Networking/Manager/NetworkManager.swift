@@ -25,7 +25,7 @@ class NetworkManager {
     private let router = Router<WeatherApi>()
     private var apiKey: String {
         get {
-            guard let filePath = Bundle.main.path(forResource: "Info", ofType: "plist") else {
+            guard let filePath = Bundle.main.path(forResource: "APIKey", ofType: "plist") else {
                 return APIError.filePathError.description
             }
             

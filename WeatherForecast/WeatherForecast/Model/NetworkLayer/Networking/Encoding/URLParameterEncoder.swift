@@ -24,4 +24,4 @@ struct URLParameterEncoder: ParameterEncoding {
         }
     }
 }
-    
+
