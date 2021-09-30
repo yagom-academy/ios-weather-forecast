@@ -1,3 +1,6 @@
+disabled_rules:
+- identifier_name
+- nesting
 excluded:
 - WeatherForecast/SceneDelegate.swift
 - WeatherForecast/AppDelegate.swift
