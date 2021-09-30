@@ -36,24 +36,21 @@ enum APIError: LocalizedError {
     }
 }
 
-protocol APIGetCallable {
-   
-}
-
-extension APIGetCallable {
-    func callGetAPI<T, S>(_ responseType: T.Type,
+class APIManager {
+    static func requestAPI<T, S>(_ responseType: T.Type,
                           _ errorType: S.Type,
-                          url: String,
+                          resource: APIResource,
                           decodeManager: JSONDecodable,
                           completion: @escaping (Result<T, Error>) -> Void
     ) where T: Decodable, S: Decodable & Error {
         let successRange = 200...299
-        guard let url = URL(string: url) else {
+        
+        guard let request = resource.generateRequest() else {
             completion(.failure(APIError.invalidUrl))
             return
         }
         
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
             do {
                 guard error == nil else {
                     completion(.failure(APIError.dataTask))
