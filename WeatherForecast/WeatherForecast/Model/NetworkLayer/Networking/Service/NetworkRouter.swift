@@ -18,15 +18,13 @@ class Router<EndPointType: EndPoint>: NetworkRouter {
     private var task: URLSessionDataTask?
     
     func request(_ route: EndPointType, _ session: URLSession) {
-        do {
-            let request = try self.buildRequest(from: route)
-            guard let url = request.url else {
-                return
-            }
-            task = session.dataTask(with: url)
-        } catch {
-            print(error)
+        let request = self.buildRequest(from: route)
+        
+        guard let url = request.url else {
+            return
         }
+        
+        task = session.dataTask(with: url)
         self.task?.resume()
     }
     
@@ -34,21 +32,18 @@ class Router<EndPointType: EndPoint>: NetworkRouter {
         self.task?.cancel()
     }
     
-    private func buildRequest(from route: EndPointType) throws -> URLRequest {
+    private func buildRequest(from route: EndPointType) -> URLRequest {
         var request = URLRequest(url: route.baseUrl)
-        do {
-            switch route.httpTask {
-            case .requestWithUrlParameters(urlParameters: let urlParameter):
-                try self.configureUrlParameter(&request, urlParameter)
-            }
-        } catch {
-            print(error)
+        
+        switch route.httpTask {
+        case .requestWithUrlParameters(urlParameters: let urlParameter):
+            self.configureUrlParameter(&request, urlParameter)
         }
         
         return request
     }
     
-    private func configureUrlParameter(_ request: inout URLRequest, _ urlParameters: Parameters) throws {
+    private func configureUrlParameter(_ request: inout URLRequest, _ urlParameters: Parameters) {
         do {
             try URLParameterEncoder.encode(urlRequest: &request, with: urlParameters)
         } catch {

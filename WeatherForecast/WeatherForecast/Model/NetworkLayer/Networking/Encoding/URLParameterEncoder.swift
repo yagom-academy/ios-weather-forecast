@@ -16,10 +16,12 @@ struct URLParameterEncoder: ParameterEncoding {
         if var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false),
            !parameter.isEmpty {
             urlComponents.queryItems = [URLQueryItem]()
+            
             for (key, value) in parameter {
                 let queryItem = URLQueryItem(name: key, value: "\(value)")
                 urlComponents.queryItems?.append(queryItem)
             }
+            
             urlRequest.url = urlComponents.url
         }
     }
