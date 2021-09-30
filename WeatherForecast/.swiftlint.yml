@@ -1,0 +1,3 @@
+excluded:
+- WeatherForecast/SceneDelegate.swift
+- WeatherForecast/AppDelegate.swift
