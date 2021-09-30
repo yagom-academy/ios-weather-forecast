@@ -8,10 +8,10 @@
 import Foundation
 
 struct CurrentWeather: Codable {
-    let coord: Coord
+    let coordinate: Coordinate
     let weather: [Weather]
     let base: String
-    let main: Main
+    let mainInfo: MainInfo
     let visibility: Int
     let wind: Wind
     let clouds: Clouds
@@ -22,9 +22,20 @@ struct CurrentWeather: Codable {
     let name: String
     let cod: Int
     
-    struct Coord: Codable {
-        let lon: Double
-        let lat: Double
+    enum CodingKeys: String, CodingKey {
+        case weather, base, visibility, wind, clouds, dt, sys, timezone, id, name, cod
+        case coordinate = "coord"
+        case mainInfo = "main"
+    }
+    
+    struct Coordinate: Codable {
+        let longitude: Double
+        let latitude: Double
+        
+        enum CodingKeys: String, CodingKey {
+            case longitude = "lon"
+            case latitude = "lat"
+        }
     }
     
     struct Weather: Codable {
@@ -34,7 +45,7 @@ struct CurrentWeather: Codable {
         let icon: String
     }
     
-    struct Main: Codable {
+    struct MainInfo: Codable {
         let temp: Double
         let feelsLike: Double
         let tempMin: Double

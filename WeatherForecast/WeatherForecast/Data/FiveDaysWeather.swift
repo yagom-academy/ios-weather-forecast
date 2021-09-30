@@ -16,7 +16,7 @@ struct FivedaysWeather: Codable {
     
     struct Item: Codable {
         let dt: Int
-        let main: Main
+        let mainInfo: MainInfo
         let weather: [Weather]
         let clouds: Clouds
         let wind: Wind
@@ -27,11 +27,12 @@ struct FivedaysWeather: Codable {
         let dtTxt: String
         
         enum CodingKeys: String, CodingKey {
-            case dt, main, weather, clouds, wind, visibility, pop, rain, sys
+            case dt, weather, clouds, wind, visibility, pop, rain, sys
+            case mainInfo = "main"
             case dtTxt = "dt_txt"
         }
         
-        struct Main: Codable {
+        struct MainInfo: Codable {
             let temp: Double
             let feelsLike: Double
             let tempMin: Double
@@ -52,24 +53,24 @@ struct FivedaysWeather: Codable {
                 case tempKf = "temp_kf"
             }
         }
-
+        
         struct Weather: Codable {
             let id: Int
             let main: String
             let description: String
             let icon: String
         }
-
+        
         struct Wind: Codable {
             let speed: Double
             let deg: Int
             let gust: Double
         }
-
+        
         struct Clouds: Codable {
             let all: Int
         }
-
+        
         struct Rain: Codable {
             let threeHours: Double
             
@@ -86,16 +87,26 @@ struct FivedaysWeather: Codable {
     struct City: Codable {
         let id: Int
         let name: String
-        let coord: Coord
+        let coordinate: Coordinate
         let country: String
         let population: Int
         let timezone: Int
         let sunrise: Int
         let sunset: Int
         
-        struct Coord: Codable {
-            let lat: Double
-            let lon: Double
+        struct Coordinate: Codable {
+            let longitude: Double
+            let latitude: Double
+            
+            enum CodingKeys: String, CodingKey {
+                case longitude = "lon"
+                case latitude = "lat"
+            }
+        }
+        
+        enum CodingKeys: String, CodingKey {
+            case id, name, country, population, timezone, sunrise, sunset
+            case coordinate = "coord"
         }
     }
 }
