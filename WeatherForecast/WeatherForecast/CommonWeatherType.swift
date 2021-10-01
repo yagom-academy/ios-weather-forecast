@@ -8,8 +8,8 @@
 import Foundation
 
 struct Coordinate: Decodable {
-    let longitude: Double
-    let latitude: Double
+    let longitude: Double?
+    let latitude: Double?
     
     enum CodingKeys: String, CodingKey {
         case longitude = "lon"
@@ -18,19 +18,19 @@ struct Coordinate: Decodable {
 }
 
 struct Weather: Decodable {
-    let id: Int
-    let main: String
-    let description: String
-    let icon: String
+    let id: Int?
+    let main: String?
+    let description: String?
+    let icon: String?
 }
 
 struct Main: Decodable {
-    let temp: Double
-    let feelsLike: Double
-    let pressure: Int
-    let humidity: Int
-    let tempMin: Double
-    let tempMax: Double
+    let temp: Double?
+    let feelsLike: Double?
+    let pressure: Int?
+    let humidity: Int?
+    let tempMin: Double?
+    let tempMax: Double?
     let seaLevel: Int?
     let grndLevel: Int?
     let tempKF: Double?
@@ -47,18 +47,18 @@ struct Main: Decodable {
 }
 
 struct Wind: Decodable {
-    let speed: Double
-    let deg: Int
+    let speed: Double?
+    let deg: Int?
     let gust: Double?
 }
 
 struct Cloud: Decodable {
-    let all: Int
+    let all: Int?
 }
 
 struct Rain: Decodable {
     let oneHour: Double?
-    let threeHour: Double
+    let threeHour: Double?
     
     enum CodingKeys: String, CodingKey {
         case oneHour = "1h"
@@ -68,7 +68,7 @@ struct Rain: Decodable {
 
 struct Snow: Decodable {
     let oneHour: Double?
-    let threeHour: Double
+    let threeHour: Double?
     
     enum CodingKeys: String, CodingKey {
         case oneHour = "1h"

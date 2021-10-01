@@ -8,29 +8,29 @@
 import Foundation
 
 struct CurrentWeather: Decodable {
-    let coordinate: Coordinate
-    let weather: [Weather]
-    let base: String
-    let main: Main
-    let visibility: Int
-    let wind: Wind
-    let cloud: Cloud
+    let coordinate: Coordinate?
+    let weather: [Weather]?
+    let base: String?
+    let main: Main?
+    let visibility: Int?
+    let wind: Wind?
+    let cloud: Cloud?
     let rain: Rain?
     let snow: Snow?
-    let dt: Int
-    let sys: Sys
-    let timezone: Int
-    let id: Int
-    let name: String
-    let cod: Int
+    let dt: Int?
+    let sys: Sys?
+    let timezone: Int?
+    let id: Int?
+    let name: String?
+    let cod: Int?
     
     struct Sys: Decodable {
-        let type: Int
-        let id: Int
-        let message: Double
-        let country: String
-        let sunrise: Int
-        let sunset: Int
+        let type: Int?
+        let id: Int?
+        let message: Double?
+        let country: String?
+        let sunrise: Int?
+        let sunset: Int?
     }
     
     enum CodingKeys: String, CodingKey {
