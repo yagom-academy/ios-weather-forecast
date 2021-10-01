@@ -1,11 +1,11 @@
 //
-//  WeatherForecastTests - WeatherForecastTests.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
-// 
+//  WeatherForecastTests.swift
+//  WeatherForecastTests
+//
+//  Created by Yongwoo Marco on 2021/10/01.
+//
 
 import XCTest
-@testable import WeatherForecast
 
 class WeatherForecastTests: XCTestCase {
 
@@ -24,7 +24,7 @@ class WeatherForecastTests: XCTestCase {
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
-        self.measure {
+        measure {
             // Put the code you want to measure the time of here.
         }
     }
