@@ -77,6 +77,7 @@
 		C91EF6A92702FD9E0013E3D6 /* WeatherForOneDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForOneDay.swift; sourceTree = "<group>"; };
 		C91EF6AC270311600013E3D6 /* APIable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIable.swift; sourceTree = "<group>"; };
 		C91EF6B027035D330013E3D6 /* WeatherAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPI.swift; sourceTree = "<group>"; };
+		C91EF6B22706D9700013E3D6 /* Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secret.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +108,7 @@
 		C79C8CE725ADDDF200EEE3F1 = {
 			isa = PBXGroup;
 			children = (
+				C91EF6B22706D9700013E3D6 /* Secret.xcconfig */,
 				C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */,
 				C79C8D0925ADDDF400EEE3F1 /* WeatherForecastTests */,
 				C79C8D1425ADDDF400EEE3F1 /* WeatherForecastUITests */,
@@ -389,6 +391,7 @@
 /* Begin XCBuildConfiguration section */
 		C79C8D1825ADDDF400EEE3F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C91EF6B22706D9700013E3D6 /* Secret.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -450,6 +453,7 @@
 		};
 		C79C8D1925ADDDF400EEE3F1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C91EF6B22706D9700013E3D6 /* Secret.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

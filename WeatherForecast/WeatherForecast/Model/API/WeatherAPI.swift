@@ -13,7 +13,8 @@ struct WeatherAPI: WeatherAPIable {
     var parameter: [String : Any]?
     var callType: CallType
     var forecastType: ForecastType
-    let apiKey: String = ""
+    let apiKey: String = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String ?? ""
+
     
     init(callType: CallType, forecastType: ForecastType) {
         var components = URLComponents(string: forecastType.baseURL)
