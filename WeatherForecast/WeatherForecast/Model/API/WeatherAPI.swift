@@ -15,9 +15,11 @@ struct WeatherAPI: WeatherAPIable {
     var forecastType: ForecastType
     private let apiKey: String = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String ?? ""
     var contentType: ContentType?
-
     
     init(callType: CallType, forecastType: ForecastType) {
+        self.callType = callType
+        self.forecastType = forecastType
+        
         var components = URLComponents(string: forecastType.baseURL)
         var queryItems = generateQueryItems(from: callType)
         
@@ -25,8 +27,6 @@ struct WeatherAPI: WeatherAPIable {
         components?.queryItems = queryItems
         
         self.url = components?.url
-        self.callType = callType
-        self.forecastType = forecastType
     }
     
     private func generateQueryItems(from callType: CallType) -> [URLQueryItem] {
