@@ -36,6 +36,15 @@ class DecodingTests: XCTestCase {
         XCTAssertEqual(comparedProperty, decodedProperty)
     }
     
+    func test_FailureCase_CurrentData타입은_snakecaseKey가_nil데이터로할당된다() {
+        // give
+
+        // when
+        let decodedProperty = currentSut.main?.feelsLike
+        // then
+        XCTAssertNil(decodedProperty)
+    }
+    
     // MARK: - FiveDayDaya 모델 디코딩 테스트
     func test_SuccessCase_FiveDayDaya타입은_decoding된다() {
         // give
@@ -44,5 +53,14 @@ class DecodingTests: XCTestCase {
         let decodedProperty = fivedaySut.city?.id
         // then
         XCTAssertEqual(comparedProperty, decodedProperty)
+    }
+    
+    func test_FailureCase_FiveDayDaya타입은_snakecaseKey가_nil데이터로할당된다() {
+        // give
+
+        // when
+        let decodedProperty = fivedaySut.weatherList?.first?.main?.feelsLike
+        // then
+        XCTAssertNil(decodedProperty)
     }
 }
