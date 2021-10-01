@@ -173,6 +173,31 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		A99BFD5C2706EEF50078DB05 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				792D2C202706EC030060326A /* WeatherJSONDecoder.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		A99BFD5F2706EFBC0078DB05 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		A99BFD602706EFFB0078DB05 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C79C8CFE25ADDDF300EEE3F1 /* LaunchScreen.storyboard */,
+				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		C14425F3266736DEC8504E13 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,13 +239,12 @@
 			children = (
 				C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */,
 				C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */,
+				A99BFD5C2706EEF50078DB05 /* Utility */,
 				A97EFF3727030628009558C9 /* Model */,
-				C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */,
-				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
+				A99BFD602706EFFB0078DB05 /* View */,
+				A99BFD5F2706EFBC0078DB05 /* Controller */,
 				C79C8CFC25ADDDF300EEE3F1 /* Assets.xcassets */,
-				C79C8CFE25ADDDF300EEE3F1 /* LaunchScreen.storyboard */,
 				C79C8D0125ADDDF300EEE3F1 /* Info.plist */,
-				792D2C202706EC030060326A /* WeatherJSONDecoder.swift */,
 			);
 			path = WeatherForecast;
 			sourceTree = "<group>";
