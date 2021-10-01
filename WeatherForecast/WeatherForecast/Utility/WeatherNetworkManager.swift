@@ -16,6 +16,10 @@ struct WeatherNetworkManager {
     
     private let session: URLSessionProtocol
     
+    init(session: URLSessionProtocol) {
+        self.session = session
+    }
+    
     func fetchData(with url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
         session.dataTask(with: url) { data, response, error in
             let successRange = 200..<300

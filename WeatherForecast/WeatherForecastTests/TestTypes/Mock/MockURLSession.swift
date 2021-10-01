@@ -27,7 +27,7 @@ struct MockURLSession: URLSessionProtocol {
                                               httpVersion: nil,
                                               headerFields: nil)
         mockURLSessionDataTask.resumeDidCall = {
-            completionHandler(nil, self.isSuccess ? successResponse : failureResponse, nil)
+            completionHandler(Data(), self.isSuccess ? successResponse : failureResponse, nil)
         }
         
         return mockURLSessionDataTask
