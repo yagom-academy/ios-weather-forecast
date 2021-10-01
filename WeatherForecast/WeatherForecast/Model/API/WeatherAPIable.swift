@@ -26,15 +26,15 @@ enum ForecastType {
     var baseURL: String {
         switch self {
         case .current:
-            return "api.openweathermap.org/data/2.5/weather"
+            return "https://api.openweathermap.org/data/2.5/weather"
         case .fiveDays:
-            return "api.openweathermap.org/data/2.5/forecast"
+            return "https://api.openweathermap.org/data/2.5/forecast"
         }
     }
 }
 
 struct CommonWeatherAPIParameter {
-    let responseFormat: ContentType?
+    let responseFormat: ResponseFormat?
     let numberOfTimestamps: Int?
     let unitsOfMeasurement: MeasurementType?
     let language: LanguageType?
@@ -61,8 +61,10 @@ struct CommonWeatherAPIParameter {
     }
 }
 
-enum ContentType: String {
+enum ResponseFormat: String {
     case json
+    case xml
+    case html
     
     var formatValue: String {
         return self.rawValue

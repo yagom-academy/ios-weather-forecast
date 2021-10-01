@@ -12,6 +12,7 @@ protocol APIable {
     var url: URL? { get }
     var parameter: [String:Any]? { get }
     var apiKey: String { get }
+    var contentType: ContentType? { get }
 }
 
 enum RequestType: String {
@@ -22,5 +23,16 @@ enum RequestType: String {
     
     var methodName: String {
         return self.rawValue
+    }
+}
+
+enum ContentType: String {
+    case json
+    
+    var httpValue: String {
+        switch self {
+        case .json:
+            return "application/json"
+        }
     }
 }

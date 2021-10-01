@@ -14,6 +14,7 @@ struct WeatherAPI: WeatherAPIable {
     var callType: CallType
     var forecastType: ForecastType
     let apiKey: String = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String ?? ""
+    var contentType: ContentType?
 
     
     init(callType: CallType, forecastType: ForecastType) {
