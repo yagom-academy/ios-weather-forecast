@@ -9,11 +9,11 @@ import Foundation
 
 struct URLRequestBuilder {
     
-    func buildRequest(route: Route, with parameters: [URLQueryItem]) -> URLRequest? {
+    func buildRequest(route: Route, with parameters: [URLQueryItem], httpMethod: HTTPMethod) -> URLRequest? {
         guard let url = createURL(route: route, with: parameters) else { return nil }
         
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = route.httpMethod.type
+        urlRequest.httpMethod = httpMethod.type
         
         return urlRequest
     }

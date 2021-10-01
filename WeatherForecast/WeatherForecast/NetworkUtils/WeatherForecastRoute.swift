@@ -43,10 +43,6 @@ enum WeatherForecastRoute: Route {
         }
     }
     
-    var httpMethod: HTTPMethod {
-        return HTTPMethod.get
-    }
-    
     static func createParameters(latitude: Int, longitude: Int) -> [URLQueryItem] {
         let latitudeQuery = URLQueryItem(name: "lat", value: latitude.description)
         let longitudeQuery = URLQueryItem(name: "lon", value: longitude.description)

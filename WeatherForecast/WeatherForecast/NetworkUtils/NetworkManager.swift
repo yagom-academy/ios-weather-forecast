@@ -14,12 +14,13 @@ struct NetworkManager {
     init(networkable: Networkable = NetworkModule()) {
         self.networkable = networkable
     }
-    
-    mutating func getWeather(parameters: [URLQueryItem],
-                    route: Route,
-                    completionHandler: @escaping (Result<Data, Error>) -> Void)
+    mutating func request(with route: Route,
+                          parameters: [URLQueryItem],
+                          httpMethod: HTTPMethod,
+                          requestType: RequestType,
+                          completionHandler: @escaping (Result<Data, Error>) -> Void)
     {
-        guard let urlRequest = urlRequestBuilder.buildRequest(route: route, with: parameters) else {
+        guard let urlRequest = urlRequestBuilder.buildRequest(route: route, with: parameters, httpMethod: httpMethod) else {
             completionHandler(.failure(NetworkError.invalidURL))
             return
         }

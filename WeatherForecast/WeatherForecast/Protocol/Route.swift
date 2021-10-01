@@ -11,5 +11,4 @@ protocol Route {
     var scheme: String { get }
     var baseURL: String { get }
     var path: String { get }
-    var httpMethod: HTTPMethod { get }
 }
