@@ -1,5 +1,5 @@
 //
-//  CurrentWeatherAPI.swift
+//  WeatherAPI.swift
 //  WeatherForecast
 //
 //  Created by JINHONG AN on 2021/09/28.
@@ -7,16 +7,16 @@
 
 import Foundation
 
-struct CurrentWeatherAPI: APIable, WeatherAPIable {
+struct WeatherAPI: WeatherAPIable {
     var requestType: RequestType = .get
     var url: URL?
     var parameter: [String : Any]?
     var callType: CallType
-    let baseURL = "api.openweathermap.org/data/2.5/weather"
+    var forecastType: ForecastType
     let apiKey: String = ""
     
-    init(callType: CallType) {
-        var components = URLComponents(string: baseURL)
+    init(callType: CallType, forecastType: ForecastType) {
+        var components = URLComponents(string: forecastType.baseURL)
         var queryItems = [URLQueryItem]()
         
         switch callType {
@@ -38,7 +38,9 @@ struct CurrentWeatherAPI: APIable, WeatherAPIable {
             queryItems.append(contentsOf: parameter?.generateURLQueryItems() ?? [])
             components?.queryItems = queryItems
         }
+        
         self.url = components?.url
         self.callType = callType
+        self.forecastType = forecastType
     }
 }

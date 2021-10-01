@@ -11,6 +11,7 @@ protocol APIable {
     var requestType: RequestType { get }
     var url: URL? { get }
     var parameter: [String:Any]? { get }
+    var apiKey: String { get }
 }
 
 enum RequestType: String {

@@ -7,8 +7,9 @@
 
 import Foundation
 
-protocol WeatherAPIable {
+protocol WeatherAPIable: APIable {
     var callType: CallType { get }
+    var forecastType: ForecastType { get }
 }
 
 enum CallType {
@@ -16,6 +17,20 @@ enum CallType {
     case cityID(cityID: Int, parameter: CommonWeatherAPIParameter?)
     case geographicCoordinates(coordinate: Coordinate, parameter: CommonWeatherAPIParameter?)
     case ZIPCode(ZIPCode: Int, parameter: CommonWeatherAPIParameter?)
+}
+
+enum ForecastType {
+    case current
+    case fiveDays
+    
+    var baseURL: String {
+        switch self {
+        case .current:
+            return "api.openweathermap.org/data/2.5/weather"
+        case .fiveDays:
+            return "api.openweathermap.org/data/2.5/forecast"
+        }
+    }
 }
 
 struct CommonWeatherAPIParameter {
