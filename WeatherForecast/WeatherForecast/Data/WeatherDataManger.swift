@@ -67,7 +67,7 @@ final class WeatherDataManager {
 }
 
 extension WeatherDataManager: JSONDecodable {
-    private func fetch<ParsingType: Codable>(urlString: String, completion: @escaping (Result<ParsingType, APIError>) -> ()) {
+    private func fetch<ParsingType: Decodable>(urlString: String, completion: @escaping (Result<ParsingType, APIError>) -> ()) {
         guard let url = URL(string: urlString) else {
             completion(.failure(APIError.invalidURL))
             return

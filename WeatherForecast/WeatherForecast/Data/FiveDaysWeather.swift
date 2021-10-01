@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct FivedaysWeather: Codable {
+struct FivedaysWeather: Decodable {
     let cod: String
     let message: Int
     let cnt: Int
     let list: [Item]
     let city: City
     
-    struct Item: Codable {
+    struct Item: Decodable {
         let dt: Int
         let mainInfo: MainInfo
         let weather: [Weather]
@@ -32,7 +32,7 @@ struct FivedaysWeather: Codable {
             case dtTxt = "dt_txt"
         }
         
-        struct MainInfo: Codable {
+        struct MainInfo: Decodable {
             let temp: Double
             let feelsLike: Double
             let tempMin: Double
@@ -54,24 +54,24 @@ struct FivedaysWeather: Codable {
             }
         }
         
-        struct Weather: Codable {
+        struct Weather: Decodable {
             let id: Int
             let main: String
             let description: String
             let icon: String
         }
         
-        struct Wind: Codable {
+        struct Wind: Decodable {
             let speed: Double
             let deg: Int
             let gust: Double
         }
         
-        struct Clouds: Codable {
+        struct Clouds: Decodable {
             let all: Int
         }
         
-        struct Rain: Codable {
+        struct Rain: Decodable {
             let threeHours: Double
             
             enum CodingKeys: String, CodingKey {
@@ -79,12 +79,12 @@ struct FivedaysWeather: Codable {
             }
         }
         
-        struct Sys: Codable {
+        struct Sys: Decodable {
             let pod: String
         }
     }
     
-    struct City: Codable {
+    struct City: Decodable {
         let id: Int
         let name: String
         let coordinate: Coordinate
@@ -94,7 +94,7 @@ struct FivedaysWeather: Codable {
         let sunrise: Int
         let sunset: Int
         
-        struct Coordinate: Codable {
+        struct Coordinate: Decodable {
             let longitude: Double
             let latitude: Double
             
