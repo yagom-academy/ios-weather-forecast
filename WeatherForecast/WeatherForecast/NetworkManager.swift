@@ -17,7 +17,6 @@ typealias SessionResult = (Result<Data, Error>) -> ()
 
 class NetworkManager {
     private let session: URLSessionProtocol
-    private let parsingManager = ParsingManager()
     
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
