@@ -8,8 +8,15 @@
 import Foundation
 
 struct ParsingManager {
-    enum ParsingError: Error {
+    enum ParsingError: Error, LocalizedError {
         case decodingFailed
+        
+        var errorDescription: String? {
+            switch self {
+            case .decodingFailed:
+                return "decoding에 실패하였습니다!!!"
+            }
+        }
     }
 
     private let decoder = JSONDecoder()

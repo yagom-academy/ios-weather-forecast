@@ -20,12 +20,10 @@ class HTTPMethod {
                 case .success(let currentWeather):
                     print(currentWeather)
                 case .failure(let error):
-                    // 에러 처리
-                    fatalError()
+                    print(error)
                 }
             case .failure(let error):
-                    // 에러 처리
-                    fatalError()
+                print(error)
             }
         }
     }
@@ -39,12 +37,10 @@ class HTTPMethod {
                 case .success(let fiveDayForecast):
                     print(fiveDayForecast)
                 case .failure(let error):
-                    // 에러 처리
-                    fatalError()
+                    print(error)
                 }
             case .failure(let error):
-                    // 에러 처리
-                    fatalError()
+                print(error)
             }
         }
     }
