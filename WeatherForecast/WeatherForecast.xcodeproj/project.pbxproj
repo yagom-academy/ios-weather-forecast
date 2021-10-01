@@ -29,6 +29,7 @@
 		C91EF6AA2702FD9E0013E3D6 /* WeatherForOneDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6A92702FD9E0013E3D6 /* WeatherForOneDay.swift */; };
 		C91EF6AD270311600013E3D6 /* APIable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6AC270311600013E3D6 /* APIable.swift */; };
 		C91EF6B127035D330013E3D6 /* WeatherAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6B027035D330013E3D6 /* WeatherAPI.swift */; };
+		C91EF6B62706E5250013E3D6 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6B52706E5250013E3D6 /* ParsingManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		C91EF6AC270311600013E3D6 /* APIable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIable.swift; sourceTree = "<group>"; };
 		C91EF6B027035D330013E3D6 /* WeatherAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPI.swift; sourceTree = "<group>"; };
 		C91EF6B22706D9700013E3D6 /* Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secret.xcconfig; sourceTree = "<group>"; };
+		C91EF6B52706E5250013E3D6 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 		C91EF6982702DB640013E3D6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C91EF6B42706E5080013E3D6 /* Manager */,
 				C91EF6AB270311510013E3D6 /* API */,
 				C91EF6992702DB9A0013E3D6 /* Coordinate.swift */,
 				3FAE34D42702DD5300A6C510 /* Weather.swift */,
@@ -186,6 +189,14 @@
 				C91EF6B027035D330013E3D6 /* WeatherAPI.swift */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		C91EF6B42706E5080013E3D6 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				C91EF6B52706E5250013E3D6 /* ParsingManager.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -330,6 +341,7 @@
 				C91EF6AA2702FD9E0013E3D6 /* WeatherForOneDay.swift in Sources */,
 				C91EF6A22702EE630013E3D6 /* Rain.swift in Sources */,
 				3F444DBB2702E61600E60AA4 /* Wind.swift in Sources */,
+				C91EF6B62706E5250013E3D6 /* ParsingManager.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
 				C91EF69A2702DB9A0013E3D6 /* Coordinate.swift in Sources */,
