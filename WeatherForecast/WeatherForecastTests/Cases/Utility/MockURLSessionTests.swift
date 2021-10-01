@@ -36,7 +36,7 @@ class MockURLSessionTests: XCTestCase {
                 return
             }
             // then
-            XCTAssert(successRange.contains(response.statusCode))
+            XCTAssert(successRange ~= response.statusCode)
         }.resume()
     }
     
@@ -51,7 +51,7 @@ class MockURLSessionTests: XCTestCase {
                 return
             }
             // then
-            XCTAssert(!successRange.contains(response.statusCode))
+            XCTAssert(!(successRange ~= response.statusCode))
         }.resume()
     }
 }
