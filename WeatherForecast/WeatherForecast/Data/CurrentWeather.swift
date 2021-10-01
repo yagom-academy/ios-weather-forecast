@@ -15,15 +15,16 @@ struct CurrentWeather: Decodable {
     let visibility: Int
     let wind: Wind
     let clouds: Clouds
-    let dt: Int
-    let sys: Sys
+    let partOfTheDay: Int
+    let system: System
     let timezone: Int
     let id: Int
     let name: String
-    let cod: Int
     
     enum CodingKeys: String, CodingKey {
-        case weather, base, visibility, wind, clouds, dt, sys, timezone, id, name, cod
+        case weather, base, visibility, wind, clouds, timezone, id, name
+        case partOfTheDay = "dt"
+        case system = "sys"
         case coordinate = "coord"
         case mainInfo = "main"
     }
@@ -46,31 +47,37 @@ struct CurrentWeather: Decodable {
     }
     
     struct MainInfo: Decodable {
-        let temp: Double
+        let temperature: Double
         let feelsLike: Double
-        let tempMin: Double
-        let tempMax: Double
+        let temperatureMin: Double
+        let temperatureMax: Double
         let pressure: Int
         let humidity: Int
         
         enum CodingKeys: String, CodingKey {
-            case temp, pressure, humidity
+            case pressure, humidity
+            case temperature = "temp"
+            case temperatureMin = "tempMin"
+            case temperatureMax = "tempMax"
             case feelsLike = "feels_like"
-            case tempMin = "temp_min"
-            case tempMax = "temp_max"
         }
     }
     
     struct Wind: Decodable {
         let speed: Double
-        let deg: Int
+        let degree: Int
+        
+        enum CodingKeys: String, CodingKey {
+            case speed
+            case degree = "deg"
+        }
     }
     
     struct Clouds: Decodable {
         let all: Int
     }
     
-    struct Sys: Decodable {
+    struct System: Decodable {
         let type: Int
         let id: Int
         let message: Double?

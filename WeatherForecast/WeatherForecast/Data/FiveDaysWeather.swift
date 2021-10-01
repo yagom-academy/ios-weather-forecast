@@ -8,48 +8,55 @@
 import Foundation
 
 struct FivedaysWeather: Decodable {
-    let cod: String
-    let message: Int
-    let cnt: Int
+    let timeStampCount: Int
     let list: [Item]
     let city: City
     
+    enum CodingKeys: String, CodingKey {
+        case list, city
+        case timeStampCount = "cnt"
+    }
+    
     struct Item: Decodable {
-        let dt: Int
+        let timeOfData: Int
         let mainInfo: MainInfo
         let weather: [Weather]
         let clouds: Clouds
         let wind: Wind
         let visibility: Int
-        let pop: Double
+        let probabilityOfPrecipitation: Double
         let rain: Rain?
-        let sys: Sys
-        let dtTxt: String
+        let system: System
+        let timeOfDataText: String
         
         enum CodingKeys: String, CodingKey {
-            case dt, weather, clouds, wind, visibility, pop, rain, sys
+            case weather, clouds, wind, visibility, rain
+            case timeOfData = "dt"
             case mainInfo = "main"
-            case dtTxt = "dt_txt"
+            case probabilityOfPrecipitation = "pop"
+            case timeOfDataText = "dt_txt"
+            case system = "sys"
         }
         
         struct MainInfo: Decodable {
-            let temp: Double
+            let temperature: Double
             let feelsLike: Double
-            let tempMin: Double
-            let tempMax: Double
+            let temperatureMin: Double
+            let temperatureMax: Double
             let pressure: Int
             let seaLevel: Int
-            let grndLevel: Int
+            let groundLevel: Int
             let humidity: Int
             let tempKf: Double
             
             enum CodingKeys: String, CodingKey {
-                case temp, pressure ,humidity
+                case pressure ,humidity
+                case temperature = "temp"
                 case feelsLike = "feels_like"
-                case tempMin = "temp_min"
-                case tempMax = "temp_max"
+                case temperatureMin = "temp_min"
+                case temperatureMax = "temp_max"
                 case seaLevel = "sea_level"
-                case grndLevel = "grnd_level"
+                case groundLevel = "grnd_level"
                 case tempKf = "temp_kf"
             }
         }
@@ -63,8 +70,13 @@ struct FivedaysWeather: Decodable {
         
         struct Wind: Decodable {
             let speed: Double
-            let deg: Int
+            let degree: Int
             let gust: Double
+           
+            enum CodingKeys: String, CodingKey {
+                case speed, gust
+                case degree = "deg"
+            }
         }
         
         struct Clouds: Decodable {
@@ -79,8 +91,12 @@ struct FivedaysWeather: Decodable {
             }
         }
         
-        struct Sys: Decodable {
-            let pod: String
+        struct System: Decodable {
+            let partOfTheDay: String
+            
+            enum CodingKeys: String, CodingKey {
+                case partOfTheDay = "pod"
+            }
         }
     }
     
