@@ -32,8 +32,8 @@ final class WeatherDataManager {
     private let appId = "af361cc4ac7bf412119174d64ba296ff"
     
     private init() {}
-    
-    func fetchCurrentWeather(completion: @escaping () -> ()) {
+
+    func fetchCurrentWeather() {
         let url = "https://api.openweathermap.org/data/2.5/weather?lat=37.557297&lon=126.991934&appid=\(appId)&units=metric&lang=kr"
         self.fetch(urlString: url) { (result: Result<CurrentWeather, APIError>) in
             switch result {
@@ -45,7 +45,7 @@ final class WeatherDataManager {
         }
     }
     
-    func fetchFiveDaysWeather(completion: @escaping () -> ()) {
+    func fetchFiveDaysWeather() {
         let url = "https://api.openweathermap.org/data/2.5/forecast?lat=37.557297&lon=126.991934&appid=\(appId)&units=metric&lang=kr"
         self.fetch(urlString: url) { (result: Result<FivedaysWeather, APIError>) in
             switch result {
@@ -58,11 +58,8 @@ final class WeatherDataManager {
     }
     
     private func handleError(_ error: Error) {
-        if let apiError = error as? APIError {
-            print(apiError)
-        } else {
-            print("Oher error: \(error)")
-        }
+//        print(error.localizedDescription)
+//        assertionFailure("에러테스트")
     }
 }
 
@@ -83,12 +80,12 @@ extension WeatherDataManager: JSONDecodable {
                 completion(.failure(APIError.invalidResponse))
                 return
             }
-      
+            
             guard let data = data else {
                 completion(.failure(APIError.emptyData))
                 return
             }
-            
+         
             do {
                 let data = try self.decodeJSON(ParsingType.self, from: data)
                 completion(.success(data))

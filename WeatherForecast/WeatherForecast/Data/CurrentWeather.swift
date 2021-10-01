@@ -57,8 +57,8 @@ struct CurrentWeather: Decodable {
         enum CodingKeys: String, CodingKey {
             case pressure, humidity
             case temperature = "temp"
-            case temperatureMin = "tempMin"
-            case temperatureMax = "tempMax"
+            case temperatureMin = "temp_min"
+            case temperatureMax = "temp_max"
             case feelsLike = "feels_like"
         }
     }
