@@ -63,8 +63,8 @@ struct Sys: Codable {
 }
 
 struct Rain: Codable {
-    let oneHour: Int?
-    let threeHours: Int?
+    let oneHour: Double?
+    let threeHours: Double?
     
     enum CodingKeys: String, CodingKey {
         case oneHour = "1h"
@@ -73,8 +73,8 @@ struct Rain: Codable {
 }
 
 struct Snow: Codable {
-    let oneHour: Int?
-    let threeHours: Int?
+    let oneHour: Double?
+    let threeHours: Double?
     
     enum CodingKeys: String, CodingKey {
         case oneHour = "1h"

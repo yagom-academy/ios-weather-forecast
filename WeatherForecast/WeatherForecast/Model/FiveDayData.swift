@@ -8,7 +8,7 @@
 import Foundation
 
 struct FiveDayData: Codable {
-    let cod: Int?
+    let cod: String?
     let message: Int?
     let countOfTimestamps: Int?
     let weatherList: [IntervalData]?
@@ -23,7 +23,7 @@ struct FiveDayData: Codable {
 
 struct City: Codable {
     let id: Int?
-    let name: Int?
+    let name: String?
     let coord: Coordinate?
     let country: String?
     let timezone: Int?
