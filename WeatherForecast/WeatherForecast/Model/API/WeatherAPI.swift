@@ -40,6 +40,9 @@ struct WeatherAPI: WeatherAPIable {
             components?.queryItems = queryItems
         }
         
+        queryItems.append(URLQueryItem(name: "appid", value: apiKey))
+        components?.queryItems = queryItems
+        
         self.url = components?.url
         self.callType = callType
         self.forecastType = forecastType
