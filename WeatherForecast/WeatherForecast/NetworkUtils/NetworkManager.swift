@@ -9,18 +9,20 @@ import Foundation
 
 struct NetworkManager {
     private var networkable: Networkable
-    private let urlRequestBuilder = URLRequestBuilder()
     
     init(networkable: Networkable = NetworkModule()) {
         self.networkable = networkable
     }
     mutating func request(with route: Route,
-                          parameters: [URLQueryItem],
+                          queryItems: [URLQueryItem]?,
+                          header: [String: String]?,
+                          bodyParameters: [String: Any]?,
                           httpMethod: HTTPMethod,
-                          requestType: RequestType,
+                          requestType: URLRequestTask,
                           completionHandler: @escaping (Result<Data, Error>) -> Void)
     {
-        guard let urlRequest = urlRequestBuilder.buildRequest(route: route, with: parameters, httpMethod: httpMethod) else {
+        
+        guard let urlRequest = requestType.buildRequest(route: route, queryItems: queryItems, header: header, bodyParameters: bodyParameters, httpMethod: httpMethod) else {
             completionHandler(.failure(NetworkError.invalidURL))
             return
         }

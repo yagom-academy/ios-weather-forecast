@@ -18,7 +18,6 @@
 		D488668E2705EC870044CEF5 /* WeatherForecastRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D488668D2705EC870044CEF5 /* WeatherForecastRoute.swift */; };
 		D48866A4270608C10044CEF5 /* Networkable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48866A3270608C10044CEF5 /* Networkable.swift */; };
 		D48866A9270609700044CEF5 /* NetworkModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48866A8270609700044CEF5 /* NetworkModule.swift */; };
-		D48866AE2706DC190044CEF5 /* RequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48866AD2706DC190044CEF5 /* RequestType.swift */; };
 		D4DDB0F22702F8FC004996CA /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DDB0F12702F8FC004996CA /* CurrentWeather.swift */; };
 		D4DDB0FA27030203004996CA /* FiveDayWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DDB0F927030203004996CA /* FiveDayWeather.swift */; };
 		D4DDB10127030BA2004996CA /* Decodable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DDB10027030BA2004996CA /* Decodable+Extension.swift */; };
@@ -26,7 +25,7 @@
 		D4DDB12727046C93004996CA /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DDB12627046C93004996CA /* NetworkError.swift */; };
 		E69376622705E8AD007E00E3 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69376612705E8AD007E00E3 /* Route.swift */; };
 		E69376642705E986007E00E3 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69376632705E986007E00E3 /* HTTPMethod.swift */; };
-		E69376662706040F007E00E3 /* URLRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69376652706040F007E00E3 /* URLRequestBuilder.swift */; };
+		E69376662706040F007E00E3 /* URLRequestTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69376652706040F007E00E3 /* URLRequestTask.swift */; };
 		E6AF5F7D2702ED08001C4613 /* CommonWeatherForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AF5F7C2702ED08001C4613 /* CommonWeatherForecast.swift */; };
 		E6C277AA27043EA70033FC67 /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = E6C277A927043EA70033FC67 /* APIKey.plist */; };
 		E6C277AD27043F1A0033FC67 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C277AC27043F1A0033FC67 /* NetworkManager.swift */; };
@@ -68,7 +67,6 @@
 		D488668D2705EC870044CEF5 /* WeatherForecastRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecastRoute.swift; sourceTree = "<group>"; };
 		D48866A3270608C10044CEF5 /* Networkable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networkable.swift; sourceTree = "<group>"; };
 		D48866A8270609700044CEF5 /* NetworkModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModule.swift; sourceTree = "<group>"; };
-		D48866AD2706DC190044CEF5 /* RequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestType.swift; sourceTree = "<group>"; };
 		D4DDB0F12702F8FC004996CA /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
 		D4DDB0F927030203004996CA /* FiveDayWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDayWeather.swift; sourceTree = "<group>"; };
 		D4DDB10027030BA2004996CA /* Decodable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Extension.swift"; sourceTree = "<group>"; };
@@ -76,7 +74,7 @@
 		D4DDB12627046C93004996CA /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		E69376612705E8AD007E00E3 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		E69376632705E986007E00E3 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
-		E69376652706040F007E00E3 /* URLRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestBuilder.swift; sourceTree = "<group>"; };
+		E69376652706040F007E00E3 /* URLRequestTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestTask.swift; sourceTree = "<group>"; };
 		E6AF5F7C2702ED08001C4613 /* CommonWeatherForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWeatherForecast.swift; sourceTree = "<group>"; };
 		E6C277A927043EA70033FC67 /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
 		E6C277AC27043F1A0033FC67 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -181,7 +179,6 @@
 				E6C277B0270451620033FC67 /* APIKey.swift */,
 				D4DDB12627046C93004996CA /* NetworkError.swift */,
 				E69376632705E986007E00E3 /* HTTPMethod.swift */,
-				D48866AD2706DC190044CEF5 /* RequestType.swift */,
 			);
 			path = Enumeration;
 			sourceTree = "<group>";
@@ -210,7 +207,7 @@
 			children = (
 				E6C277AC27043F1A0033FC67 /* NetworkManager.swift */,
 				D488668D2705EC870044CEF5 /* WeatherForecastRoute.swift */,
-				E69376652706040F007E00E3 /* URLRequestBuilder.swift */,
+				E69376652706040F007E00E3 /* URLRequestTask.swift */,
 				D48866A8270609700044CEF5 /* NetworkModule.swift */,
 			);
 			path = NetworkUtils;
@@ -359,12 +356,11 @@
 				E6AF5F7D2702ED08001C4613 /* CommonWeatherForecast.swift in Sources */,
 				D48866A4270608C10044CEF5 /* Networkable.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
-				E69376662706040F007E00E3 /* URLRequestBuilder.swift in Sources */,
+				E69376662706040F007E00E3 /* URLRequestTask.swift in Sources */,
 				D48866A9270609700044CEF5 /* NetworkModule.swift in Sources */,
 				E6C277B1270451620033FC67 /* APIKey.swift in Sources */,
 				D4DDB12727046C93004996CA /* NetworkError.swift in Sources */,
 				D4DDB0FA27030203004996CA /* FiveDayWeather.swift in Sources */,
-				D48866AE2706DC190044CEF5 /* RequestType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
