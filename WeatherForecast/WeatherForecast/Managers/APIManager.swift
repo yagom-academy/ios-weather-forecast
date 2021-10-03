@@ -39,7 +39,7 @@ enum APIError: LocalizedError {
 class APIManager {
     static func requestAPI<T, S>(_ responseType: T.Type,
                           _ errorType: S.Type,
-                          resource: APIResource,
+                          resource: RequestGeneratable,
                           decodeManager: JSONDecodable,
                           completion: @escaping (Result<T, Error>) -> Void
     ) where T: Decodable, S: Decodable & ErrorMessageProtocol {

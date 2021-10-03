@@ -11,7 +11,11 @@ enum Method {
     case get
 }
 
-struct APIResource {
+protocol RequestGeneratable {
+    func generateRequest() -> URLRequest?
+}
+
+struct APIResource: RequestGeneratable {
     private let method: Method
     private let url: String
     
@@ -33,6 +37,4 @@ extension APIResource {
         self.url = weatherURL.generateURLPath()
     }
 }
-
-
 
