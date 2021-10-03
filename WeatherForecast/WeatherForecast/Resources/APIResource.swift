@@ -12,8 +12,8 @@ enum Method {
 }
 
 struct APIResource {
-    let method: Method
-    let url: String
+    private let method: Method
+    private let url: String
     
     func generateRequest() -> URLRequest? {
         guard let url = URL(string: url) else {
