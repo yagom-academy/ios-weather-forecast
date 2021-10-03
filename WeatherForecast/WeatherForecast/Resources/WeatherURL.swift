@@ -7,10 +7,6 @@
 
 import Foundation
 
-protocol UrlPathGeneratable {
-    func generateURLPath() -> String
-}
-
 enum WeatherConfig {
     static let appKey = "5b0c9717f130cf0eb03095b31fe5417e"
     static let baseURL = "https://api.openweathermap.org/data/2.5"

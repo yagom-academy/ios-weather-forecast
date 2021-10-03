@@ -11,10 +11,6 @@ enum Method {
     case get
 }
 
-protocol RequestGeneratable {
-    func generateRequest() -> URLRequest?
-}
-
 struct APIResource: RequestGeneratable {
     private let method: Method
     private let url: String
