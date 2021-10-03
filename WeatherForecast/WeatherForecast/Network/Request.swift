@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum WeatherAPI: api {
+enum WeatherAPI: API {
     static let baseURL = "https://api.openweathermap.org/data/2.5/"
 
     case current
@@ -21,13 +21,6 @@ enum WeatherAPI: api {
            return Self.baseURL + "forecast"
         }
     }
-}
-
-protocol api {
-    var url: String { get }
-}
-protocol Query {
-    var description: String { get }
 }
 
 enum CoordinatesQuery: Query {
@@ -48,7 +41,7 @@ enum CoordinatesQuery: Query {
 }
 
 struct Request {
-    static func createURL<T: Query>(API: api, queryItems: [T: String]) -> URL? {
+    static func createURL<T: Query>(API: API, queryItems: [T: String]) -> URL? {
         var componets = URLComponents(string: API.url)
 
         for (key, value) in queryItems {
@@ -58,4 +51,11 @@ struct Request {
 
         return componets?.url
     }
+}
+
+protocol API {
+    var url: String { get }
+}
+protocol Query {
+    var description: String { get }
 }
