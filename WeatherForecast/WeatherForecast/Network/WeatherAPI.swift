@@ -39,23 +39,3 @@ enum CoordinatesQuery: Query {
         }
     }
 }
-
-struct Request {
-    static func createURL<T: Query>(API: API, queryItems: [T: String]) -> URL? {
-        var componets = URLComponents(string: API.url)
-
-        for (key, value) in queryItems {
-            let queryItem = URLQueryItem(name: key.description, value: value)
-            componets?.queryItems?.append(queryItem)
-        }
-
-        return componets?.url
-    }
-}
-
-protocol API {
-    var url: String { get }
-}
-protocol Query {
-    var description: String { get }
-}

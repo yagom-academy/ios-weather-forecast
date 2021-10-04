@@ -76,7 +76,7 @@ struct ForecastWeather: Decodable {
     }
 
     struct Rain: Decodable {
-        let threeHour: Double
+        let threeHour: Double?
 
         enum CodingKeys: String, CodingKey {
             case threeHour = "3h"
@@ -84,7 +84,7 @@ struct ForecastWeather: Decodable {
     }
 
     struct Snow: Decodable {
-        let threeHour: Double
+        let threeHour: Double?
 
         enum CodingKeys: String, CodingKey {
             case threeHour = "3h"
