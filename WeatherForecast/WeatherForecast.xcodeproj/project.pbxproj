@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27E513C427034D73001BDEBC /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E513C327034D73001BDEBC /* CurrentWeather.swift */; };
+		27E513C927035087001BDEBC /* JSONDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E513C827035087001BDEBC /* JSONDecodable.swift */; };
+		2B38AF8927034F8900081039 /* FiveDaysWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B38AF8827034F8900081039 /* FiveDaysWeather.swift */; };
+		2B38AF8B27035CD200081039 /* WeatherDataManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B38AF8A27035CD200081039 /* WeatherDataManger.swift */; };
 		C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */; };
 		C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */; };
 		C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */; };
@@ -35,6 +39,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		27E513C327034D73001BDEBC /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
+		27E513C827035087001BDEBC /* JSONDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodable.swift; sourceTree = "<group>"; };
+		2B38AF8827034F8900081039 /* FiveDaysWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDaysWeather.swift; sourceTree = "<group>"; };
+		2B38AF8A27035CD200081039 /* WeatherDataManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataManger.swift; sourceTree = "<group>"; };
 		C79C8CF025ADDDF200EEE3F1 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +84,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		27E513C227034D62001BDEBC /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				27E513C327034D73001BDEBC /* CurrentWeather.swift */,
+				2B38AF8827034F8900081039 /* FiveDaysWeather.swift */,
+				2B38AF8A27035CD200081039 /* WeatherDataManger.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		27E513C72703506E001BDEBC /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				27E513C827035087001BDEBC /* JSONDecodable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		C79C8CE725ADDDF200EEE3F1 = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +125,8 @@
 		C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */ = {
 			isa = PBXGroup;
 			children = (
+				27E513C72703506E001BDEBC /* Protocol */,
+				27E513C227034D62001BDEBC /* Data */,
 				C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */,
 				C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */,
 				C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */,
@@ -260,6 +288,10 @@
 			files = (
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
+				2B38AF8927034F8900081039 /* FiveDaysWeather.swift in Sources */,
+				27E513C927035087001BDEBC /* JSONDecodable.swift in Sources */,
+				2B38AF8B27035CD200081039 /* WeatherDataManger.swift in Sources */,
+				27E513C427034D73001BDEBC /* CurrentWeather.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -438,7 +470,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = WeatherForecast/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -457,7 +489,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = WeatherForecast/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
