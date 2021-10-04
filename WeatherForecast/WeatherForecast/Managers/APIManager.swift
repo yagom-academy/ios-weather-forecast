@@ -37,7 +37,13 @@ enum APIError: LocalizedError {
 }
 
 class APIManager {
-    static func requestAPI<T, S>(_ responseType: T.Type,
+    private let session: URLSessionProtocol
+    
+    init(session: URLSessionProtocol = URLSession.shared) {
+        self.session = session
+    }
+    
+    func requestAPI<T, S>(_ responseType: T.Type,
                           _ errorType: S.Type,
                           resource: RequestGeneratable,
                           decodeManager: JSONDecodable,
@@ -50,7 +56,7 @@ class APIManager {
             return
         }
         
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
+        session.dataTask(with: request) { (data, response, error) in
             do {
                 guard error == nil else {
                     completion(.failure(APIError.dataTask))
