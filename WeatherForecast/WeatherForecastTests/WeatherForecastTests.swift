@@ -18,6 +18,32 @@ class WeatherForecastTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-//    func test_TodayWeatherInfo모델_디코딩이_성공하면_
+    func test_TodayWeatherInfo모델_디코딩이성공하면_같은temperature값이나온다() {
+        guard let path = Bundle.main.path(forResource: "sampleOfCurrent", ofType: "json"),
+              let jsonData = try? String(contentsOfFile: path).data(using: .utf8) else {
+                  return XCTFail()
+              }
 
+        do {
+            let result = try decoder.decode(jsonData, to: TodayWeatherInfo.self)
+            XCTAssertEqual(282.55, result.main.temperature)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func test_WeeklyWeatherInfo모델_디코딩이성공하면_같은temperature값이나온다() {
+        guard let path = Bundle.main.path(forResource: "sampleOfWeek", ofType: "json"),
+              let jsonData = try? String(contentsOfFile: path).data(using: .utf8) else {
+                  return XCTFail()
+              }
+
+        XCTFail(String(data: jsonData, encoding: .utf8)!)
+        do {
+            let result = try decoder.decode(jsonData, to: WeeklyWeatherInfo.self)
+            XCTAssertEqual(282.55, result.list.first?.main.temperature)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
 }
