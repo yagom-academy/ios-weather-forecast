@@ -40,7 +40,7 @@ final class WeatherDataManager {
             case .success(let currentWeather):
                 return print(currentWeather)
             case .failure(let error):
-                self.handleError(error)
+                print(error.localizedDescription)
             }
         }
     }
@@ -52,14 +52,9 @@ final class WeatherDataManager {
             case .success(let currentWeather):
                 return print(currentWeather)
             case .failure(let error):
-                self.handleError(error)
+                print(error.localizedDescription)
             }
         }
-    }
-    
-    private func handleError(_ error: Error) {
-//        print(error.localizedDescription)
-//        assertionFailure("에러테스트")
     }
 }
 
