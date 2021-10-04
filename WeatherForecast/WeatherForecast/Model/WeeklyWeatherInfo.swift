@@ -1,5 +1,5 @@
 //
-//  WeekWeatherInfo.swift
+//  WeeklyWeatherInfo.swift
 //  WeatherForecast
 //
 //  Created by 샬롯, 수박, 루얀 on 2021/09/28.
@@ -32,8 +32,8 @@ struct WeatherInfo: Codable {
     let forecastedTime: Int
     let main: WeatherNumericalValue
     let weather: [WeatherExpression]
-    let clouds: CloudsNumericalValue
-    let wind: WindNumericalValue
+    let clouds: Clouds
+    let wind: Wind
     let visibility: Int
     let pop: Double
     let rain: Rain
@@ -64,7 +64,7 @@ struct City: Codable {
     }
 }
 
-struct WeekWeatherInfo: Codable {
+struct WeeklyWeatherInfo: Codable {
     let cod: String
     let message: Int
     let timestampCount: Int

@@ -44,7 +44,7 @@ struct WeatherNumericalValue: Codable {
     }
 }
 
-struct WindNumericalValue: Codable {
+struct Wind: Codable {
     let speed: Double
     let gust: Double?
     let degree: Int
@@ -55,7 +55,7 @@ struct WindNumericalValue: Codable {
     }
 }
 
-struct CloudsNumericalValue: Codable {
+struct Clouds: Codable {
     let cloudiness: Int
     
     enum CodingKeys: String, CodingKey {
@@ -83,8 +83,8 @@ struct TodayWeatherInfo: Codable {
     let base: String
     let main: WeatherNumericalValue
     let visibility: Double
-    let wind: WindNumericalValue
-    let clouds: CloudsNumericalValue
+    let wind: Wind
+    let clouds: Clouds
     let calculatedTime: TimeInterval
     let sys: Sys
     let timezone: Int
