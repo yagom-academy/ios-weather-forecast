@@ -8,8 +8,15 @@
 import Foundation
 
 protocol URLSessionProtocol {
-    func dataTask(with url: URL,
-                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+    func customDataTask(with url: URL,
+                        completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)
+    -> URLSessionDataTaskProtocol
 }
 
-extension URLSession: URLSessionProtocol {}
+extension URLSession: URLSessionProtocol {
+    func customDataTask(with url: URL,
+                        completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)
+    -> URLSessionDataTaskProtocol {
+        return dataTask(with: url, completionHandler: completionHandler) as URLSessionDataTaskProtocol
+    }
+}

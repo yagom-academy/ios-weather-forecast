@@ -8,11 +8,11 @@
 import Foundation
 @testable import WeatherForecast
 
-class MockURLSessionDataTask: URLSessionDataTask {
+struct MockURLSessionDataTask: URLSessionDataTaskProtocol {
     
     var resumeDidCall: () -> Void = {}
     
-    override func resume() {
+    func resume() {
         resumeDidCall()
     }
 }

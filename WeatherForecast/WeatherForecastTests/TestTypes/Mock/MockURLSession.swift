@@ -9,15 +9,16 @@ import Foundation
 @testable import WeatherForecast
 
 struct MockURLSession: URLSessionProtocol {
-    private let mockURLSessionDataTask: MockURLSessionDataTask = MockURLSessionDataTask()
+    
     private let isSuccess: Bool
     
     init(isSuccess: Bool) {
         self.isSuccess = isSuccess
     }
     
-    func dataTask(with url: URL,
-                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+    func customDataTask(with url: URL,
+                        completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)
+    -> URLSessionDataTaskProtocol {
         let successResponse = HTTPURLResponse(url: url,
                                               statusCode: 200,
                                               httpVersion: nil,
@@ -26,6 +27,8 @@ struct MockURLSession: URLSessionProtocol {
                                               statusCode: 400,
                                               httpVersion: nil,
                                               headerFields: nil)
+        
+        var mockURLSessionDataTask = MockURLSessionDataTask()
         mockURLSessionDataTask.resumeDidCall = {
             completionHandler(Data(), self.isSuccess ? successResponse : failureResponse, nil)
         }
