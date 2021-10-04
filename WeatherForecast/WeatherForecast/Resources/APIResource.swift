@@ -33,4 +33,3 @@ extension APIResource {
         self.url = weatherURL.generateURLPath()
     }
 }
-
