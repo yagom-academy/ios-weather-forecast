@@ -11,6 +11,7 @@ enum APIError: LocalizedError {
     case invalidURL
     case invalidResponse
     case emptyData
+    case decodingError
     case unknown
     
     var errorDescription: String? {
@@ -21,6 +22,8 @@ enum APIError: LocalizedError {
             return "Invalid Response"
         case .emptyData:
             return "Empty Data"
+        case .decodingError:
+            return "Decoding Error"
         case .unknown:
             return "Unknown"
         }
@@ -85,7 +88,7 @@ extension WeatherDataManager: JSONDecodable {
                 let data = try self.decodeJSON(ParsingType.self, from: data)
                 completion(.success(data))
             } catch {
-                completion(.failure(.emptyData))
+                completion(.failure(.decodingError))
             }
         }.resume()
     }
