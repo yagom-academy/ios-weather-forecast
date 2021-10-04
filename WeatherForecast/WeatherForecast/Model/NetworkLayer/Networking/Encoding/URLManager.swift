@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct URLParameterEncoder: ParameterEncoding {
-    static func encode(urlRequest: inout URLRequest, with parameter: Parameters) throws {
+struct URLManager: RequestConfigurable {
+    static func configure(urlRequest: inout URLRequest, with parameter: Parameters) throws {
         guard let url = urlRequest.url else {
             throw NetworkError.urlMissing
         }

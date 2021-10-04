@@ -36,16 +36,16 @@ class Router<EndPointType: EndPoint>: NetworkRouter {
         var request = URLRequest(url: route.baseUrl)
         
         switch route.httpTask {
-        case .requestWithUrlParameters(urlParameters: let urlParameter):
-            self.configureUrlParameter(&request, urlParameter)
+        case .request(withUrlParameters: let urlParameter):
+            self.configureRequestUrl(&request, urlParameter)
         }
         
         return request
     }
     
-    private func configureUrlParameter(_ request: inout URLRequest, _ urlParameters: Parameters) {
+    private func configureRequestUrl(_ request: inout URLRequest, _ urlParameters: Parameters) {
         do {
-            try URLParameterEncoder.encode(urlRequest: &request, with: urlParameters)
+            try URLManager.configure(urlRequest: &request, with: urlParameters)
         } catch {
             print(error)
         }
