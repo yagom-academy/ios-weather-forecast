@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 enum APIError: LocalizedError {
     case invalidURL
@@ -30,14 +31,31 @@ enum APIError: LocalizedError {
     }
 }
 
+enum URI {
+    static let host = "https://api.openweathermap.org/"
+    static let currentPath = "data/2.5/weather?"
+    static let fiveDaysPath = "data/2.5/forecast?"
+    static let appID = "&appid=af361cc4ac7bf412119174d64ba296ff"
+    static let units = "&units=metric"
+    static let lang = "&lang=kr"
+}
+
 final class WeatherDataManager {
     static let shared = WeatherDataManager()
-    private let appId = "af361cc4ac7bf412119174d64ba296ff"
-    
     private init() {}
+    private var isPathCurrent = true
 
+    var latitude: Double?
+    var longitude: Double?
+    var location: CLLocation {
+        if let lat = latitude, let lon = longitude {
+            return CLLocation(latitude: lat, longitude: lon)
+        }
+        return CLLocation()
+    }
+    
     func fetchCurrentWeather() {
-        let url = "https://api.openweathermap.org/data/2.5/weather?lat=37.557297&lon=126.991934&appid=\(appId)&units=metric&lang=kr"
+        let url = generateURI(path: true, location: location)
         self.fetch(urlString: url) { (result: Result<CurrentWeather, APIError>) in
             switch result {
             case .success(let currentWeather):
@@ -49,7 +67,7 @@ final class WeatherDataManager {
     }
     
     func fetchFiveDaysWeather() {
-        let url = "https://api.openweathermap.org/data/2.5/forecast?lat=37.557297&lon=126.991934&appid=\(appId)&units=metric&lang=kr"
+        let url = generateURI(path: false, location: location)
         self.fetch(urlString: url) { (result: Result<FivedaysWeather, APIError>) in
             switch result {
             case .success(let currentWeather):
@@ -58,6 +76,22 @@ final class WeatherDataManager {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    func generateURI(path: Bool, location: CLLocation) -> String {
+        let latString = "lat=\(location.coordinate.latitude)"
+        let lonString = "&lon=\(location.coordinate.longitude)"
+
+        isPathCurrent = path
+
+        var uri: String {
+            if isPathCurrent {
+                return "\(URI.host)\(URI.currentPath)\(latString)\(lonString)\(URI.appID)\(URI.units)\(URI.lang)"
+            } else {
+                return "\(URI.host)\(URI.fiveDaysPath)\(latString)\(lonString)\(URI.appID)\(URI.units)\(URI.lang)"
+            }
+        }
+        return uri
     }
 }
 
