@@ -9,6 +9,7 @@ import XCTest
 @testable import WeatherForecast
 
 class WeatherDecoderTests: XCTestCase {
+    
     var currentSut: CurrentWeatherData!
 
     override func setUpWithError() throws {

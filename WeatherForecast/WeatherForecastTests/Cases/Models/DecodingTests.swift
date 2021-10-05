@@ -9,6 +9,7 @@ import XCTest
 @testable import WeatherForecast
 
 class DecodingTests: XCTestCase {
+    
     var currentSut: CurrentWeatherData!
     var fivedaySut: FiveDayWeatherData!
 
@@ -26,7 +27,7 @@ class DecodingTests: XCTestCase {
         super.tearDown()
     }
     
-    // MARK: - CurrentData 모델 디코딩 테스트
+    // MARK: - CurrentWeatherData 모델 디코딩 테스트
     func test_SuccessCase_CurrentData타입은_decoding된다() {
         // give
         let comparedProperty = "01d"
@@ -45,7 +46,7 @@ class DecodingTests: XCTestCase {
         XCTAssertNil(decodedProperty)
     }
     
-    // MARK: - FiveDayDaya 모델 디코딩 테스트
+    // MARK: - FiveDayWeatherData 모델 디코딩 테스트
     func test_SuccessCase_FiveDayDaya타입은_decoding된다() {
         // give
         let comparedProperty: TimeInterval = 1633057200
