@@ -8,7 +8,10 @@
 import Foundation
 
 protocol URLSessionable {
-    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+    func dataTask(
+        with url: URL,
+        completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
+    ) -> URLSessionDataTask
 }
 
 extension URLSession: URLSessionable { }
@@ -60,8 +63,6 @@ struct NetworkManager {
             }
         }.resume()
     }
-    
-    
     
     private func handleSuccessStatusCode<Model: Decodable>(
         data: Data?,

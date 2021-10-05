@@ -29,5 +29,3 @@ struct TodayWeatherInfo: Codable {
         case identifier = "id"
     }
 }
-
-
