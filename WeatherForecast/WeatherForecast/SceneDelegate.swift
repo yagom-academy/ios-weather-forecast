@@ -16,7 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard (scene as? UIWindowScene) != nil else { return }
     }
 
-    func sceneDidDisconnect(_ scene: UIScene) {    }
+    func sceneDidDisconnect(_ scene: UIScene) {
+    }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
     }
