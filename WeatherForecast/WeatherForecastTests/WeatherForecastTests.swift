@@ -37,13 +37,13 @@ class WeatherForecastTests: XCTestCase {
               let jsonData = try? String(contentsOfFile: path).data(using: .utf8) else {
                   return XCTFail()
               }
-
-        XCTFail(String(data: jsonData, encoding: .utf8)!)
+        
         do {
-            let result = try decoder.decode(jsonData, to: WeeklyWeatherInfo.self)
-            XCTAssertEqual(282.55, result.list.first?.main.temperature)
+            let result = try decoder.decode(jsonData, to: WeeklyWeatherForecast.self)
+            XCTAssertEqual(293.55, result.list.first?.main.temperature)
         } catch {
             XCTFail(error.localizedDescription)
         }
     }
 }
+
