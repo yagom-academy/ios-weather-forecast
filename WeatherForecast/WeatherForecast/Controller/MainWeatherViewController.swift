@@ -11,6 +11,7 @@ final class MainWeatherViewController: UIViewController {
     private let locationManager = CLLocationManager()
     private var weatherForOneDay: WeatherForOneDay?
     private var fiveDayWeatherForecast: FiveDayWeatherForecast?
+    private let prepareInformationDispatchGroup = DispatchGroup()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,18 +42,23 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
         
         prepareAddressInformation(with: lastLocation)
         prepareWeatherInformation(with: lastLocation.coordinate)
+        prepareInformationDispatchGroup.notify(queue: .main) {
+            print("정보들이 다 준비되었습니다.")
+        }
     }
 }
 
 extension MainWeatherViewController {
     private func prepareAddressInformation(with location: CLLocation) {
-        AddressManager.generateAddress(from: location) {
+        prepareInformationDispatchGroup.enter()
+        AddressManager.generateAddress(from: location) { [self] in
             switch $0 {
             case .failure(_):
                 break
             case .success(let address):
                 print(address)
             }
+            prepareInformationDispatchGroup.leave()
         }
     }
     
@@ -62,6 +68,7 @@ extension MainWeatherViewController {
         let weatherForOneDayAPI = WeatherAPI(callType: callType, forecastType: .current)
         let fivedayWeatherForecastAPI = WeatherAPI(callType: callType, forecastType: .fiveDays)
         
+        prepareInformationDispatchGroup.enter()
         NetworkManager.request(using: weatherForOneDayAPI) { [self] result in
             switch result {
             case .failure(_):
@@ -72,7 +79,9 @@ extension MainWeatherViewController {
                 }
                 weatherForOneDay = parsedData
             }
+            prepareInformationDispatchGroup.leave()
         }
+        prepareInformationDispatchGroup.enter()
         NetworkManager.request(using: fivedayWeatherForecastAPI) { [self] result in
             switch result {
             case .failure(_):
@@ -83,6 +92,7 @@ extension MainWeatherViewController {
                 }
                 fiveDayWeatherForecast = parsedData
             }
+            prepareInformationDispatchGroup.leave()
         }
     }
     
