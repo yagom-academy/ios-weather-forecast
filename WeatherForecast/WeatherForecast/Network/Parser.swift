@@ -8,9 +8,9 @@
 import Foundation
 
 struct Parser {
-    let decoder = JSONDecoder()
+    private let decoder = JSONDecoder()
 
-    func decode<T: Codable>(_ data: Data, to model: T.Type) throws -> T {
+    func decode<Model: Decodable>(_ data: Data, to model: Model.Type) throws -> Model {
         do {
             let parsedData = try decoder.decode(model, from: data)
             return parsedData

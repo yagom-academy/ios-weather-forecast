@@ -2,7 +2,7 @@
 //  NetworkManager.swift
 //  WeatherForecast
 //
-//  Created by kjs on 2021/09/30.
+//  Created by 샬롯, 수박, 루얀 on 2021/09/30.
 //
 
 import Foundation
@@ -14,45 +14,83 @@ protocol URLSessionable {
 extension URLSession: URLSessionable { }
 
 struct NetworkManager {
+    private let parser = Parser()
+    private let urlGenerator = URLGenerator()
     private let session: URLSessionable
-
+    
     init(session: URLSessionable = URLSession.shared) {
         self.session = session
     }
     
-    func request(endpoint: WeatherForecastAPI.EndPoint,
-                 parameters: [String: Any],
-                 completionHandler: @escaping  (Result<TodayWeatherInfo, Error>) -> Void) {
-        var components = URLComponents(string: WeatherForecastAPI.baseURL + endpoint.description)
-        var queryItems = [URLQueryItem]()
-        for (key, value) in parameters {
-            queryItems.append(URLQueryItem(name: key, value: String(describing: value)))
-        }
-        components?.queryItems = queryItems
-        guard let url = components?.url else {
+    func request<Model: Decodable>(
+        endpoint: APIEndPoint,
+        parameters: [String: Any],
+        completionHandler: @escaping (Result<Model, Error>) -> Void
+    ) {
+        guard let url = urlGenerator.work(
+                endpoint: endpoint,
+                parameters: parameters
+        ) else {
             completionHandler(.failure(NetworkError.invalidURL))
             return
         }
+        
         session.dataTask(with: url) { data, response, error in
+            guard error == nil else {
+                let placeholder = ""
+                let unknownError = NetworkError.unknown(
+                    description: error?.localizedDescription ?? placeholder
+                )
+                completionHandler(.failure(unknownError))
+                return
+            }
             guard let response = response as? HTTPURLResponse else {
-                completionHandler(.failure(NetworkError.invalidResponse))
+                completionHandler(
+                    .failure(NetworkError.invalidResponse)
+                )
                 return
             }
-//            switch response.statusCode {
-//            case 200..<300:
-//            default:
-//            }
-            if let error = error {
-                completionHandler(.failure(error))
-                return
+            
+            switch response.statusCode {
+            case 200..<300:
+                handleSuccessStatusCode(data: data, completionHandler: completionHandler)
+            default:
+                handleFailureStatusCode(response: response, completionHandler: completionHandler)
             }
-            if let data = data {
-                do {
-                    
-                } catch {
-                    
-                }
-            }
+        }.resume()
+    }
+    
+    
+    
+    private func handleSuccessStatusCode<Model: Decodable>(
+        data: Data?,
+        completionHandler: @escaping (Result<Model, Error>) -> Void
+    ) {
+        guard let data = data else {
+            completionHandler(.failure(NetworkError.dataIsNil))
+            return
         }
+        
+        do {
+            let todayWeatherInfo = try parser.decode(data, to: Model.self)
+            completionHandler(.success(todayWeatherInfo))
+        } catch {
+            completionHandler(.failure(error))
+        }
+    }
+    
+    private func handleFailureStatusCode<Model>(
+        response: HTTPURLResponse,
+        completionHandler: @escaping (Result<Model, Error>) -> Void
+    ) {
+        switch response.statusCode {
+        case 400..<500:
+            completionHandler(.failure(NetworkError.clientSide(description: response.debugDescription)))
+        case 500..<600:
+            completionHandler(.failure(NetworkError.serverSide(description: response.debugDescription)))
+        default:
+            completionHandler(.failure(NetworkError.unknown(description: response.debugDescription)))
+        }
+        
     }
 }
