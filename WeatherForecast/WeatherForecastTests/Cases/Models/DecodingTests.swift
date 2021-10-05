@@ -29,7 +29,7 @@ class DecodingTests: XCTestCase {
     // MARK: - CurrentData 모델 디코딩 테스트
     func test_SuccessCase_CurrentData타입은_decoding된다() {
         // give
-        let comparedProperty = "10d"
+        let comparedProperty = "01d"
         // when
         let decodedProperty = currentSut.conditions?.first?.iconName
         // then
@@ -40,7 +40,7 @@ class DecodingTests: XCTestCase {
         // give
 
         // when
-        let decodedProperty = currentSut.mainInformation?.temperature
+        let decodedProperty = currentSut.mainInformation?.maximumTemperature
         // then
         XCTAssertNil(decodedProperty)
     }
@@ -59,7 +59,7 @@ class DecodingTests: XCTestCase {
         // give
 
         // when
-        let decodedProperty = fivedaySut.intervalWeathers?.first?.mainInformation?.temperature
+        let decodedProperty = fivedaySut.intervalWeathers?.first?.mainInformation?.maximumTemperature
         // then
         XCTAssertNil(decodedProperty)
     }
