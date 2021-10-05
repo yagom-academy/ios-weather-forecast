@@ -57,18 +57,16 @@ enum WeatherAPI {
     }
     
     private var values: [String] {
-        var parameters: [String] = []
+        var parameters: [String]
         switch self {
-        case .current(.geographic(latitude: let latitude, longitude: let longitude)):
-            parameters.append("\(latitude)")
-            parameters.append("\(longitude)")
-        case .fiveday(.geographic(latitude: let latitude, longitude: let longitude)):
-            parameters.append("\(latitude)")
-            parameters.append("\(longitude)")
+        case .current(.geographic(let latitude, let longitude)):
+            parameters = ["\(latitude)", "\(longitude)"]
+        case .fiveday(.geographic(let latitude, let longitude)):
+            parameters = ["\(latitude)", "\(longitude)"]
         case .fiveday(.cityName(name: let name)):
-            parameters.append(name)
+            parameters = [name]
         }
-        parameters.append(WeatherAPI.appkey)
+        parameters.append(WeatherAPI.appid)
         return parameters
     }
     
