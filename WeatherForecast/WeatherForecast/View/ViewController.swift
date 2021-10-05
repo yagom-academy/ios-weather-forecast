@@ -9,6 +9,8 @@ import CoreLocation
 
 final class ViewController: UIViewController {
     private let locationManager = LocationManager()
+    lazy var session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
+    var data: FiveDaysForecast?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,18 +22,18 @@ final class ViewController: UIViewController {
 extension ViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let networkManager = NetworkManager()
-
+        
         guard let longitude = manager.location?.coordinate.longitude,
               let latitude = manager.location?.coordinate.latitude,
-              let url = URL(string: "http://api.openweathermap.org/data/2.5/weather") else  {
+              let fiveDaysUrl = URL(string: "http://api.openweathermap.org/data/2.5/forecast") else  {
             return
         }
         
         let requestInfo: Parameters = ["lat": latitude, "lon": longitude, "appid": networkManager.apiKey]
+
+        let fiveDaysWeatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: fiveDaysUrl)
         
-        let weatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: url)
-        
-        networkManager.getCurrentWeatherData(weatherAPI: weatherApi, URLSession.shared)
+        networkManager.getFiveDaysForecastData(weatherAPI: fiveDaysWeatherApi, session)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -58,6 +60,30 @@ extension ViewController: CLLocationManagerDelegate {
         alert.addAction(alertAction)
         self.present(alert, animated: true, completion: nil)
     }
-    
 }
 
+extension ViewController: URLSessionDataDelegate {
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        do {
+            let decodedData = try JSONDecoder().decode(FiveDaysForecast.self, from: data)
+            self.data = decodedData
+        } catch {
+            showAlert()
+        }
+    }
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        if let error = error {
+            showAlert()
+        }
+    }
+    
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+        if let response = response as? HTTPURLResponse,
+           (200..<300).contains(response.statusCode) {
+            completionHandler(.allow)
+        } else {
+            completionHandler(.cancel)
+        }
+    }
+}
