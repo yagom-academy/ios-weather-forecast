@@ -9,9 +9,10 @@ import CoreLocation
 
 class WeatherListViewController: UIViewController {
 
-    var locationManager: CLLocationManager!
-    var latitude: Double?
-    var longitude: Double?
+    private var locationManager: CLLocationManager!
+    private var currentLocation: CLLocationCoordinate2D!
+    private var latitude: Double?
+    private var longitude: Double?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,11 +22,36 @@ class WeatherListViewController: UIViewController {
 }
 
 extension WeatherListViewController: CLLocationManagerDelegate {
-    func generateLocationManager() {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedWhenInUse, .authorizedAlways:
+            currentLocation = manager.location?.coordinate
+            WeatherDataManager.shared.longitude = currentLocation.longitude
+            WeatherDataManager.shared.latitude = currentLocation.latitude
+            WeatherDataManager.shared.fetchCurrentWeather()
+        case .notDetermined, .restricted:
+            manager.requestWhenInUseAuthorization()
+        case .denied:
+            if let appSettings = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
+            }
+        }
+    }
+}
+
+extension WeatherListViewController {
+    private func generateLocationManager() {
         locationManager = CLLocationManager()
         locationManager.delegate = self
         
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    }
+    
+    private func generateCurrentCoordinate() -> CLLocation {
+        let manager = WeatherDataManager.shared
+        guard let latitude = manager.latitude, let longitude = manager.longitude else { return CLLocation() }
+        let location = CLLocation(latitude: latitude, longitude: longitude)
+        return location
     }
 }
