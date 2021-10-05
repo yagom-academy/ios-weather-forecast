@@ -52,7 +52,7 @@ enum WeatherAPI {
         case .fiveday(.geographic):
             return ["lat", "lon", "appid"]
         case .fiveday(.cityName):
-            return ["q", "lang", "appid"]
+            return ["q", "appid"]
         }
     }
     
