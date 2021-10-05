@@ -7,76 +7,6 @@
 
 import Foundation
 
-struct WeatherExpression: Codable {
-    let identifier: Int
-    let main: String
-    let body: String
-    let icon: String
-    
-    enum CodingKeys: String, CodingKey {
-        case main, icon
-        case identifier = "id"
-        case body = "description"
-    }
-}
-
-struct WeatherNumericalValue: Codable {
-    let temperature: Double
-    let feelsLike: Double
-    let minimumTemperature: Double
-    let maximumTemperature: Double
-    let pressure: Int
-    let humidity: Int
-    
-    let seaLevel: Int?
-    let groundLevel: Int?
-    let tempKF: Double?
-    
-    enum CodingKeys: String, CodingKey {
-        case pressure, humidity
-        case temperature = "temp"
-        case feelsLike = "feels_like"
-        case minimumTemperature = "temp_min"
-        case maximumTemperature = "temp_max"
-        case seaLevel = "sea_level"
-        case groundLevel = "grnd_level"
-        case tempKF = "temp_kf"
-    }
-}
-
-struct Wind: Codable {
-    let speed: Double
-    let gust: Double?
-    let degree: Int
-    
-    enum CodingKeys: String, CodingKey {
-        case speed, gust
-        case degree = "deg"
-    }
-}
-
-struct Clouds: Codable {
-    let cloudiness: Int
-    
-    enum CodingKeys: String, CodingKey {
-        case cloudiness = "all"
-    }
-}
-
-struct Sys: Codable {
-    let type: Int
-    let identifier: Int
-    let message: Double
-    let country: String
-    let sunrise: TimeInterval
-    let sunset: TimeInterval
-    
-    enum CodingKeys: String, CodingKey {
-        case type, message, country, sunrise, sunset
-        case identifier = "id"
-    }
-}
-
 struct TodayWeatherInfo: Codable {
     let coordinate: Coordinate
     let weather: [WeatherExpression]
@@ -86,7 +16,7 @@ struct TodayWeatherInfo: Codable {
     let wind: Wind
     let clouds: Clouds
     let calculatedTime: TimeInterval
-    let sys: Sys
+    let sys: TodaySys
     let timezone: Int
     let identifier: Int
     let name: String
