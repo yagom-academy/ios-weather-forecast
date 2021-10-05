@@ -21,7 +21,7 @@ struct WeatherNetworkManager {
     }
     
     func fetchData(with url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
-        session.customDataTask(with: url) { data, response, error in
+        session.makeCustomDataTask(with: url) { data, response, error in
             let successRange = 200..<300
             
             guard error == nil else {

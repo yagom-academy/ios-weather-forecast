@@ -30,7 +30,7 @@ class MockURLSessionTests: XCTestCase {
         let successRange = 200..<300
         let url: URL! = URL(string: "https://yagom.com")
         // when
-        successSut.customDataTask(with: url) { _, response, _ in
+        successSut.makeCustomDataTask(with: url) { _, response, _ in
             guard let response = response as? HTTPURLResponse else {
                 XCTFail("Response error.")
                 return
@@ -45,7 +45,7 @@ class MockURLSessionTests: XCTestCase {
         let successRange = 200..<300
         let url: URL! = URL(string: "https://yagom.com")
         // when
-        failureSut.customDataTask(with: url) { _, response, _ in
+        failureSut.makeCustomDataTask(with: url) { _, response, _ in
             guard let response = response as? HTTPURLResponse else {
                 XCTFail("Response error.")
                 return

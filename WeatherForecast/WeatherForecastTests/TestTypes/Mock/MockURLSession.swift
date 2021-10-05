@@ -16,7 +16,7 @@ struct MockURLSession: URLSessionProtocol {
         self.isSuccess = isSuccess
     }
     
-    func customDataTask(with url: URL,
+    func makeCustomDataTask(with url: URL,
                         completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)
     -> URLSessionDataTaskProtocol {
         let successResponse = HTTPURLResponse(url: url,

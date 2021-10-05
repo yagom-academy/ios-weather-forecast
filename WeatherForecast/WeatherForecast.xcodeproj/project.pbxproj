@@ -136,6 +136,18 @@
 			path = Mock;
 			sourceTree = "<group>";
 		};
+		A93752B7270C8451008C0DA8 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				A99BFD68270709BD0078DB05 /* WeatherNetworkManager.swift */,
+				A9D44C0D270B33E6007B06EC /* WeatherAPI.swift */,
+				792D2C222706F8830060326A /* URLSessionProtocol.swift */,
+				792D2C2D270748C90060326A /* URLSessionDataTaskProtocol.swift */,
+			);
+			name = Network;
+			path = ../Network;
+			sourceTree = "<group>";
+		};
 		A97EFF3727030628009558C9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,8 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				792D2C202706EC030060326A /* WeatherJSONDecoder.swift */,
-				A99BFD68270709BD0078DB05 /* WeatherNetworkManager.swift */,
-				A9D44C0D270B33E6007B06EC /* WeatherAPI.swift */,
+				A93752B7270C8451008C0DA8 /* Network */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -285,8 +296,6 @@
 				A99BFD5F2706EFBC0078DB05 /* Controller */,
 				C79C8CFC25ADDDF300EEE3F1 /* Assets.xcassets */,
 				C79C8D0125ADDDF300EEE3F1 /* Info.plist */,
-				792D2C222706F8830060326A /* URLSessionProtocol.swift */,
-				792D2C2D270748C90060326A /* URLSessionDataTaskProtocol.swift */,
 				A93752B4270C64DA008C0DA8 /* WeatherInfo.plist */,
 			);
 			path = WeatherForecast;
