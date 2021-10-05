@@ -9,8 +9,7 @@
 /* Begin PBXBuildFile section */
 		639DD8612706EDE200824294 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639DD8602706EDE200824294 /* Parser.swift */; };
 		63B10ABA2705DA3E0040EC8B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B10AB92705DA3E0040EC8B /* NetworkManager.swift */; };
-		63B10ABC2705DA760040EC8B /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B10ABB2705DA760040EC8B /* HttpMethod.swift */; };
-		63B10AC12705E1EB0040EC8B /* WeatherForecastAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B10AC02705E1EB0040EC8B /* WeatherForecastAPI.swift */; };
+		63B10AC12705E1EB0040EC8B /* APIEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B10AC02705E1EB0040EC8B /* APIEndPoint.swift */; };
 		63B33CE6270AAC8D00B438C9 /* sampleOfCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 63B33CE4270AAC8D00B438C9 /* sampleOfCurrent.json */; };
 		63B33CE7270AAC8D00B438C9 /* sampleOfWeek.json in Resources */ = {isa = PBXBuildFile; fileRef = 63B33CE5270AAC8D00B438C9 /* sampleOfWeek.json */; };
 		C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */; };
@@ -51,8 +50,7 @@
 /* Begin PBXFileReference section */
 		639DD8602706EDE200824294 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		63B10AB92705DA3E0040EC8B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		63B10ABB2705DA760040EC8B /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
-		63B10AC02705E1EB0040EC8B /* WeatherForecastAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecastAPI.swift; sourceTree = "<group>"; };
+		63B10AC02705E1EB0040EC8B /* APIEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndPoint.swift; sourceTree = "<group>"; };
 		63B33CE4270AAC8D00B438C9 /* sampleOfCurrent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = sampleOfCurrent.json; path = ../../sampleOfCurrent.json; sourceTree = "<group>"; };
 		63B33CE5270AAC8D00B438C9 /* sampleOfWeek.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = sampleOfWeek.json; path = ../../sampleOfWeek.json; sourceTree = "<group>"; };
 		C79C8CF025ADDDF200EEE3F1 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,8 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				63B10AB92705DA3E0040EC8B /* NetworkManager.swift */,
-				63B10AC02705E1EB0040EC8B /* WeatherForecastAPI.swift */,
-				63B10ABB2705DA760040EC8B /* HttpMethod.swift */,
+				63B10AC02705E1EB0040EC8B /* APIEndPoint.swift */,
 				639DD8602706EDE200824294 /* Parser.swift */,
 				F9C66CA5270C276700C9D38E /* NetworkError.swift */,
 				D1BB9FB0270C458C00DDC204 /* URLGenerator.swift */,
@@ -330,12 +327,11 @@
 				F9C66CA6270C276700C9D38E /* NetworkError.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
 				639DD8612706EDE200824294 /* Parser.swift in Sources */,
-				63B10AC12705E1EB0040EC8B /* WeatherForecastAPI.swift in Sources */,
+				63B10AC12705E1EB0040EC8B /* APIEndPoint.swift in Sources */,
 				D12A0324270307DC00F28AA3 /* WeeklyWeatherForecast.swift in Sources */,
 				F946431E270C0C0800F5249A /* Climatic.swift in Sources */,
 				D1BB9FB1270C458C00DDC204 /* URLGenerator.swift in Sources */,
 				63B10ABA2705DA3E0040EC8B /* NetworkManager.swift in Sources */,
-				63B10ABC2705DA760040EC8B /* HttpMethod.swift in Sources */,
 				F951470B2702F0F800A7AC28 /* TodayWeatherInfo.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
 				F9464325270C116800F5249A /* WeatherValues.swift in Sources */,

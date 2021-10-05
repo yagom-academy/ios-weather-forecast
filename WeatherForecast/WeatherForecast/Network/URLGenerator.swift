@@ -17,6 +17,12 @@ struct URLGenerator {
         for (key, value) in parameters {
             queryItems.append(URLQueryItem(name: key, value: String(describing: value)))
         }
+        queryItems.append(
+            URLQueryItem(
+                name: APIEndPoint.APIKey.name,
+                value: APIEndPoint.APIKey.value
+            )
+        )        
         components?.queryItems = queryItems
         return components?.url
     }

@@ -8,8 +8,8 @@
 import Foundation
 
 struct Coordinate: Codable {
-    let longitude: Double
-    let latitude: Double
+    let longitude: Double?
+    let latitude: Double?
     
     enum CodingKeys: String, CodingKey {
         case longitude = "lon"
@@ -18,13 +18,13 @@ struct Coordinate: Codable {
 }
 
 struct City: Codable {
-    let identifier: Int
-    let name: String
-    let coordinate: Coordinate
-    let country: String
-    let timezone: Int
-    let sunrise: Int
-    let sunset: Int
+    let identifier: Int?
+    let name: String?
+    let coordinate: Coordinate?
+    let country: String?
+    let timezone: Int?
+    let sunrise: Int?
+    let sunset: Int?
     
     enum CodingKeys: String, CodingKey {
         case name, country, timezone, sunrise, sunset

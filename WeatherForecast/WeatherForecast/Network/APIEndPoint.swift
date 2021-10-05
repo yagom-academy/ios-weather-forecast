@@ -7,9 +7,8 @@
 import Foundation
 
 enum APIEndPoint {
-    private static let baseURL = "api.openweathermap.org/data/2.5/"
-    // TODO: 저장 위치
-    static let APIKey = "a529112a5512a01db04290ddf7b83639"
+    private static let baseURL = "https://api.openweathermap.org/data/2.5/"
+    static let APIKey = (name: "appid", value: "a529112a5512a01db04290ddf7b83639")
     
     case daily
     case weekly

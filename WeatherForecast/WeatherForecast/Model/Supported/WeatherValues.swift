@@ -8,10 +8,10 @@
 import Foundation
 
 struct WeatherExpression: Codable {
-    let identifier: Int
-    let main: String
-    let body: String
-    let icon: String
+    let identifier: Int?
+    let main: String?
+    let body: String?
+    let icon: String?
     
     enum CodingKeys: String, CodingKey {
         case main, icon
@@ -21,12 +21,12 @@ struct WeatherExpression: Codable {
 }
 
 struct WeatherNumericalValue: Codable {
-    let temperature: Double
-    let feelsLike: Double
-    let minimumTemperature: Double
-    let maximumTemperature: Double
-    let pressure: Int
-    let humidity: Int
+    let temperature: Double?
+    let feelsLike: Double?
+    let minimumTemperature: Double?
+    let maximumTemperature: Double?
+    let pressure: Int?
+    let humidity: Int?
     
     let seaLevel: Int?
     let groundLevel: Int?

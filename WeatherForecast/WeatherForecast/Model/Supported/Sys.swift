@@ -8,16 +8,16 @@
 import Foundation
 
 struct WeeklySys: Codable {
-    let pod: String
+    let pod: String?
 }
 
 struct TodaySys: Codable {
-    let type: Int
-    let identifier: Int
-    let message: Double
-    let country: String
-    let sunrise: TimeInterval
-    let sunset: TimeInterval
+    let type: Int?
+    let identifier: Int?
+    let message: Double?
+    let country: String?
+    let sunrise: TimeInterval?
+    let sunset: TimeInterval?
     
     enum CodingKeys: String, CodingKey {
         case type, message, country, sunrise, sunset

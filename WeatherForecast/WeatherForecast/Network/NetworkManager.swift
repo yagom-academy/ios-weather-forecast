@@ -23,6 +23,7 @@ struct NetworkManager {
     }
     
     func request<Model: Decodable>(
+        model: Model.Type,
         endpoint: APIEndPoint,
         parameters: [String: Any],
         completionHandler: @escaping (Result<Model, Error>) -> Void
@@ -72,8 +73,8 @@ struct NetworkManager {
         }
         
         do {
-            let todayWeatherInfo = try parser.decode(data, to: Model.self)
-            completionHandler(.success(todayWeatherInfo))
+            let model = try parser.decode(data, to: Model.self)
+            completionHandler(.success(model))
         } catch {
             completionHandler(.failure(error))
         }
