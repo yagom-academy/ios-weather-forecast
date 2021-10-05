@@ -31,6 +31,7 @@
 		C91EF6AD270311600013E3D6 /* APIable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6AC270311600013E3D6 /* APIable.swift */; };
 		C91EF6B127035D330013E3D6 /* WeatherAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6B027035D330013E3D6 /* WeatherAPI.swift */; };
 		C91EF6B62706E5250013E3D6 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6B52706E5250013E3D6 /* ParsingManager.swift */; };
+		C9D4DB91270C460300EAF3A5 /* AddressManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D4DB90270C460300EAF3A5 /* AddressManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		C91EF6B027035D330013E3D6 /* WeatherAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPI.swift; sourceTree = "<group>"; };
 		C91EF6B22706D9700013E3D6 /* Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secret.xcconfig; sourceTree = "<group>"; };
 		C91EF6B52706E5250013E3D6 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
+		C9D4DB90270C460300EAF3A5 /* AddressManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +208,7 @@
 			children = (
 				C91EF6B52706E5250013E3D6 /* ParsingManager.swift */,
 				3F756AD92706FB340091A124 /* NetworkManager.swift */,
+				C9D4DB90270C460300EAF3A5 /* AddressManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				C91EF69E2702E7430013E3D6 /* Clouds.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* MainWeatherViewController.swift in Sources */,
 				C91EF6B127035D330013E3D6 /* WeatherAPI.swift in Sources */,
+				C9D4DB91270C460300EAF3A5 /* AddressManager.swift in Sources */,
 				3F444DE9270325A200E60AA4 /* WeatherAPIable.swift in Sources */,
 				C91EF6AA2702FD9E0013E3D6 /* WeatherForOneDay.swift in Sources */,
 				C91EF6A22702EE630013E3D6 /* Rain.swift in Sources */,
