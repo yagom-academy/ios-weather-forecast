@@ -53,7 +53,9 @@ final class WeatherDataManager {
         }
         return CLLocation()
     }
-    
+}
+ 
+extension WeatherDataManager {
     func fetchCurrentWeather() {
         let url = generateURI(path: true, location: location)
         self.fetch(urlString: url) { (result: Result<CurrentWeather, APIError>) in
@@ -78,7 +80,7 @@ final class WeatherDataManager {
         }
     }
     
-    func generateURI(path: Bool, location: CLLocation) -> String {
+    private func generateURI(path: Bool, location: CLLocation) -> String {
         let latString = "lat=\(location.coordinate.latitude)"
         let lonString = "&lon=\(location.coordinate.longitude)"
 
