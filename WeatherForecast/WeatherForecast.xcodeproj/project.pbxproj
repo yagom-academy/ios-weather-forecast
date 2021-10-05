@@ -146,15 +146,10 @@
 		C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */ = {
 			isa = PBXGroup;
 			children = (
-				DFB4AE8127031E2A00183B25 /* Controller */,
 				75207D722703039000CFA323 /* Model */,
-				C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */,
-				C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */,
-				C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */,
-				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
-				C79C8CFC25ADDDF300EEE3F1 /* Assets.xcassets */,
-				C79C8CFE25ADDDF300EEE3F1 /* LaunchScreen.storyboard */,
-				C79C8D0125ADDDF300EEE3F1 /* Info.plist */,
+				DF923E4827073628002C05AD /* View */,
+				DFB4AE8127031E2A00183B25 /* Controller */,
+				DF923E4927073637002C05AD /* SupportingFiles */,
 			);
 			path = WeatherForecast;
 			sourceTree = "<group>";
@@ -178,9 +173,30 @@
 			path = WeatherForecastUITests;
 			sourceTree = "<group>";
 		};
+		DF923E4827073628002C05AD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		DF923E4927073637002C05AD /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */,
+				C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */,
+				C79C8CFE25ADDDF300EEE3F1 /* LaunchScreen.storyboard */,
+				C79C8CFC25ADDDF300EEE3F1 /* Assets.xcassets */,
+				C79C8D0125ADDDF300EEE3F1 /* Info.plist */,
+			);
+			name = SupportingFiles;
+			sourceTree = "<group>";
+		};
 		DFB4AE8127031E2A00183B25 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
