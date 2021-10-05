@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkManager {
+final class NetworkManager {
     enum APIError: Error, LocalizedError {
         case filePathError
         case plistError

@@ -14,7 +14,7 @@ protocol NetworkRouter {
     func cancel()
 }
 
-class Router<EndPointType: EndPoint>: NetworkRouter {
+final class Router<EndPointType: EndPoint>: NetworkRouter {
     private var task: URLSessionDataTask?
 
     func request(_ route: EndPointType, _ session: URLSession) {
