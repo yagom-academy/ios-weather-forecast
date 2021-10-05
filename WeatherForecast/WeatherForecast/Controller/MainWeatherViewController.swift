@@ -38,23 +38,24 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
         guard let lastLocation = locations.last else {
             return
         }
-        AddressManager.generateAddress(from: lastLocation) {
-            self.handleAddressTranslation(result: $0)
-        }
+        
+        prepareAddressInformation(with: lastLocation)
         prepareWeatherInformation(with: lastLocation.coordinate)
-    }
-    
-    private func handleAddressTranslation(result: Result<String, Error>) {
-        switch result {
-        case .failure(_):
-            break
-        case .success(let address):
-            print(address)
-        }
     }
 }
 
 extension MainWeatherViewController {
+    private func prepareAddressInformation(with location: CLLocation) {
+        AddressManager.generateAddress(from: location) {
+            switch $0 {
+            case .failure(_):
+                break
+            case .success(let address):
+                print(address)
+            }
+        }
+    }
+    
     private func prepareWeatherInformation(with coordinate: CLLocationCoordinate2D) {
         let userCoordinate = Coordinate(latitude: coordinate.latitude, longitude: coordinate.longitude)
         let callType = CallType.geographicCoordinates(coordinate: userCoordinate, parameter: nil)
