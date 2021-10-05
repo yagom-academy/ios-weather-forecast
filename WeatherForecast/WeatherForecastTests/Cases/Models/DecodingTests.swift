@@ -9,15 +9,15 @@ import XCTest
 @testable import WeatherForecast
 
 class DecodingTests: XCTestCase {
-    var currentSut: CurrentData!
-    var fivedaySut: FiveDayData!
+    var currentSut: CurrentWeatherData!
+    var fivedaySut: FiveDayWeatherData!
 
     override func setUpWithError() throws {
         super.setUp()
         let currentData = try getData(fromJSON: "MockCurrentData")
-        self.currentSut = try JSONDecoder().decode(CurrentData.self, from: currentData)
+        self.currentSut = try JSONDecoder().decode(CurrentWeatherData.self, from: currentData)
         let fivedayData = try getData(fromJSON: "MockFiveDayData")
-        self.fivedaySut = try JSONDecoder().decode(FiveDayData.self, from: fivedayData)
+        self.fivedaySut = try JSONDecoder().decode(FiveDayWeatherData.self, from: fivedayData)
     }
 
     override func tearDownWithError() throws {
@@ -29,9 +29,9 @@ class DecodingTests: XCTestCase {
     // MARK: - CurrentData 모델 디코딩 테스트
     func test_SuccessCase_CurrentData타입은_decoding된다() {
         // give
-        let comparedProperty = 1835848
+        let comparedProperty = "10d"
         // when
-        let decodedProperty = currentSut.cityID
+        let decodedProperty = currentSut.conditions?.first?.iconName
         // then
         XCTAssertEqual(comparedProperty, decodedProperty)
     }
@@ -40,7 +40,7 @@ class DecodingTests: XCTestCase {
         // give
 
         // when
-        let decodedProperty = currentSut.main?.feelsLike
+        let decodedProperty = currentSut.mainInformation?.temperature
         // then
         XCTAssertNil(decodedProperty)
     }
@@ -48,9 +48,9 @@ class DecodingTests: XCTestCase {
     // MARK: - FiveDayDaya 모델 디코딩 테스트
     func test_SuccessCase_FiveDayDaya타입은_decoding된다() {
         // give
-        let comparedProperty = 1835848
+        let comparedProperty: TimeInterval = 1633057200
         // when
-        let decodedProperty = fivedaySut.city?.id
+        let decodedProperty = fivedaySut.intervalWeathers?.first?.date
         // then
         XCTAssertEqual(comparedProperty, decodedProperty)
     }
@@ -59,7 +59,7 @@ class DecodingTests: XCTestCase {
         // give
 
         // when
-        let decodedProperty = fivedaySut.weatherList?.first?.main?.feelsLike
+        let decodedProperty = fivedaySut.intervalWeathers?.first?.mainInformation?.temperature
         // then
         XCTAssertNil(decodedProperty)
     }
