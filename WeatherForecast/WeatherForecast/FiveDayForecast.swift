@@ -12,13 +12,13 @@ struct FiveDayForecast: Decodable {
     let message: Int?
     let cnt: Int?
     let list: [List]?
-    let city: City?
+    let city: City
 }
 
 struct List: Decodable {
-    let dt: Int?
-    let main: Main?
-    let weather: [Weather]?
+    let dt: Int
+    let main: Main
+    let weather: [Weather]
     let cloud: Cloud?
     let wind: Wind?
     let visibility: Int?

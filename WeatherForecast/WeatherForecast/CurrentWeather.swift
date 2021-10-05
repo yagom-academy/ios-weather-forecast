@@ -8,19 +8,19 @@
 import Foundation
 
 struct CurrentWeather: Decodable {
-    let coordinate: Coordinate?
-    let weather: [Weather]?
+    let coordinate: Coordinate
+    let weather: [Weather]
     let base: String?
-    let main: Main?
+    let main: Main
     let visibility: Int?
     let wind: Wind?
     let cloud: Cloud?
     let rain: Rain?
     let snow: Snow?
-    let dt: Int?
+    let dt: Int
     let sys: Sys?
     let timezone: Int?
-    let id: Int?
+    let id: Int
     let name: String?
     let cod: Int?
     
