@@ -8,7 +8,7 @@ import UIKit
 import CoreLocation
 
 class MainWeatherViewController: UIViewController {
-    let locationManager = CLLocationManager()
+    private let locationManager = CLLocationManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +33,20 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let lastLocation = locations.last else {
+            return
+        }
+        AddressManager.generateAddress(from: lastLocation) {
+            self.handleAddressTranslation(result: $0)
+        }
+    }
+    
+    private func handleAddressTranslation(result: Result<String, Error>) {
+        switch result {
+        case .failure(let error):
+            break
+        case .success(let address):
+            print(address)
+        }
     }
 }
-
