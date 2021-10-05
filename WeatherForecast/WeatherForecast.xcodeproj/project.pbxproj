@@ -27,6 +27,7 @@
 		F9464325270C116800F5249A /* WeatherValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9464324270C116800F5249A /* WeatherValues.swift */; };
 		F951470B2702F0F800A7AC28 /* TodayWeatherInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F951470A2702F0F800A7AC28 /* TodayWeatherInfo.swift */; };
 		F951470D2702F37000A7AC28 /* Geographic.swift in Sources */ = {isa = PBXBuildFile; fileRef = F951470C2702F37000A7AC28 /* Geographic.swift */; };
+		F9C66CA6270C276700C9D38E /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C66CA5270C276700C9D38E /* NetworkError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		F9464324270C116800F5249A /* WeatherValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherValues.swift; sourceTree = "<group>"; };
 		F951470A2702F0F800A7AC28 /* TodayWeatherInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWeatherInfo.swift; sourceTree = "<group>"; };
 		F951470C2702F37000A7AC28 /* Geographic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geographic.swift; sourceTree = "<group>"; };
+		F9C66CA5270C276700C9D38E /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				63B10AC02705E1EB0040EC8B /* WeatherForecastAPI.swift */,
 				63B10ABB2705DA760040EC8B /* HttpMethod.swift */,
 				639DD8602706EDE200824294 /* Parser.swift */,
+				F9C66CA5270C276700C9D38E /* NetworkError.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
+				F9C66CA6270C276700C9D38E /* NetworkError.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
 				639DD8612706EDE200824294 /* Parser.swift in Sources */,
 				63B10AC12705E1EB0040EC8B /* WeatherForecastAPI.swift in Sources */,

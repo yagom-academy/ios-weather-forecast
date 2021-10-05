@@ -38,6 +38,7 @@ enum WeatherForecastAPI {
     }
 
     case getWeather(endPoint: EndPoint, params: Parameters)
+    
     var urlComponents: URL {
         var component: URLComponents?
         switch self {
