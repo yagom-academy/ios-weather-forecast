@@ -10,14 +10,14 @@ import Foundation
 enum WeatherAPI {
     
     private static var apiKey: String {
-        guard let filePath = Bundle.main.path(forResource: "WeatherInfo", ofType: "plist") else {
-            fatalError("Couldn't find file 'WeatherInfo.plist'.")
+        guard let filePath = Bundle.main.path(forResource: "WeatherInfo", ofType: "plist"),
+              let plist = NSDictionary(contentsOfFile: filePath),
+              let apiKey = plist.object(forKey: "APIKey") as? String else {
+            NSLog("Couldn't find file 'WeatherInfo.plist'.")
+            return ""
         }
-        let plist = NSDictionary(contentsOfFile: filePath)
-        guard let value = plist?.object(forKey: "APIKey") as? String else {
-            fatalError("Couldn't find key.")
-        }
-        return value
+        
+        return apiKey
     }
     
     private static let scheme = "https"
@@ -26,7 +26,7 @@ enum WeatherAPI {
     
     case current(CurrentData)
     case fiveday(FiveDayData)
-        
+    
     enum CurrentData {
         case geographic(latitude: Double, longitude: Double)
     }
@@ -75,10 +75,10 @@ enum WeatherAPI {
         components.scheme = WeatherAPI.scheme
         components.host = WeatherAPI.host
         components.path = path
-
+        
         let queryDictionary = Dictionary(uniqueKeysWithValues: zip(self.keys, self.values))
         let queryItems = queryDictionary.map({ URLQueryItem(name: $0.key, value: $0.value) })
-
+        
         components.queryItems = queryItems
         return components.url
     }
