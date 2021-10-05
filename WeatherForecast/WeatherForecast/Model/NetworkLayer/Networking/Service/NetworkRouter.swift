@@ -16,7 +16,7 @@ protocol NetworkRouter {
 
 class Router<EndPointType: EndPoint>: NetworkRouter {
     private var task: URLSessionDataTask?
-    
+
     func request(_ route: EndPointType, _ session: URLSession) {
         let request = self.buildRequest(from: route)
         
