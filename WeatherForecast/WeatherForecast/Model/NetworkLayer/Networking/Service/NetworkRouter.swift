@@ -16,7 +16,8 @@ protocol NetworkRouter {
 
 final class Router<EndPointType: EndPoint>: NetworkRouter {
     private var task: URLSessionDataTask?
-
+    var data: FiveDaysForecast?
+    
     func request(_ route: EndPointType, _ session: URLSession) {
         let request = self.buildRequest(from: route)
         
@@ -24,7 +25,26 @@ final class Router<EndPointType: EndPoint>: NetworkRouter {
             return
         }
         
-        task = session.dataTask(with: url)
+        task = session.dataTask(with: url) { data, reponse, error in
+            guard error == nil else  {
+                return
+            }
+            
+            guard let response = reponse as? HTTPURLResponse,
+                  (200..<300).contains(response.statusCode) else {
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+
+            do {
+                let decodedData = try JSONDecoder().decode(FiveDaysForecast.self, from: data)
+            } catch {
+                print(error)
+            }
+        }
         self.task?.resume()
     }
     

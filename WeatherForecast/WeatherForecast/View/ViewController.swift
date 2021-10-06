@@ -9,7 +9,9 @@ import CoreLocation
 
 final class ViewController: UIViewController {
     private let locationManager = LocationManager()
-    lazy var session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
+    private var session = URLSession.shared
+    
+    
     var data: FiveDaysForecast?
     
     override func viewDidLoad() {
@@ -62,28 +64,3 @@ extension ViewController: CLLocationManagerDelegate {
     }
 }
 
-extension ViewController: URLSessionDataDelegate {
-    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        do {
-            let decodedData = try JSONDecoder().decode(FiveDaysForecast.self, from: data)
-            self.data = decodedData
-        } catch {
-            showAlert()
-        }
-    }
-    
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        if let error = error {
-            showAlert()
-        }
-    }
-    
-    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
-        if let response = response as? HTTPURLResponse,
-           (200..<300).contains(response.statusCode) {
-            completionHandler(.allow)
-        } else {
-            completionHandler(.cancel)
-        }
-    }
-}
