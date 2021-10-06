@@ -10,8 +10,6 @@ import CoreLocation
 final class ViewController: UIViewController {
     private let locationManager = LocationManager()
     private var session = URLSession.shared
-    
-    
     var data: FiveDaysForecast?
     
     override func viewDidLoad() {
@@ -27,15 +25,19 @@ extension ViewController: CLLocationManagerDelegate {
         
         guard let longitude = manager.location?.coordinate.longitude,
               let latitude = manager.location?.coordinate.latitude,
-              let fiveDaysUrl = URL(string: "http://api.openweathermap.org/data/2.5/forecast") else  {
+              let fiveDaysUrl = URL(string: "https://api.openweathermap.org/data/2.5/forecast") else  {
             return
         }
         
         let requestInfo: Parameters = ["lat": latitude, "lon": longitude, "appid": networkManager.apiKey]
-
         let fiveDaysWeatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: fiveDaysUrl)
-        
-//        networkManager.getFiveDaysForecastData(weatherAPI: fiveDaysWeatherApi, session)
+        networkManager.getCurrentWeatherData(weatherAPI: fiveDaysWeatherApi, self.session) { requestedData in
+            do {
+                self.data = try JSONDecoder().decode(FiveDaysForecast.self, from: requestedData)
+            } catch {
+                print("Decoding Error")
+            }
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

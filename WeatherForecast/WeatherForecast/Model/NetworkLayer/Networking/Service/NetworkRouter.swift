@@ -38,12 +38,8 @@ final class Router<EndPointType: EndPoint>: NetworkRouter {
             guard let data = data else {
                 return
             }
-
-            do {
-                let decodedData = try JSONDecoder().decode(FiveDaysForecast.self, from: data)
-            } catch {
-                print(error)
-            }
+            
+            completionHandler(data)
         }
         self.task?.resume()
     }

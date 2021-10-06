@@ -27,7 +27,6 @@ final class NetworkManager {
     }
     
     private let router = Router<WeatherApi>()
-    var weatherData: Data?
     var apiKey: String {
         get {
             guard let filePath = Bundle.main.path(forResource: "APIKey", ofType: "plist") else {
@@ -44,21 +43,9 @@ final class NetworkManager {
         }
     }
     
-    func getCurrentWeatherData(weatherAPI: WeatherApi, _ session: URLSession) {
+    func getCurrentWeatherData(weatherAPI: WeatherApi, _ session: URLSession, _ completion: @escaping (Data) -> ()) {
         router.request(weatherAPI, session) { data in
-//            do {
-//                let decodedData = try JSONDecoder().decode(CurrentWeather.self, from: data)
-//                self.decodeWeatherData(data: data)
-//            } catch {
-//
-//            }
-//        }
+            completion(data)
         }
-    
-//    func getFiveDaysWeatherData(weatherAPI: WeatherApi, _ session: URLSession) {
-//        router.request(weatherAPI, session) { data in
-//            let decodedData = JSONDecoder().decode(FiveDaysForecast.self, from: <#T##Data#>)
-//        }
-//    }
     }
 }
