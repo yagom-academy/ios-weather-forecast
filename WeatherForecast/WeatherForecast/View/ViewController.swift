@@ -58,13 +58,13 @@ extension ViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        showAlert()
+        showAlert(title: "🙋‍♀️", message: "새로고침을 해주세요.")
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .restricted, .denied:
-            showAlert()
+            showAlert(title: "❌", message: "날씨 정보를 사용 할 수 없습니다.")
             break
         case .authorizedWhenInUse, .authorizedAlways, .notDetermined:
             manager.requestLocation()
@@ -72,10 +72,12 @@ extension ViewController: CLLocationManagerDelegate {
         }
     }
     
-    private func showAlert() {
-        let alert = UIAlertController(title: "경고", message: "위치를 찾을 수 없습니다.", preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "Test", style: .default, handler: nil)
-        alert.addAction(alertAction)
-        self.present(alert, animated: true, completion: nil)
+    private func showAlert(title: String, message: String) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: "Test", style: .default, handler: nil)
+            alert.addAction(alertAction)
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }
