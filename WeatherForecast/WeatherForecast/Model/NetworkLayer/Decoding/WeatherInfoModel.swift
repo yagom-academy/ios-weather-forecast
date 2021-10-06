@@ -7,6 +7,41 @@
 
 import Foundation
 
+struct CurrentWeather: Decodable {
+    var coordination: Coordinate
+    var weather: [Weather]
+    var main: Main
+    
+    enum CodingKeys: String, CodingKey {
+        case coordination = "coord"
+        case weather, main
+    }
+    
+    struct Weather: Decodable {
+        var icon: String
+    }
+    
+    struct Main: Decodable {
+        var temperatureMinimum: Double
+        var temperatureMaximum: Double
+        
+        enum CodingKeys: String, CodingKey {
+            case temperatureMinimum = "temp_min"
+            case temperatureMaximum = "temp_max"
+        }
+    }
+    
+    struct Coordinate: Decodable {
+        var longitude: Double
+        var lattitude: Double
+        
+        enum CodingKeys: String, CodingKey {
+            case longitude = "lon"
+            case lattitude = "lat"
+        }
+    }
+}
+
 struct FiveDaysForecast: Decodable {
     var list: [ListDetail]
 }
