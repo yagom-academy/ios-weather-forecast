@@ -13,7 +13,7 @@ class WeatherForecastTests: XCTestCase {
     
     func test_JSON파일인CurrentWeather를_디코딩했을때_id는420006353이다() {
         //given
-        let outputValue: Int?
+        var outputValue: Int?
         let expectedValue = 420006353
         let path = Bundle(for: type(of: self)).path(forResource: "CurrentWeather", ofType: "json")
         let jsonFile = try! String(contentsOfFile: path!).data(using: .utf8)
@@ -23,7 +23,7 @@ class WeatherForecastTests: XCTestCase {
         case .success(let currentWeather):
             outputValue = currentWeather.id
         case .failure(_):
-            outputValue = -1
+            outputValue = nil
         }
         //then
         XCTAssertEqual(expectedValue, outputValue)
@@ -31,7 +31,7 @@ class WeatherForecastTests: XCTestCase {
     
     func test_JSON파일인FiveDayWeather를_디코딩했을때_id는2643743이다() {
         //given
-        let outputValue: Int?
+        var outputValue: Int?
         let expectedValue = 2643743
         let path = Bundle(for: type(of: self)).path(forResource: "FiveDayWeather", ofType: "json")
         let jsonFile = try! String(contentsOfFile: path!).data(using: .utf8)
@@ -39,9 +39,9 @@ class WeatherForecastTests: XCTestCase {
         let data = parsingManager.parse(jsonFile!, to: FiveDayForecast.self)
         switch data {
         case .success(let fiveDayWeather):
-            outputValue = fiveDayWeather.city?.id
+            outputValue = fiveDayWeather.city.id
         case .failure(_):
-            outputValue = -1
+            outputValue = nil
         }
         //then
         XCTAssertEqual(expectedValue, outputValue)
@@ -54,17 +54,21 @@ class WeatherForecastTests: XCTestCase {
         let url = URL(string: "www.test.com")
         let session = MockURLSession(isSuccess: true, data: jsonFile)
         let networkManager = NetworkManager(session: session)
+        var outputValue: Data?
+        let expectedValue = jsonFile
         
         //when
         networkManager.request(url: url!) { result in
-            //then
             switch result {
-            case .success:
-                XCTAssertTrue(true)
+            case .success(let data):
+                outputValue = data
             case .failure:
-                XCTFail()
+                outputValue = nil
             }
         }
+        
+        // then
+        XCTAssertEqual(expectedValue, outputValue)
     }
     
     func test_mock통신이_실패한다() {
@@ -74,17 +78,21 @@ class WeatherForecastTests: XCTestCase {
         let url = URL(string: "www.test.com")
         let session = MockURLSession(isSuccess: false, data: jsonFile)
         let networkManager = NetworkManager(session: session)
+        var outputValue: NetworkError?
+        let expectedValue = NetworkError.failedStatusCode
         
         //when
         networkManager.request(url: url!) { result in
-            //then
             switch result {
             case .success:
-                XCTFail()
-            case .failure:
-                XCTAssertTrue(true)
+                outputValue = nil
+            case .failure(let error):
+                outputValue = error
             }
         }
+        
+        //then
+        XCTAssertEqual(expectedValue, outputValue)
     }
-
+    
 }
