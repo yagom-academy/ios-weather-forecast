@@ -11,6 +11,7 @@ final class ViewController: UIViewController {
     private let locationManager = LocationManager()
     private var session = URLSession.shared
     var data: FiveDaysForecast?
+    var address: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,22 @@ extension ViewController: CLLocationManagerDelegate {
             return
         }
         
+        let location = CLLocation(latitude: latitude, longitude: longitude)
+        let geoCoder = CLGeocoder()
+        let locale = Locale(identifier: "Ko-kr")
+        geoCoder.reverseGeocodeLocation(location, preferredLocale: locale) { placeMarks, error in
+            guard error == nil else {
+                return
+            }
+            
+            guard let addresses = placeMarks,
+                  let address = addresses.last?.name else {
+                return
+            }
+            
+            self.address = address
+        }
+
         let requestInfo: Parameters = ["lat": latitude, "lon": longitude, "appid": networkManager.apiKey]
         let fiveDaysWeatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: fiveDaysUrl)
         networkManager.getCurrentWeatherData(weatherAPI: fiveDaysWeatherApi, self.session) { requestedData in
