@@ -35,7 +35,7 @@ extension ViewController: CLLocationManagerDelegate {
 
         let fiveDaysWeatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: fiveDaysUrl)
         
-        networkManager.getFiveDaysForecastData(weatherAPI: fiveDaysWeatherApi, session)
+//        networkManager.getFiveDaysForecastData(weatherAPI: fiveDaysWeatherApi, session)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -47,11 +47,8 @@ extension ViewController: CLLocationManagerDelegate {
         case .restricted, .denied:
             showAlert()
             break
-        case .authorizedWhenInUse:
-            break
-        case .authorizedAlways:
-            break
-        case .notDetermined:
+        case .authorizedWhenInUse, .authorizedAlways, .notDetermined:
+            manager.requestLocation()
             break
         }
     }
@@ -63,4 +60,3 @@ extension ViewController: CLLocationManagerDelegate {
         self.present(alert, animated: true, completion: nil)
     }
 }
-

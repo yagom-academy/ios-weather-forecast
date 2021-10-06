@@ -7,6 +7,10 @@
 
 import Foundation
 
+//protocol NetworkManagerDelegate {
+//    func decodeWeatherData(data: Data) -> FiveDaysForecast
+//}
+    
 final class NetworkManager {
     enum APIError: Error, LocalizedError {
         case filePathError
@@ -23,6 +27,7 @@ final class NetworkManager {
     }
     
     private let router = Router<WeatherApi>()
+    var weatherData: Data?
     var apiKey: String {
         get {
             guard let filePath = Bundle.main.path(forResource: "APIKey", ofType: "plist") else {
@@ -40,10 +45,20 @@ final class NetworkManager {
     }
     
     func getCurrentWeatherData(weatherAPI: WeatherApi, _ session: URLSession) {
-        router.request(weatherAPI, session)
-    }
+        router.request(weatherAPI, session) { data in
+//            do {
+//                let decodedData = try JSONDecoder().decode(CurrentWeather.self, from: data)
+//                self.decodeWeatherData(data: data)
+//            } catch {
+//
+//            }
+//        }
+        }
     
-    func getFiveDaysForecastData(weatherAPI: WeatherApi, _ session: URLSession) {
-        router.request(weatherAPI, session)
+//    func getFiveDaysWeatherData(weatherAPI: WeatherApi, _ session: URLSession) {
+//        router.request(weatherAPI, session) { data in
+//            let decodedData = JSONDecoder().decode(FiveDaysForecast.self, from: <#T##Data#>)
+//        }
+//    }
     }
 }

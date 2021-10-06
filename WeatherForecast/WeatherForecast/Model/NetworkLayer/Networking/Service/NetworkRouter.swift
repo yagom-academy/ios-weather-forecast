@@ -10,7 +10,7 @@ import Foundation
 protocol NetworkRouter {
     associatedtype EndPointType = EndPoint
     
-    func request(_ route: EndPointType, _ session: URLSession)
+    func request(_ route: EndPointType, _ session: URLSession, _ completionHandler: @escaping (Data) -> ())
     func cancel()
 }
 
@@ -18,19 +18,19 @@ final class Router<EndPointType: EndPoint>: NetworkRouter {
     private var task: URLSessionDataTask?
     var data: FiveDaysForecast?
     
-    func request(_ route: EndPointType, _ session: URLSession) {
+    func request(_ route: EndPointType, _ session: URLSession, _ completionHandler: @escaping (Data) -> ()) {
         let request = self.buildRequest(from: route)
         
         guard let url = request.url else {
             return
         }
         
-        task = session.dataTask(with: url) { data, reponse, error in
+        task = session.dataTask(with: url) { data, response, error in
             guard error == nil else  {
                 return
             }
             
-            guard let response = reponse as? HTTPURLResponse,
+            guard let response = response as? HTTPURLResponse,
                   (200..<300).contains(response.statusCode) else {
                 return
             }

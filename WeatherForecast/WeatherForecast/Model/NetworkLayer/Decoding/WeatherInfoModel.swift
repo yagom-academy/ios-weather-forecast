@@ -7,21 +7,30 @@
 
 import Foundation
 
-struct CurrentWeather: Decodable {
+struct FiveDaysForecast: Decodable {
+    var list: [ListDetail]
+}
+
+struct ListDetail: Decodable {
+    var date: Int
+    var main: MainDetail
     var weather: [WeatherDetail]
+
+    enum CodingKeys: String, CodingKey {
+        case date = "dt"
+        case main, weather
+    }
+}
+
+struct MainDetail: Decodable {
+    var temperature: Double
+
+    enum CodingKeys: String, CodingKey {
+        case temperature = "temp"
+    }
 }
 
 struct WeatherDetail: Decodable {
-    var id: Int
-    var main: String
-    var description: String
     var icon: String
 }
 
-struct FiveDaysForecast: Decodable {
-    var list: [ListDetail]
-    
-    struct ListDetail: Decodable {
-        var weather: [WeatherDetail]
-    }
-}
