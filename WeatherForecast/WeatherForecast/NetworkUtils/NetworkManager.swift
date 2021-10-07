@@ -13,6 +13,7 @@ struct NetworkManager {
     init(networkable: Networkable = NetworkModule()) {
         self.networkable = networkable
     }
+    
     mutating func request(with route: Route,
                           queryItems: [URLQueryItem]?,
                           header: [String: String]? = nil,
