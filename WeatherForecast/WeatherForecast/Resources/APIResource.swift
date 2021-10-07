@@ -13,10 +13,10 @@ enum Method {
 
 struct APIResource: RequestGeneratable {
     private let method: Method
-    private let url: String
+    private let url: URL?
     
     func generateRequest() -> URLRequest? {
-        guard let url = URL(string: url) else {
+        guard let url = url else {
             return nil
         }
         
@@ -28,8 +28,8 @@ struct APIResource: RequestGeneratable {
 }
 
 extension APIResource {
-    init(method: Method, weatherURL: UrlPathGeneratable) {
+    init(method: Method, apiURL: UrlGeneratable) {
         self.method = method
-        self.url = weatherURL.generateURLPath()
+        self.url = apiURL.generateURL()
     }
 }

@@ -12,7 +12,7 @@ enum WeatherConfig {
     static let baseURL = "https://api.openweathermap.org/data/2.5"
 }
 
-enum WeatherURL: UrlPathGeneratable {
+enum WeatherURL: UrlGeneratable {
     case weatherCoordinates(latitude: Double, longitude: Double)
     case forecastCoordinates(latitude: Double, longitude: Double)
     
@@ -25,13 +25,23 @@ enum WeatherURL: UrlPathGeneratable {
         }
     }
     
-    func generateURLPath() -> String {
+    func generateURL() -> URL? {
         let weatherBaseURL = "\(WeatherConfig.baseURL)\(self.weatherURI)"
+        var components = URLComponents(string: weatherBaseURL)
         switch self {
         case .weatherCoordinates(let latitude, let longitude):
-            return "\(weatherBaseURL)?lat=\(latitude)&lon=\(longitude)&appid=\(WeatherConfig.appKey)"
+            let latitude = URLQueryItem(name: "lat", value: String(latitude))
+            let longitude = URLQueryItem(name: "lon", value: String(longitude))
+            let appID = URLQueryItem(name: "appid", value: WeatherConfig.appKey)
+            components?.queryItems = [latitude, longitude, appID]
+            return components?.url
+            
         case .forecastCoordinates(let latitude, let longitude):
-            return "\(weatherBaseURL)?lat=\(latitude)&lon=\(longitude)&appid=\(WeatherConfig.appKey)"
+            let latitude = URLQueryItem(name: "lat", value: String(latitude))
+            let longitude = URLQueryItem(name: "lon", value: String(longitude))
+            let appId = URLQueryItem(name: "appid", value: WeatherConfig.appKey)
+            components?.queryItems = [latitude, longitude, appId]
+            return components?.url
         }
     }
 }

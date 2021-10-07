@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol UrlPathGeneratable {
-    func generateURLPath() -> String
+protocol UrlGeneratable {
+    func generateURL() -> URL?
 }
