@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Address {
+enum Address: CaseIterable {
     case city
     case street1
     case street2

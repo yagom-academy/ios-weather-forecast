@@ -38,7 +38,7 @@ class LocationManager: NSObject {
     }
     
     func getAddress(of location: CLLocation?,
-                    completionHandler: @escaping (Result<[Address:String?], Error>) -> Void)
+                    completionHandler: @escaping (Result<[Address:String], Error>) -> Void)
     {
         guard let validLocation = location else { return }
         
@@ -48,11 +48,19 @@ class LocationManager: NSObject {
                 completionHandler(.failure(error))
             }
             
-            let placemark = placemarks?.first
-            let address: [Address:String?] = [
-                .city: placemark?.administrativeArea,
-                .street1: placemark?.locality,
-                .street2: placemark?.thoroughfare
+            guard let placemark = placemarks?.first,
+                  let city = placemark.administrativeArea,
+                  let street1 = placemark.locality,
+                  let street2 = placemark.thoroughfare
+            else {
+                completionHandler(.success([Address:String]()))
+                return
+            }
+
+            let address: [Address:String] = [
+                .city: city,
+                .street1: street1,
+                .street2: street2
             ]
             
             completionHandler(.success(address))
