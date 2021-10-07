@@ -39,7 +39,7 @@ struct NetworkModule: Networkable {
             
             guard let data = data else {
                 DispatchQueue.main.async {
-                    completionHandler(.failure(NetworkError.dataIntegrityError))
+                    completionHandler(.failure(NetworkError.invalidData))
                 }
                 return
             }
