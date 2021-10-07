@@ -15,8 +15,8 @@ struct NetworkManager {
     }
     mutating func request(with route: Route,
                           queryItems: [URLQueryItem]?,
-                          header: [String: String]?,
-                          bodyParameters: [String: Any]?,
+                          header: [String: String]? = nil,
+                          bodyParameters: [String: Any]? = nil,
                           httpMethod: HTTPMethod,
                           requestType: URLRequestTask,
                           completionHandler: @escaping (Result<Data, Error>) -> Void)
