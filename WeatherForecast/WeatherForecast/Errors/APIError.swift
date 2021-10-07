@@ -9,10 +9,9 @@ import Foundation
 
 enum APIError: LocalizedError {
     case invalidUrl
-    case dataTask
     case invalidResponse
     case invalideData
-    case unknown
+    case unknown(description: String)
     case outOfRange(statusCode: Int)
     case serverMessage(message: String)
     
@@ -22,12 +21,10 @@ enum APIError: LocalizedError {
             return "Invalid URL"
         case .invalideData:
             return "Invalid Data"
-        case .dataTask:
-            return "DataTask Error"
         case .invalidResponse:
             return "Invalid Response"
-        case .unknown:
-            return "Api Unknown Error"
+        case .unknown(let description):
+            return "Api Unknown Error: \(description)"
         case .outOfRange(let statusCode):
             return "status: \(statusCode)"
         case .serverMessage(let message):
@@ -39,8 +36,8 @@ enum APIError: LocalizedError {
 extension APIError {
     init?(data: Data?, response: URLResponse?, error: Error?) {
         let successRange = 200...299
-        guard error == nil else {
-            self = .dataTask
+        if let error = error {
+            self = .unknown(description: error.localizedDescription)
             return
         }
         
