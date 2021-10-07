@@ -20,12 +20,13 @@ struct CurrentWeather: Decodable {
     let timezone: Int
     let id: Int
     let name: String
-    let cod: Int
+    let HTTPStatusCode: Int
     
     enum CodingKeys: String, CodingKey {
-        case weather, base, main, visibility, wind, clouds, sys, timezone, id, name, cod
+        case weather, base, main, visibility, wind, clouds, sys, timezone, id, name
         case coordinates = "coord"
         case calculationTime = "dt"
+        case HTTPStatusCode = "cod"
     }
     
     struct Sys: Decodable {
