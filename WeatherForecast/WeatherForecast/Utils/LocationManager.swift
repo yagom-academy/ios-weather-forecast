@@ -21,7 +21,15 @@ class LocationManager: NSObject {
     func getGeographicCoordinates() -> CLLocation? {
         manager.startUpdatingLocation()
         guard let location = manager.location else { return nil }
-        switch manager.authorizationStatus {
+        var status: CLAuthorizationStatus
+        
+        if #available(iOS 14.0, *) {
+            status = manager.authorizationStatus
+        } else {
+            status = CLLocationManager.authorizationStatus()
+        }
+        
+        switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             return location
         default:
