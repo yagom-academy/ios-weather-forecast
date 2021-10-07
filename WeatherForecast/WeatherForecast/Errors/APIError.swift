@@ -54,11 +54,6 @@ extension APIError {
             return
         }
         
-        guard let _ = data else {
-            self = .invalideData
-            return
-        }
-        
         return nil
     }
 }

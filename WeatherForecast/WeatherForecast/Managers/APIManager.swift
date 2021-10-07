@@ -23,12 +23,17 @@ class APIManager {
         }
         
         session.dataTask(with: request) { (data, response, error) in
-            guard let networkError = APIError(data: data, response: response, error: error) else {
-                completion(.success(data!))
+            if let networkError = APIError(data: data, response: response, error: error) {
+                completion(.failure(networkError))
                 return
             }
             
-            completion(.failure(networkError))
+            guard let data = data else {
+                completion(.failure(APIError.invalideData))
+                return
+            }
+            
+            completion(.success(data))
         }.resume()
     }
 }
