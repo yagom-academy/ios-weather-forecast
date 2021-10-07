@@ -37,7 +37,9 @@ class LocationManager: NSObject {
         }
     }
     
-    func getAddress(of location: CLLocation?, completionHandler: @escaping (Result<[Address:String?], Error>) -> Void) {
+    func getAddress(of location: CLLocation?,
+                    completionHandler: @escaping (Result<[Address:String?], Error>) -> Void)
+    {
         guard let validLocation = location else { return }
         
         let converter = CLGeocoder()

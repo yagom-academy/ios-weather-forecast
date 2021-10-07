@@ -59,7 +59,12 @@ class WeatherForecastTests: XCTestCase {
         
         //When
         var outputValue: CurrentWeather? = nil
-        sut.request(with: WeatherForecastRoute.current, queryItems: parameters, header: nil, bodyParameters: nil, httpMethod: .get, requestType: .requestWithQueryItems) { result in
+        sut.request(with: WeatherForecastRoute.current,
+                    queryItems: parameters,
+                    header: nil,
+                    bodyParameters: nil,
+                    httpMethod: .get,
+                    requestType: .requestWithQueryItems) { result in
             guard case .success(let data) = result,
                   case .success(let parsedData) = data.parse(to: CurrentWeather.self)
             else {
@@ -83,7 +88,12 @@ class WeatherForecastTests: XCTestCase {
         
         //When
         var outputValue: FiveDayWeather? = nil
-        sut.request(with: WeatherForecastRoute.fiveDay, queryItems: parameters, header: nil, bodyParameters: nil, httpMethod: .get, requestType: .requestWithQueryItems) { result in
+        sut.request(with: WeatherForecastRoute.fiveDay,
+                    queryItems: parameters,
+                    header: nil,
+                    bodyParameters: nil,
+                    httpMethod: .get,
+                    requestType: .requestWithQueryItems) { result in
             guard case .success(let data) = result,
                   case .success(let parsedData) = data.parse(to: FiveDayWeather.self)
             else {

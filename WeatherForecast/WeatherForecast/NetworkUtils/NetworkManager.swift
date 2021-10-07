@@ -22,7 +22,12 @@ struct NetworkManager {
                           completionHandler: @escaping (Result<Data, Error>) -> Void)
     {
         
-        guard let urlRequest = requestType.buildRequest(route: route, queryItems: queryItems, header: header, bodyParameters: bodyParameters, httpMethod: httpMethod) else {
+        guard let urlRequest = requestType.buildRequest(route: route,
+                                                        queryItems: queryItems,
+                                                        header: header,
+                                                        bodyParameters: bodyParameters,
+                                                        httpMethod: httpMethod)
+        else {
             completionHandler(.failure(NetworkError.invalidURL))
             return
         }
