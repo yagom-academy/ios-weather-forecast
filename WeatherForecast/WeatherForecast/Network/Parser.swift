@@ -10,9 +10,9 @@ import Foundation
 struct Parser {
     private let decoder = JSONDecoder()
 
-    func decode<Model: Decodable>(_ data: Data, to model: Model.Type) throws -> Model {
+    func decode<Model: Decodable>(_ data: Data) throws -> Model {
         do {
-            let parsedData = try decoder.decode(model, from: data)
+            let parsedData = try decoder.decode(Model.self, from: data)
             return parsedData
         } catch DecodingError.dataCorrupted(let context) {
             throw DecodingError.dataCorrupted(context)

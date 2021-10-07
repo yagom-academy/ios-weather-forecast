@@ -12,7 +12,7 @@ struct URLGenerator {
         endpoint: APIEndPoint,
         parameters: [String: Any]
     ) -> URL? {
-        var components = URLComponents(string: endpoint.path)
+        var components = URLComponents(string: endpoint.urlString)
         var queryItems = [URLQueryItem]()
         for (key, value) in parameters {
             queryItems.append(URLQueryItem(name: key, value: String(describing: value)))

@@ -12,13 +12,15 @@ enum APIEndPoint {
     
     case daily
     case weekly
-
-    var path: String {
+    private var path: String {
         switch self {
         case .daily:
-            return APIEndPoint.baseURL + "weather"
+            return "weather"
         case .weekly:
-            return APIEndPoint.baseURL + "forecast"
+            return "forecast"
         }
+    }
+    var urlString: String {
+        return APIEndPoint.baseURL + path
     }
 }

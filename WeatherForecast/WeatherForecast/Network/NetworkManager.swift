@@ -26,7 +26,6 @@ struct NetworkManager {
     }
     
     func request<Model: Decodable>(
-        model: Model.Type,
         endpoint: APIEndPoint,
         parameters: [String: Any],
         completionHandler: @escaping (Result<Model, Error>) -> Void
@@ -35,19 +34,23 @@ struct NetworkManager {
                 endpoint: endpoint,
                 parameters: parameters
         ) else {
-            completionHandler(.failure(NetworkError.invalidURL))
+            completionHandler(
+                .failure(NetworkError.invalidURL)
+            )
             return
         }
         
         session.dataTask(with: url) { data, response, error in
-            guard error == nil else {
-                let placeholder = ""
+            if let error = error {
                 let unknownError = NetworkError.unknown(
-                    description: error?.localizedDescription ?? placeholder
+                    description: error.localizedDescription
                 )
-                completionHandler(.failure(unknownError))
+                completionHandler(
+                    .failure(unknownError)
+                )
                 return
             }
+            
             guard let response = response as? HTTPURLResponse else {
                 completionHandler(
                     .failure(NetworkError.invalidResponse)
@@ -69,15 +72,21 @@ struct NetworkManager {
         completionHandler: @escaping (Result<Model, Error>) -> Void
     ) {
         guard let data = data else {
-            completionHandler(.failure(NetworkError.dataIsNil))
+            completionHandler(
+                .failure(NetworkError.dataIsNil)
+            )
             return
         }
         
         do {
-            let model = try parser.decode(data, to: Model.self)
-            completionHandler(.success(model))
+            let model: Model = try parser.decode(data)
+            completionHandler(
+                .success(model)
+            )
         } catch {
-            completionHandler(.failure(error))
+            completionHandler(
+                .failure(error)
+            )
         }
     }
     
@@ -87,12 +96,17 @@ struct NetworkManager {
     ) {
         switch response.statusCode {
         case 400..<500:
-            completionHandler(.failure(NetworkError.clientSide(description: response.debugDescription)))
+            completionHandler(
+                .failure(NetworkError.clientSide(description: response.debugDescription))
+            )
         case 500..<600:
-            completionHandler(.failure(NetworkError.serverSide(description: response.debugDescription)))
+            completionHandler(
+                .failure(NetworkError.serverSide(description: response.debugDescription))
+            )
         default:
-            completionHandler(.failure(NetworkError.unknown(description: response.debugDescription)))
+            completionHandler(
+                .failure(NetworkError.unknown(description: response.debugDescription))
+            )
         }
-        
     }
 }
