@@ -12,24 +12,28 @@ enum Method {
 }
 
 struct APIResource: RequestGeneratable {
-    private let method: Method
-    private let url: URL?
+    private let url: UrlGeneratable
     
     func generateRequest() -> URLRequest? {
-        guard let url = url else {
+        guard let url = url.generateURL() else {
             return nil
         }
         
-        switch method {
+        switch self.url.method {
         case .get:
+            var components = URLComponents(string: url.absoluteString)
+            self.url.parameter?.forEach({ key, value in
+                let queryItem = URLQueryItem(name: key, value: "\(value)")
+                components?.queryItems?.append(queryItem)
+            })
+            guard let url = components?.url else { return nil }
             return URLRequest(url: url)
         }
     }
 }
 
 extension APIResource {
-    init(method: Method, apiURL: UrlGeneratable) {
-        self.method = method
-        self.url = apiURL.generateURL()
+    init(apiURL: UrlGeneratable) {
+        self.url = apiURL
     }
 }
