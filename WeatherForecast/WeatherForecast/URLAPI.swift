@@ -51,7 +51,7 @@ enum WeatherRequest: TargetType {
     }
     
     func configure() -> URLRequest? {
-        let apiKey = "1af72e89e05d364984fe32463122135f"
+        let apiKey = "1af72e89e0135f"
         var urlComponents = URLComponents(string: self.baseURL)
         urlComponents?.path = self.path
         let lat = URLQueryItem(name: "lat", value: self.query.0.description)

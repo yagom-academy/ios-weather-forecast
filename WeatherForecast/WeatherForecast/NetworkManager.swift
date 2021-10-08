@@ -11,6 +11,7 @@ enum NetworkError: Error, LocalizedError {
     case requestFail
     case failedStatusCode
     case emptyData
+    case invalidURL
     
     var errorDescription: String? {
         switch self {
@@ -20,12 +21,14 @@ enum NetworkError: Error, LocalizedError {
             return "실패 상태 코드가 전달되었습니다."
         case .emptyData:
             return "데이터가 존재하지 않습니다."
+        case .invalidURL:
+            return "잘못된 URL입니다."
         }
     }
 }
 
 protocol URLSessionProtocol {
-    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
 }
 
 extension URLSession: URLSessionProtocol { }
@@ -40,7 +43,10 @@ class NetworkManager<T: TargetType> {
     }
     
     func request(_ request: TargetType, completion: @escaping SessionResult) {
-        let urlRequest = request.configure()
+        guard let urlRequest = request.configure() else {
+            completion(.failure(.invalidURL))
+            return
+        }
         let task = session.dataTask(with: urlRequest) { data, response, error in
             guard error == nil else {
                 completion(.failure(.requestFail))
