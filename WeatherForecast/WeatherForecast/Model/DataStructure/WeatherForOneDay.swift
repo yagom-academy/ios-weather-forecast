@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WeatherForOneDay: Decodable {
+struct WeatherForOneDay: Decodable, Equatable {
     let coordinate: Coordinate?
     let weatherConditionCodes: [Weather]?
     let base: String?
@@ -42,5 +42,13 @@ struct WeatherForOneDay: Decodable {
         case cityName = "name"
         case statusCode = "cod"
         case probabilityOfPrecipitation = "pop"
+    }
+    
+    static func == (lhs: WeatherForOneDay, rhs: WeatherForOneDay) -> Bool {
+        guard let lhsCityId = lhs.cityId, let lhsTimeOfData = lhs.timeOfDataCalculation,
+              let rhsCityId = rhs.cityId, let rhsTimeOfData = rhs.timeOfDataCalculation else {
+            return false
+        }
+        return lhsCityId == rhsCityId && lhsTimeOfData == rhsTimeOfData
     }
 }

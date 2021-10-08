@@ -9,9 +9,11 @@ import CoreLocation
 
 final class MainWeatherViewController: UIViewController {
     private let locationManager = CLLocationManager()
+    private var userAddress: String?
     private var weatherForOneDay: WeatherForOneDay?
     private var fiveDayWeatherForecast: FiveDayWeatherForecast?
     private let prepareInformationDispatchGroup = DispatchGroup()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +46,7 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
         prepareWeatherInformation(with: lastLocation.coordinate)
         prepareInformationDispatchGroup.notify(queue: .main) {
             print("정보들이 다 준비되었습니다.")
+            
         }
     }
 }
@@ -56,7 +59,7 @@ extension MainWeatherViewController {
             case .failure(_):
                 break
             case .success(let address):
-                print(address)
+                updateUserAddress(to: address)
             }
             prepareInformationDispatchGroup.leave()
         }
@@ -74,10 +77,7 @@ extension MainWeatherViewController {
             case .failure(_):
                 break
             case .success(let data):
-                guard let parsedData = ParsingManager.decode(from: data, to: WeatherForOneDay.self) else {
-                    return
-                }
-                weatherForOneDay = parsedData
+                updateWeather(from: data, to: &self.weatherForOneDay)
             }
             prepareInformationDispatchGroup.leave()
         }
@@ -87,14 +87,24 @@ extension MainWeatherViewController {
             case .failure(_):
                 break
             case .success(let data):
-                guard let parsedData = ParsingManager.decode(from: data, to: FiveDayWeatherForecast.self) else {
-                    return
-                }
-                fiveDayWeatherForecast = parsedData
+                updateWeather(from: data, to: &self.fiveDayWeatherForecast)
             }
             prepareInformationDispatchGroup.leave()
         }
     }
     
+    private func updateUserAddress(to newAddress: String) {
+        if userAddress != newAddress {
+            userAddress = newAddress
+        }
+    }
+    
+    private func updateWeather<T: Decodable>(from data: Data, to oldInformation: inout T) where T: Equatable {
+        guard let newInformation = ParsingManager.decode(from: data, to: T.self) else {
+            return
+        }
+        if oldInformation != newInformation {
+            oldInformation = newInformation
+        }
+    }
 }
-
