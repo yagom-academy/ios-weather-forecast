@@ -31,19 +31,9 @@ enum APIError: LocalizedError {
     }
 }
 
-enum URI {
-    static let host = "https://api.openweathermap.org/"
-    static let currentPath = "data/2.5/weather?"
-    static let fiveDaysPath = "data/2.5/forecast?"
-    static let appID = "&appid=af361cc4ac7bf412119174d64ba296ff"
-    static let units = "&units=metric"
-    static let lang = "&lang=kr"
-}
-
 final class WeatherDataManager {
     static let shared = WeatherDataManager()
     private init() {}
-    private var isPathCurrent = true
 
     var latitude: Double?
     var longitude: Double?
@@ -53,14 +43,12 @@ final class WeatherDataManager {
         }
         return CLLocation()
     }
-
-    
 }
  
 extension WeatherDataManager {
     func fetchCurrentWeather() {
-        let url = generateURI(path: true, location: location)
-        self.fetch(urlString: url) { (result: Result<CurrentWeather, APIError>) in
+        let url = generateURL(path: .current)
+        self.fetch(url: url) { (result: Result<CurrentWeather, APIError>) in
             switch result {
             case .success(let currentWeather):
                 return print(currentWeather)
@@ -71,8 +59,8 @@ extension WeatherDataManager {
     }
     
     func fetchFiveDaysWeather() {
-        let url = generateURI(path: false, location: location)
-        self.fetch(urlString: url) { (result: Result<FivedaysWeather, APIError>) in
+        let url = generateURL(path: .fiveDays)
+        self.fetch(url: url) { (result: Result<FivedaysWeather, APIError>) in
             switch result {
             case .success(let currentWeather):
                 return print(currentWeather)
@@ -82,28 +70,27 @@ extension WeatherDataManager {
         }
     }
     
-    private func generateURI(path: Bool, location: CLLocation) -> String {
-//        let latString = "lat=\(location.coordinate.latitude)"
-//        let lonString = "&lon=\(location.coordinate.longitude)"
-//
-//        isPathCurrent = path
-//
-//        var uri: String {
-//            if isPathCurrent {
-//                return "\(URI.host)\(URI.currentPath)\(latString)\(lonString)\(URI.appID)\(URI.units)\(URI.lang)"
-//            } else {
-//                return "\(URI.host)\(URI.fiveDaysPath)\(latString)\(lonString)\(URI.appID)\(URI.units)\(URI.lang)"
-//            }
-//        }
-//        return uri
-        
-        
+    private func generateURL(path: URLResource.PathType) -> URL? {
+        let builder = URLBuilder()
+        builder.pathType = path
+        if let latitude = WeatherDataManager.shared.latitude, let longitude = WeatherDataManager.shared.longitude {
+            builder.addQueries([
+                URLResource.QueryParam(name: "\(ParamName.lat)", value: String(latitude)),
+                URLResource.QueryParam(name: "\(ParamName.lon)", value: String(longitude)),
+                URLResource.QueryParam(name: "\(ParamName.appid)", value: AppID.jamkingID),
+                URLResource.QueryParam(name: "\(ParamName.units)", value: Units.metric),
+                URLResource.QueryParam(name: "\(ParamName.lang)", value: Lang.korea)
+            ])
+        }
+        let urlResource = URLResource()
+        let url = builder.build(resource: urlResource)
+        return url
     }
 }
 
 extension WeatherDataManager: JSONDecodable {
-    private func fetch<ParsingType: Decodable>(urlString: String, completion: @escaping (Result<ParsingType, APIError>) -> ()) {
-        guard let url = URL(string: urlString) else {
+    private func fetch<ParsingType: Decodable>(url: URL?, completion: @escaping (Result<ParsingType, APIError>) -> ()) {
+        guard let url = url else {
             completion(.failure(APIError.invalidURL))
             return
         }
