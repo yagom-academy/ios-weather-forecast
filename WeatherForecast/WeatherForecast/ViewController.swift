@@ -5,16 +5,20 @@
 // 
 
 import UIKit
+import CoreLocation
 
 class ViewController: UIViewController {
     let networkManager = NetworkManager<WeatherRequest>()
     let parsingManager = ParsingManager()
     var currentWeather: CurrentWeather?
     var fiveDayForecast: FiveDayForecast?
+    var locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startMonitoringVisits()
     }
 }
 
@@ -54,3 +58,5 @@ extension ViewController {
     }
 }
 
+extension ViewController: CLLocationManagerDelegate {
+}
