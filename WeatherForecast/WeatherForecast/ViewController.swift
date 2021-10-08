@@ -35,5 +35,22 @@ extension ViewController {
             }
         }
     }
+    
+    func fetchFiveDayForecast(latitude: Double, longitude: Double) {
+        networkManager.request(WeatherRequest.getFiveDayForecast(latitude: latitude, longitude: longitude)) { result in
+            switch result {
+            case .success(let data):
+                let decodedData = self.parsingManager.parse(data, to: FiveDayForecast.self)
+                switch decodedData {
+                case .success(let modelType):
+                    self.fiveDayForecast = modelType
+                case .failure(let error):
+                    print(error)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }
 
