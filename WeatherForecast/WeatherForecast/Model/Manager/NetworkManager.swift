@@ -28,7 +28,7 @@ struct NetworkManager {
     static let successCode = 200...299
     
     static func request(using api: APIable,
-                                      completionHandler: @escaping (Result<Data, Error>) -> Void) {
+                        completionHandler: @escaping (Result<Data, Error>) -> Void) {
         guard let url = api.url else {
             return completionHandler(.failure(NetworkError.invaildURL))
         }
