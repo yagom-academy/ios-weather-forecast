@@ -7,6 +7,10 @@
 
 import CoreLocation
 
+protocol LocationManagerDelegate: AnyObject {
+    func didUpdateLocation(_ location: CLLocation)
+}
+
 enum LocationManagerError: Error {
     case emptyPlacemark
     case invalidLocation
@@ -15,11 +19,13 @@ enum LocationManagerError: Error {
 class LocationManager: NSObject {
     private var manager: CLLocationManager?
     private var currentLocation: CLLocation?
+    weak var delegate: LocationManagerDelegate?
 
     init(manager: CLLocationManager = CLLocationManager()) {
         super.init()
         self.manager = manager
         self.manager?.delegate = self
+        self.manager?.desiredAccuracy = kCLLocationAccuracyBest
     }
 
     func getCoordinate() -> CLLocationCoordinate2D? {
@@ -48,7 +54,7 @@ extension LocationManager: CLLocationManagerDelegate {
         case .notDetermined:
             manager.requestWhenInUseAuthorization()
         case .authorizedWhenInUse, .authorizedAlways:
-            manager.startUpdatingLocation()
+            manager.requestLocation()
         case .denied, .restricted:
             print("권한없음")
         default:
@@ -60,6 +66,13 @@ extension LocationManager: CLLocationManagerDelegate {
         guard let location = locations.last else {
             return
         }
+        print(#function)
         currentLocation = location
+        delegate?.didUpdateLocation(location)
+        NotificationCenter.default.post(name: .locationUpdated, object: nil)
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
     }
 }

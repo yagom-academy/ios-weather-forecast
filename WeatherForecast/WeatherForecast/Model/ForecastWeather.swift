@@ -18,14 +18,14 @@ struct ForecastWeather: Decodable {
         let dataReceivingTime: TimeInterval
         let main: Main
         let weather: [Weather]
-        let clouds: Clouds
-        let wind: Wind
+        let clouds: Clouds?
+        let wind: Wind?
         let visibility: Int
         let probabilityOfPrecipitation: Double
         let rain: Rain?
         let snow: Snow?
         let system: System
-        let dataReceivingTimeText: String
+        let dataReceivingTimeText: String?
 
         enum CodingKeys: String, CodingKey {
             case main, weather, clouds, wind, visibility, rain, snow

@@ -10,10 +10,12 @@ import Foundation
 extension URL {
     static func createURL<T: Query>(API: API, queryItems: [T: String]) -> URL? {
         var componets = URLComponents(string: API.url)
+        var queryArray: [URLQueryItem] = []
         for (key, value) in queryItems {
             let queryItem = URLQueryItem(name: key.description, value: value)
-            componets?.queryItems?.append(queryItem)
+            queryArray.append(queryItem)
         }
+        componets?.queryItems = queryArray
         return componets?.url
     }
 }
