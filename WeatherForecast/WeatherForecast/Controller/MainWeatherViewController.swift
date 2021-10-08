@@ -36,40 +36,46 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
             break
         }
     }
-    
+ 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let lastLocation = locations.last else {
             return
         }
         
-        prepareAddressInformation(with: lastLocation)
-        prepareWeatherInformation(with: lastLocation.coordinate)
-        prepareInformationDispatchGroup.notify(queue: .main) {
-            print("정보들이 다 준비되었습니다.")
-            
+        prepareWeatherInformation(with: lastLocation) { userAddress, weatherForOneDay, weatherForFiveDay in
+            if self.userAddress != userAddress {
+                self.userAddress = userAddress
+            }
+            if self.weatherForOneDay != weatherForOneDay {
+                self.weatherForOneDay = weatherForOneDay
+            }
+            if self.fiveDayWeatherForecast != weatherForFiveDay {
+                self.fiveDayWeatherForecast = weatherForFiveDay
+            }
         }
     }
 }
 
 extension MainWeatherViewController {
-    private func prepareAddressInformation(with location: CLLocation) {
+    private func prepareWeatherInformation(with location: CLLocation, completionHandler: @escaping (String?, WeatherForOneDay?, FiveDayWeatherForecast?) -> Void) {
+        let userCoordinate = Coordinate(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        let callType = CallType.geographicCoordinates(coordinate: userCoordinate, parameter: nil)
+        let weatherForOneDayAPI = WeatherAPI(callType: callType, forecastType: .current)
+        let fivedayWeatherForecastAPI = WeatherAPI(callType: callType, forecastType: .fiveDays)
+        var userAddress: String?
+        var weatherForOneDay: WeatherForOneDay?
+        var weatherForFiveDay: FiveDayWeatherForecast?
+        
         prepareInformationDispatchGroup.enter()
         AddressManager.generateAddress(from: location) { [self] in
             switch $0 {
             case .failure(_):
                 break
             case .success(let address):
-                updateUserAddress(to: address)
+                userAddress = address
             }
             prepareInformationDispatchGroup.leave()
         }
-    }
-    
-    private func prepareWeatherInformation(with coordinate: CLLocationCoordinate2D) {
-        let userCoordinate = Coordinate(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        let callType = CallType.geographicCoordinates(coordinate: userCoordinate, parameter: nil)
-        let weatherForOneDayAPI = WeatherAPI(callType: callType, forecastType: .current)
-        let fivedayWeatherForecastAPI = WeatherAPI(callType: callType, forecastType: .fiveDays)
         
         prepareInformationDispatchGroup.enter()
         NetworkManager.request(using: weatherForOneDayAPI) { [self] result in
@@ -77,34 +83,24 @@ extension MainWeatherViewController {
             case .failure(_):
                 break
             case .success(let data):
-                updateWeather(from: data, to: &self.weatherForOneDay)
+                weatherForOneDay = ParsingManager.decode(from: data, to: WeatherForOneDay.self)
             }
             prepareInformationDispatchGroup.leave()
         }
+        
         prepareInformationDispatchGroup.enter()
         NetworkManager.request(using: fivedayWeatherForecastAPI) { [self] result in
             switch result {
             case .failure(_):
                 break
             case .success(let data):
-                updateWeather(from: data, to: &self.fiveDayWeatherForecast)
+                weatherForFiveDay = ParsingManager.decode(from: data, to: FiveDayWeatherForecast.self)
             }
             prepareInformationDispatchGroup.leave()
         }
-    }
-    
-    private func updateUserAddress(to newAddress: String) {
-        if userAddress != newAddress {
-            userAddress = newAddress
-        }
-    }
-    
-    private func updateWeather<T: Decodable>(from data: Data, to oldInformation: inout T) where T: Equatable {
-        guard let newInformation = ParsingManager.decode(from: data, to: T.self) else {
-            return
-        }
-        if oldInformation != newInformation {
-            oldInformation = newInformation
+        
+        prepareInformationDispatchGroup.notify(queue: .main) {
+            completionHandler(userAddress, weatherForOneDay, weatherForFiveDay)
         }
     }
 }
