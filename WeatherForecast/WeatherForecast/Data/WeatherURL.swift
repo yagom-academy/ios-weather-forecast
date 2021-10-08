@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct WeatherURL: URLMakable {
-    var pathType: URLResource.PathType
-    var queries: [URLResource.QueryParam]
-}
+//struct WeatherURL: URLMakable {
+//    var pathType: URLResource.PathType
+//    var queries: [URLResource.QueryParam]
+//}
 
