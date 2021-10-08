@@ -22,6 +22,26 @@ class ViewController: UIViewController {
     }
 }
 
+
+extension ViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
+        let latitude = visit.coordinate.latitude
+        let longitude = visit.coordinate.longitude
+        fetchCurrentWeather(latitude: latitude, longitude: longitude)
+        fetchFiveDayForecast(latitude: latitude, longitude: longitude)
+        
+        let location = CLLocation(latitude: latitude, longitude: longitude)
+        let geoCoder = CLGeocoder()
+        let locale = Locale(identifier: "Ko-kr")
+        geoCoder.reverseGeocodeLocation(location, preferredLocale: locale) { placemarks, error in
+            if let address = placemarks?.first {
+                print(address.administrativeArea)
+                print(address.locality)
+            }
+        }
+    }
+}
+
 extension ViewController {
     func fetchCurrentWeather(latitude: Double, longitude: Double) {
         networkManager.request(WeatherRequest.getCurrentWeather(latitude: latitude, longitude: longitude)) { result in
@@ -56,7 +76,4 @@ extension ViewController {
             }
         }
     }
-}
-
-extension ViewController: CLLocationManagerDelegate {
 }
