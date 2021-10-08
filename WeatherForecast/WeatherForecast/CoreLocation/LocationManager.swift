@@ -66,13 +66,11 @@ extension LocationManager: CLLocationManagerDelegate {
         guard let location = locations.last else {
             return
         }
-        print(#function)
         currentLocation = location
         delegate?.didUpdateLocation(location)
-        NotificationCenter.default.post(name: .locationUpdated, object: nil)
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error)
+        manager.stopUpdatingLocation()
     }
 }
