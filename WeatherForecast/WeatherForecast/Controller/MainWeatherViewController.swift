@@ -8,6 +8,7 @@ import UIKit
 import CoreLocation
 
 final class MainWeatherViewController: UIViewController {
+    //MARK: Properties
     private let locationManager = CLLocationManager()
     private var userAddress: String?
     private var weatherForOneDay: WeatherForOneDay?
@@ -15,6 +16,7 @@ final class MainWeatherViewController: UIViewController {
     private let prepareInformationDispatchGroup = DispatchGroup()
     private var updateWorkItem: DispatchWorkItem?
     
+    //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
@@ -23,6 +25,7 @@ final class MainWeatherViewController: UIViewController {
     }
 }
 
+//MARK:- Conforms to CLLocationManagerDelegate
 extension MainWeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
@@ -49,12 +52,15 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
             self?.prepareWeatherInformation(with: lastLocation) { userAddress, weatherForOneDay, weatherForFiveDay in
                 if self?.userAddress != userAddress {
                     self?.userAddress = userAddress
+                    self?.updateUserAddressLabel()
                 }
                 if self?.weatherForOneDay != weatherForOneDay {
                     self?.weatherForOneDay = weatherForOneDay
+                    self?.updateHeadView()
                 }
                 if self?.fiveDayWeatherForecast != weatherForFiveDay {
                     self?.fiveDayWeatherForecast = weatherForFiveDay
+                    self?.updateTableView()
                 }
             }
         })
@@ -64,6 +70,7 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
     }
 }
 
+//MARK:- Load Information
 extension MainWeatherViewController {
     private func prepareWeatherInformation(with location: CLLocation, completionHandler: @escaping (String?, WeatherForOneDay?, FiveDayWeatherForecast?) -> Void) {
         let userCoordinate = Coordinate(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
@@ -114,5 +121,20 @@ extension MainWeatherViewController {
             }
             completionHandler(userAddress, weatherForOneDay, weatherForFiveDay)
         }
+    }
+}
+
+//MARK:- UI
+extension MainWeatherViewController {
+    private func updateUserAddressLabel() {
+
+    }
+    
+    private func updateHeadView() {
+        
+    }
+    
+    private func updateTableView() {
+        
     }
 }
