@@ -32,15 +32,16 @@ extension URLSession: URLSessionProtocol { }
 
 typealias SessionResult = (Result<Data, NetworkError>) -> ()
 
-class NetworkManager {
+class NetworkManager<T: TargetType> {
     private let session: URLSessionProtocol
     
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
-    func request(url: URL, completion: @escaping SessionResult) {
-        let task = session.dataTask(with: url) { data, response, error in
+    func request(_ request: TargetType, completion: @escaping SessionResult) {
+        let urlRequest = request.configure()
+        let task = session.dataTask(with: urlRequest) { data, response, error in
             guard error == nil else {
                 completion(.failure(.requestFail))
                 return
