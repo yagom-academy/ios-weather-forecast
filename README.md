@@ -552,66 +552,13 @@
             	@objc func 
             }
             ```
-            
-            ```swift
-            //Notification 이름 설정
-            extension Notification.Name {
-              static let didUpdateLocation = Notification.Name("didUpdateLocation")
-            }
-            
-            //위치정보가 업데이트 된 경우 Notification을 Post해준다.
-            class LocationManager: CLLocationManagerDelegate {
-              func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-                NotificationCenter.default.post(name: .didUpdateLocation, object: nil)
-              }
-            }
-            
-            //위치정보를 받았을때 메서드를 실행시킨다.
-            class ViewController: UIViewController {
-              override func viewDidLoad() {
-                NotificationCenter.default.addObserver(self, selector: #selector(AnyFunc...), name: .didUpdateLocation, object: nil)
-              }
-            }
-            ```
-            
-        
         하지만 Notification은 1 : N 상황에서 많이 쓰이고, 메모리 해제도 관리해줘야 되기 때문에, Notification을 사용하지 않았다.
         
 
 - Delegate 패턴을 사용하여 처리해보았다.
-    - 코드
-        
-        ```swift
-        //델리게이트 패턴을 위한 프로토콜 선언
-        protocol LocationManagerDelegate: AnyObject {
-          func didUpdateLocation(_ location: CLLocation)
-        }
-        
-        // 위임자를 프로퍼티로 지정하고 업데이트가 되었을때 대리자에게 행동을 위임한다.
-        class LocationManager: NSObject, CLLocationManagerDelegate  {
-          weak var delegate: LocationManagerDelegate?
-          
-          func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-            guard let location = locations.first else { return }
-            delegate?.didUpdateLocation(location)
-          }
-        }
-        
-        //대리자를 설정하고, 해당 메서드를 구현한다.
-        class ViewController: UIViewController, LocationManagerDelegate {
-          var locationManager = LocationManager()
-          
-          override func viewDidLoad() {
-            locationManager.delegate = self
-          }
-          
-          func didUpdateLocation(_ location: CLLocation) {
-            //메서드를 구현한다.
-          }
-        }
-        ```
-        
-        ```swift
+    - 코드 
+
+  ```swift
         //델리게이트 프로토콜 구현
         protocol LocationManagerDelegate {
         		func didUpdateLocation(_ location: CLLocation)
