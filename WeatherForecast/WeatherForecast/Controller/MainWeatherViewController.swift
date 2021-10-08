@@ -13,7 +13,7 @@ final class MainWeatherViewController: UIViewController {
     private var weatherForOneDay: WeatherForOneDay?
     private var fiveDayWeatherForecast: FiveDayWeatherForecast?
     private let prepareInformationDispatchGroup = DispatchGroup()
-    
+    private var updateWorkItem: DispatchWorkItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,16 +42,24 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
             return
         }
         
-        prepareWeatherInformation(with: lastLocation) { userAddress, weatherForOneDay, weatherForFiveDay in
-            if self.userAddress != userAddress {
-                self.userAddress = userAddress
+        updateWorkItem?.cancel()
+        updateWorkItem = nil
+        
+        updateWorkItem = DispatchWorkItem(block: { [weak self] in
+            self?.prepareWeatherInformation(with: lastLocation) { userAddress, weatherForOneDay, weatherForFiveDay in
+                if self?.userAddress != userAddress {
+                    self?.userAddress = userAddress
+                }
+                if self?.weatherForOneDay != weatherForOneDay {
+                    self?.weatherForOneDay = weatherForOneDay
+                }
+                if self?.fiveDayWeatherForecast != weatherForFiveDay {
+                    self?.fiveDayWeatherForecast = weatherForFiveDay
+                }
             }
-            if self.weatherForOneDay != weatherForOneDay {
-                self.weatherForOneDay = weatherForOneDay
-            }
-            if self.fiveDayWeatherForecast != weatherForFiveDay {
-                self.fiveDayWeatherForecast = weatherForFiveDay
-            }
+        })
+        if let updateWorkItem = updateWorkItem {
+            DispatchQueue.main.async(execute: updateWorkItem)
         }
     }
 }
@@ -65,7 +73,7 @@ extension MainWeatherViewController {
         var userAddress: String?
         var weatherForOneDay: WeatherForOneDay?
         var weatherForFiveDay: FiveDayWeatherForecast?
-        
+    
         prepareInformationDispatchGroup.enter()
         AddressManager.generateAddress(from: location) { [self] in
             switch $0 {
@@ -100,6 +108,10 @@ extension MainWeatherViewController {
         }
         
         prepareInformationDispatchGroup.notify(queue: .main) {
+            guard let updateWorkItem = self.updateWorkItem,
+                  updateWorkItem.isCancelled == false else {
+                return
+            }
             completionHandler(userAddress, weatherForOneDay, weatherForFiveDay)
         }
     }
