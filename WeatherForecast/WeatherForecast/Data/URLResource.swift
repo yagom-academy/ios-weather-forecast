@@ -13,7 +13,7 @@ struct URLResource {
     
     enum PathType: String {
         case current = "/data/2.5/weather"
-        case fiveDay = "/data/2.5/forecast"
+        case fiveDays = "/data/2.5/forecast"
     }
 
     struct QueryParam {

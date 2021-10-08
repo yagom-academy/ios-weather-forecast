@@ -35,8 +35,8 @@ class URLBuilder: URLMakable {
         switch pathType {
         case .current:
             urlComponents.path = URLResource.PathType.current.rawValue
-        case .fiveDay:
-            urlComponents.path = URLResource.PathType.fiveDay.rawValue
+        case .fiveDays:
+            urlComponents.path = URLResource.PathType.fiveDays.rawValue
         }
         urlComponents.queryItems = queries.map({
             URLQueryItem(name: $0.name, value: $0.value)
