@@ -7,6 +7,18 @@
 
 import Foundation
 
+enum HTTPMethod {}
+
+protocol TargetType {
+    var baseURL: String { get }
+    var path: String { get }
+    var method: HTTPMethod { get }
+    var query: String? { get }
+    var headers: Dictionary<String, String>? { get }
+    
+    func configure() -> URLRequest?
+}
+
 enum URLAPI {
     case getCurrent
     case getForecast
