@@ -53,6 +53,8 @@ final class WeatherDataManager {
         }
         return CLLocation()
     }
+
+    
 }
  
 extension WeatherDataManager {
@@ -81,19 +83,21 @@ extension WeatherDataManager {
     }
     
     private func generateURI(path: Bool, location: CLLocation) -> String {
-        let latString = "lat=\(location.coordinate.latitude)"
-        let lonString = "&lon=\(location.coordinate.longitude)"
-
-        isPathCurrent = path
-
-        var uri: String {
-            if isPathCurrent {
-                return "\(URI.host)\(URI.currentPath)\(latString)\(lonString)\(URI.appID)\(URI.units)\(URI.lang)"
-            } else {
-                return "\(URI.host)\(URI.fiveDaysPath)\(latString)\(lonString)\(URI.appID)\(URI.units)\(URI.lang)"
-            }
-        }
-        return uri
+//        let latString = "lat=\(location.coordinate.latitude)"
+//        let lonString = "&lon=\(location.coordinate.longitude)"
+//
+//        isPathCurrent = path
+//
+//        var uri: String {
+//            if isPathCurrent {
+//                return "\(URI.host)\(URI.currentPath)\(latString)\(lonString)\(URI.appID)\(URI.units)\(URI.lang)"
+//            } else {
+//                return "\(URI.host)\(URI.fiveDaysPath)\(latString)\(lonString)\(URI.appID)\(URI.units)\(URI.lang)"
+//            }
+//        }
+//        return uri
+        
+        
     }
 }
 
