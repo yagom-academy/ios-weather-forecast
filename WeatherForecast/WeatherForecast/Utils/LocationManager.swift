@@ -16,10 +16,10 @@ class LocationManager: NSObject {
         manager.delegate = self
         manager.requestAlwaysAuthorization()
         manager.requestLocation()
+        manager.startUpdatingLocation()
     }
     
     func getGeographicCoordinates() -> CLLocation? {
-        manager.startUpdatingLocation()
         guard let location = manager.location else { return nil }
         var status: CLAuthorizationStatus
         
