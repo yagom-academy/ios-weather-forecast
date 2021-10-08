@@ -54,9 +54,9 @@ class NetworkManager<T: TargetType> {
             }
             guard let response = response as? HTTPURLResponse,
                   (200...299).contains(response.statusCode) else {
-                completion(.failure(.failedStatusCode))
-                return
-            }
+                      completion(.failure(.failedStatusCode))
+                      return
+                  }
             guard let data = data else {
                 completion(.failure(.emptyData))
                 return
