@@ -10,13 +10,12 @@ import CoreLocation
 class WeatherListViewController: UIViewController {
     private var locationManager: CLLocationManager?
     private var currentLocation: CLLocationCoordinate2D?
+    private var weatherDataManater = WeatherDataManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         generateLocationManager()
         bringCoordinates()
-        convertToAddress()
     }
 }
 
@@ -26,9 +25,12 @@ extension WeatherListViewController: CLLocationManagerDelegate {
         case .authorizedWhenInUse, .authorizedAlways:
             currentLocation = manager.location?.coordinate
             guard let currentLocation = currentLocation else { return }
-            WeatherDataManager.shared.longitude = currentLocation.longitude
-            WeatherDataManager.shared.latitude = currentLocation.latitude
-            WeatherDataManager.shared.fetchCurrentWeather()
+            weatherDataManater.longitude = currentLocation.longitude
+            weatherDataManater.latitude = currentLocation.latitude
+            convertToAddress(latitude: weatherDataManater.latitude, longitude: weatherDataManater.longitude)
+            weatherDataManater.fetchCurrentWeather()
+            
+            
         case .notDetermined, .restricted:
             manager.requestWhenInUseAuthorization()
         case .denied:
@@ -40,10 +42,6 @@ extension WeatherListViewController: CLLocationManagerDelegate {
 }
 
 extension WeatherListViewController {
-    func unWrappedCoordinate() -> (latitude: Double, longitude: Double){
-        guard let latitude = WeatherDataManager.shared.latitude, let longitude = WeatherDataManager.shared.longitude else { return (0.0, 0.0)}
-        return (latitude, longitude)
-    }
     
     private func generateLocationManager() {
         locationManager = CLLocationManager()
@@ -63,13 +61,17 @@ extension WeatherListViewController {
                guard let lat = currentCoordinate?.latitude, let lon = currentCoordinate?.longitude else {
                    return
                }
-               WeatherDataManager.shared.latitude = lat
-               WeatherDataManager.shared.longitude = lon
+               weatherDataManater.latitude = lat
+               weatherDataManater.longitude = lon
            }
        }
     
-    private func convertToAddress() {
-        let coordinate = CLLocation(latitude: unWrappedCoordinate().latitude, longitude: unWrappedCoordinate().longitude)
+    private func convertToAddress(latitude: Double?, longitude: Double?) {
+        guard let latitude = latitude, let longitude = longitude else {
+            return
+        }
+        
+        let coordinate = CLLocation(latitude: latitude, longitude: longitude)
         let geoCoder = CLGeocoder()
         let locale = Locale(identifier: "ko_kr")
         
