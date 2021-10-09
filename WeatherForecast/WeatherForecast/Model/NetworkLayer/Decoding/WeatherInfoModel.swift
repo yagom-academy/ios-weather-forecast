@@ -10,7 +10,7 @@ import Foundation
 struct CurrentWeather: Decodable {
     var coordination: Coordinate
     var weather: [Weather]
-    var main: Main
+    var main: Temperature
     
     enum CodingKeys: String, CodingKey {
         case coordination = "coord"
@@ -21,7 +21,7 @@ struct CurrentWeather: Decodable {
         var icon: String
     }
     
-    struct Main: Decodable {
+    struct Temperature: Decodable {
         var temperatureMinimum: Double
         var temperatureMaximum: Double
         
