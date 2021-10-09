@@ -45,6 +45,7 @@ extension ViewController: CLLocationManagerDelegate {
         
         let item = DispatchWorkItem {
             self.requestFiveDaysForcastData()
+            print(self)
         }
         
         DispatchQueue.global().async(group: groupOne) {
