@@ -95,9 +95,11 @@ extension ViewController: URLSessionDataDelegate {
         
         networkManager.getCurrentWeatherData(weatherAPI: fiveDaysWeatherApi, self.session)
     }
-    
+
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        showAlert(title: "🥲", message: "네트워크가 불안정 합니다.")
+        if error != nil {
+            showAlert(title: "🥲", message: "네트워크가 불안정 합니다.")
+        }
     }
     
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, willCacheResponse proposedResponse: CachedURLResponse, completionHandler: @escaping (CachedURLResponse?) -> Void) {
