@@ -51,14 +51,13 @@ class WeatherForecastTests: XCTestCase {
         //given
         let path = Bundle(for: type(of: self)).path(forResource: "CurrentWeather", ofType: "json")
         let jsonFile = try! String(contentsOfFile: path!).data(using: .utf8)
-        let url = URL(string: "www.test.com")
         let session = MockURLSession(isSuccess: true, data: jsonFile)
-        let networkManager = NetworkManager(session: session)
+        let networkManager = NetworkManager<WeatherRequest>(session: session)
         var outputValue: Data?
         let expectedValue = jsonFile
         
         //when
-        networkManager.request(url: url!) { result in
+        networkManager.request(WeatherRequest.getCurrentWeather(latitude: 123, longitude: 123)) { result in
             switch result {
             case .success(let data):
                 outputValue = data
@@ -75,14 +74,13 @@ class WeatherForecastTests: XCTestCase {
         //given
         let path = Bundle(for: type(of: self)).path(forResource: "CurrentWeather", ofType: "json")
         let jsonFile = try! String(contentsOfFile: path!).data(using: .utf8)
-        let url = URL(string: "www.test.com")
         let session = MockURLSession(isSuccess: false, data: jsonFile)
-        let networkManager = NetworkManager(session: session)
+        let networkManager = NetworkManager<WeatherRequest>(session: session)
         var outputValue: NetworkError?
         let expectedValue = NetworkError.failedStatusCode
         
         //when
-        networkManager.request(url: url!) { result in
+        networkManager.request(WeatherRequest.getCurrentWeather(latitude: 123, longitude: 123)) { result in
             switch result {
             case .success:
                 outputValue = nil
