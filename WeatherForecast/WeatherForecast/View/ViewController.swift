@@ -8,29 +8,15 @@ import UIKit
 import CoreLocation
 
 final class ViewController: UIViewController {
+    private let networkManager = NetworkManager()
     private let locationManager = LocationManager()
-    private var session = URLSession.shared
-    var data: FiveDaysForecast?
-    var address: String?
+    private lazy var session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
+    private var fiveDaysForcastData: FiveDaysForecast?
+    private var currentWeatherData: CurrentWeather?
+    private var location = (longitude: CLLocationDegrees() , latitude: CLLocationDegrees())
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        locationManager.askUserLocation()
-        locationManager.delegate = self
-    }
-}
-
-extension ViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let networkManager = NetworkManager()
-        
-        guard let longitude = manager.location?.coordinate.longitude,
-              let latitude = manager.location?.coordinate.latitude,
-              let fiveDaysUrl = URL(string: "https://api.openweathermap.org/data/2.5/forecast") else  {
-            return
-        }
-        
-        let location = CLLocation(latitude: latitude, longitude: longitude)
+    lazy var address: String = {
+        let location = CLLocation(latitude: self.location.latitude, longitude: self.location.longitude)
         let geoCoder = CLGeocoder()
         let locale = Locale(identifier: "Ko-kr")
         geoCoder.reverseGeocodeLocation(location, preferredLocale: locale) { placeMarks, error in
@@ -42,20 +28,35 @@ extension ViewController: CLLocationManagerDelegate {
                   let address = addresses.last?.name else {
                 return
             }
-            
-            self.address = address
         }
+        return address
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        locationManager.askUserLocation()
+        locationManager.delegate = self
+    }
+}
 
-        let requestInfo: Parameters = ["lat": latitude, "lon": longitude, "appid": networkManager.apiKey]
-        let fiveDaysWeatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: fiveDaysUrl)
+extension ViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let groupOne = DispatchGroup()
         
-        networkManager.getCurrentWeatherData(weatherAPI: fiveDaysWeatherApi, self.session) { requestedData in
-            do {
-                self.data = try JSONDecoder().decode(FiveDaysForecast.self, from: requestedData)
-            } catch {
-                print("Decoding Error")
-            }
+        let item = DispatchWorkItem {
+            self.requestFiveDaysForcastData()
         }
+        
+        DispatchQueue.global().async(group: groupOne) {
+            guard let longitude = manager.location?.coordinate.longitude,
+                  let latitude = manager.location?.coordinate.latitude else {
+                return
+            }
+            self.location.longitude = longitude
+            self.location.latitude = latitude
+        }
+        
+        groupOne.notify(queue: DispatchQueue.global(), work: item)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -76,9 +77,64 @@ extension ViewController: CLLocationManagerDelegate {
     private func showAlert(title: String, message: String) {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            let alertAction = UIAlertAction(title: "Test", style: .default, handler: nil)
+            let alertAction = UIAlertAction(title: "확인", style: .default, handler: nil)
             alert.addAction(alertAction)
             self.present(alert, animated: true, completion: nil)
+        }
+    }
+}
+
+extension ViewController: URLSessionDataDelegate {
+    func requestFiveDaysForcastData() {
+        guard let fiveDaysUrl = URL(string: "https://api.openweathermap.org/data/2.5/forecast") else {
+            return
+        }
+        let requestInfo: Parameters = ["lat": self.location.latitude , "lon": self.location.longitude, "appid": networkManager.apiKey]
+        
+        let fiveDaysWeatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: fiveDaysUrl)
+        
+        networkManager.getCurrentWeatherData(weatherAPI: fiveDaysWeatherApi, self.session)
+    }
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        showAlert(title: "🥲", message: "네트워크가 불안정 합니다.")
+    }
+    
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, willCacheResponse proposedResponse: CachedURLResponse, completionHandler: @escaping (CachedURLResponse?) -> Void) {
+        let requestData = proposedResponse.data
+        
+        do  {
+            let decodedData = try Parser().decode(requestData, to: FiveDaysForecast.self)
+            self.fiveDaysForcastData = decodedData
+        } catch {
+            print(#function, error)
+        }
+        
+        completionHandler(nil)
+    }
+    
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+        guard let response = response as? HTTPURLResponse else {
+            return
+        }
+        
+        switch response.statusCode {
+        case 200..<300:
+            completionHandler(.allow)
+        case 400:
+            print("잘못된 요청입니다.")
+            completionHandler(.cancel)
+        case 401:
+            print("인증이 잘못되었습니다.")
+            completionHandler(.cancel)
+        case 403:
+            print("해당 정보에 접근할 수 없습니다. ")
+            completionHandler(.cancel)
+        case 500...:
+            print("서버에러")
+            completionHandler(.cancel)
+        default:
+            completionHandler(.cancel)
         }
     }
 }

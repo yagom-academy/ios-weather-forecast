@@ -7,10 +7,6 @@
 
 import Foundation
 
-//protocol NetworkManagerDelegate {
-//    func decodeWeatherData(data: Data) -> FiveDaysForecast
-//}
-    
 final class NetworkManager {
     enum APIError: Error, LocalizedError {
         case filePathError
@@ -43,9 +39,7 @@ final class NetworkManager {
         }
     }
     
-    func getCurrentWeatherData(weatherAPI: WeatherApi, _ session: URLSession, _ completion: @escaping (Data) -> ()) {
-        router.request(weatherAPI, session) { data in
-            completion(data)
-        }
+    func getCurrentWeatherData(weatherAPI: WeatherApi, _ session: URLSession) {
+        router.request(weatherAPI, session)
     }
 }
