@@ -48,6 +48,7 @@ extension ViewController: CLLocationManagerDelegate {
 
         let requestInfo: Parameters = ["lat": latitude, "lon": longitude, "appid": networkManager.apiKey]
         let fiveDaysWeatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: fiveDaysUrl)
+        
         networkManager.getCurrentWeatherData(weatherAPI: fiveDaysWeatherApi, self.session) { requestedData in
             do {
                 self.data = try JSONDecoder().decode(FiveDaysForecast.self, from: requestedData)
