@@ -93,4 +93,52 @@ class WeatherForecastTests: XCTestCase {
         XCTAssertEqual(expectedValue, outputValue)
     }
     
+    func test_NetworkManager를통해_실제네트워크통신을했을때_name은Banpobondong이다() {
+        // given
+        var outputValue: String?
+        let expectedValue = "Banpobondong"
+        let networkManager = NetworkManager<WeatherRequest>()
+        let expectation = XCTestExpectation()
+        // when
+        networkManager.request(WeatherRequest.getCurrentWeather(latitude: 37.478055, longitude: 126.961595)) { result in
+            switch result {
+            case .success(let data):
+                let parsedData = self.parsingManager.parse(data, to: CurrentWeather.self)
+                switch parsedData {
+                case .success(let curretWeather):
+                    outputValue = curretWeather.name
+                case .failure:
+                    XCTFail()
+                }
+            case .failure:
+                XCTFail()
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5.0)
+        // then
+        XCTAssertEqual(outputValue, expectedValue)
+    }
+    
+    func test_잘못된Request를하면_실제네트워크통신을했을때_네트워크에러가발생한다() {
+        // given
+        var outputValue: NetworkError?
+        let expectedValue = NetworkError.failedStatusCode
+        let networkManager = NetworkManager<WeatherRequest>()
+        let invalidRequest = WeatherRequest.getCurrentWeather(latitude: 0.1, longitude: 900.1)
+        let expectation = XCTestExpectation()
+        // when
+        networkManager.request(invalidRequest) { result in
+            switch result {
+            case .success:
+                XCTFail()
+            case .failure(let error):
+                outputValue = error
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5.0)
+        // then
+        XCTAssertEqual(outputValue, expectedValue)
+    }
 }
