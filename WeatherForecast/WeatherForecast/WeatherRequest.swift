@@ -11,15 +11,6 @@ enum HTTPMethod: String {
     case get = "GET"
 }
 
-protocol TargetType {
-    var baseURL: String { get }
-    var path: String { get }
-    var method: HTTPMethod { get }
-    var query: (Double, Double) { get }
-    
-    func configure() -> URLRequest?
-}
-
 enum WeatherRequest: TargetType {
     case getCurrentWeather(latitude: Double, longitude: Double)
     case getFiveDayForecast(latitude: Double, longitude: Double)

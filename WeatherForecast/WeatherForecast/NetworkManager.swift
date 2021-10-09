@@ -7,32 +7,6 @@
 
 import Foundation
 
-enum NetworkError: Error, LocalizedError {
-    case requestFail
-    case failedStatusCode
-    case emptyData
-    case invalidURL
-    
-    var errorDescription: String? {
-        switch self {
-        case .requestFail:
-            return "요청이 실패했습니다."
-        case .failedStatusCode:
-            return "실패 상태 코드가 전달되었습니다."
-        case .emptyData:
-            return "데이터가 존재하지 않습니다."
-        case .invalidURL:
-            return "잘못된 URL입니다."
-        }
-    }
-}
-
-protocol URLSessionProtocol {
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
-}
-
-extension URLSession: URLSessionProtocol { }
-
 typealias SessionResult = (Result<Data, NetworkError>) -> ()
 
 class NetworkManager<T: TargetType> {
