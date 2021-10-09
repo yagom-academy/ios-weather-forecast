@@ -8,11 +8,11 @@ import UIKit
 import CoreLocation
 
 class ViewController: UIViewController {
-    let networkManager = NetworkManager<WeatherRequest>()
-    let parsingManager = ParsingManager()
-    var currentWeather: CurrentWeather?
-    var fiveDayForecast: FiveDayForecast?
-    var locationManager = CLLocationManager()
+    private let networkManager = NetworkManager<WeatherRequest>()
+    private let parsingManager = ParsingManager()
+    private var currentWeather: CurrentWeather?
+    private var fiveDayForecast: FiveDayForecast?
+    private var locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +43,7 @@ extension ViewController: CLLocationManagerDelegate {
 }
 
 extension ViewController {
-    func fetchCurrentWeather(latitude: Double, longitude: Double) {
+    private func fetchCurrentWeather(latitude: Double, longitude: Double) {
         networkManager.request(WeatherRequest.getCurrentWeather(latitude: latitude, longitude: longitude)) { result in
             switch result {
             case .success(let data):
@@ -60,7 +60,7 @@ extension ViewController {
         }
     }
     
-    func fetchFiveDayForecast(latitude: Double, longitude: Double) {
+    private func fetchFiveDayForecast(latitude: Double, longitude: Double) {
         networkManager.request(WeatherRequest.getFiveDayForecast(latitude: latitude, longitude: longitude)) { result in
             switch result {
             case .success(let data):
