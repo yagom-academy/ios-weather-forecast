@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F14EBB5271478A80090C854 /* MainWeatherHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F14EBB4271478A80090C854 /* MainWeatherHeaderView.swift */; };
 		3F444DBB2702E61600E60AA4 /* Wind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F444DBA2702E61600E60AA4 /* Wind.swift */; };
 		3F444DC32702EA6C00E60AA4 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F444DC22702EA6C00E60AA4 /* System.swift */; };
 		3F444DCB2702EEFC00E60AA4 /* Snow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F444DCA2702EEFC00E60AA4 /* Snow.swift */; };
@@ -54,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3F14EBB4271478A80090C854 /* MainWeatherHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWeatherHeaderView.swift; sourceTree = "<group>"; };
 		3F444DBA2702E61600E60AA4 /* Wind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wind.swift; sourceTree = "<group>"; };
 		3F444DC22702EA6C00E60AA4 /* System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
 		3F444DCA2702EEFC00E60AA4 /* Snow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snow.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				C96F2ED927144F1E00004338 /* MainWeatherTableViewCell.swift */,
+				3F14EBB4271478A80090C854 /* MainWeatherHeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 				C91EF6A62702FC290013E3D6 /* FiveDayWeatherForecast.swift in Sources */,
 				C91EF6AD270311600013E3D6 /* APIable.swift in Sources */,
 				3F444DCB2702EEFC00E60AA4 /* Snow.swift in Sources */,
+				3F14EBB5271478A80090C854 /* MainWeatherHeaderView.swift in Sources */,
 				C91EF6A42702EF880013E3D6 /* City.swift in Sources */,
 				C91EF69E2702E7430013E3D6 /* Clouds.swift in Sources */,
 				C96F2EDC2714632800004338 /* MainWeatherTableViewDataSource.swift in Sources */,
