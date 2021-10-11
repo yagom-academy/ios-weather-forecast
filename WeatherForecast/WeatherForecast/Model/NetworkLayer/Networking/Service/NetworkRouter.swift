@@ -16,7 +16,6 @@ protocol NetworkRouter {
 
 final class Router<EndPointType: EndPoint>: NetworkRouter {
     private var task: URLSessionDataTask?
-    var data: FiveDaysForecast?
     
     func request(_ route: EndPointType, _ session: URLSession) {
         let request = self.buildRequest(from: route)
