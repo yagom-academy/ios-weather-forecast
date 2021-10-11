@@ -15,6 +15,7 @@ final class MainWeatherViewController: UIViewController {
     private var fiveDayWeatherForecast: FiveDayWeatherForecast?
     private let prepareInformationDispatchGroup = DispatchGroup()
     private var updateWorkItem: DispatchWorkItem?
+    private let tableView = UITableView()
     
     //MARK: Lifecycle
     override func viewDidLoad() {
@@ -22,6 +23,7 @@ final class MainWeatherViewController: UIViewController {
         locationManager.delegate = self
         guard CLLocationManager.significantLocationChangeMonitoringAvailable() else { return }
         locationManager.startMonitoringSignificantLocationChanges()
+        setUpTableView()
     }
 }
 
@@ -126,6 +128,17 @@ extension MainWeatherViewController {
 
 //MARK:- UI
 extension MainWeatherViewController {
+    private func setUpTableView() {
+        view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let safeArea = view.safeAreaLayoutGuide
+        tableView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
+        tableView.leftAnchor.constraint(equalTo: safeArea.leftAnchor).isActive = true
+        tableView.rightAnchor.constraint(equalTo: safeArea.rightAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
+    }
+    
     private func updateUserAddressLabel() {
 
     }
