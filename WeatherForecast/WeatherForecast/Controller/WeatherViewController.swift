@@ -12,7 +12,7 @@ class WeatherViewController: UIViewController {
     private var currentData: CurrentWeather?
     private var forecastData: ForecastWeather?
     
-    private var tableView: UITableView = {
+    private var weatherTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(WeatherTableViewCell.self,
@@ -23,14 +23,32 @@ class WeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
-        tableView.dataSource = self
+        configureTableView()
+        weatherTableView.dataSource = self
+    }
+}
+
+extension WeatherViewController {
+    func configureTableView() {
+        view.addSubview(weatherTableView)
+        
+        NSLayoutConstraint.activate([
+            weatherTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            weatherTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            weatherTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            weatherTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 }
 
 extension WeatherViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        forecastData?.list.count ?? .zero
+        return 10
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
