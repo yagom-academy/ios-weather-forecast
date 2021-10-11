@@ -23,7 +23,6 @@ final class ViewController: UIViewController {
     }()
     
     private var fiveDaysForcastData: FiveDaysForecast?
-    private var currentWeatherData: CurrentWeather?
     private var location = (longitude: CLLocationDegrees() , latitude: CLLocationDegrees())
     
     lazy var address: String = {
