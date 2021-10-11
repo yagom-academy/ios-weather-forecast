@@ -13,12 +13,41 @@ class ViewController: UIViewController {
     private var currentWeather: CurrentWeather?
     private var fiveDayForecast: FiveDayForecast?
     private var locationManager = CLLocationManager()
+    let tableViewDatasource = WeatherTable()
+    
+    private var weatherTableView: UITableView = {
+        let weatherTableView = UITableView()
+        weatherTableView.translatesAutoresizingMaskIntoConstraints = false
+        weatherTableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+        return weatherTableView
+    }()
+    
+    private func configure() {
+        weatherTableView.dataSource = tableViewDatasource
+    }
+    
+    private func addSubView() {
+        view.addSubview(weatherTableView)
+    }
+    
+    private func autoLayout() {
+        let guide = view.safeAreaLayoutGuide
+                NSLayoutConstraint.activate([
+                    weatherTableView.topAnchor.constraint(equalTo: guide.topAnchor),
+                    weatherTableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+                    weatherTableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
+                    weatherTableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
+                    ])
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.startMonitoringVisits()
+        configure()
+        addSubView()
+        autoLayout()
     }
 }
 
