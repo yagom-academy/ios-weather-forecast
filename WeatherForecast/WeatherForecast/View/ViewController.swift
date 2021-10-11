@@ -82,6 +82,8 @@ extension ViewController: CLLocationManagerDelegate {
         case .authorizedWhenInUse, .authorizedAlways, .notDetermined:
             manager.requestLocation()
             break
+        @unknown default:
+            showAlert(title: "🌟", message: "애플이 새로운 정보를 추가했군요! 확인 해 봅시다😄")
         }
     }
     
