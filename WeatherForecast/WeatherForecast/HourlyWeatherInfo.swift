@@ -7,8 +7,8 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
+class HourlyWeatherInfo: UITableViewCell {
 
-    static let identifier = "TableViewCell"
+    static let identifier = "HourlyWeatherInfo"
 
 }

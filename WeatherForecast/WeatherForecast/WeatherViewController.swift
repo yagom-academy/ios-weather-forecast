@@ -7,18 +7,18 @@
 import UIKit
 import CoreLocation
 
-class ViewController: UIViewController {
+class WeatherViewController: UIViewController {
     private let networkManager = NetworkManager<WeatherRequest>()
     private let parsingManager = ParsingManager()
     private var currentWeather: CurrentWeather?
     private var fiveDayForecast: FiveDayForecast?
     private var locationManager = CLLocationManager()
-    let tableViewDatasource = WeatherTable()
+    private let tableViewDatasource = WeatherInfoTable()
     
     private var weatherTableView: UITableView = {
         let weatherTableView = UITableView()
         weatherTableView.translatesAutoresizingMaskIntoConstraints = false
-        weatherTableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+        weatherTableView.register(HourlyWeatherInfo.self, forCellReuseIdentifier: HourlyWeatherInfo.identifier)
         return weatherTableView
     }()
     
@@ -31,12 +31,12 @@ class ViewController: UIViewController {
     }
     
     private func autoLayout() {
-        let guide = view.safeAreaLayoutGuide
+        let safeArea = view.safeAreaLayoutGuide
                 NSLayoutConstraint.activate([
-                    weatherTableView.topAnchor.constraint(equalTo: guide.topAnchor),
-                    weatherTableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
-                    weatherTableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
-                    weatherTableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
+                    weatherTableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+                    weatherTableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+                    weatherTableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+                    weatherTableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
                     ])
     }
     
@@ -52,7 +52,7 @@ class ViewController: UIViewController {
 }
 
 
-extension ViewController: CLLocationManagerDelegate {
+extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
         let latitude = visit.coordinate.latitude
         let longitude = visit.coordinate.longitude
@@ -71,7 +71,7 @@ extension ViewController: CLLocationManagerDelegate {
     }
 }
 
-extension ViewController {
+extension WeatherViewController {
     private func fetchCurrentWeather(latitude: Double, longitude: Double) {
         networkManager.request(WeatherRequest.getCurrentWeather(latitude: latitude, longitude: longitude)) { result in
             switch result {

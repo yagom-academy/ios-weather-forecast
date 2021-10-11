@@ -7,14 +7,14 @@
 
 import UIKit
 
-class WeatherTable: NSObject, UITableViewDataSource {
+class WeatherInfoTable: NSObject, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: HourlyWeatherInfo.identifier, for: indexPath)
         cell.textLabel?.text = "1"
         return cell
     }
