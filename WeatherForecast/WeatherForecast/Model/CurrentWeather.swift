@@ -17,17 +17,13 @@ struct CurrentWeather: Decodable {
     let rain: Rain?
     let snow: Snow?
     let dataReceivingTime: TimeInterval
-    let system: System
     let timezone: TimeInterval
-    let id: Int
     let name: String
-    let cod: Int
 
     enum CodingKeys: String, CodingKey {
-        case weather, base, main, wind, clouds, rain, snow, timezone, id, name, cod
+        case weather, base, main, wind, clouds, rain, snow, timezone, name
         case coordinate = "coord"
         case dataReceivingTime = "dt"
-        case system = "sys"
     }
 
     struct Coordinate: Decodable {
@@ -61,7 +57,7 @@ struct CurrentWeather: Decodable {
     struct Wind: Decodable {
         let speed: Double
         let deg: Double
-        let gust: Double
+        let gust: Double?
     }
 
     struct Clouds: Decodable {
@@ -86,14 +82,5 @@ struct CurrentWeather: Decodable {
             case oneHour = "1h"
             case threeHour = "3h"
         }
-    }
-
-    struct System: Decodable {
-        let type: Int
-        let id: Int
-        let message: Double?
-        let country: String
-        let sunrise: TimeInterval
-        let sunset: TimeInterval
     }
 }
