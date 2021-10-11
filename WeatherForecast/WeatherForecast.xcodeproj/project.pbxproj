@@ -137,6 +137,7 @@
 		63B10ABF2705DBBF0040EC8B /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				D1658EEA2713F0C20035CDCC /* RequestModel */,
 				63B10AB92705DA3E0040EC8B /* NetworkManager.swift */,
 				63B10AC02705E1EB0040EC8B /* APIEndPoint.swift */,
 				639DD8602706EDE200824294 /* Parser.swift */,
@@ -171,7 +172,7 @@
 		C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */ = {
 			isa = PBXGroup;
 			children = (
-				D1658EF02713F1860035CDCC /* Utils */,
+				63B10ABF2705DBBF0040EC8B /* Network */,
 				F95147092702F0C000A7AC28 /* Model */,
 				D1658EF12713F3A40035CDCC /* Entry */,
 				D1658EF32713F47E0035CDCC /* Scene */,
@@ -227,14 +228,6 @@
 			path = DecodeModel;
 			sourceTree = "<group>";
 		};
-		D1658EF02713F1860035CDCC /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				63B10ABF2705DBBF0040EC8B /* Network */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
 		D1658EF12713F3A40035CDCC /* Entry */ = {
 			isa = PBXGroup;
 			children = (
@@ -280,7 +273,6 @@
 			isa = PBXGroup;
 			children = (
 				D1658EEB2713F0EA0035CDCC /* DecodeModel */,
-				D1658EEA2713F0C20035CDCC /* RequestModel */,
 			);
 			path = Model;
 			sourceTree = "<group>";
