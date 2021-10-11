@@ -10,7 +10,18 @@ import CoreLocation
 final class ViewController: UIViewController {
     private let networkManager = NetworkManager()
     private let locationManager = LocationManager()
-    private lazy var session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
+    private lazy var session: URLSession = {
+        let customConfiguration: URLSessionConfiguration = {
+            let configuration = URLSessionConfiguration.default
+            configuration.requestCachePolicy = .returnCacheDataElseLoad
+            return configuration
+        }()
+        
+        let session = URLSession(configuration: customConfiguration, delegate: self, delegateQueue: nil)
+       
+        return session
+    }()
+    
     private var fiveDaysForcastData: FiveDaysForecast?
     private var currentWeatherData: CurrentWeather?
     private var location = (longitude: CLLocationDegrees() , latitude: CLLocationDegrees())
@@ -45,7 +56,6 @@ extension ViewController: CLLocationManagerDelegate {
         
         let item = DispatchWorkItem {
             self.requestFiveDaysForcastData()
-            print(self)
         }
         
         DispatchQueue.global().async(group: groupOne) {
@@ -86,7 +96,7 @@ extension ViewController: CLLocationManagerDelegate {
 }
 
 extension ViewController: URLSessionDataDelegate {
-    func requestFiveDaysForcastData() {
+    private func requestFiveDaysForcastData() {
         guard let fiveDaysUrl = URL(string: "https://api.openweathermap.org/data/2.5/forecast") else {
             return
         }
@@ -110,10 +120,10 @@ extension ViewController: URLSessionDataDelegate {
             let decodedData = try Parser().decode(requestData, to: FiveDaysForecast.self)
             self.fiveDaysForcastData = decodedData
         } catch {
-            print(#function, error)
+            showAlert(title: "🤔", message: "개발자에게 문의해 주세요")
         }
         
-        completionHandler(nil)
+        completionHandler(proposedResponse)
     }
     
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
