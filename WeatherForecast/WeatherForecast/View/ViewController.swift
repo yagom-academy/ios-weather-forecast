@@ -25,7 +25,7 @@ final class ViewController: UIViewController {
     private var fiveDaysForcastData: FiveDaysForecast?
     private var location = (longitude: CLLocationDegrees() , latitude: CLLocationDegrees())
     
-    lazy var address: String = {
+    private lazy var address: String = {
         let location = CLLocation(latitude: self.location.latitude, longitude: self.location.longitude)
         let geoCoder = CLGeocoder()
         let locale = Locale(identifier: "Ko-kr")
@@ -57,6 +57,7 @@ extension ViewController: CLLocationManagerDelegate {
             self.requestFiveDaysForcastData()
         }
         
+        groupOne.enter()
         DispatchQueue.global().async(group: groupOne) {
             guard let longitude = manager.location?.coordinate.longitude,
                   let latitude = manager.location?.coordinate.latitude else {
@@ -64,6 +65,7 @@ extension ViewController: CLLocationManagerDelegate {
             }
             self.location.longitude = longitude
             self.location.latitude = latitude
+            groupOne.leave()
         }
         
         groupOne.notify(queue: DispatchQueue.global(), work: item)
