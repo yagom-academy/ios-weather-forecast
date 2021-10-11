@@ -13,6 +13,13 @@ final class ViewController: UIViewController {
     private var location = (longitude: CLLocationDegrees() , latitude: CLLocationDegrees())
     private var fiveDaysForcastData: FiveDaysForecast?
     
+    private lazy var tableView : UITableView = {
+       let tableView = UITableView()
+        self.view.addSubview(tableView)
+        tableView.bounds = self.view.frame
+        return tableView
+    }()
+    
     private lazy var session: URLSession = {
         let customConfiguration: URLSessionConfiguration = {
             let configuration = URLSessionConfiguration.default
