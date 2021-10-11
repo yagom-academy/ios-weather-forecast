@@ -31,6 +31,7 @@
 		C91EF6AD270311600013E3D6 /* APIable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6AC270311600013E3D6 /* APIable.swift */; };
 		C91EF6B127035D330013E3D6 /* WeatherAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6B027035D330013E3D6 /* WeatherAPI.swift */; };
 		C91EF6B62706E5250013E3D6 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF6B52706E5250013E3D6 /* ParsingManager.swift */; };
+		C96F2EDA27144F1E00004338 /* MainWeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96F2ED927144F1E00004338 /* MainWeatherTableViewCell.swift */; };
 		C9D4DB91270C460300EAF3A5 /* AddressManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D4DB90270C460300EAF3A5 /* AddressManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,7 @@
 		C91EF6B027035D330013E3D6 /* WeatherAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPI.swift; sourceTree = "<group>"; };
 		C91EF6B22706D9700013E3D6 /* Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secret.xcconfig; sourceTree = "<group>"; };
 		C91EF6B52706E5250013E3D6 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
+		C96F2ED927144F1E00004338 /* MainWeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWeatherTableViewCell.swift; sourceTree = "<group>"; };
 		C9D4DB90270C460300EAF3A5 /* AddressManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,6 +155,7 @@
 		C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */ = {
 			isa = PBXGroup;
 			children = (
+				C96F2ED827144EF500004338 /* View */,
 				C9D4DB8D270C28BE00EAF3A5 /* Controller */,
 				C91EF6982702DB640013E3D6 /* Model */,
 				C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */,
@@ -211,6 +214,14 @@
 				C9D4DB90270C460300EAF3A5 /* AddressManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		C96F2ED827144EF500004338 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C96F2ED927144F1E00004338 /* MainWeatherTableViewCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		C9D4DB8D270C28BE00EAF3A5 /* Controller */ = {
@@ -351,6 +362,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C96F2EDA27144F1E00004338 /* MainWeatherTableViewCell.swift in Sources */,
 				3F756ADA2706FB340091A124 /* NetworkManager.swift in Sources */,
 				C91EF69C2702E0290013E3D6 /* MainWeatherInformation.swift in Sources */,
 				C91EF6A62702FC290013E3D6 /* FiveDayWeatherForecast.swift in Sources */,

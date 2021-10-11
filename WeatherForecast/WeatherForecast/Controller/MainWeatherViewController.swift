@@ -130,6 +130,7 @@ extension MainWeatherViewController {
 extension MainWeatherViewController {
     private func setUpTableView() {
         view.addSubview(tableView)
+        tableView.register(MainWeatherTableViewCell.self, forCellReuseIdentifier: MainWeatherTableViewCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         let safeArea = view.safeAreaLayoutGuide
