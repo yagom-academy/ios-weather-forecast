@@ -10,38 +10,26 @@ import XCTest
 
 class DecodingTests: XCTestCase {
     
-    var currentSut: CurrentWeatherData!
-    var fivedaySut: FiveDayWeatherData!
-
-    override func setUpWithError() throws {
-        super.setUp()
-        let currentData = try getData(fromJSON: "MockCurrentData")
-        self.currentSut = try JSONDecoder().decode(CurrentWeatherData.self, from: currentData)
-        let fivedayData = try getData(fromJSON: "MockFiveDayData")
-        self.fivedaySut = try JSONDecoder().decode(FiveDayWeatherData.self, from: fivedayData)
-    }
-
-    override func tearDownWithError() throws {
-        currentSut = nil
-        fivedaySut = nil
-        super.tearDown()
-    }
-    
     // MARK: - CurrentWeatherData 모델 디코딩 테스트
     func test_SuccessCase_CurrentData타입은_decoding된다() {
         // give
-        let comparedProperty = "01d"
+        let decoder = JSONDecoder(keyDecodingStrategy: .convertFromSnakeCase)
+        let data = try? getData(fromJSON: "MockCurrentWeatherData")
+        let decoded = try! decoder.decode(CurrentWeatherData.self, from: data!)
         // when
-        let decodedProperty = currentSut.conditions?.first?.iconName
+        let comparedProperty = "01d"
+        let decodedProperty = decoded.conditions?.first?.iconName
         // then
         XCTAssertEqual(comparedProperty, decodedProperty)
     }
     
     func test_FailureCase_CurrentData타입은_snakecaseKey가_nil데이터로할당된다() {
         // give
-
+        let decoder = JSONDecoder(keyDecodingStrategy: .convertFromSnakeCase)
+        let data = try? getData(fromJSON: "MockCurrentWeatherData")
+        let decoded = try! decoder.decode(CurrentWeatherData.self, from: data!)
         // when
-        let decodedProperty = currentSut.mainInformation?.maximumTemperature
+        let decodedProperty = decoded.mainInformation?.maximumTemperature
         // then
         XCTAssertNil(decodedProperty)
     }
@@ -49,18 +37,23 @@ class DecodingTests: XCTestCase {
     // MARK: - FiveDayWeatherData 모델 디코딩 테스트
     func test_SuccessCase_FiveDayDaya타입은_decoding된다() {
         // give
-        let comparedProperty: TimeInterval = 1633057200
+        let decoder = JSONDecoder(keyDecodingStrategy: .convertFromSnakeCase)
+        let data = try? getData(fromJSON: "MockFiveDayWeatherData")
+        let decoded = try! decoder.decode(FiveDayWeatherData.self, from: data!)
         // when
-        let decodedProperty = fivedaySut.intervalWeathers?.first?.date
+        let comparedProperty: TimeInterval = 1633057200
+        let decodedProperty = decoded.intervalWeathers?.first?.date
         // then
         XCTAssertEqual(comparedProperty, decodedProperty)
     }
     
     func test_FailureCase_FiveDayDaya타입은_snakecaseKey가_nil데이터로할당된다() {
         // give
-
+        let decoder = JSONDecoder(keyDecodingStrategy: .convertFromSnakeCase)
+        let data = try? getData(fromJSON: "MockFiveDayWeatherData")
+        let decoded = try! decoder.decode(FiveDayWeatherData.self, from: data!)
         // when
-        let decodedProperty = fivedaySut.intervalWeathers?.first?.mainInformation?.maximumTemperature
+        let decodedProperty = decoded.intervalWeathers?.first?.mainInformation?.maximumTemperature
         // then
         XCTAssertNil(decodedProperty)
     }

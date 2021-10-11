@@ -1,3 +1,7 @@
 disabled_rules:
  - trailing_whitespace
  - identifier_name
+ - force_try
+exclude:
+- Pods
+- WeatherForecastTests/*/

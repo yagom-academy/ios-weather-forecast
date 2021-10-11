@@ -14,9 +14,9 @@ class WeatherDecoderTests: XCTestCase {
 
     override func setUpWithError() throws {
         super.setUp()
-        let customDecoder = WeatherJSONDecoder()
+        let decoder = JSONDecoder(keyDecodingStrategy: .convertFromSnakeCase)
         let currentData = try getData(fromJSON: "MockCurrentData")
-        self.currentSut = try customDecoder.decode(CurrentWeatherData.self, from: currentData)
+        self.currentSut = try decoder.decode(CurrentWeatherData.self, from: currentData)
     }
 
     override func tearDownWithError() throws {
