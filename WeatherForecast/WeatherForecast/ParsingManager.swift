@@ -8,17 +8,6 @@
 import Foundation
 
 struct ParsingManager {
-    enum ParsingError: Error, LocalizedError {
-        case decodingFailed
-        
-        var errorDescription: String? {
-            switch self {
-            case .decodingFailed:
-                return "decoding에 실패하였습니다!!!"
-            }
-        }
-    }
-
     private let decoder = JSONDecoder()
 
     func parse<T: Decodable>(_ data: Data, to model: T.Type) -> Result<T, ParsingError> {
