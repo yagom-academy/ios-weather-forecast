@@ -43,10 +43,25 @@ final class MainWeatherTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setUpUI()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
+    private func setUpUI() {
+        stackView.addArrangedSubview(dateLabel)
+        stackView.addArrangedSubview(temperatureLabel)
+        stackView.addArrangedSubview(weatherIconImageView)
+        contentView.addSubview(stackView)
+        stackView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+        stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+    }
+    
+    func configure(data: WeatherForOneDay) {
+        
+    }
 }

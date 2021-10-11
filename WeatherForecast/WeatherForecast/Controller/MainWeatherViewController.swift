@@ -16,6 +16,7 @@ final class MainWeatherViewController: UIViewController {
     private let prepareInformationDispatchGroup = DispatchGroup()
     private var updateWorkItem: DispatchWorkItem?
     private let tableView = UITableView()
+    private let tableViewDataSource = MainWeatherTableViewDataSource()
     
     //MARK: Lifecycle
     override func viewDidLoad() {
@@ -138,6 +139,8 @@ extension MainWeatherViewController {
         tableView.leftAnchor.constraint(equalTo: safeArea.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: safeArea.rightAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
+        
+        tableView.dataSource = tableViewDataSource
     }
     
     private func updateUserAddressLabel() {
