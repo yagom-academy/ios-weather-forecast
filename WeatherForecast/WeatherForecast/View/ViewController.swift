@@ -103,7 +103,7 @@ extension ViewController: URLSessionDataDelegate {
         guard let fiveDaysUrl = URL(string: "https://api.openweathermap.org/data/2.5/forecast") else {
             return
         }
-        let requestInfo: Parameters = ["lat": self.location.latitude , "lon": self.location.longitude, "appid": networkManager.apiKey]
+        let requestInfo: Parameters = ["lat": self.location.latitude , "lon": self.location.longitude, "appid": networkManager.openWeahterApiKey]
         
         let fiveDaysWeatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: fiveDaysUrl)
         

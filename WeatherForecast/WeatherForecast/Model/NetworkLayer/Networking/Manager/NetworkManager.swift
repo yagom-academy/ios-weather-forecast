@@ -23,20 +23,9 @@ final class NetworkManager {
     }
     
     private let router = Router<WeatherApi>()
-    var apiKey: String {
-        get {
-            guard let filePath = Bundle.main.path(forResource: "APIKey", ofType: "plist") else {
-                return APIError.filePathError.description
-            }
-            
-            let plist = NSDictionary(contentsOfFile: filePath)
-            
-            guard let value = plist?.object(forKey: "API_KEY") as? String else {
-                return APIError.plistError.description
-            }
-            
-            return value
-        }
+    private let apiKey = "9cda367698143794391817f65f81c76e"
+    var openWeahterApiKey: String {
+        return self.apiKey
     }
     
     func getCurrentWeatherData(weatherAPI: WeatherApi, _ session: URLSession) {
