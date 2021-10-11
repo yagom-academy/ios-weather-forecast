@@ -60,9 +60,31 @@ class MainWeatherHeaderView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setUpUI()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    private func setUpUI() {
+        addSubview(weatherIconImageView)
+        addSubview(stackView)
+        
+        let margin = CGFloat(10)
+        temperatureStackView.addArrangedSubview(lowestTemperatureLabel)
+        temperatureStackView.addArrangedSubview(highestTemperatureLabel)
+        stackView.addArrangedSubview(addressLabel)
+        stackView.addArrangedSubview(temperatureStackView)
+        stackView.addArrangedSubview(currentTamperatureLabel)
+        
+        weatherIconImageView.topAnchor.constraint(equalTo: topAnchor, constant: margin).isActive = true
+        weatherIconImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: margin).isActive = true
+        weatherIconImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -margin).isActive = true
+        
+        stackView.leadingAnchor.constraint(equalTo: weatherIconImageView.trailingAnchor, constant: margin).isActive = true
+        stackView.topAnchor.constraint(equalTo: topAnchor, constant: margin).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -margin).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
     }
 }
