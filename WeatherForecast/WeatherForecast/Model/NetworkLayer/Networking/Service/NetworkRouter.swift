@@ -38,17 +38,13 @@ final class Router<EndPointType: EndPoint>: NetworkRouter {
         
         switch route.httpTask {
         case .request(withUrlParameters: let urlParameter):
-            self.configureRequestUrl(&request, urlParameter)
+            do {
+                try URLManager.configure(urlRequest: &request, with: urlParameter)
+            } catch {
+                print(error)
+            }
         }
         
         return request
-    }
-    
-    private func configureRequestUrl(_ request: inout URLRequest, _ urlParameters: Parameters) {
-        do {
-            try URLManager.configure(urlRequest: &request, with: urlParameters)
-        } catch {
-            print(error)
-        }
     }
 }
