@@ -17,7 +17,6 @@ protocol URLSessionable {
 extension URLSession: URLSessionable { }
 
 struct NetworkManager {
-    private let parser = Parser()
     private let urlGenerator = URLGenerator()
     private let session: URLSessionable
     
@@ -79,7 +78,7 @@ struct NetworkManager {
         }
         
         do {
-            let model: Model = try parser.decode(data)
+            let model: Model = try Parser.decode(data)
             completionHandler(
                 .success(model)
             )
