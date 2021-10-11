@@ -10,6 +10,9 @@ import CoreLocation
 final class ViewController: UIViewController {
     private let networkManager = NetworkManager()
     private let locationManager = LocationManager()
+    private var location = (longitude: CLLocationDegrees() , latitude: CLLocationDegrees())
+    private var fiveDaysForcastData: FiveDaysForecast?
+    
     private lazy var session: URLSession = {
         let customConfiguration: URLSessionConfiguration = {
             let configuration = URLSessionConfiguration.default
@@ -21,9 +24,6 @@ final class ViewController: UIViewController {
        
         return session
     }()
-    
-    private var fiveDaysForcastData: FiveDaysForecast?
-    private var location = (longitude: CLLocationDegrees() , latitude: CLLocationDegrees())
     
     private lazy var address: String = {
         let location = CLLocation(latitude: self.location.latitude, longitude: self.location.longitude)
@@ -53,7 +53,7 @@ extension ViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let groupOne = DispatchGroup()
         
-        let item = DispatchWorkItem {
+        let fiveDaysForcastItem = DispatchWorkItem {
             self.requestFiveDaysForcastData()
         }
         
@@ -68,7 +68,7 @@ extension ViewController: CLLocationManagerDelegate {
             groupOne.leave()
         }
         
-        groupOne.notify(queue: DispatchQueue.global(), work: item)
+        groupOne.notify(queue: DispatchQueue.global(), work: fiveDaysForcastItem)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
