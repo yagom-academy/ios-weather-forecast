@@ -39,6 +39,7 @@ class WeatherTableViewCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
+        stackView.spacing = 8
         stackView.alignment = .center
         stackView.distribution = .fill
         
@@ -63,11 +64,20 @@ extension WeatherTableViewCell {
         contentView.addSubview(stackView)
         
         NSLayoutConstraint.activate([
+            weatherImageView.widthAnchor.constraint(equalToConstant: 30),
+            weatherImageView.heightAnchor.constraint(equalToConstant: 30),
+            
             dateLabel.centerYAnchor.constraint(equalTo: contentView.layoutMarginsGuide.centerYAnchor),
             dateLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: 10),
             
             stackView.centerYAnchor.constraint(equalTo: contentView.layoutMarginsGuide.centerYAnchor),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
+    }
+    
+    func configureContents(date: String, tempature: String, weatherImage: UIImage?) {
+        self.dateLabel.text = date
+        self.temperatureLabel.text = tempature
+        self.weatherImageView.image = weatherImage
     }
 }

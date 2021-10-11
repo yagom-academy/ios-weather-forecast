@@ -47,15 +47,13 @@ extension WeatherViewController: UITableViewDataSource {
         return 10
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherTableViewCell.identifier, for: indexPath) as? WeatherTableViewCell else {
             return UITableViewCell()
         }
-        
+        cell.configureContents(date: "2021/10/11",
+                               tempature: "10°",
+                               weatherImage: UIImage(systemName: "person"))
         return cell
     }
     
