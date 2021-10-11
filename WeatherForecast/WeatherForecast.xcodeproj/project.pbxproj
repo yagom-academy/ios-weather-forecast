@@ -11,6 +11,7 @@
 		740D12372705D94B000B814C /* ForecastWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740D12362705D94B000B814C /* ForecastWeather.swift */; };
 		740D12392705F305000B814C /* WeatherAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740D12382705F305000B814C /* WeatherAPI.swift */; };
 		749C2E5E2713E03600BD2EEB /* Extension + UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749C2E5D2713E03600BD2EEB /* Extension + UIAlertController.swift */; };
+		74F2009E2714579A00ECDC94 /* WeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F2009D2714579A00ECDC94 /* WeatherTableViewCell.swift */; };
 		893F9AA7270EFF86004D4125 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893F9AA6270EFF86004D4125 /* LocationManager.swift */; };
 		89970795270B1887006DE539 /* Extension + URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89970794270B1887006DE539 /* Extension + URL.swift */; };
 		89970798270B18F5006DE539 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89970797270B18F5006DE539 /* API.swift */; };
@@ -55,6 +56,7 @@
 		740D12362705D94B000B814C /* ForecastWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastWeather.swift; sourceTree = "<group>"; };
 		740D12382705F305000B814C /* WeatherAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPI.swift; sourceTree = "<group>"; };
 		749C2E5D2713E03600BD2EEB /* Extension + UIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIAlertController.swift"; sourceTree = "<group>"; };
+		74F2009D2714579A00ECDC94 /* WeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTableViewCell.swift; sourceTree = "<group>"; };
 		7CA7B9E10F212EAA477BD7F7 /* Pods-WeatherForecast-WeatherForecastUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherForecast-WeatherForecastUITests.debug.xcconfig"; path = "Target Support Files/Pods-WeatherForecast-WeatherForecastUITests/Pods-WeatherForecast-WeatherForecastUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		893F9AA6270EFF86004D4125 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		89970794270B1887006DE539 /* Extension + URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + URL.swift"; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
+				74F2009D2714579A00ECDC94 /* WeatherTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -482,6 +485,7 @@
 				740D12392705F305000B814C /* WeatherAPI.swift in Sources */,
 				740D12352705D332000B814C /* CurrentWeather.swift in Sources */,
 				89970798270B18F5006DE539 /* API.swift in Sources */,
+				74F2009E2714579A00ECDC94 /* WeatherTableViewCell.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

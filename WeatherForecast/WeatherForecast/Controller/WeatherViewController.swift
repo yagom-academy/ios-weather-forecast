@@ -12,10 +12,35 @@ class WeatherViewController: UIViewController {
     private var currentData: CurrentWeather?
     private var forecastData: ForecastWeather?
     
+    private var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(WeatherTableViewCell.self,
+                           forCellReuseIdentifier: WeatherTableViewCell.identifier)
+        return tableView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
+        tableView.dataSource = self
     }
+}
+
+extension WeatherViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        forecastData?.list.count ?? .zero
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherTableViewCell.identifier, for: indexPath) as? WeatherTableViewCell else {
+            return UITableViewCell()
+        }
+        
+        return cell
+    }
+    
 }
 
 extension WeatherViewController: LocationManagerDelegate {
@@ -42,7 +67,7 @@ extension WeatherViewController: LocationManagerDelegate {
                     let decodedData = try JSONDecoder().decode(type, from: data)
                     
                 } catch {
-
+                    
                 }
             case .failure(let error):
                 debugPrint(error)
