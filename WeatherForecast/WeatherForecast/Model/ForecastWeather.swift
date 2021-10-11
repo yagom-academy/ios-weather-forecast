@@ -9,7 +9,6 @@ import Foundation
 
 struct ForecastWeather: Decodable {
     let list: [List]
-  
 
     struct List: Decodable {
         let dataReceivingTime: TimeInterval
@@ -67,7 +66,7 @@ struct ForecastWeather: Decodable {
     struct Wind: Decodable {
         let speed: Double
         let deg: Double
-        let gust: Double
+        let gust: Double?
     }
 
     struct Rain: Decodable {
