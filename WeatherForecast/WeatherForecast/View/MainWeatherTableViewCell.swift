@@ -9,24 +9,34 @@ import UIKit
 
 final class MainWeatherTableViewCell: UITableViewCell {
     static let identifier = "MainWeatherTableViewCell"
-    private var dateLabel: UILabel = {
+    
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.alignment = .center
+        
+        return stackView
+    }()
+    private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
         return label
     }()
-    private var temperatureLabel: UILabel = {
+    private let temperatureLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+    
         return label
     }()
-    private var weatherIconImageView: UIImageView = {
+    private let weatherIconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
+        imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
         return imageView
     }()
