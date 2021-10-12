@@ -6,16 +6,33 @@
 //
 
 import UIKit
+import CoreLocation
 
 class WeatherHeaderView: UITableViewHeaderFooterView {
 
     static let identifier = "WeatherHeaderView"
-    var locationLabel = UILabel()
-    var minMaxTemperatureLabel = UILabel()
-    var currentTemperatureLabel = UILabel()
-    var weatherImage: UIImageView = {
+    lazy var locationLabel: UILabel = {
+        let locationLabel = UILabel()
+        locationLabel.translatesAutoresizingMaskIntoConstraints = false
+        return locationLabel
+    }()
+    
+    lazy var minMaxTemperatureLabel: UILabel = {
+        let minMaxTemperatureLabel = UILabel()
+        minMaxTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
+        return minMaxTemperatureLabel
+    }()
+    
+    lazy var currentTemperatureLabel: UILabel = {
+        let currentTemperatureLabel = UILabel()
+        currentTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
+        return currentTemperatureLabel
+    }()
+    
+    lazy var weatherImage: UIImageView = {
         let weatherImage = UIImageView()
-        weatherImage.frame.size.width = 50
+        weatherImage.translatesAutoresizingMaskIntoConstraints = false
+        weatherImage.frame.size.width = 70
         weatherImage.frame.size.height = weatherImage.frame.size.width
         return weatherImage
     }()
@@ -30,11 +47,6 @@ class WeatherHeaderView: UITableViewHeaderFooterView {
     }
     
     func configureContents() {
-        weatherImage.translatesAutoresizingMaskIntoConstraints = false
-        locationLabel.translatesAutoresizingMaskIntoConstraints = false
-        minMaxTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
-        currentTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
-    
         contentView.addSubview(weatherImage)
         contentView.addSubview(locationLabel)
         contentView.addSubview(minMaxTemperatureLabel)
@@ -50,7 +62,7 @@ class WeatherHeaderView: UITableViewHeaderFooterView {
                                      currentTemperatureLabel.topAnchor.constraint(equalTo: minMaxTemperatureLabel.bottomAnchor, constant: 10)])
     }
     
-    func setUpUI(currentWeather: CurrentWeather?) {
+    func setUpUI(currentWeather: CurrentWeather?, placemark: [CLPlacemark]?) {
         if let icon = currentWeather?.weather.first?.icon {
             let imageURL = String(format: "https://openweathermap.org/img/w/%@.png", icon)
             weatherImage.downloadImage(from: imageURL)
@@ -58,7 +70,11 @@ class WeatherHeaderView: UITableViewHeaderFooterView {
         guard let currentWeather = currentWeather else {
             return
         }
-        locationLabel.text = currentWeather.name
+        
+        if let placemark = placemark?.first {
+            locationLabel.text = String(placemark.administrativeArea!)
+            + String(placemark.locality!)
+        }
         minMaxTemperatureLabel.text = String(currentWeather.main.tempMin ?? 0) + String(currentWeather.main.tempMax ?? 0)
         currentTemperatureLabel.text = String(currentWeather.main.temp)
     }

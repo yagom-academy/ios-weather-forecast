@@ -10,12 +10,17 @@ import CoreLocation
 class WeatherViewController: UIViewController {
     private let networkManager = NetworkManager<WeatherRequest>()
     private let parsingManager = ParsingManager()
-    private var currentWeather: CurrentWeather?
     private var fiveDayForecast: FiveDayForecast?
     private var locationManager = CLLocationManager()
     private let tableViewDatasource = WeatherInfoTable()
     
-    private var weatherTableView: UITableView = {
+    private var currentWeather: CurrentWeather? = nil {
+        didSet {
+            self.updateTableAsync()
+        }
+    }
+    
+    private lazy var weatherTableView: UITableView = {
         let weatherTableView = UITableView()
         weatherTableView.translatesAutoresizingMaskIntoConstraints = false
         weatherTableView.register(HourlyWeatherInfo.self, forCellReuseIdentifier: HourlyWeatherInfo.identifier)
@@ -32,14 +37,20 @@ class WeatherViewController: UIViewController {
         view.addSubview(weatherTableView)
     }
     
+    private func updateTableAsync() {
+        DispatchQueue.main.async {
+            self.weatherTableView.reloadData()
+        }
+    }
+    
     private func autoLayout() {
         let safeArea = view.safeAreaLayoutGuide
-                NSLayoutConstraint.activate([
-                    weatherTableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-                    weatherTableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-                    weatherTableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-                    weatherTableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-                    ])
+        NSLayoutConstraint.activate([
+            weatherTableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            weatherTableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            weatherTableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            weatherTableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+        ])
     }
     
     override func viewDidLoad() {
@@ -50,6 +61,7 @@ class WeatherViewController: UIViewController {
         addSubView()
         autoLayout()
     }
+    var address: [CLPlacemark]? = []
 }
 
 
@@ -60,15 +72,11 @@ extension WeatherViewController: CLLocationManagerDelegate {
         let longitude = locations.coordinate.longitude
         fetchCurrentWeather(latitude: latitude, longitude: longitude)
         fetchFiveDayForecast(latitude: latitude, longitude: longitude)
-
-        let location = CLLocation(latitude: latitude, longitude: longitude)
+        
         let geoCoder = CLGeocoder()
         let locale = Locale(identifier: "Ko-kr")
-        geoCoder.reverseGeocodeLocation(location, preferredLocale: locale) { placemarks, error in
-            if let address = placemarks?.first {
-                print(address.administrativeArea)
-                print(address.locality)
-            }
+        geoCoder.reverseGeocodeLocation(locations, preferredLocale: locale) { placemarks, error in
+            self.address = placemarks
         }
     }
 }
@@ -112,9 +120,13 @@ extension WeatherViewController {
 extension WeatherViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let view = weatherTableView.dequeueReusableHeaderFooterView(withIdentifier: WeatherHeaderView.identifier) as? WeatherHeaderView else {
-             return weatherTableView
+            return weatherTableView
         }
-        view.setUpUI(currentWeather: currentWeather)
+        view.setUpUI(currentWeather: currentWeather, placemark: address)
         return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 100
     }
 }
