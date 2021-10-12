@@ -24,6 +24,7 @@ class MainViewController: UIViewController {
     }
 }
 
+// MARK: - 주소 불러오기
 extension MainViewController {
     private func showAddressInfomation(_ location: CLLocation) {
         let koreaLocale = Locale(identifier: "ko-kr")
@@ -48,6 +49,7 @@ extension MainViewController {
     }
 }
 
+// MARK: - CLLocationManagerDelegate
 extension MainViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -79,6 +81,7 @@ extension MainViewController: CLLocationManagerDelegate {
     }
 }
 
+// MARK: - 날씨 정보 불러오기
 extension MainViewController {
     
 }

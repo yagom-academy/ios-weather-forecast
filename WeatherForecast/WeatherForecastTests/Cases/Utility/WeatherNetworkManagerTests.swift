@@ -29,7 +29,7 @@ class WeatherNetworkManagerTests: XCTestCase {
         // give
         let anyURL = URL(string: "www.yagom.net")
         // when
-        successSut.fetchData(with: anyURL!) { result in
+        successSut.requestData(with: anyURL!) { result in
             // then
             switch result {
             case .success(_):
@@ -44,7 +44,7 @@ class WeatherNetworkManagerTests: XCTestCase {
         // give
         let anyURL = URL(string: "www.yagom.net")
         // when
-        failureSut.fetchData(with: anyURL!) { result in
+        failureSut.requestData(with: anyURL!) { result in
             // then
             switch result {
             case .success(_):
