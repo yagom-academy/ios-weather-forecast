@@ -6,65 +6,62 @@
 //
 
 import Foundation
-struct FiveDaysForecast: Decodable {
-    var lists: [FiveDaysForcastList]
-}
+import UIKit.UIImage
+import CoreLocation.CLLocation
 
-struct FiveDaysForcastList: Decodable {
-    var date: Int
-    var main: Temperature
-    var weather: [WeatherDetail]
+struct FiveDaysForecastData: Decodable {
+    let lists: [ForcastInfomation]
     
-    enum CodingKeys: String, CodingKey {
-        case date = "dt"
-        case main, weather
-    }
-    
-    struct Temperature: Decodable {
-        var temperature: Double
+    struct ForcastInfomation: Decodable {
+        let date: Int
+        let main: Temperature
+        let weather: [WeatherDetail]
         
         enum CodingKeys: String, CodingKey {
-            case temperature = "temp"
+            case date = "dt"
+            case main, weather
+        }
+        
+        struct Temperature: Decodable {
+            let temperature: Double
+            
+            enum CodingKeys: String, CodingKey {
+                case temperature = "temp"
+            }
+        }
+        
+        struct WeatherDetail: Decodable {
+            let icon: String
         }
     }
-    
-    struct WeatherDetail: Decodable {
-        var icon: String
-    }
 }
+
+
 
 // MARK: - Model for tableView
-struct FiveDaysForecastViewModel {
-    let lists: [FiveDaysForcastList]
-    
-    func numberOfRowsInSection(_ sections: Int) -> Int {
-        return self.lists.count
-    }
-    
-    func list(at index: Int) -> FiveDaysForcastListViewModel {
-        let weatherInfo = self.lists[index]
-        return FiveDaysForcastListViewModel(weatherInfo)
-    }
-}
 
-// MARK: - Model for tableView's Cell
-struct FiveDaysForcastListViewModel {
-    private let weatherDetail: FiveDaysForcastList
+class ForcastViewModel {
+    private let dateFormatter: DateFormatter = {
+       let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE, MMM, d"
+        return dateFormatter
+    }()
     
-    init(_ weatherDetail: FiveDaysForcastList) {
-        self.weatherDetail = weatherDetail
+    private let tempFormatter: NumberFormatter = {
+       let tempFormatter = NumberFormatter()
+        tempFormatter.numberStyle = .none
+        return tempFormatter
+    }()
+    
+    func fetchWeatherData(location: (latitude: CLLocationDegrees, longitude: CLLocationDegrees), path: String) {
+        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/\(path)") else {
+            return
+        }
+        let requestInfo: Parameters = ["lat": location.latitude , "lon": location.longitude, "appid": NetworkManager().openWeahterApiKey]
+        
+        let weatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: url)
+        
+        NetworkManager().fetchWeatherData(weatherAPI: weatherApi, URLSession.shared)
     }
     
-    var date: Int {
-        return self.weatherDetail.date
-    }
-    
-    var temperature: Double {
-        return self.weatherDetail.main.temperature
-    }
-    
-    var icon: String {
-        return self.weatherDetail.weather.first?.icon ?? "iconPlaceHolder"
-    }
 }
-

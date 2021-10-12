@@ -18,6 +18,7 @@ enum NetworkError: LocalizedError {
     
     var description: String {
         switch self {
+
         case .encodingFailed:
             return "Parameter encoding fail."
         case .urlMissing:

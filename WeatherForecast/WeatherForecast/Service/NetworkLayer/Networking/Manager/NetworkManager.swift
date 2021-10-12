@@ -14,7 +14,7 @@ final class NetworkManager {
         return self.apiKey
     }
     
-    func getCurrentWeatherData(weatherAPI: WeatherApi, _ session: URLSession) {
-        router.request(weatherAPI, session)
-    }
+//    func fetchWeatherData(weatherAPI: WeatherApi, _ session: URLSession) {
+//        router.request(weatherAPI, session)
+//    }
 }

@@ -11,25 +11,13 @@ final class ViewController: UIViewController {
     private let networkManager = NetworkManager()
     private let locationManager = LocationManager()
     private var location = (longitude: CLLocationDegrees() , latitude: CLLocationDegrees())
-    private var fiveDaysForcastData: FiveDaysForecast?
+    private var fiveDaysForcastData: FiveDaysForecastData?
     
     private lazy var tableView : UITableView = {
        let tableView = UITableView()
         self.view.addSubview(tableView)
         tableView.bounds = self.view.frame
         return tableView
-    }()
-    
-    private lazy var session: URLSession = {
-        let customConfiguration: URLSessionConfiguration = {
-            let configuration = URLSessionConfiguration.default
-            configuration.requestCachePolicy = .returnCacheDataElseLoad
-            return configuration
-        }()
-        
-        let session = URLSession(configuration: customConfiguration, delegate: self, delegateQueue: nil)
-       
-        return session
     }()
     
     private lazy var address: String = {
@@ -107,14 +95,7 @@ extension ViewController: CLLocationManagerDelegate {
 
 extension ViewController: URLSessionDataDelegate {
     private func requestFiveDaysForcastData() {
-        guard let fiveDaysUrl = URL(string: "https://api.openweathermap.org/data/2.5/forecast") else {
-            return
-        }
-        let requestInfo: Parameters = ["lat": self.location.latitude , "lon": self.location.longitude, "appid": networkManager.openWeahterApiKey]
         
-        let fiveDaysWeatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: fiveDaysUrl)
-        
-        networkManager.getCurrentWeatherData(weatherAPI: fiveDaysWeatherApi, self.session)
     }
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
@@ -127,37 +108,12 @@ extension ViewController: URLSessionDataDelegate {
         let requestData = proposedResponse.data
         
         do  {
-            let decodedData = try Parser().decode(requestData, to: FiveDaysForecast.self)
+            let decodedData = try Parser().decode(requestData, to: FiveDaysForecastData.self)
             self.fiveDaysForcastData = decodedData
         } catch {
             showAlert(title: "🤔", message: "개발자에게 문의해 주세요")
         }
         
         completionHandler(proposedResponse)
-    }
-    
-    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
-        guard let response = response as? HTTPURLResponse else {
-            return
-        }
-        
-        switch response.statusCode {
-        case 200..<300:
-            completionHandler(.allow)
-        case 400:
-            print("잘못된 요청입니다.")
-            completionHandler(.cancel)
-        case 401:
-            print("인증이 잘못되었습니다.")
-            completionHandler(.cancel)
-        case 403:
-            print("해당 정보에 접근할 수 없습니다. ")
-            completionHandler(.cancel)
-        case 500...:
-            print("서버에러")
-            completionHandler(.cancel)
-        default:
-            completionHandler(.cancel)
-        }
     }
 }
