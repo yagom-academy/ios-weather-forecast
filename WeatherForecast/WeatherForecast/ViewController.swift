@@ -15,11 +15,15 @@ class ViewController: UIViewController {
     
     private var collecionView = UICollectionView()
     private let fiveDayWeatherCellIdentifier = "fiveDay"
+    private var dataSource: UICollectionViewDiffableDataSource<Section, FiveDayWeather.List>?
+    private var snapshot: NSDiffableDataSourceSnapshot<Section, FiveDayWeather.List>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         initData()
-        // Do any additional setup after loading the view.
+        makeDataSource()
+        makeSnapshot()
     }
 
     private func initData() {
@@ -83,12 +87,20 @@ class ViewController: UIViewController {
         }
     }
     
-    private func makeDataSource() -> UICollectionViewDiffableDataSource<Section, FiveDayWeather.List> {
+    private func makeDataSource() {
         let dataSource = UICollectionViewDiffableDataSource<Section, FiveDayWeather.List>(collectionView: collecionView) { collectionView, indexPath, itemIdentifier in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.fiveDayWeatherCellIdentifier, for: indexPath)
             return cell
         }
-        return dataSource
+        self.dataSource = dataSource
     }
 
+    private func makeSnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, FiveDayWeather.List>()
+        snapshot.appendSections([.fiveDayWeather])
+        guard let data = fiveDayWeather?.list else { return }
+        snapshot.appendItems(data, toSection: .fiveDayWeather)
+        self.snapshot = snapshot
+        dataSource?.apply(snapshot)
+    }
 }
