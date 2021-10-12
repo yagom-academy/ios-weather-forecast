@@ -8,8 +8,8 @@ import UIKit
 import CoreLocation
 
 class MainViewController: UIViewController {
-    let locationManager = CLLocationManager(desiredAccuracy: kCLLocationAccuracyThreeKilometers)
-    var currentLocation: CLLocation? {
+    private let locationManager = CLLocationManager(desiredAccuracy: kCLLocationAccuracyThreeKilometers)
+    private var currentLocation: CLLocation? {
         willSet {
             guard let newLocation = newValue else {
                 return
@@ -25,7 +25,7 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController {
-    func showAddressInfomation(_ location: CLLocation) {
+    private func showAddressInfomation(_ location: CLLocation) {
         let koreaLocale = Locale(identifier: "ko-kr")
         CLGeocoder().reverseGeocodeLocation(location, preferredLocale: koreaLocale) { placemarks, error in
             guard error == nil else {
@@ -67,7 +67,6 @@ extension MainViewController: CLLocationManagerDelegate {
         
         print(locations.count)
         guard currentLocation == nil else {
-            print(currentLocation?.coordinate)
             return
         }
         print("\(#function) - didUpdateLocation")
