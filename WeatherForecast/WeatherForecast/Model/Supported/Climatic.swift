@@ -9,12 +9,9 @@ import Foundation
 
 struct Wind: Codable {
     let speed: Double?
-    let gust: Double?
-    let degree: Int?
     
     enum CodingKeys: String, CodingKey {
-        case speed, gust
-        case degree = "deg"
+        case speed
     }
 }
 
