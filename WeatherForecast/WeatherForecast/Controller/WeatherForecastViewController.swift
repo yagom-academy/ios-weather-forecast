@@ -8,6 +8,9 @@ import UIKit
 
 class WeatherForecastViewController: UIViewController {
 
+    private let tableView = UITableView()
+    private let dataSource = WeatherForecastViewDataSource()
+
     private var locationManager = LocationManager()
     private var networkManager = NetworkManager()
     private var currentData: CurrentWeather?
@@ -16,8 +19,22 @@ class WeatherForecastViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
+
         // Do any additional setup after loading the view.
     }
+
+    func setTableView() {
+            view.addSubview(tableView)
+            tableView.dataSource = dataSource
+            tableView.register(WeatherForecastViewCell.self, forCellReuseIdentifier: WeatherForecastViewCell.identifier)
+
+            let safeArea = view.safeAreaLayoutGuide
+            tableView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+                                         tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+                                         tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+                                         tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)])
+        }
 }
 
 extension WeatherForecastViewController: LocationManagerDelegate {
