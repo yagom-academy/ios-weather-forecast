@@ -38,7 +38,6 @@ final class MainWeatherTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
         
         return imageView
     }()
@@ -63,6 +62,9 @@ final class MainWeatherTableViewCell: UITableViewCell {
         stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: margin).isActive = true
         stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -margin).isActive = true
         stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin).isActive = true
+        
+        weatherIconImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.1).isActive = true
+        weatherIconImageView.heightAnchor.constraint(equalTo: weatherIconImageView.widthAnchor).isActive = true
     }
     
     func configure(data: WeatherForOneDay) {

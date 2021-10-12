@@ -79,12 +79,13 @@ class MainWeatherHeaderView: UIView {
         stackView.addArrangedSubview(temperatureStackView)
         stackView.addArrangedSubview(currentTamperatureLabel)
         
-        weatherIconImageView.topAnchor.constraint(equalTo: topAnchor, constant: margin).isActive = true
         weatherIconImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: margin).isActive = true
-        weatherIconImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -margin).isActive = true
+        weatherIconImageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.2).isActive = true
+        weatherIconImageView.heightAnchor.constraint(equalTo: weatherIconImageView.widthAnchor).isActive = true
+        weatherIconImageView.centerYAnchor.constraint(equalTo: stackView.centerYAnchor).isActive = true
         
         stackView.leadingAnchor.constraint(equalTo: weatherIconImageView.trailingAnchor, constant: margin).isActive = true
-        
+
         stackView.topAnchor.constraint(equalTo: topAnchor, constant: margin).isActive = true
         stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -margin).isActive = true
         stackView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
