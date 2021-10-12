@@ -8,6 +8,14 @@ import UIKit
 import CoreLocation
 class WeatherViewController: UIViewController {
     
+    enum NameSpace {
+        enum TableView {
+            static let rowheight: CGFloat = 50
+            static let heightHeaderView: CGFloat = 120
+            static let backGroundImage = "background"
+        }
+    }
+    
     private var locationManager = LocationManager()
     private var currentData: CurrentWeather?
     private var forecastData: ForecastWeather?
@@ -17,6 +25,9 @@ class WeatherViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(WeatherTableViewCell.self,
                            forCellReuseIdentifier: WeatherTableViewCell.identifier)
+        tableView.rowHeight = NameSpace.TableView.rowheight
+        tableView.backgroundView = UIImageView(image: UIImage(named: NameSpace.TableView.backGroundImage))
+        
         return tableView
     }()
     
@@ -25,6 +36,7 @@ class WeatherViewController: UIViewController {
         locationManager.delegate = self
         configureTableView()
         weatherTableView.dataSource = self
+        weatherTableView.delegate = self
     }
 }
 
@@ -41,6 +53,7 @@ extension WeatherViewController {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension WeatherViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -57,6 +70,27 @@ extension WeatherViewController: UITableViewDataSource {
         return cell
     }
     
+}
+
+// MARK: - UITableViewDelegate
+extension WeatherViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return NameSpace.TableView.heightHeaderView
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return WeatherHeaderView()
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let headerView = view as? WeatherHeaderView else { return }
+        
+        headerView.configureContents(address: "서울특별시 용산구",
+                                     minTempature: "1°",
+                                     maxTempature: "10°",
+                                     currentTempature: "11.0°",
+                                     weatherImage: UIImage(systemName: "person"))
+    }
 }
 
 extension WeatherViewController: LocationManagerDelegate {

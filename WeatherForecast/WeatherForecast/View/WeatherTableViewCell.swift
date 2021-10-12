@@ -15,7 +15,7 @@ class WeatherTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        
+        label.textColor = .white
         return label
     }()
     
@@ -24,7 +24,7 @@ class WeatherTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        
+        label.textColor = .white
         return label
     }()
     
@@ -49,6 +49,7 @@ class WeatherTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureContentsLayout()
+        backgroundColor = .clear
     }
     
     required init?(coder: NSCoder) {
@@ -69,7 +70,7 @@ extension WeatherTableViewCell {
             
             dateLabel.centerYAnchor.constraint(equalTo: contentView.layoutMarginsGuide.centerYAnchor),
             dateLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: 10),
-            
+           
             stackView.centerYAnchor.constraint(equalTo: contentView.layoutMarginsGuide.centerYAnchor),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
