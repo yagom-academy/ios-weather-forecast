@@ -8,21 +8,43 @@
 import Foundation
 import CoreLocation
 
-class LocationManager: NSObject, CLLocationManagerDelegate {
+class LocationManager: NSObject {
     private let locationManager = CLLocationManager()
-    private var completion: ((CLLocation) -> Void)?
+    private var locationCompletion: ((CLLocation) -> Void)?
+    private var currentLocation: CLLocation?
     
     func getUserLocation(completion: @escaping ((CLLocation) -> Void)) {
-        self.completion = completion
+        self.locationCompletion = completion
         locationManager.delegate = self
-        locationManager.startUpdatingLocation()()
+        locationManager.startUpdatingLocation()
     }
     
+    func getUserAddress(completion: @escaping (Result<CLPlacemark, LocationError>) -> Void) {
+        let locale = Locale(identifier: "ko-kr")
+        guard let currentLocation = currentLocation else { return }
+        CLGeocoder().reverseGeocodeLocation(currentLocation,
+                                            preferredLocale: locale) { placemarks, error in
+            if let error = error {
+                completion(.failure(.unknown(description: error.localizedDescription)))
+                return
+            }
+            
+            guard let placemarks = placemarks?.last else {
+                completion(.failure(.invalidPlacemarks))
+                return
+            }
+            
+            completion(.success(placemarks))
+        }
+    }
+}
+
+extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.first else { return }
-        currentCoodinate = location
-        completion?(location)
+        guard let location = locations.last else { return }
+        currentLocation = location
+        locationCompletion?(location)
         manager.stopUpdatingLocation()
     }
     
