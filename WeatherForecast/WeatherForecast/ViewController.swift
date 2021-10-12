@@ -13,6 +13,9 @@ class ViewController: UIViewController {
     private var currentWeather: CurrentWeather?
     private var fiveDayWeather: FiveDayWeather?
     
+    private var collecionView = UICollectionView()
+    private let fiveDayWeatherCellIdentifier = "fiveDay"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initData()
@@ -78,6 +81,14 @@ class ViewController: UIViewController {
                 assertionFailure(parsingError.localizedDescription)
             }
         }
+    }
+    
+    private func makeDataSource() -> UICollectionViewDiffableDataSource<Section, FiveDayWeather.List> {
+        let dataSource = UICollectionViewDiffableDataSource<Section, FiveDayWeather.List>(collectionView: collecionView) { collectionView, indexPath, itemIdentifier in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.fiveDayWeatherCellIdentifier, for: indexPath)
+            return cell
+        }
+        return dataSource
     }
 
 }

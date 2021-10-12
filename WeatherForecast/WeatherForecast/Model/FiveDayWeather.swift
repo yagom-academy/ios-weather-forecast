@@ -8,19 +8,10 @@
 import Foundation
 
 struct FiveDayWeather: Decodable {
-    let HTTPStatusCode: String
-    let message: Double
-    let timestampCount: Int
     let list: [List]
     let city: City
     
-    enum CodingKeys: String, CodingKey {
-        case message, list, city
-        case HTTPStatusCode = "cod"
-        case timestampCount = "cnt"
-    }
-    
-    struct List: Decodable {
+    struct List: Hashable, Decodable {
         let UnixForecastTime: Int
         let main: Main
         let weather: [Weather]
@@ -35,6 +26,15 @@ struct FiveDayWeather: Decodable {
             case UnixForecastTime = "dt"
             case ISOForecastTime = "dt_txt"
         }
+        
+        static func == (lhs: FiveDayWeather.List, rhs: FiveDayWeather.List) -> Bool {
+            lhs.UnixForecastTime == rhs.UnixForecastTime
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(UnixForecastTime)
+        }
+        
     }
     
     struct City: Decodable {
@@ -64,4 +64,55 @@ struct FiveDayWeather: Decodable {
             case partOfDay = "pod"
         }
     }
+    
+    struct Coordinates: Decodable {
+        let longitude: Double
+        let latitude: Double
+        
+        enum CodingKeys: String, CodingKey {
+            case longitude = "lon"
+            case latitude = "lat"
+        }
+    }
+    
+    struct Clouds: Decodable {
+        let all: Int
+    }
+    
+    struct Wind: Decodable {
+        let speed: Double
+        let degree: Double
+        let gust: Double?
+        
+        enum CodingKeys: String, CodingKey {
+            case speed, gust
+            case degree = "deg"
+        }
+    }
+    
+    struct Weather: Decodable {
+        let icon: String
+    }
+    
+    struct Main: Decodable {
+        let temperature: Double
+        let minTemperature: Double
+        let maxTemperature: Double
+        let pressure: Int
+        let humidity: Int
+        let seaLevel: Int?
+        let groundLevel: Int?
+        
+        enum CodingKeys: String, CodingKey {
+            case pressure, humidity, seaLevel
+            case temperature = "temp"
+            case minTemperature = "temp_min"
+            case maxTemperature = "temp_max"
+            case groundLevel = "grnd_level"
+        }
+    }
+    
+    
 }
+
+
