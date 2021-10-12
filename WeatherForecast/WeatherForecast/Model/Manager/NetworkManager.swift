@@ -6,11 +6,14 @@
 //
 
 import Foundation
+import UIKit.UIImage
 
 enum NetworkError: Error, LocalizedError {
     case invaildURL
     case failedResponse
     case notAvailableData
+    case failedToCreateURL
+    case failedToConvertImage
     
     var errorDescription: String {
         switch self {
@@ -20,6 +23,10 @@ enum NetworkError: Error, LocalizedError {
             return "통신에 실패하였습니다."
         case .notAvailableData:
             return "데이터를 얻지 못했습니다."
+        case .failedToCreateURL:
+            return "URL 생성에 실패하였습니다."
+        case .failedToConvertImage:
+            return "이미지 변환에 실패하였습니다."
         }
     }
 }
@@ -47,6 +54,38 @@ struct NetworkManager {
                 return completionHandler(.failure(NetworkError.notAvailableData))
             }
             completionHandler(.success(data))
+        }.resume()
+    }
+    
+    static func imageRequest(using id: String,
+                             completionHandler: @escaping (Result<UIImage, Error>) -> Void) {
+        let configuration = URLSessionConfiguration.default
+        configuration.requestCachePolicy = .returnCacheDataElseLoad
+        URLCache.shared.memoryCapacity = 1024 * 1024 * 64
+        
+        let urlSession = URLSession(configuration: configuration)
+        
+        let urlValue = "https://openweathermap.org/img/w/\(id).png"
+        let url = URL(string: urlValue)
+        
+        guard let imageUrl = url else {
+            return completionHandler(.failure(NetworkError.failedToCreateURL))
+        }
+        
+        urlSession.dataTask(with: imageUrl) { (data, response, error) in
+            if let error = error {
+                return completionHandler(.failure(error))
+            }
+            guard let response = response as? HTTPURLResponse, successCode ~= response.statusCode else {
+                return completionHandler(.failure(NetworkError.failedResponse))
+            }
+            guard let data = data else {
+                return completionHandler(.failure(NetworkError.notAvailableData))
+            }
+            guard let image = UIImage(data: data) else {
+                return completionHandler(.failure(NetworkError.failedToConvertImage))
+            }
+            completionHandler(.success(image))
         }.resume()
     }
     
