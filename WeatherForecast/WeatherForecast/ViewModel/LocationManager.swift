@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import CoreLocation
+import CoreLocation.CLLocationManager
 
 class LocationManager: CLLocationManager {
     func askUserLocation() {
