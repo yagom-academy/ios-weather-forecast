@@ -37,6 +37,7 @@ final class MainWeatherTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
         
         return imageView
     }()
@@ -55,13 +56,28 @@ final class MainWeatherTableViewCell: UITableViewCell {
         stackView.addArrangedSubview(temperatureLabel)
         stackView.addArrangedSubview(weatherIconImageView)
         contentView.addSubview(stackView)
-        stackView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-        stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        
+        let margin = CGFloat(8)
+        stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: margin).isActive = true
+        stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: margin).isActive = true
+        stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -margin).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin).isActive = true
     }
     
     func configure(data: WeatherForOneDay) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        if let forecastedDate = data.timeOfDataForecasted, let date = dateFormatter.date(from: forecastedDate) {
+            dateFormatter.locale = .current
+            dateFormatter.setLocalizedDateFormatFromTemplate("MMMMdEHH")
+            dateLabel.text = dateFormatter.string(from: date)
+        }
+        
+        if let kelvinTemperature = data.mainWeatherInfomation?.temperature {
+            let absoluteZero = -273.15
+            temperatureLabel.text = (((kelvinTemperature + absoluteZero) * 10).rounded(.toNearestOrAwayFromZero) / 10).description
+        }
         
     }
 }
