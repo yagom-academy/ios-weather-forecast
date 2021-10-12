@@ -26,6 +26,7 @@ final class MainWeatherViewController: UIViewController {
         guard CLLocationManager.significantLocationChangeMonitoringAvailable() else { return }
         locationManager.startMonitoringSignificantLocationChanges()
         setUpTableView()
+        setUpRefreshControl()
     }
 }
 
@@ -66,6 +67,7 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
                     self?.fiveDayWeatherForecast = weatherForFiveDay
                     self?.updateTableView(to: weatherForFiveDay?.weatherForFiveDays)
                 }
+                self?.tableView.refreshControl?.endRefreshing()
             }
         })
         if let updateWorkItem = updateWorkItem {
@@ -145,6 +147,11 @@ extension MainWeatherViewController {
         tableView.tableHeaderView = headerView
     }
     
+    private func setUpRefreshControl() {
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self, action: #selector(loadNewData), for: .valueChanged)
+    }
+    
     private func updateUserAddressLabel(to newInformation: String?) {
         guard let newInformation = newInformation else {
             return
@@ -189,5 +196,13 @@ extension MainWeatherViewController {
         }
         tableViewDataSource.fiveDayWeatherList = newInformation
         tableView.reloadData()
+    }
+    
+    @objc private func loadNewData() {
+        guard let lastLocation = locationManager.location else {
+            tableView.refreshControl?.endRefreshing()
+            return
+        }
+        locationManager(locationManager, didUpdateLocations: [lastLocation])
     }
 }
