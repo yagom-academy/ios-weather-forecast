@@ -37,3 +37,29 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
         print(error)
     }
 }
+
+extension LocationManager {
+    
+    func lookUpCurrentPlacemark(completionHandler: @escaping (CLPlacemark?) -> Void) {
+        guard let lastLocation = self.manager.location else {
+            completionHandler(nil)
+            return
+        }
+        
+        let geocoder = CLGeocoder()
+        let locale = Locale(identifier: "Ko-kr")
+        
+        geocoder.reverseGeocodeLocation(lastLocation,
+                                        preferredLocale: locale) { (placemarks, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completionHandler(nil)
+                return
+            }
+            
+            if let firstLocation = placemarks?.first {
+                completionHandler(firstLocation)
+            }
+        }
+    }
+}
