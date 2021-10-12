@@ -8,10 +8,10 @@
 import CoreLocation
 
 final class WeatherViewModel {
-    var currentData = Observerble<CurrentWeather>()
-    var forecastData = Observerble<ForecastWeather>()
+    var currentData = Observable<CurrentWeather>()
+    var forecastData = Observable<ForecastWeather>()
     var currentPlacemark: CLPlacemark?
-    var isDataTaskError = Observerble<Bool>()
+    var isDataTaskError: Observable<Bool>?
     
     private var locationManager = LocationManager()
     
@@ -20,6 +20,7 @@ final class WeatherViewModel {
     }
 }
 
+// MARK: - Private Method
 extension WeatherViewModel {
     private func fetchingWeatherData<T: Decodable>(api: WeatherAPI,
                                                    type: T.Type,
@@ -28,7 +29,6 @@ extension WeatherViewModel {
             return
         }
         
-        let networkManager = NetworkManager()
         let queryItems = [CoordinatesQuery.lat: String(coordinate.latitude),
                           CoordinatesQuery.lon: String(coordinate.longitude),
                           CoordinatesQuery.appid: "e6f23abdc0e7e9080761a3cfbbdafc90",
@@ -36,6 +36,8 @@ extension WeatherViewModel {
         ]
         
         guard let url = URL.createURL(API: api, queryItems: queryItems) else { return }
+        
+        let networkManager = NetworkManager()
         networkManager.dataTask(url: url) { result in
             switch result {
             case .success(let data):
@@ -52,40 +54,73 @@ extension WeatherViewModel {
     }
 }
 
+// MARK: - Method
+extension WeatherViewModel {
+    enum Tempature {
+        case min
+        case max
+        case current
+    }
+    
+    func getAddress() -> String {
+        guard let country = currentPlacemark?.name,
+              let locality = currentPlacemark?.locality else {
+            return ""
+        }
+        return locality + " " + country
+    }
+    
+    func getTempature(kind: Tempature) -> String? {
+        guard let data = currentData.value else {
+            return nil
+        }
+        
+        switch kind {
+        case .min:
+            return data.main.tempMinText.appending("°")
+        case .max:
+            return data.main.tempMaxText.appending("°")
+        case .current:
+            return data.main.tempText.appending("°")
+        }
+    }
+    
+}
+
+// MARK: - LocationManagerDelegate
 extension WeatherViewModel: LocationManagerDelegate {
     func didUpdateLocation(_ location: CLLocation) {
+        
+        self.locationManager.getAddress { result in
+            switch result {
+            case .success(let placemark):
+                self.currentPlacemark = placemark
+            case .failure(_):
+                self.isDataTaskError?.value = true
+                return
+            }
+        }
+        
         fetchingWeatherData(api: WeatherAPI.current, type: CurrentWeather.self) { currentWeather, error in
             
             guard let currentWeather = currentWeather,
                   let icon = currentWeather.weather.first?.icon,
                   let iconURL = URL(string: WeatherAPI.icon.url + icon),
                   error == nil else {
-                self.isDataTaskError.value = true
+                self.isDataTaskError?.value = true
                 return
             }
-            
-            self.currentData.value = currentWeather
             
             NetworkManager().dataTask(url: iconURL) { result in
                 switch result {
                 case .success(let data):
                     self.currentData.value?.imageData = data
-                case .failure(let error):
-                    return
-                        self.isDataTaskError.value = true
+                case .failure(_):
+                    self.isDataTaskError?.value = true
                 }
             }
             
-            self.locationManager.getAddress { result in
-                switch result {
-                case .success(let placemark):
-                    self.currentPlacemark = placemark
-                    self.currentData.value = currentWeather
-                case .failure(let error):
-                    self.isDataTaskError.value = true
-                    return
-                }
-            }
+            self.currentData.value = currentWeather
         }
     }
 }

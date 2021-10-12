@@ -7,12 +7,12 @@
 
 import Foundation
 
-class Observerble<T> {
-   private var completion: (() -> Void)?
+class Observable<T> {
+   private var completion: ((T?) -> Void)?
     
     var value: T? {
         didSet {
-            completion?()
+            completion?(value)
         }
     }
     
@@ -20,9 +20,9 @@ class Observerble<T> {
         self.value = value
     }
     
-    func bind(_ completion: (() -> Void)?) {
+    func bind(_ completion: ((T?) -> Void)?) {
         self.completion = completion
-        completion?()
+        completion?(value)
     }
 
 }

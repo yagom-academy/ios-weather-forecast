@@ -46,6 +46,16 @@ struct CurrentWeather: Decodable {
         let tempMax: Double
         let pressure: Int
         let humidity: Int
+        
+        var tempMinText: String {
+            return String(tempMin)
+        }
+        var tempMaxText: String {
+            return String(tempMax)
+        }
+        var tempText: String {
+            return String(temp)
+        }
 
         enum CodingKeys: String, CodingKey {
             case temp, pressure, humidity

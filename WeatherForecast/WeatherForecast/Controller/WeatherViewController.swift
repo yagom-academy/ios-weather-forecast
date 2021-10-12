@@ -36,21 +36,20 @@ class WeatherViewController: UIViewController {
         self.weatherTableView.dataSource = self
         self.weatherTableView.delegate = self
         
-        weatherModel.currentData.bind({ [weak self] in
-            DispatchQueue.main.async {
-                self?.weatherHeaderView.configureContents(address: "김김김",
-                                                    minTempature: "1111111",
-                                                    maxTempature: "111111111",
-                                                    currentTempature: "111111",
-                                                    iconData: nil)
-                self?.weatherTableView.reloadData()
-            }
-        })
+        weatherModel.currentData.bind { [weak self] _ in
+            guard let self = self else { return }
+            self.bindHeaderView()
+        }
+        
+        weatherModel.isDataTaskError?.bind { [weak self] _ in
+            guard let self = self else { return }
+            self.failureFetchingWeather(error: nil)
+        }
     }
 }
 
 extension WeatherViewController {
-    func configureTableView() {
+   private func configureTableView() {
         view.addSubview(weatherTableView)
         
         NSLayoutConstraint.activate([
@@ -59,6 +58,17 @@ extension WeatherViewController {
             weatherTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             weatherTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+   private func bindHeaderView() {
+        DispatchQueue.main.async {
+            self.weatherHeaderView.configureContents(address: self.weatherModel.getAddress(),
+                                                     minTempature: self.weatherModel.getTempature(kind: .min),
+                                                     maxTempature: self.weatherModel.getTempature(kind: .max),
+                                                     currentTempature: self.weatherModel.getTempature(kind: .current),
+                                                     iconData: self.weatherModel.currentData.value?.imageData)
+            self.weatherTableView.reloadData()
+        }
     }
 }
 
@@ -73,7 +83,6 @@ extension WeatherViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherTableViewCell.identifier, for: indexPath) as? WeatherTableViewCell else {
             return UITableViewCell()
         }
-        
         
         return cell
     }
@@ -92,10 +101,10 @@ extension WeatherViewController: UITableViewDelegate {
 }
 
 extension WeatherViewController {
-    //    private func failureFetchingWeather(error: Error?) {
-    //        let alert = UIAlertController.generateErrorAlertController(message: error?.localizedDescription)
-    //        DispatchQueue.main.async {
-    //            self.present(alert, animated: true, completion: nil)
-    //        }
-    //    }
+    private func failureFetchingWeather(error: Error?) {
+        let alert = UIAlertController.generateErrorAlertController(message: error?.localizedDescription)
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
 }
