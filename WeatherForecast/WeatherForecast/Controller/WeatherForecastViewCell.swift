@@ -48,9 +48,18 @@ class WeatherForecastViewCell: UITableViewCell {
     }
 
     func configureCell(data: ForecastWeather.List) {
-        timeLabel.text = data.dataReceivingTimeText
-        temperatureLabel.text = String(data.main.temp)
-        iconImageView.image = nil
+        let date = Date(timeIntervalSince1970: data.dataReceivingTime)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd(E) HH시"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        timeLabel.text = dateFormatter.string(from: date)
+
+        temperatureLabel.text = MeasurementFormatter().convertTemp(temp: data.main.temp, from: .kelvin, to: .celsius)
+
+        if let iconID = data.weather.first?.icon {
+            let iconURL = "https://openweathermap.org/img/w/\(iconID).png"
+            iconImageView.setImageURL(iconURL)
+        }
     }
 
     override func prepareForReuse() {

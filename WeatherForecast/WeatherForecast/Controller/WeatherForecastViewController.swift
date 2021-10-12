@@ -19,13 +19,13 @@ class WeatherForecastViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
-
+        setTableView()
         // Do any additional setup after loading the view.
     }
 
     func setTableView() {
             view.addSubview(tableView)
-            tableView.dataSource = dataSource
+            tableView.dataSource = self
             tableView.register(WeatherForecastViewCell.self, forCellReuseIdentifier: WeatherForecastViewCell.identifier)
 
             let safeArea = view.safeAreaLayoutGuide
@@ -85,6 +85,9 @@ extension WeatherForecastViewController: LocationManagerDelegate {
                 } catch {
                     debugPrint(error)
                 }
+            }
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
             }
         }
     }

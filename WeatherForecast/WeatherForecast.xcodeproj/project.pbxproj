@@ -16,6 +16,9 @@
 		8997079A270B18FF006DE539 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89970799270B18FF006DE539 /* Query.swift */; };
 		89B746452715FC8A0098F129 /* WeatherForecastViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B746442715FC8A0098F129 /* WeatherForecastViewDataSource.swift */; };
 		89B746472715FCAA0098F129 /* WeatherForecastViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B746462715FCAA0098F129 /* WeatherForecastViewCell.swift */; };
+		89B74649271600990098F129 /* Extension + MeasurementFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B74648271600990098F129 /* Extension + MeasurementFormatter.swift */; };
+		89B7464B271600CE0098F129 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B7464A271600CE0098F129 /* ImageCacheManager.swift */; };
+		89B7464D271601050098F129 /* Extension + UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B7464C271601050098F129 /* Extension + UIImageView.swift */; };
 		89E250742705DD080076778E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E250732705DD080076778E /* NetworkManager.swift */; };
 		B271D495710C5FD38FBA1B73 /* Pods_WeatherForecast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19CECD4FD4CFB076B2EC840B /* Pods_WeatherForecast.framework */; };
 		C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */; };
@@ -62,6 +65,9 @@
 		89970799270B18FF006DE539 /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
 		89B746442715FC8A0098F129 /* WeatherForecastViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecastViewDataSource.swift; sourceTree = "<group>"; };
 		89B746462715FCAA0098F129 /* WeatherForecastViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecastViewCell.swift; sourceTree = "<group>"; };
+		89B74648271600990098F129 /* Extension + MeasurementFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + MeasurementFormatter.swift"; sourceTree = "<group>"; };
+		89B7464A271600CE0098F129 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
+		89B7464C271601050098F129 /* Extension + UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIImageView.swift"; sourceTree = "<group>"; };
 		89E250732705DD080076778E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		C684B083391F4F1E1D0E3294 /* Pods-WeatherForecastTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherForecastTests.debug.xcconfig"; path = "Target Support Files/Pods-WeatherForecastTests/Pods-WeatherForecastTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C79C8CF025ADDDF200EEE3F1 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,6 +163,7 @@
 				C79C8CF725ADDDF200EEE3F1 /* WeatherForecastViewController.swift */,
 				89B746442715FC8A0098F129 /* WeatherForecastViewDataSource.swift */,
 				89B746462715FCAA0098F129 /* WeatherForecastViewCell.swift */,
+				89B7464A271600CE0098F129 /* ImageCacheManager.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -173,6 +180,8 @@
 			isa = PBXGroup;
 			children = (
 				89970794270B1887006DE539 /* Extension + URL.swift */,
+				89B74648271600990098F129 /* Extension + MeasurementFormatter.swift */,
+				89B7464C271601050098F129 /* Extension + UIImageView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -476,14 +485,17 @@
 			files = (
 				8997079A270B18FF006DE539 /* Query.swift in Sources */,
 				89E250742705DD080076778E /* NetworkManager.swift in Sources */,
+				89B7464B271600CE0098F129 /* ImageCacheManager.swift in Sources */,
 				89B746472715FCAA0098F129 /* WeatherForecastViewCell.swift in Sources */,
 				740D12372705D94B000B814C /* ForecastWeather.swift in Sources */,
 				893F9AA7270EFF86004D4125 /* LocationManager.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* WeatherForecastViewController.swift in Sources */,
 				89970795270B1887006DE539 /* Extension + URL.swift in Sources */,
+				89B74649271600990098F129 /* Extension + MeasurementFormatter.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
 				89B746452715FC8A0098F129 /* WeatherForecastViewDataSource.swift in Sources */,
 				740D12392705F305000B814C /* WeatherAPI.swift in Sources */,
+				89B7464D271601050098F129 /* Extension + UIImageView.swift in Sources */,
 				740D12352705D332000B814C /* CurrentWeather.swift in Sources */,
 				89970798270B18F5006DE539 /* API.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
