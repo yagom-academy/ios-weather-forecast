@@ -8,7 +8,7 @@
 import CoreLocation
 
 protocol LocationManagerDelegate: AnyObject {
-    func didUpdateLocation(_ location: CLLocation)
+    func didUpdateLocation()
 }
 
 enum LocationManagerError: Error {
@@ -67,7 +67,7 @@ extension LocationManager: CLLocationManagerDelegate {
             return
         }
         currentLocation = location
-        delegate?.didUpdateLocation(location)
+        delegate?.didUpdateLocation()
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
