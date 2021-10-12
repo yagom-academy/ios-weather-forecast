@@ -13,6 +13,9 @@ enum WeatherConfig {
 }
 
 enum WeatherURL: UrlGeneratable {
+    case weatherCoordinates(latitude: Double, longitude: Double)
+    case forecastCoordinates(latitude: Double, longitude: Double)
+    
     var method: Method {
         return .get
     }
@@ -29,10 +32,6 @@ enum WeatherURL: UrlGeneratable {
                     "appid": WeatherConfig.appKey]
         }
     }
-    
-    case weatherCoordinates(latitude: Double, longitude: Double)
-    case forecastCoordinates(latitude: Double, longitude: Double)
-    
     private var weatherURI: String {
         switch self {
         case .weatherCoordinates:
