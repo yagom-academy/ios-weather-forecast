@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     private var currentWeather: CurrentWeather?
     private var fiveDayWeather: FiveDayWeather?
     
-    private var collecionView = UICollectionView()
+    private var collecionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     private let fiveDayWeatherCellIdentifier = "fiveDay"
     private var dataSource: UICollectionViewDiffableDataSource<Section, FiveDayWeather.List>?
     private var snapshot: NSDiffableDataSourceSnapshot<Section, FiveDayWeather.List>?
@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         initData()
         makeDataSource()
         makeSnapshot()
+        setupCollectionView()
     }
 
     private func initData() {
@@ -102,5 +103,29 @@ class ViewController: UIViewController {
         snapshot.appendItems(data, toSection: .fiveDayWeather)
         self.snapshot = snapshot
         dataSource?.apply(snapshot)
+    }
+    
+    private func setupCollectionView() {
+        collecionView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(collecionView)
+        NSLayoutConstraint.activate([
+            collecionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collecionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collecionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collecionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+        
+        
+        if #available(iOS 14.0, *) {
+            let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+            collecionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
+        } else {
+            let layout = UICollectionViewFlowLayout()
+            let contentWidth = collecionView.bounds.width
+            let cellWidth = contentWidth
+            let cellHeight:CGFloat = 70
+            layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
+            collecionView.collectionViewLayout = layout
+        }
     }
 }
