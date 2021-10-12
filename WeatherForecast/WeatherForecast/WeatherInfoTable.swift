@@ -18,6 +18,4 @@ class WeatherInfoTable: NSObject, UITableViewDataSource {
         cell.textLabel?.text = "1"
         return cell
     }
-    
-    
 }
