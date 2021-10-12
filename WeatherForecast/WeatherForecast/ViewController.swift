@@ -7,24 +7,28 @@
 import UIKit
 import CoreLocation
 
+typealias DataSource = UICollectionViewDiffableDataSource<Section, FiveDayWeather.List>
+
 class ViewController: UIViewController {
     private var networkManager = NetworkManager()
     private let locationManager = LocationManager()
     private var currentWeather: CurrentWeather?
     private var fiveDayWeather: FiveDayWeather?
     
+    
     private var collecionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-    private let fiveDayWeatherCellIdentifier = "fiveDay"
-    private var dataSource: UICollectionViewDiffableDataSource<Section, FiveDayWeather.List>?
+    
+    private var dataSource: DataSource?
     private var snapshot: NSDiffableDataSourceSnapshot<Section, FiveDayWeather.List>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .white
+        collecionView.backgroundColor = .white
         initData()
-        makeDataSource()
-        makeSnapshot()
         setupCollectionView()
+        collecionView.register(WeatherForecastCustomCell.self, forCellWithReuseIdentifier: WeatherForecastCustomCell.identifier)
     }
 
     private func initData() {
@@ -74,6 +78,7 @@ class ViewController: UIViewController {
             switch parsedData {
             case .success(let currentWeatherData):
                 self.currentWeather = currentWeatherData
+            
             case .failure(let parsingError):
                 assertionFailure(parsingError.localizedDescription)
             }
@@ -82,6 +87,8 @@ class ViewController: UIViewController {
             switch parsedData {
             case .success(let fiveDayWeatherData):
                 self.fiveDayWeather = fiveDayWeatherData
+                makeDataSource()
+                makeSnapshot()
             case .failure(let parsingError):
                 assertionFailure(parsingError.localizedDescription)
             }
@@ -89,8 +96,11 @@ class ViewController: UIViewController {
     }
     
     private func makeDataSource() {
-        let dataSource = UICollectionViewDiffableDataSource<Section, FiveDayWeather.List>(collectionView: collecionView) { collectionView, indexPath, itemIdentifier in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.fiveDayWeatherCellIdentifier, for: indexPath)
+        let dataSource = DataSource(collectionView: collecionView) { collectionView, indexPath, itemIdentifier in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WeatherForecastCustomCell.identifier, for: indexPath) as? WeatherForecastCustomCell else {
+                return UICollectionViewCell()
+            }
+
             return cell
         }
         self.dataSource = dataSource
@@ -121,11 +131,13 @@ class ViewController: UIViewController {
             collecionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
         } else {
             let layout = UICollectionViewFlowLayout()
-            let contentWidth = collecionView.bounds.width
+            let contentWidth = view.bounds.width
             let cellWidth = contentWidth
-            let cellHeight:CGFloat = 70
+            let cellHeight:CGFloat = 30
             layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
             collecionView.collectionViewLayout = layout
         }
+        
+        
     }
 }
