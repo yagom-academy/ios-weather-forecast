@@ -88,4 +88,12 @@ class MainWeatherHeaderView: UIView {
         stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -margin).isActive = true
         stackView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
     }
+    
+    func configure(addressData: String) {
+        
+    }
+    
+    func configure(weatherData: WeatherForOneDay) {
+        
+    }
 }

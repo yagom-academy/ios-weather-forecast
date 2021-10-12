@@ -16,6 +16,7 @@ final class MainWeatherViewController: UIViewController {
     private let prepareInformationDispatchGroup = DispatchGroup()
     private var updateWorkItem: DispatchWorkItem?
     private let tableView = UITableView()
+    private let headerView = MainWeatherHeaderView()
     private let tableViewDataSource = MainWeatherTableViewDataSource()
     
     //MARK: Lifecycle
@@ -141,6 +142,7 @@ extension MainWeatherViewController {
         tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
         
         tableView.dataSource = tableViewDataSource
+        tableView.tableHeaderView = headerView
     }
     
     private func updateUserAddressLabel() {
@@ -148,7 +150,17 @@ extension MainWeatherViewController {
     }
     
     private func updateHeadView() {
-        
+
+    }
+    
+    private func sizeHeaderViewHeightToFit() {
+        guard let headerView = tableView.tableHeaderView else {
+            return
+        }
+        let height = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
+        var frame = headerView.frame
+        frame.size.height = height
+        headerView.frame = frame
     }
     
     private func updateTableView(to newInformation: [WeatherForOneDay]?) {
