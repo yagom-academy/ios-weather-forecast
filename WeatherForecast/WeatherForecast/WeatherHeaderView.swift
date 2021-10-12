@@ -49,4 +49,32 @@ class WeatherHeaderView: UITableViewHeaderFooterView {
                                      currentTemperatureLabel.leadingAnchor.constraint(equalTo: locationLabel.leadingAnchor),
                                      currentTemperatureLabel.topAnchor.constraint(equalTo: minMaxTemperatureLabel.bottomAnchor, constant: 10)])
     }
+    
+    func setUpUI(currentWeather: CurrentWeather?) {
+        if let icon = currentWeather?.weather.first?.icon {
+            let imageURL = String(format: "https://openweathermap.org/img/w/%@.png", icon)
+            weatherImage.downloadImage(from: imageURL)
+        }
+        guard let currentWeather = currentWeather else {
+            return
+        }
+        locationLabel.text = currentWeather.name
+        minMaxTemperatureLabel.text = String(currentWeather.main.tempMin ?? 0) + String(currentWeather.main.tempMax ?? 0)
+        currentTemperatureLabel.text = String(currentWeather.main.temp)
+    }
+}
+
+extension UIImageView {
+    func downloadImage(from link: String) {
+        guard let url = URL(string: link) else {
+            return
+        }
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            DispatchQueue.main.async {
+                if let data = data {
+                    self.image = UIImage(data: data)
+                }
+            }
+        }.resume()
+    }
 }

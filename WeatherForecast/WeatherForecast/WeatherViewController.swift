@@ -114,9 +114,7 @@ extension WeatherViewController: UITableViewDelegate {
         guard let view = weatherTableView.dequeueReusableHeaderFooterView(withIdentifier: WeatherHeaderView.identifier) as? WeatherHeaderView else {
              return weatherTableView
         }
-        view.locationLabel.text = currentWeather?.name
-        view.minMaxTemperatureLabel.text = "최저기온 4도 최고기온 3도"
-        view.currentTemperatureLabel.text = "현재기온 십도"
+        view.setUpUI(currentWeather: currentWeather)
         return view
     }
 }

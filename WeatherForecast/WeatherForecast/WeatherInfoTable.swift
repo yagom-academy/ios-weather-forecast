@@ -14,7 +14,9 @@ class WeatherInfoTable: NSObject, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: HourlyWeatherInfo.identifier, for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: HourlyWeatherInfo.identifier, for: indexPath) as? HourlyWeatherInfo else {
+            return UITableViewCell()
+        }
         cell.textLabel?.text = "1"
         return cell
     }
