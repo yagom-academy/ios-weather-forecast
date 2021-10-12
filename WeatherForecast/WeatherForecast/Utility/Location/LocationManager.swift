@@ -10,8 +10,8 @@ import CoreLocation
 
 final class LocationManager: NSObject, CLLocationManagerDelegate {
     
-    let manager = CLLocationManager()
-    var completion: ((CLLocation) -> Void)?
+    private let manager = CLLocationManager()
+    private var completion: ((CLLocation) -> Void)?
     
     override init() {
         super.init()
@@ -20,7 +20,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
         manager.delegate = self
     }
     
-    public func getUserLocation(completion: @escaping (CLLocation) -> Void) {
+    func getUserLocation(completion: @escaping (CLLocation) -> Void) {
         self.completion = completion
         manager.startUpdatingLocation()
     }
