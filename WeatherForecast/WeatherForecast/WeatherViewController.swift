@@ -45,8 +45,7 @@ class WeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startMonitoringVisits()
+        locationManager.startMonitoringSignificantLocationChanges()
         configure()
         addSubView()
         autoLayout()
@@ -55,12 +54,13 @@ class WeatherViewController: UIViewController {
 
 
 extension WeatherViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
-        let latitude = visit.coordinate.latitude
-        let longitude = visit.coordinate.longitude
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locations = locations.last else { return }
+        let latitude = locations.coordinate.latitude
+        let longitude = locations.coordinate.longitude
         fetchCurrentWeather(latitude: latitude, longitude: longitude)
         fetchFiveDayForecast(latitude: latitude, longitude: longitude)
-        
+
         let location = CLLocation(latitude: latitude, longitude: longitude)
         let geoCoder = CLGeocoder()
         let locale = Locale(identifier: "Ko-kr")
