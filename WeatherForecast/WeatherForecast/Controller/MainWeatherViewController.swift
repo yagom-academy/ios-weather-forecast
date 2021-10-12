@@ -63,7 +63,7 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
                 }
                 if self?.fiveDayWeatherForecast != weatherForFiveDay {
                     self?.fiveDayWeatherForecast = weatherForFiveDay
-                    self?.updateTableView()
+                    self?.updateTableView(to: weatherForFiveDay?.weatherForFiveDays)
                 }
             }
         })
@@ -151,7 +151,11 @@ extension MainWeatherViewController {
         
     }
     
-    private func updateTableView() {
-        
+    private func updateTableView(to newInformation: [WeatherForOneDay]?) {
+        guard let newInformation = newInformation else {
+            return
+        }
+        tableViewDataSource.fiveDayWeatherList = newInformation
+        tableView.reloadData()
     }
 }

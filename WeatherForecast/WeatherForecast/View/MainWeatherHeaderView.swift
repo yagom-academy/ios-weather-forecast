@@ -83,6 +83,7 @@ class MainWeatherHeaderView: UIView {
         weatherIconImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -margin).isActive = true
         
         stackView.leadingAnchor.constraint(equalTo: weatherIconImageView.trailingAnchor, constant: margin).isActive = true
+        
         stackView.topAnchor.constraint(equalTo: topAnchor, constant: margin).isActive = true
         stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -margin).isActive = true
         stackView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
