@@ -71,7 +71,7 @@ enum WeatherAPI {
         return parameters
     }
     
-    func makeURL() -> URL? {
+    func makeURL() throws -> URL {
         var components = URLComponents()
         components.scheme = WeatherAPI.scheme
         components.host = WeatherAPI.host
@@ -81,6 +81,16 @@ enum WeatherAPI {
         let queryItems = queryDictionary.map({ URLQueryItem(name: $0.key, value: $0.value) })
         
         components.queryItems = queryItems
-        return components.url
+        guard let url = components.url else {
+            throw WeatherAPIError.invalidUrl
+        }
+        return url
+    }
+}
+
+extension WeatherAPI {
+    
+    enum WeatherAPIError: Error {
+        case invalidUrl
     }
 }
