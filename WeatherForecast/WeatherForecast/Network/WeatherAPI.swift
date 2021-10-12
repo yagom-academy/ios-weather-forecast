@@ -32,7 +32,8 @@ enum CoordinatesQuery: Query {
     case lat
     case lon
     case appid
-
+    case units
+    
     var description: String {
         switch self {
         case .lat:
@@ -41,6 +42,8 @@ enum CoordinatesQuery: Query {
             return "lon"
         case .appid:
             return "appid"
+        case .units:
+            return "units"
         }
     }
 }
