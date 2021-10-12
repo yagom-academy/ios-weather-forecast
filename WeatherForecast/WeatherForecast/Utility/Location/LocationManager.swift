@@ -22,7 +22,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func getUserLocation(completion: @escaping (CLLocation) -> Void) {
         self.completion = completion
-        manager.startUpdatingLocation()
+        manager.requestLocation()
     }
     
     func locationManager(_ manager: CLLocationManager,
@@ -31,7 +31,6 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
             return
         }
         completion?(location)
-        manager.stopUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
