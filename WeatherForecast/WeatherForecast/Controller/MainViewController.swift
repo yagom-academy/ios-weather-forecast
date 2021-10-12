@@ -11,9 +11,7 @@ class MainViewController: UIViewController {
     private let locationManager = CLLocationManager(desiredAccuracy: kCLLocationAccuracyThreeKilometers)
     private var currentLocation: CLLocation? {
         willSet {
-            guard let newLocation = newValue else {
-                return
-            }
+            guard let newLocation = newValue else { return }
             showAddressInfomation(newLocation)
             let currentWeatherAPI = WeatherAPI.current(.geographic(newLocation.coordinate))
             fetchWeatherData(of: currentWeatherAPI)
@@ -57,7 +55,7 @@ extension MainViewController {
 extension MainViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        print("\(#function) - didChangeAuthorization")
+        print(#function)
         switch status {
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
@@ -70,12 +68,10 @@ extension MainViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        print(locations.count)
         guard currentLocation == nil else {
             return
         }
-        print("\(#function) - didUpdateLocation")
+        print(#function)
         currentLocation = locations.last
     }
     
@@ -110,10 +106,10 @@ extension MainViewController {
             switch type {
             case .current(_):
                 let instance: CurrentWeatherData = try decoder.decode(CurrentWeatherData.self, from: data)
-                print(instance)
+                print("--> 현재날씨 데이터 : \(instance)")
             case .fiveday(_):
                 let instance: FiveDayWeatherData = try decoder.decode(FiveDayWeatherData.self, from: data)
-                print(instance)
+                print("--> 5일 데이터 : \(instance)")
             }
         } catch {
             NSLog("\(#function) - \(error.localizedDescription)")
