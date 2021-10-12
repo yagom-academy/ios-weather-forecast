@@ -10,13 +10,18 @@ import CoreLocation
 class WeatherViewController: UIViewController {
     private let networkManager = NetworkManager<WeatherRequest>()
     private let parsingManager = ParsingManager()
-    private var fiveDayForecast: FiveDayForecast?
     private var locationManager = CLLocationManager()
     private let tableViewDatasource = WeatherInfoTable()
     
     private var currentWeather: CurrentWeather? = nil {
         didSet {
-            self.updateTableAsync()
+            self.updateTable()
+        }
+    }
+    
+    private var fiveDayForecast: FiveDayForecast? = nil {
+        didSet {
+            self.updateTable()
         }
     }
     
@@ -37,7 +42,7 @@ class WeatherViewController: UIViewController {
         view.addSubview(weatherTableView)
     }
     
-    private func updateTableAsync() {
+    private func updateTable() {
         DispatchQueue.main.async {
             self.weatherTableView.reloadData()
         }

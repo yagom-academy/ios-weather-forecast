@@ -11,29 +11,28 @@ import CoreLocation
 class WeatherHeaderView: UITableViewHeaderFooterView {
 
     static let identifier = "WeatherHeaderView"
-    lazy var locationLabel: UILabel = {
+    private lazy var locationLabel: UILabel = {
         let locationLabel = UILabel()
         locationLabel.translatesAutoresizingMaskIntoConstraints = false
         return locationLabel
     }()
     
-    lazy var minMaxTemperatureLabel: UILabel = {
+    private lazy var minMaxTemperatureLabel: UILabel = {
         let minMaxTemperatureLabel = UILabel()
         minMaxTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
         return minMaxTemperatureLabel
     }()
     
-    lazy var currentTemperatureLabel: UILabel = {
+    private lazy var currentTemperatureLabel: UILabel = {
         let currentTemperatureLabel = UILabel()
         currentTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
         return currentTemperatureLabel
     }()
     
-    lazy var weatherImage: UIImageView = {
+    private lazy var weatherImage: UIImageView = {
         let weatherImage = UIImageView()
         weatherImage.translatesAutoresizingMaskIntoConstraints = false
-        weatherImage.frame.size.width = 70
-        weatherImage.frame.size.height = weatherImage.frame.size.width
+        weatherImage.contentMode = .scaleAspectFill
         return weatherImage
     }()
 
@@ -46,7 +45,7 @@ class WeatherHeaderView: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureContents() {
+    private func configureContents() {
         contentView.addSubview(weatherImage)
         contentView.addSubview(locationLabel)
         contentView.addSubview(minMaxTemperatureLabel)
