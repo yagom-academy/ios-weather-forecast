@@ -37,6 +37,25 @@ class WeatherForecastViewController: UIViewController {
         }
 }
 
+// MARK: UITableViewDataSource 구현부
+extension WeatherForecastViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return forecastData?.list.count ?? 10
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherForecastViewCell.identifier, for: indexPath) as? WeatherForecastViewCell else {
+            return UITableViewCell()
+        }
+        guard let forecastData = forecastData else {
+            return UITableViewCell()
+        }
+        cell.configureCell(data: forecastData.list[indexPath.row])
+        return cell
+    }
+}
+
+// MARK: LocationManagerDelegate 구현부
 extension WeatherForecastViewController: LocationManagerDelegate {
     func didUpdateLocation() {
         fetchingWeatherData(api: WeatherAPI.current, type: CurrentWeather.self)

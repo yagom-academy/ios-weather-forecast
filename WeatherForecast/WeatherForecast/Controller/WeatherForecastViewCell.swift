@@ -47,6 +47,12 @@ class WeatherForecastViewCell: UITableViewCell {
         ])
     }
 
+    func configureCell(data: ForecastWeather.List) {
+        timeLabel.text = data.dataReceivingTimeText
+        temperatureLabel.text = String(data.main.temp)
+        iconImageView.image = nil
+    }
+
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView?.image = .none
