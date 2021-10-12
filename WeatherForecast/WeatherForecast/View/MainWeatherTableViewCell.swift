@@ -9,6 +9,7 @@ import UIKit
 
 final class MainWeatherTableViewCell: UITableViewCell {
     static let identifier = "MainWeatherTableViewCell"
+    var iconId: String?
     
     private let stackView: UIStackView = {
         let stackView = UIStackView()
@@ -79,5 +80,17 @@ final class MainWeatherTableViewCell: UITableViewCell {
             temperatureLabel.text = (((kelvinTemperature + absoluteZero) * 10).rounded(.toNearestOrAwayFromZero) / 10).description
         }
         
+    }
+    
+    func configure(image: UIImage) {
+        if weatherIconImageView.image == nil {
+            weatherIconImageView.image = image
+        }
+    }
+    
+    func resetAllContents() {
+        weatherIconImageView.image = nil
+        dateLabel.text = nil
+        temperatureLabel.text = nil
     }
 }

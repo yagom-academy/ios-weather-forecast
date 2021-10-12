@@ -107,4 +107,8 @@ class MainWeatherHeaderView: UIView {
             currentTamperatureLabel.text = (((currentKelvinTemperature + absoluteZero) * 10).rounded(.toNearestOrAwayFromZero) / 10).description
         }
     }
+    
+    func configure(image: UIImage) {
+        weatherIconImageView.image = image
+    }
 }

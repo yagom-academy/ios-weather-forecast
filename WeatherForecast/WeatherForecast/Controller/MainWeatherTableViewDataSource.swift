@@ -28,8 +28,25 @@ extension MainWeatherTableViewDataSource: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MainWeatherTableViewCell.identifier, for: indexPath) as? MainWeatherTableViewCell else {
             return UITableViewCell()
         }
+        cell.resetAllContents()
         let weather = fiveDayWeatherList[indexPath.row]
         cell.configure(data: weather)
+        cell.iconId = weather.weatherConditionCodes?.last?.iconId
+        if let imageId = cell.iconId {
+            NetworkManager.imageRequest(using: imageId) { result in
+                guard cell.iconId == imageId else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    switch result {
+                    case .failure(_):
+                        break
+                    case .success(let image):
+                        cell.configure(image: image)
+                    }
+                }
+            }
+        }
         
         return cell
     }

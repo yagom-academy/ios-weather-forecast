@@ -157,6 +157,18 @@ extension MainWeatherViewController {
         guard let newInformation = newInformation else {
             return
         }
+        if let imageId = newInformation.weatherConditionCodes?.last?.iconId {
+            NetworkManager.imageRequest(using: imageId) { [self] result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .failure(_):
+                        break
+                    case .success(let image):
+                        headerView.configure(image: image)
+                    }
+                }
+            }
+        }
         headerView.configure(weatherData: newInformation)
         sizeHeaderViewHeightToFit()
     }
