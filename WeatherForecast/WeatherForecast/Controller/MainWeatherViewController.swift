@@ -56,11 +56,11 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
             self?.prepareWeatherInformation(with: lastLocation) { userAddress, weatherForOneDay, weatherForFiveDay in
                 if self?.userAddress != userAddress {
                     self?.userAddress = userAddress
-                    self?.updateUserAddressLabel()
+                    self?.updateUserAddressLabel(to: userAddress)
                 }
                 if self?.weatherForOneDay != weatherForOneDay {
                     self?.weatherForOneDay = weatherForOneDay
-                    self?.updateHeadView()
+                    self?.updateHeadView(to: weatherForOneDay)
                 }
                 if self?.fiveDayWeatherForecast != weatherForFiveDay {
                     self?.fiveDayWeatherForecast = weatherForFiveDay
@@ -145,12 +145,20 @@ extension MainWeatherViewController {
         tableView.tableHeaderView = headerView
     }
     
-    private func updateUserAddressLabel() {
-
+    private func updateUserAddressLabel(to newInformation: String?) {
+        guard let newInformation = newInformation else {
+            return
+        }
+        headerView.configure(addressData: newInformation)
+        sizeHeaderViewHeightToFit()
     }
     
-    private func updateHeadView() {
-
+    private func updateHeadView(to newInformation: WeatherForOneDay?) {
+        guard let newInformation = newInformation else {
+            return
+        }
+        headerView.configure(weatherData: newInformation)
+        sizeHeaderViewHeightToFit()
     }
     
     private func sizeHeaderViewHeightToFit() {
