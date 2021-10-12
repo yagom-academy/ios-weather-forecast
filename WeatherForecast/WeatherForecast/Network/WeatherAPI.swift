@@ -8,17 +8,22 @@
 import Foundation
 
 enum WeatherAPI: API {
-    static let baseURL = "https://api.openweathermap.org/data/2.5/"
-
+    static let baseURL = "https://api.openweathermap.org"
+    static let weatherPath = "/data/2.5/"
+    static let iconPath = "/img/w/"
+    
     case current
     case forecast
-
+    case icon
+    
     var url: String {
         switch self {
         case .current:
-           return Self.baseURL + "weather"
+            return Self.baseURL + Self.weatherPath + "weather"
         case .forecast:
-           return Self.baseURL + "forecast"
+            return Self.baseURL + Self.weatherPath + "forecast"
+        case .icon:
+            return Self.baseURL + Self.iconPath
         }
     }
 }

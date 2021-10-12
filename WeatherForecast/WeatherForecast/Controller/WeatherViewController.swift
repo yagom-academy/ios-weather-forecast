@@ -17,8 +17,8 @@ class WeatherViewController: UIViewController {
     }
     
     private var locationManager = LocationManager()
-    private var currentData: CurrentWeather?
-    private var forecastData: ForecastWeather?
+    private var weatherModel: WeatherModel?
+    private var weatherHeaderView = WeatherHeaderView()
     
     private var weatherTableView: UITableView = {
         let tableView = UITableView()
@@ -35,8 +35,8 @@ class WeatherViewController: UIViewController {
         super.viewDidLoad()
         locationManager.delegate = self
         configureTableView()
-        weatherTableView.dataSource = self
-        weatherTableView.delegate = self
+        self.weatherTableView.dataSource = self
+        self.weatherTableView.delegate = self
     }
 }
 
@@ -57,7 +57,7 @@ extension WeatherViewController {
 extension WeatherViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return weatherModel?.forecastData?.list.count ?? 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -79,27 +79,65 @@ extension WeatherViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return WeatherHeaderView()
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        guard let headerView = view as? WeatherHeaderView else { return }
-        
-        headerView.configureContents(address: "서울특별시 용산구",
-                                     minTempature: "1°",
-                                     maxTempature: "10°",
-                                     currentTempature: "11.0°",
-                                     weatherImage: UIImage(systemName: "person"))
+        return weatherHeaderView
     }
 }
 
 extension WeatherViewController: LocationManagerDelegate {
     func didUpdateLocation(_ location: CLLocation) {
-        fetchingWeatherData(api: WeatherAPI.current, type: CurrentWeather.self)
-        fetchingWeatherData(api: WeatherAPI.forecast, type: ForecastWeather.self)
+        fetchingWeatherData(api: WeatherAPI.current, type: CurrentWeather.self) { currentWeather, error in
+            
+            guard let currentWeather = currentWeather,
+                  let icon = currentWeather.weather.first?.icon,
+                  let iconURL = URL(string: WeatherAPI.icon.url + icon),
+                  error == nil else {
+                self.failureFetchingWeather(error: error)
+                return
+            }
+            
+            self.weatherModel?.currentData = currentWeather
+            
+            NetworkManager().dataTask(url: iconURL) { result in
+                switch result {
+                case .success(let data):
+                    self.weatherModel?.currentData?.imageData = data
+                case .failure(let error):
+                    self.failureFetchingWeather(error: error)
+                }
+            }
+            
+            self.locationManager.getAddress { result in
+                switch result {
+                case .success(let placemark):
+                    self.weatherModel?.currentPlacemark = placemark
+                    self.weatherHeaderView.configureContents(address: "김재윤",
+                                                             minTempature: "1111",
+                                                             maxTempature: "11",
+                                                             currentTempature:
+                                                                "11111",
+                                                             iconData: nil)
+                case .failure(let error):
+                    self.failureFetchingWeather(error: error)
+                }
+            }
+        }
+        
+        fetchingWeatherData(api: WeatherAPI.forecast, type: ForecastWeather.self) { forecastWeather, error in
+            
+            guard let currentWeather = forecastWeather,
+                  error == nil else {
+                let alert = UIAlertController.generateErrorAlertController(message: error?.localizedDescription)
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true, completion: nil)
+                }
+                return
+            }
+        }
     }
     
-    func fetchingWeatherData<T: Decodable>(api: WeatherAPI, type: T.Type) {
+    private func fetchingWeatherData<T: Decodable>(api: WeatherAPI,
+                                                   type: T.Type,
+                                                   completion: @escaping (T?, Error?) -> Void) {
         guard let coordinate = locationManager.getCoordinate() else {
             return
         }
@@ -115,13 +153,20 @@ extension WeatherViewController: LocationManagerDelegate {
             case .success(let data):
                 do {
                     let decodedData = try JSONDecoder().decode(type, from: data)
-                    
+                    completion(decodedData, nil)
                 } catch {
-                    
+                    completion(nil, error)
                 }
             case .failure(let error):
-                debugPrint(error)
+                completion(nil, error)
             }
+        }
+    }
+    
+    private func failureFetchingWeather(error: Error?) {
+        let alert = UIAlertController.generateErrorAlertController(message: error?.localizedDescription)
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
         }
     }
 }

@@ -50,6 +50,7 @@ class WeatherTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureContentsLayout()
         backgroundColor = .clear
+        isUserInteractionEnabled = false
     }
     
     required init?(coder: NSCoder) {
@@ -80,5 +81,11 @@ extension WeatherTableViewCell {
         self.dateLabel.text = date
         self.temperatureLabel.text = tempature
         self.weatherImageView.image = weatherImage
+    }
+    
+    override func prepareForReuse() {
+        dateLabel.text = nil
+        temperatureLabel.text = nil
+        weatherImageView.image = nil
     }
 }

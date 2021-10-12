@@ -19,7 +19,8 @@ struct CurrentWeather: Decodable {
     let dataReceivingTime: TimeInterval
     let timezone: TimeInterval
     let name: String
-
+    var imageData: Data?
+    
     enum CodingKeys: String, CodingKey {
         case weather, base, main, wind, clouds, rain, snow, timezone, name
         case coordinate = "coord"
