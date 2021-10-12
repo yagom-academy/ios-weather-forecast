@@ -14,12 +14,37 @@ class MainViewController: UIViewController {
             guard let newLocation = newValue else {
                 return
             }
+            showAddressInfomation(newLocation)
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
+    }
+}
+
+extension MainViewController {
+    func showAddressInfomation(_ location: CLLocation) {
+        let koreaLocale = Locale(identifier: "ko-kr")
+        CLGeocoder().reverseGeocodeLocation(location, preferredLocale: koreaLocale) { placemarks, error in
+            guard error == nil else {
+                NSLog("\(#function) - \(String(describing: error?.localizedDescription))")
+                return
+            }
+            guard let placeMark = placemarks?.last else {
+                NSLog("\(#function) - 지역 정보 없음")
+                return
+            }
+
+            guard let administrativeArea = placeMark.administrativeArea,
+                  let thoroughfare = placeMark.thoroughfare else {
+                NSLog("\(#function) - 주소 정보 없음")
+                return
+            }
+            
+            print("--> 주소 : \(administrativeArea) \(thoroughfare)")
+        }
     }
 }
 
@@ -53,4 +78,8 @@ extension MainViewController: CLLocationManagerDelegate {
         NSLog(error.localizedDescription)
         locationManager.requestLocation()
     }
+}
+
+extension MainViewController {
+    
 }
