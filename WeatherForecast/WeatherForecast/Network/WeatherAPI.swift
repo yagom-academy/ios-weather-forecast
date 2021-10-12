@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 enum WeatherAPI {
     
@@ -28,11 +29,11 @@ enum WeatherAPI {
     case fiveday(FiveDayData)
     
     enum CurrentData {
-        case geographic(latitude: Double, longitude: Double)
+        case geographic(_ coordinate: CLLocationCoordinate2D)
     }
     
     enum FiveDayData {
-        case geographic(latitude: Double, longitude: Double)
+        case geographic(_ coordinate: CLLocationCoordinate2D)
         case cityName(name: String)
     }
     
@@ -59,10 +60,10 @@ enum WeatherAPI {
     private var values: [String] {
         var parameters: [String]
         switch self {
-        case .current(.geographic(let latitude, let longitude)):
-            parameters = ["\(latitude)", "\(longitude)"]
-        case .fiveday(.geographic(let latitude, let longitude)):
-            parameters = ["\(latitude)", "\(longitude)"]
+        case .current(.geographic(let coordinate)):
+            parameters = ["\(coordinate.latitude)", "\(coordinate.longitude)"]
+        case .fiveday(.geographic(let coordinate)):
+            parameters = ["\(coordinate.latitude)", "\(coordinate.longitude)"]
         case .fiveday(.cityName(name: let name)):
             parameters = [name]
         }

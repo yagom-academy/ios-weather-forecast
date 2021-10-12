@@ -15,6 +15,10 @@ class MainViewController: UIViewController {
                 return
             }
             showAddressInfomation(newLocation)
+            let currentWeatherAPI = WeatherAPI.current(.geographic(newLocation.coordinate))
+            fetchWeatherData(of: currentWeatherAPI)
+            let fivedayWeatherAPI = WeatherAPI.fiveday(.geographic(newLocation.coordinate))
+            fetchWeatherData(of: fivedayWeatherAPI)
         }
     }
 
@@ -102,13 +106,17 @@ extension MainViewController {
     
     func decodeJSON(_ data: Data, of type: WeatherAPI) {
         let decoder = JSONDecoder(keyDecodingStrategy: .convertFromSnakeCase)
-        switch type {
-        case .current(_):
-            let instance = try? decoder.decode(CurrentWeatherData.self, from: data)
-            print(instance)
-        case .fiveday(_):
-            let instance = try? decoder.decode(FiveDayWeatherData.self, from: data)
-            print(instance)
+        do {
+            switch type {
+            case .current(_):
+                let instance: CurrentWeatherData = try decoder.decode(CurrentWeatherData.self, from: data)
+                print(instance)
+            case .fiveday(_):
+                let instance: FiveDayWeatherData = try decoder.decode(FiveDayWeatherData.self, from: data)
+                print(instance)
+            }
+        } catch {
+            NSLog("\(#function) - \(error.localizedDescription)")
         }
     }
 }
