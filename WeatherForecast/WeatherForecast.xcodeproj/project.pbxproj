@@ -216,16 +216,6 @@
 			path = RequestModel;
 			sourceTree = "<group>";
 		};
-		D1658EEB2713F0EA0035CDCC /* DecodeModel */ = {
-			isa = PBXGroup;
-			children = (
-				F946431F270C0D8E00F5249A /* Supported */,
-				F951470A2702F0F800A7AC28 /* TodayWeatherInfo.swift */,
-				D12A0323270307DC00F28AA3 /* WeeklyWeatherForecast.swift */,
-			);
-			path = DecodeModel;
-			sourceTree = "<group>";
-		};
 		D1658EF12713F3A40035CDCC /* Entry */ = {
 			isa = PBXGroup;
 			children = (
@@ -277,7 +267,9 @@
 		F95147092702F0C000A7AC28 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D1658EEB2713F0EA0035CDCC /* DecodeModel */,
+				F946431F270C0D8E00F5249A /* Supported */,
+				F951470A2702F0F800A7AC28 /* TodayWeatherInfo.swift */,
+				D12A0323270307DC00F28AA3 /* WeeklyWeatherForecast.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
