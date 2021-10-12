@@ -22,9 +22,8 @@ struct APIResource: RequestGeneratable {
         switch self.url.method {
         case .get:
             var components = URLComponents(string: url.absoluteString)
-            self.url.parameter?.forEach({ key, value in
-                let queryItem = URLQueryItem(name: key, value: "\(value)")
-                components?.queryItems?.append(queryItem)
+            components?.queryItems = self.url.parameter?.map({ key, value in
+                return URLQueryItem(name: key, value: "\(value)")
             })
             guard let url = components?.url else { return nil }
             return URLRequest(url: url)
