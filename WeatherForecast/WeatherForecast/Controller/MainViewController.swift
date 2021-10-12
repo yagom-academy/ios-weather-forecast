@@ -83,7 +83,7 @@ extension MainViewController: CLLocationManagerDelegate {
 
 // MARK: - 날씨 정보 불러오기
 extension MainViewController {
-    func fetchWeatherData(of api: WeatherAPI) {
+    private func fetchWeatherData(of api: WeatherAPI) {
         guard let url = api.makeURL() else {
             NSLog("\(#function) - URL 생성 실패")
             return
@@ -100,7 +100,7 @@ extension MainViewController {
         }
     }
     
-    func decodeJSON(_ data: Data, of type: WeatherAPI) {
+    private func decodeJSON(_ data: Data, of type: WeatherAPI) {
         let decoder = JSONDecoder(keyDecodingStrategy: .convertFromSnakeCase)
         do {
             switch type {
