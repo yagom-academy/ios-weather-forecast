@@ -19,11 +19,13 @@ class WeatherViewController: UIViewController {
         let weatherTableView = UITableView()
         weatherTableView.translatesAutoresizingMaskIntoConstraints = false
         weatherTableView.register(HourlyWeatherInfo.self, forCellReuseIdentifier: HourlyWeatherInfo.identifier)
+        weatherTableView.register(WeatherHeaderView.self, forHeaderFooterViewReuseIdentifier: WeatherHeaderView.identifier)
         return weatherTableView
     }()
     
     private func configure() {
         weatherTableView.dataSource = tableViewDatasource
+        weatherTableView.delegate = self
     }
     
     private func addSubView() {

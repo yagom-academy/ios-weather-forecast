@@ -13,6 +13,7 @@
 		75207D7B270321D000CFA323 /* FiveDayWeather.json in Resources */ = {isa = PBXBuildFile; fileRef = 75207D7A270321D000CFA323 /* FiveDayWeather.json */; };
 		75322008271479280035F772 /* WeatherInfoTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75322007271479280035F772 /* WeatherInfoTable.swift */; };
 		7532200A2714831E0035F772 /* HourlyWeatherInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753220092714831E0035F772 /* HourlyWeatherInfo.swift */; };
+		7532200C271494230035F772 /* WeatherHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7532200B271494230035F772 /* WeatherHeaderView.swift */; };
 		753E66A32705CDC000B0ED8E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753E66A22705CDC000B0ED8E /* NetworkManager.swift */; };
 		75DDCFD62705F5D5006F47DC /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75DDCFD52705F5D5006F47DC /* MockURLSession.swift */; };
 		75DDCFD82705F7CC006F47DC /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75DDCFD72705F7CC006F47DC /* MockURLSessionDataTask.swift */; };
@@ -57,6 +58,7 @@
 		75207D7A270321D000CFA323 /* FiveDayWeather.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FiveDayWeather.json; sourceTree = "<group>"; };
 		75322007271479280035F772 /* WeatherInfoTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInfoTable.swift; sourceTree = "<group>"; };
 		753220092714831E0035F772 /* HourlyWeatherInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyWeatherInfo.swift; sourceTree = "<group>"; };
+		7532200B271494230035F772 /* WeatherHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHeaderView.swift; sourceTree = "<group>"; };
 		753E66A22705CDC000B0ED8E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		75DDCFD52705F5D5006F47DC /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		75DDCFD72705F7CC006F47DC /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
+				7532200B271494230035F772 /* WeatherHeaderView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				C79C8CF825ADDDF200EEE3F1 /* WeatherViewController.swift in Sources */,
 				75207D742703047E00CFA323 /* CurrentWeather.swift in Sources */,
 				DFB4AE872704416500183B25 /* WeatherRequest.swift in Sources */,
+				7532200C271494230035F772 /* WeatherHeaderView.swift in Sources */,
 				DFC0F31327111D4E00A4BD7C /* URLSessionProtocol.swift in Sources */,
 				DFB4AE802703088400183B25 /* FiveDayForecast.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
