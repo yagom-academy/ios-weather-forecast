@@ -8,12 +8,10 @@
 import UIKit
 
 class WeatherTableviewDataSource: NSObject, UITableViewDataSource {
-
-    // 데이터 디코딩해서 할당하기
-    //var vm: FiveDaysForecastViewModel?
+    var vm: ForcastViewModel?
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        vm?.numberOfRowsInSection() ?? .zero
+        return vm?.forecast?.list.count ?? .zero
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -21,8 +19,11 @@ class WeatherTableviewDataSource: NSObject, UITableViewDataSource {
             return UITableViewCell()
         }
         
+        let list = vm?.listAtIndex(indexPath.row)
+        let holder = CellHolder(dateLabelText: list?.date.value, temperatureText: list?.temperature.value, iconImage: UIImage(named: "cat")!)
+        
+        cell.configure(holder)
+        
         return cell
     }
-    
-    
 }
