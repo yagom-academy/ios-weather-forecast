@@ -14,6 +14,7 @@
 		792D2C2C2706FDC70060326A /* MockURLSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792D2C2B2706FDC70060326A /* MockURLSessionTests.swift */; };
 		792D2C2E270748C90060326A /* URLSessionDataTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792D2C2D270748C90060326A /* URLSessionDataTaskProtocol.swift */; };
 		795E076B27170697007CF905 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795E076A27170697007CF905 /* WeatherService.swift */; };
+		795E076D27171E17007CF905 /* CurrentWeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795E076C27171E17007CF905 /* CurrentWeatherViewModel.swift */; };
 		79C6A2AC271036A80067ED44 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C6A2AB271036A80067ED44 /* LocationManager.swift */; };
 		79ED8AB5270304D800F1225B /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 79ED8AB4270304D700F1225B /* .swiftlint.yml */; };
 		975BF4DA7577793921DE34EC /* Pods_WeatherForecast_WeatherForecastUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E3CBF32B5200003A33C4A12 /* Pods_WeatherForecast_WeatherForecastUITests.framework */; };
@@ -70,6 +71,7 @@
 		792D2C2B2706FDC70060326A /* MockURLSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionTests.swift; sourceTree = "<group>"; };
 		792D2C2D270748C90060326A /* URLSessionDataTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskProtocol.swift; sourceTree = "<group>"; };
 		795E076A27170697007CF905 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
+		795E076C27171E17007CF905 /* CurrentWeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherViewModel.swift; sourceTree = "<group>"; };
 		79C6A2AB271036A80067ED44 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		79ED8AB4270304D700F1225B /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		896E7CA1D949ED8DD7233213 /* Pods_WeatherForecast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherForecast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -251,17 +253,18 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
-		A99BFD5F2706EFBC0078DB05 /* Controller */ = {
+		A99BFD5F2706EFBC0078DB05 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */,
+				795E076C27171E17007CF905 /* CurrentWeatherViewModel.swift */,
 			);
-			path = Controller;
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		A99BFD602706EFFB0078DB05 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C79C8CF725ADDDF200EEE3F1 /* ViewController.swift */,
 				C79C8CFE25ADDDF300EEE3F1 /* LaunchScreen.storyboard */,
 				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
 			);
@@ -323,7 +326,7 @@
 				795E076727170039007CF905 /* Service */,
 				A97EFF3727030628009558C9 /* Model */,
 				A99BFD602706EFFB0078DB05 /* View */,
-				A99BFD5F2706EFBC0078DB05 /* Controller */,
+				A99BFD5F2706EFBC0078DB05 /* ViewModel */,
 				C79C8CFC25ADDDF300EEE3F1 /* Assets.xcassets */,
 				C79C8D0125ADDDF300EEE3F1 /* Info.plist */,
 				A93752B4270C64DA008C0DA8 /* WeatherInfo.plist */,
@@ -575,6 +578,7 @@
 				A97EFF3D2703068F009558C9 /* IntervalWeatherData.swift in Sources */,
 				A97EFF3F270308C3009558C9 /* FiveDayWeatherData.swift in Sources */,
 				795E076B27170697007CF905 /* WeatherService.swift in Sources */,
+				795E076D27171E17007CF905 /* CurrentWeatherViewModel.swift in Sources */,
 				A9D44C0E270B33E6007B06EC /* WeatherAPI.swift in Sources */,
 				792D2C2E270748C90060326A /* URLSessionDataTaskProtocol.swift in Sources */,
 				A99BFD69270709BD0078DB05 /* WeatherNetworkManager.swift in Sources */,
