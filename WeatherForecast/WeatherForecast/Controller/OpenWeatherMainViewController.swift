@@ -14,12 +14,15 @@ final class OpenWeatherMainViewController: UIViewController {
     private let networkManager = WeatherNetworkManager()
     private let sessionDelegate = OpenWeatherSessionDelegate()
     
-    private lazy var tableView : UITableView = {
-       let tableView = UITableView()
-        self.view.addSubview(tableView)
-        tableView.bounds = self.view.frame
-        return tableView
-    }()
+    private let tableViewDataSource = WeatherTableviewDataSource()
+    private let tableView = UITableView()
+    
+    private func drawTableView() {
+            self.view.addSubview(tableView)
+            tableView.frame = self.view.bounds
+            tableView.register(FiveDaysForcecastCell.self, forCellReuseIdentifier: "weatherCell")
+            tableView.dataSource = tableViewDataSource
+    }
     
     private lazy var address: String = {
         let location = CLLocation(latitude: self.location.latitude, longitude: self.location.longitude)
@@ -38,10 +41,12 @@ final class OpenWeatherMainViewController: UIViewController {
         return address
     }()
     
+    //MARK: - View's Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.askUserLocation()
+        drawTableView()
         locationManager.delegate = self
+        locationManager.askUserLocation()
     }
 }
 
@@ -60,7 +65,6 @@ extension OpenWeatherMainViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        
         if let error = error as? CLError {
             switch error.code {
             case .locationUnknown:

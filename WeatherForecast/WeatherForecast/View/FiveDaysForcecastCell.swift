@@ -53,6 +53,7 @@ class FiveDaysForcecastCell: UITableViewCell {
         
         stackView.axis = .horizontal
         self.contentView.addSubview(stackView)
+        self.translatesAutoresizingMaskIntoConstraints = false
         
         stackView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
         stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true

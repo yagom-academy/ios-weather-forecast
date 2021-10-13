@@ -107,9 +107,9 @@
 		436B3DA027031CE70069B3AA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A86E0D0827145B5400822E96 /* FiveDaysForcecastCell.swift */,
 				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
 				C79C8CFE25ADDDF300EEE3F1 /* LaunchScreen.storyboard */,
-				A86E0D0827145B5400822E96 /* FiveDaysForcecastCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
