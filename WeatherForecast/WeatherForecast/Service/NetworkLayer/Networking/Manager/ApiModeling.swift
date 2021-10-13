@@ -8,7 +8,6 @@
 import Foundation
 import CoreLocation.CLLocationManager
 
-// MARK: - Model for tableView
 protocol ApiModeling: AnyObject {
     func buildApi(weatherOfCurrent: URLPath, location: (latitude: CLLocationDegrees, longitude: CLLocationDegrees)) -> OpenWeatherApi?
 }
@@ -18,11 +17,11 @@ extension ApiModeling {
         guard let url = URL(string: "https://api.openweathermap.org/data/2.5") else {
             return nil
         }
-        
+
         let requestInfo: Parameters = ["lat": location.latitude , "lon": location.longitude, "appid": WeatherNetworkManager.apiKey]
-        
+
         let api = OpenWeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: url, path: weatherOfCurrent)
-        
+
         return api
     }
 }

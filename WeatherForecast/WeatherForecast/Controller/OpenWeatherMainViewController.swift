@@ -7,11 +7,12 @@
 import UIKit
 import CoreLocation
 
-final class ViewController: UIViewController {
-    private let networkManager = WeatherNetworkManager()
+final class OpenWeatherMainViewController: UIViewController {
     private let locationManager = LocationManager()
     private var location = (longitude: CLLocationDegrees() , latitude: CLLocationDegrees())
-    private var fiveDaysForcastData: FiveDaysForecastData?
+    
+    private let networkManager = WeatherNetworkManager()
+    private let sessionDelegate = OpenWeatherSessionDelegate()
     
     private lazy var tableView : UITableView = {
        let tableView = UITableView()
@@ -44,13 +45,30 @@ final class ViewController: UIViewController {
     }
 }
 
-extension ViewController: CLLocationManagerDelegate {
+extension OpenWeatherMainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-
+        guard let latitude = locations.last?.coordinate.latitude,
+              let longitude = locations.last?.coordinate.longitude else {
+            return
+        }
+        
+        guard let api = networkManager.buildApi(weatherOfCurrent: .forecast, location: (latitude, longitude)) else {
+            return
+        }
+        
+        networkManager.fetchOpenWeatherData(requiredApi: api, sessionDelegate.session)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        showAlert(title: "🙋‍♀️", message: "새로고침을 해주세요.")
+        
+        if let error = error as? CLError {
+            switch error.code {
+            case .locationUnknown:
+                break
+            default:
+                print(error.localizedDescription)
+            }
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -67,29 +85,7 @@ extension ViewController: CLLocationManagerDelegate {
     }
 }
 
-extension ViewController: URLSessionDataDelegate {
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        if error != nil {
-            showAlert(title: "🥲", message: "네트워크가 불안정 합니다.")
-        }
-    }
-    
-    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, willCacheResponse proposedResponse: CachedURLResponse, completionHandler: @escaping (CachedURLResponse?) -> Void) {
-        let requestData = proposedResponse.data
-        
-        do  {
-            let decodedData = try Parser().decode(requestData, to: FiveDaysForecastData.self)
-            self.fiveDaysForcastData = decodedData
-        } catch {
-            showAlert(title: "🤔", message: "개발자에게 문의해 주세요")
-        }
-        
-        completionHandler(proposedResponse)
-    }
-}
-
-
-extension ViewController {
+extension OpenWeatherMainViewController {
     private func showAlert(title: String, message: String) {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
