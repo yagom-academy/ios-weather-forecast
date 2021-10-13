@@ -11,8 +11,6 @@ import CoreLocation
 class WeatherLocationManager: CLLocationManager {
     override init() {
         super.init()
-        self.requestWhenInUseAuthorization()
         self.desiredAccuracy = kCLLocationAccuracyThreeKilometers
-        self.startUpdatingLocation()
     }
 }
