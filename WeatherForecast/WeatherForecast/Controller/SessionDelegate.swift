@@ -8,6 +8,10 @@
 import Foundation
 
 final class OpenWeatherSessionDelegate: NSObject, URLSessionDataDelegate {
+    
+    private var forcast: Data?
+    private var current: Data?
+    
     lazy var session: URLSession = {
         let session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
         
@@ -20,15 +24,14 @@ final class OpenWeatherSessionDelegate: NSObject, URLSessionDataDelegate {
             return
         }
     }
-        
+    
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, willCacheResponse proposedResponse: CachedURLResponse, completionHandler: @escaping (CachedURLResponse?) -> Void) {
         let requestData = proposedResponse.data
-        
-        do  {
-            let decodedData = try Parser().decode(requestData, to: FiveDaysForecastData.self)
-            print(decodedData)
-        } catch {
-            print(error)
+        if let path = dataTask.currentRequest?.url?.pathComponents,
+           path.contains(URLPath.forecast.rawValue) {
+            self.forcast = requestData
+        } else {
+            self.current = requestData
         }
         
         completionHandler(proposedResponse)

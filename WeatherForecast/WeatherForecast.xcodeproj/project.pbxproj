@@ -145,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				A86E0D0627144CD900822E96 /* ApiModeling.swift */,
+				A84D4759270315A9002C1324 /* WeatherNetworkManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -153,7 +154,6 @@
 			isa = PBXGroup;
 			children = (
 				436B3DA427031D860069B3AA /* Networking */,
-				A84D4759270315A9002C1324 /* WeatherNetworkManager.swift */,
 			);
 			path = NetworkLayer;
 			sourceTree = "<group>";
