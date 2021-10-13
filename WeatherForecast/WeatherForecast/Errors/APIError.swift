@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum APIError: LocalizedError {
+enum APIError: Error, LocalizedError {
     case invalidUrl
     case invalidResponse
     case invalideData
@@ -45,6 +45,7 @@ extension APIError {
             self = .invalidResponse
             return
         }
+//        print(httpResponse)
         
         guard successRange.contains(httpResponse.statusCode) else {
             self = .outOfRange(statusCode: httpResponse.statusCode)
