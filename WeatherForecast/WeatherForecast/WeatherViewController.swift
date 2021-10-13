@@ -11,8 +11,7 @@ class WeatherViewController: UIViewController {
     private let networkManager = NetworkManager<WeatherRequest>()
     private let parsingManager = ParsingManager()
     private var locationManager = CLLocationManager()
-//    private let tableViewDatasource = WeatherInfoTable()
-    
+    private var address: [CLPlacemark]? = []
     private var currentWeather: CurrentWeather? = nil {
         didSet {
             self.updateTable()
@@ -48,6 +47,10 @@ class WeatherViewController: UIViewController {
         }
     }
     
+    private func requestAuthorization() {
+        locationManager.requestLocation()
+    }
+    
     private func autoLayout() {
         let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -58,6 +61,17 @@ class WeatherViewController: UIViewController {
         ])
     }
     
+    private func configureRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshWeatherTable), for: .valueChanged)
+        weatherTableView.refreshControl = refreshControl
+    }
+    
+    @objc func refreshWeatherTable(_ sender: UIRefreshControl) {
+        locationManager.requestLocation()
+        sender.endRefreshing()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
@@ -65,10 +79,9 @@ class WeatherViewController: UIViewController {
         configure()
         addSubView()
         autoLayout()
+        configureRefreshControl()
     }
-    var address: [CLPlacemark]? = []
 }
-
 
 extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -83,6 +96,16 @@ extension WeatherViewController: CLLocationManagerDelegate {
         geoCoder.reverseGeocodeLocation(locations, preferredLocale: locale) { placemarks, error in
             self.address = placemarks
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            locationManager.requestLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("error:: \(error.localizedDescription)")
     }
 }
 
