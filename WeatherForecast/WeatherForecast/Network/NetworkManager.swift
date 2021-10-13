@@ -12,6 +12,11 @@ protocol URLSessionable {
         with url: URL,
         completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
     ) -> URLSessionDataTask
+    
+    func dataTask(
+        with request: URLRequest,
+        completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
+    ) -> URLSessionDataTask
 }
 
 extension URLSession: URLSessionable { }
@@ -24,88 +29,74 @@ struct NetworkManager {
         self.session = session
     }
     
-    func request<Model: Decodable>(
-        endpoint: APIEndPoint,
+    func request<Model: Requestable>(
+        with model: Model.Type,
         parameters: [String: Any],
-        completionHandler: @escaping (Result<Model, Error>) -> Void
+        httpMethod: HTTPMethod = HTTPMethod.get,
+        completion: @escaping (Result<Model, Error>) -> Void
     ) {
-        guard let url = urlGenerator.work(
-                endpoint: endpoint,
-                parameters: parameters
+        guard let url = urlGenerator.generate(
+            endpoint: Model.endpoint,
+            parameters: parameters
         ) else {
-            completionHandler(
-                .failure(NetworkError.invalidURL)
-            )
+            completion(.failure(NetworkError.invalidURL))
             return
         }
         
-        session.dataTask(with: url) { data, response, error in
+        var request = URLRequest(url: url)
+        request.httpMethod = String.init(describing: httpMethod)
+        
+        session.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 let unknownError = NetworkError.unknown(
                     description: error.localizedDescription
                 )
-                completionHandler(
-                    .failure(unknownError)
-                )
+                completion(.failure(unknownError))
                 return
             }
             
             guard let response = response as? HTTPURLResponse else {
-                completionHandler(
-                    .failure(NetworkError.invalidResponse)
-                )
+                completion(.failure(NetworkError.invalidResponse))
                 return
             }
             
             switch response.statusCode {
             case 200..<300:
-                handleSuccessStatusCode(data: data, completionHandler: completionHandler)
+                handleSuccessStatusCode(data: data, completion: completion)
             default:
-                handleFailureStatusCode(response: response, completionHandler: completionHandler)
+                handleFailureStatusCode(response: response, completion: completion)
             }
         }.resume()
     }
     
-    private func handleSuccessStatusCode<Model: Decodable>(
+    private func handleSuccessStatusCode<Model: Requestable>(
         data: Data?,
-        completionHandler: @escaping (Result<Model, Error>) -> Void
+        completion: @escaping (Result<Model, Error>) -> Void
     ) {
         guard let data = data else {
-            completionHandler(
-                .failure(NetworkError.dataIsNil)
-            )
+            completion(.failure(NetworkError.dataIsNil))
             return
         }
         
         do {
             let model: Model = try Parser.decode(data)
-            completionHandler(
-                .success(model)
-            )
+            completion(.success(model))
         } catch {
-            completionHandler(
-                .failure(error)
-            )
+            completion(.failure(error))
         }
     }
     
     private func handleFailureStatusCode<Model>(
         response: HTTPURLResponse,
-        completionHandler: @escaping (Result<Model, Error>) -> Void
+        completion: @escaping (Result<Model, Error>) -> Void
     ) {
         switch response.statusCode {
         case 400..<500:
-            completionHandler(
-                .failure(NetworkError.clientSide(description: response.debugDescription))
-            )
+            completion(.failure(NetworkError.clientSide(description: response.debugDescription)))
         case 500..<600:
-            completionHandler(
-                .failure(NetworkError.serverSide(description: response.debugDescription))
-            )
+            completion(.failure(NetworkError.serverSide(description: response.debugDescription)))
         default:
-            completionHandler(
-                .failure(NetworkError.unknown(description: response.debugDescription))
-            )
+            completion(.failure(NetworkError.unknown(description: response.debugDescription)))
         }
     }
 }
