@@ -14,6 +14,7 @@ class MainViewController: UIViewController {
     private var address: CLPlacemark?
     
     private let locationManager = WeatherLocationManager()
+    private let networkManager = NetworkManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +54,10 @@ extension MainViewController: CLLocationManagerDelegate {
         }
     
         currentCoordinate.flatMap {
-            request(coordinate: $0) { [weak self] (result: Result<TodayWeatherInfo, Error>) in
+            networkManager.request(
+                with: TodayWeatherInfo.self,
+                parameters: $0.parameters
+            ) { [weak self] result in
                 switch result {
                 case .success(let model):
                     self?.currentWeather = model
@@ -64,7 +68,11 @@ extension MainViewController: CLLocationManagerDelegate {
                     print(error)
                 }
             }
-            request(coordinate: $0) { [weak self] (result: Result<WeeklyWeatherForecast, Error>) in
+            
+            networkManager.request(
+                with: WeeklyWeatherForecast.self,
+                parameters: $0.parameters
+            ) { [weak self] result in
                 switch result {
                 case .success(let model):
                     self?.weatherForecast = model
@@ -82,17 +90,6 @@ extension MainViewController: CLLocationManagerDelegate {
 }
 
 extension MainViewController {
-    func request<Model: Requestable>(
-        coordinate: Coordinate,
-        completion: @escaping (Result<Model, Error>) -> Void) {
-        NetworkManager().request(
-            with: Model.self,
-            parameters: coordinate.parameters,
-            httpMethod: .get,
-            completion: completion
-        )
-    }
-    
     func convertToAddress(with location: CLLocation,
                           completion: @escaping (CLPlacemark) -> Void) {
         CLGeocoder().reverseGeocodeLocation(
