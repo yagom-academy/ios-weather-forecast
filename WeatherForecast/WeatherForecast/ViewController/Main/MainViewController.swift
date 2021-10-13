@@ -18,6 +18,7 @@ class MainViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        
         NotificationCenter.default.addObserver(
             forName: LocationManager.locationUpdated,
             object: nil,
@@ -29,8 +30,8 @@ class MainViewController: UIViewController {
             }
             let coordinate = location.coordinate
 
-            self.locationManager.convertToAddress(from: location) { placeMarks, error in
-                print(placeMarks)
+            self.locationManager.convertToAddress(from: location) { placemarks, error in
+                print(placemarks)
             }
 
             self.networkManager.request(
@@ -57,7 +58,6 @@ class MainViewController: UIViewController {
                 }
             }
         }
-        
         locationManager.requestLocation()
     }
 }
