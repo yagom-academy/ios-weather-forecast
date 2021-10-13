@@ -117,7 +117,7 @@
 				DFB4AE8227031EBB00183B25 /* ParsingManager.swift */,
 				DFB4AE862704416500183B25 /* WeatherRequest.swift */,
 				753E66A22705CDC000B0ED8E /* NetworkManager.swift */,
-				DFC0F30F27111CBC00A4BD7C /* Protocols */,
+				DFC0F30F27111CBC00A4BD7C /* Protocol */,
 				DFC0F31427111EA000A4BD7C /* Error */,
 			);
 			name = Model;
@@ -214,13 +214,13 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
-		DFC0F30F27111CBC00A4BD7C /* Protocols */ = {
+		DFC0F30F27111CBC00A4BD7C /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
 				DFC0F31027111D3900A4BD7C /* TargetType.swift */,
 				DFC0F31227111D4E00A4BD7C /* URLSessionProtocol.swift */,
 			);
-			name = Protocols;
+			name = Protocol;
 			sourceTree = "<group>";
 		};
 		DFC0F31427111EA000A4BD7C /* Error */ = {

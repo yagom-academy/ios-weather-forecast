@@ -11,7 +11,7 @@ class WeatherForecastTests: XCTestCase {
     
     let parsingManager = ParsingManager()
     
-    func test_JSON파일인CurrentWeather를_디코딩했을때_id는420006353이다() {
+    func testDecode_CurrentWeather() {
         //given
         var outputValue: Int?
         let expectedValue = 420006353
@@ -29,7 +29,7 @@ class WeatherForecastTests: XCTestCase {
         XCTAssertEqual(expectedValue, outputValue)
     }
     
-    func test_JSON파일인FiveDayWeather를_디코딩했을때_id는2643743이다() {
+    func testDecode_fiveDayWeather() {
         //given
         var outputValue: Int?
         let expectedValue = 2643743

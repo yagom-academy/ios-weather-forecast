@@ -74,8 +74,8 @@ class WeatherHeaderView: UITableViewHeaderFooterView {
         }
         
         if let placemark = placemark?.first {
-            locationLabel.text = String(placemark.administrativeArea!)
-            + String(placemark.locality!)
+            locationLabel.text = String(placemark.administrativeArea ?? "")
+            + String(placemark.locality ?? "")
         }
         minMaxTemperatureLabel.text = changeToCelcius(minimum: currentWeather.main.tempMin,
                                                       maximum: currentWeather.main.tempMax)
