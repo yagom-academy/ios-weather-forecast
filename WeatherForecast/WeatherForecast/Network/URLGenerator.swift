@@ -8,11 +8,13 @@
 import Foundation
 
 struct URLGenerator {
-    func work(
-        endpoint: APIEndPoint,
+    private static let baseURL = "https://api.openweathermap.org/data/2.5/"
+    
+    func generate(
+        endpoint: String,
         parameters: [String: Any]
     ) -> URL? {
-        var components = URLComponents(string: endpoint.urlString)
+        var components = URLComponents(string: Self.baseURL + endpoint)
         var queryItems = [URLQueryItem]()
         for (key, value) in parameters {
             queryItems.append(URLQueryItem(name: key, value: String(describing: value)))
@@ -22,7 +24,7 @@ struct URLGenerator {
                 name: APIEndPoint.APIKey.name,
                 value: APIEndPoint.APIKey.value
             )
-        )        
+        )
         components?.queryItems = queryItems
         return components?.url
     }
