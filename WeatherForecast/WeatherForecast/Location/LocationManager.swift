@@ -12,8 +12,7 @@ class WeatherLocationManager: CLLocationManager {
     override init() {
         super.init()
         self.requestWhenInUseAuthorization()
-        self.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-        // To begin receiving coordinates, you have to call its startUpdatingLocation() method first.
+        self.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         self.startUpdatingLocation()
     }
 }
