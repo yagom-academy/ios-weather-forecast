@@ -6,6 +6,6 @@
 //
 import Foundation
 
-enum APIEndPoint {
+enum WeatherAPI {
     static let APIKey = (name: "appid", value: "a529112a5512a01db04290ddf7b83639")
 }

@@ -21,8 +21,8 @@ struct URLGenerator {
         }
         queryItems.append(
             URLQueryItem(
-                name: APIEndPoint.APIKey.name,
-                value: APIEndPoint.APIKey.value
+                name: WeatherAPI.APIKey.name,
+                value: WeatherAPI.APIKey.value
             )
         )
         components?.queryItems = queryItems
