@@ -14,6 +14,6 @@ class ErrorHandler {
     }
     
     func printErrorDescription() {
-        print(error.localizedDescription)
+        debugPrint(error.localizedDescription)
     }
 }
