@@ -13,10 +13,15 @@ class LocationManager: NSObject {
     private var locationCompletion: ((CLLocation) -> Void)?
     private var currentLocation: CLLocation?
     
+    override init() {
+        super.init()
+        
+        locationManager.delegate = self
+    }
+    
     func getUserLocation(completion: @escaping ((CLLocation) -> Void)) {
         self.locationCompletion = completion
-        locationManager.delegate = self
-        
+        locationManager.requestLocation()
     }
     
     func getUserAddress(completion: @escaping (Result<String, LocationError>) -> Void) {
@@ -52,7 +57,6 @@ extension LocationManager: CLLocationManagerDelegate {
         guard let location = locations.last else { return }
         currentLocation = location
         locationCompletion?(location)
-        
     }
     
     func locationManager(_ manager: CLLocationManager,
@@ -71,5 +75,6 @@ extension LocationManager: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         debugPrint(error.localizedDescription)
+        locationManager.requestLocation()
     }
 }
