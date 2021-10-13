@@ -70,6 +70,7 @@ dataTask.resume()
 - 같은 Request가 연속적으로 요청되지 않으면 중복 요청임에도 방어가 되지 않음을 확인할 수 있었다. 예를 들어 요청이 A, B, A 순으로 올 경우 두 번의 A 요청이 모두 통신되는 문제가 발생한다.
 #### 해결 방법2: URLSessionTask - originalRequset, [URLSessionDataTask]
 - originalRequest를 통해 Request object URLSessionDataTask가 생성되었을 때의 request를 알 수 있다.
+- currentRequest와 originalRequest는 Request를 확인할 수 있는 프로퍼티라는 공통점이 있으나 currentRequest는 redirection이 됐을 경우 Request가 변경될 여지가 있다. originalRequest는 생성됐을 때의 Request를 나타내는 것이라 좀 더 결과에 대해 신뢰할 수 있다고 생각해서 originalRequest를 사용했다.
 - 생성되는 URLSessionDataTask를 배열에 저장해두고, 새로운 Request와 배열의 모든 URLSessionDataTask의 Request를 비교한다. 만약 현재 Request와 기존에 진행중이던 Requset가 중복이 되었을 때에는 이전에 요청했던 URLSessionDataTask는 cancel 및 배열에서 삭제되도록 로직을 변경 했다.
 ```swift
 let dataTask = [URLSessionDataTask] = []
