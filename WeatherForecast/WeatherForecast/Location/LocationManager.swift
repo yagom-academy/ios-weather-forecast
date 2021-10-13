@@ -8,7 +8,7 @@
 import Foundation
 import CoreLocation
 
-class LocationManager: NSObject {
+final class LocationManager: NSObject {
     static let locationUpdated = NSNotification.Name(rawValue: "locationUpdated")
     private let coreLocation = CLLocationManager()
     private let geocoder = CLGeocoder()

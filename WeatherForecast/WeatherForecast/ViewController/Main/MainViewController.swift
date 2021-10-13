@@ -7,7 +7,7 @@
 import UIKit
 import CoreLocation
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     private let locationManager = LocationManager()
     private let networkManager = NetworkManager()
 
