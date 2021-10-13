@@ -40,9 +40,9 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
 
 extension LocationManager {
     
-    func lookUpCurrentPlacemark(completionHandler: @escaping (CLPlacemark?) -> Void) {
+    func lookUpCurrentPlacemark(completionHandler: @escaping (CLPlacemark) -> Void) {
         guard let lastLocation = self.manager.location else {
-            completionHandler(nil)
+            print("LastLocation is nil.")
             return
         }
         
@@ -53,7 +53,6 @@ extension LocationManager {
                                         preferredLocale: locale) { (placemarks, error) in
             if let error = error {
                 print(error.localizedDescription)
-                completionHandler(nil)
                 return
             }
             
