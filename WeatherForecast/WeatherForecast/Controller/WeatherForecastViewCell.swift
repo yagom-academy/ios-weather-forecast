@@ -10,8 +10,8 @@ import UIKit
 class WeatherForecastViewCell: UITableViewCell {
     static let identifier = "CustomTableViewCell"
 
-    private let timeLabel = UILabel()
-    private let temperatureLabel = UILabel()
+    private let timeLabel = UILabel(color: .white)
+    private let temperatureLabel = UILabel(color: .white)
     private let iconImageView = UIImageView()
     private let stackView = UIStackView()
     private var number: Int!
@@ -19,6 +19,7 @@ class WeatherForecastViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpCellLayout()
+        backgroundColor = .clear
     }
 
     required init?(coder: NSCoder) {
@@ -53,6 +54,7 @@ class WeatherForecastViewCell: UITableViewCell {
         dateFormatter.dateFormat = "MM/dd(E) HH시"
         dateFormatter.locale = Locale(identifier: "ko_KR")
         timeLabel.text = dateFormatter.string(from: date)
+
         temperatureLabel.text = MeasurementFormatter().convertTemp(temp: data.main.temp, from: .kelvin, to: .celsius)
 
         if let iconID = data.weather.first?.icon {

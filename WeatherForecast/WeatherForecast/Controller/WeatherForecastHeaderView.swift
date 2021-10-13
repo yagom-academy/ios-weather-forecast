@@ -10,9 +10,9 @@ import CoreLocation
 
 class WeatherForecastHeaderView: UIView {
     private let iconImageView = UIImageView()
-    private let locationLabel = UILabel()
-    private let minMaxTempLabel = UILabel()
-    private let currentTempLabel = UILabel()
+    private let locationLabel = UILabel(color: .white)
+    private let minMaxTempLabel = UILabel(color: .white)
+    private let currentTempLabel = UILabel(color: .white)
     private let stackView = UIStackView()
 
     private let measurementFormatter = MeasurementFormatter()

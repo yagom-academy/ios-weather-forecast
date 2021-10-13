@@ -28,6 +28,7 @@ class WeatherForecastViewController: UIViewController {
         tableHeaderView = WeatherForecastHeaderView(frame:
                             CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height * 0.15))
         tableView.tableHeaderView = tableHeaderView
+        tableView.backgroundView = UIImageView(image: UIImage(named: "tokyo_tower.jpeg"))
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(WeatherForecastViewCell.self, forCellReuseIdentifier: WeatherForecastViewCell.identifier)
