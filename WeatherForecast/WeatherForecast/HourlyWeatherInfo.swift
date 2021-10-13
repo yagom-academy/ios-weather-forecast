@@ -53,7 +53,8 @@ class HourlyWeatherInfo: UITableViewCell {
     
     func setUpUI(forcast: FiveDayForecast?, indexPath: IndexPath) {
         guard let forecastItems = forcast?.list[indexPath.row] else { return }
-        dateLabel.text = forecastItems.dtText
+        let dateFormat = forecastItems.dt
+        dateLabel.text = changeStringFormat(to: dateFormat)
         temperatureLabel.text = String(forecastItems.main.temp)
         if let icon = forecastItems.weather.first?.icon {
             let imageURL = String(format: "https://openweathermap.org/img/w/%@.png", icon)
@@ -62,3 +63,11 @@ class HourlyWeatherInfo: UITableViewCell {
     }
 }
 
+extension HourlyWeatherInfo {
+    func changeStringFormat(to dateFormat: Date) -> String {
+        let dateformatter = DateFormatter()
+        dateformatter.dateFormat = "MM/dd(E) HH시"
+        dateformatter.locale = Locale(identifier: "ko")
+        return dateformatter.string(from: dateFormat)
+    }
+}

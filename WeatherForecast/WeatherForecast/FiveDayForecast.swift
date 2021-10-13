@@ -16,7 +16,7 @@ struct FiveDayForecast: Decodable {
 }
 
 struct List: Decodable {
-    let dt: Int
+    let dt: Date
     let main: Main
     let weather: [Weather]
     let cloud: Cloud?
@@ -26,7 +26,7 @@ struct List: Decodable {
     let rain: Rain?
     let snow: Snow?
     let sys: Sys?
-    let dtText: String?
+    let dtText: String
     
     struct Sys: Decodable {
         let pod: String?
