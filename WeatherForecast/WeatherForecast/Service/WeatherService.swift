@@ -57,4 +57,11 @@ struct WeatherService {
             }
         }
     }
+    
+    func obtainPlacemark(completion: @escaping (CLPlacemark) -> Void) {
+        locationManager.lookUpCurrentPlacemark { placemark in
+            guard let placemark = placemark else { return }
+            completion(placemark)
+        }
+    }
 }
