@@ -13,10 +13,12 @@ final class WeatherViewModel {
     var currentPlacemark: CLPlacemark?
     var isDataTaskError: Observable<Bool>?
     
+    private var locationManager = LocationManager()
+    private var weatherIconDataCache = NSCache<NSString, NSData>()
+    
     var numberOfCellCount: Int? {
         return forecastData.value?.list.count
     }
-    private var locationManager = LocationManager()
     
     init() {
         self.locationManager.delegate = self
@@ -110,13 +112,22 @@ extension WeatherViewModel {
     func getWeatherIconImage(at indexPath: IndexPath, completion: @escaping (Data) -> Void) {
         
         guard let icon = forecastData.value?.list[indexPath.row].weather.first?.icon,
+              let cacheKey = forecastData.value?.list[indexPath.row].forecastTime,
               let url = URL(string: WeatherAPI.icon.url + icon) else {
             return
         }
-    
+        
+        if let cacheData = weatherIconDataCache.object(forKey: NSString(string: String(cacheKey))) {
+            completion(Data(cacheData))
+            return
+        }
+        
         NetworkManager().dataTask(url: url) { result in
             switch result {
             case .success(let data):
+                self.weatherIconDataCache.setObject(NSData(data: data),
+                                                    forKey: NSString(string: String(cacheKey))
+                )
                 completion(data)
             case .failure(_):
                 break
