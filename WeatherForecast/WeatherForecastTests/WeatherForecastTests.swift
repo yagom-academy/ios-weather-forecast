@@ -8,16 +8,6 @@ import XCTest
 @testable import WeatherForecast
 
 class WeatherForecastTests: XCTestCase {
-    let decoder = Parser()
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
     func test_TodayWeatherInfo모델_디코딩이성공하면_같은temperature값이나온다() {
         guard let path = Bundle.main.path(forResource: "sampleOfCurrent", ofType: "json"),
               let jsonData = try? String(contentsOfFile: path).data(using: .utf8) else {
@@ -25,8 +15,8 @@ class WeatherForecastTests: XCTestCase {
               }
 
         do {
-            let result = try decoder.decode(jsonData, to: TodayWeatherInfo.self)
-            XCTAssertEqual(282.55, result.main.temperature)
+            let result = try JSONDecoder().decode(TodayWeatherInfo.self, from: jsonData)
+            XCTAssertEqual(282.55, result.main!.temperature)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -39,8 +29,8 @@ class WeatherForecastTests: XCTestCase {
               }
         
         do {
-            let result = try decoder.decode(jsonData, to: WeeklyWeatherForecast.self)
-            XCTAssertEqual(293.55, result.list.first?.main.temperature)
+            let result = try JSONDecoder().decode(WeeklyWeatherForecast.self, from: jsonData)
+            XCTAssertEqual(293.55, result.list!.first!.main!.temperature)
         } catch {
             XCTFail(error.localizedDescription)
         }
