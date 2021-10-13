@@ -13,12 +13,14 @@ class HourlyWeatherInfo: UITableViewCell {
 
     private lazy var dateLabel: UILabel = {
         let dateLabel = UILabel()
+        dateLabel.textColor = .white
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         return dateLabel
     }()
     
     private lazy var temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
+        temperatureLabel.textColor = .white
         temperatureLabel.translatesAutoresizingMaskIntoConstraints = false
         return temperatureLabel
     }()
@@ -46,10 +48,11 @@ class HourlyWeatherInfo: UITableViewCell {
         contentView.addSubview(weatherImage)
         
         NSLayoutConstraint.activate([dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-                                     dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-                                     weatherImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 5),
-                                     weatherImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5), temperatureLabel.trailingAnchor.constraint(equalTo: weatherImage.leadingAnchor, constant: 5),
-                                     temperatureLabel.topAnchor.constraint(equalTo: weatherImage.topAnchor)])
+                                     dateLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+                                     weatherImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+                                     weatherImage.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+                                     temperatureLabel.trailingAnchor.constraint(equalTo: weatherImage.leadingAnchor, constant: -10),
+                                     temperatureLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)])
     }
     
     func setUpUI(forcast: FiveDayForecast?, indexPath: IndexPath) {

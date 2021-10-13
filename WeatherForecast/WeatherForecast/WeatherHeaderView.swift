@@ -13,18 +13,21 @@ class WeatherHeaderView: UITableViewHeaderFooterView {
     static let identifier = "WeatherHeaderView"
     private lazy var locationLabel: UILabel = {
         let locationLabel = UILabel()
+        locationLabel.textColor = .white
         locationLabel.translatesAutoresizingMaskIntoConstraints = false
         return locationLabel
     }()
     
     private lazy var minMaxTemperatureLabel: UILabel = {
         let minMaxTemperatureLabel = UILabel()
+        minMaxTemperatureLabel.textColor = .white
         minMaxTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
         return minMaxTemperatureLabel
     }()
     
     private lazy var currentTemperatureLabel: UILabel = {
         let currentTemperatureLabel = UILabel()
+        currentTemperatureLabel.textColor = .white
         currentTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
         currentTemperatureLabel.font = UIFont.boldSystemFont(ofSize: 20)
         return currentTemperatureLabel
