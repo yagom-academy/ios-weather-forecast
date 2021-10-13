@@ -77,10 +77,15 @@ extension WeatherViewModel {
         }
         
         let numberFormat = NumberFormatter()
-        let maxDigits = 3
+        let minInterDigits = 1
+        let minFractionDigits = 1
+        let maxFractionDigits = 1
+        
         numberFormat.roundingMode = .floor
-        numberFormat.usesSignificantDigits = true
-        numberFormat.maximumSignificantDigits = maxDigits
+        numberFormat.minimumIntegerDigits = minInterDigits
+        numberFormat.minimumFractionDigits = minFractionDigits
+        numberFormat.maximumFractionDigits = maxFractionDigits
+        
         let formattingText = numberFormat.string(from: NSNumber(value: tempature))
 
         return formattingText?.appending("°")
@@ -156,7 +161,7 @@ extension WeatherViewModel: LocationManagerDelegate {
                   let icon = currentWeather.weather.first?.icon,
                   let iconURL = URL(string: WeatherAPI.icon.url + icon),
                   error == nil else {
-                self.isDataTaskError?.value = true
+                self.isDataTaskError = Observable<Bool>(true)
                 return
             }
             
@@ -165,7 +170,7 @@ extension WeatherViewModel: LocationManagerDelegate {
                 case .success(let data):
                     self.currentData.value?.imageData = data
                 case .failure(_):
-                    self.isDataTaskError?.value = true
+                    self.isDataTaskError = Observable<Bool>(true)
                 }
             }
             
@@ -176,7 +181,7 @@ extension WeatherViewModel: LocationManagerDelegate {
             
             guard let forecastWeather = forecastWeather,
                       error == nil else {
-                self.isDataTaskError?.value = true
+                self.isDataTaskError = Observable<Bool>(true)
                 return
             }
             
