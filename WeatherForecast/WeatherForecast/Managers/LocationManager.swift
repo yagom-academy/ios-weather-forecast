@@ -16,7 +16,7 @@ class LocationManager: NSObject {
     func getUserLocation(completion: @escaping ((CLLocation) -> Void)) {
         self.locationCompletion = completion
         locationManager.delegate = self
-        locationManager.startUpdatingLocation()
+        
     }
     
     func getUserAddress(completion: @escaping (Result<String, LocationError>) -> Void) {
@@ -36,7 +36,7 @@ class LocationManager: NSObject {
             
             guard let administrativeArea = placemarks.administrativeArea,
                   let thororoughfare = placemarks.thoroughfare else {
-                      completion(.failure(.inalidAddress))
+                      completion(.failure(.invalidAddress))
                       return
                   }
             
@@ -52,13 +52,24 @@ extension LocationManager: CLLocationManagerDelegate {
         guard let location = locations.last else { return }
         currentLocation = location
         locationCompletion?(location)
-        manager.stopUpdatingLocation()
+        
     }
     
     func locationManager(_ manager: CLLocationManager,
                          didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .notDetermined {
-            manager.requestWhenInUseAuthorization()
+        switch status {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .authorizedAlways, .authorizedWhenInUse:
+            locationManager.requestLocation()
+        case .restricted, .denied:
+            debugPrint("restricted, denied")
+        default:
+            break
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        debugPrint(error.localizedDescription)
     }
 }
