@@ -20,12 +20,15 @@ struct TodayWeatherInfo: Codable {
     let timezone: Int?
     let identifier: Int?
     let name: String?
-    let cod: Int?
     
     enum CodingKeys: String, CodingKey {
-        case weather, base, main, visibility, wind, clouds, sys, timezone, name, cod
+        case weather, base, main, visibility, wind, clouds, sys, timezone, name
         case coordinate = "coord"
         case calculatedTime = "dt"
         case identifier = "id"
     }
+}
+
+extension TodayWeatherInfo: Requestable {
+    static let endpoint = "weather"
 }

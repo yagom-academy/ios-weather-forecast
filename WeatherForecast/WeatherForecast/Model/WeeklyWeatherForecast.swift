@@ -28,14 +28,17 @@ struct WeatherForecast: Codable {
 }
 
 struct WeeklyWeatherForecast: Codable {
-    let cod: String?
     let message: Int?
     let timestampCount: Int?
     let list: [WeatherForecast]?
     let city: City?
     
     enum CodingKeys: String, CodingKey {
-        case cod, message, list, city
+        case message, list, city
         case timestampCount = "cnt"
     }
+}
+
+extension WeeklyWeatherForecast: Requestable {
+    static let endpoint = "forecast"
 }
