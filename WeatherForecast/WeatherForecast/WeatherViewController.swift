@@ -28,6 +28,7 @@ class WeatherViewController: UIViewController {
         let weatherTableView = UITableView()
         weatherTableView.translatesAutoresizingMaskIntoConstraints = false
         weatherTableView.register(HourlyWeatherInfo.self, forCellReuseIdentifier: HourlyWeatherInfo.identifier)
+        weatherTableView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0)
         weatherTableView.register(WeatherHeaderView.self, forHeaderFooterViewReuseIdentifier: WeatherHeaderView.identifier)
         return weatherTableView
     }()
