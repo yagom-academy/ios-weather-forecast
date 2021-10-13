@@ -60,12 +60,7 @@ extension WeatherViewModel {
 
 // MARK: - Method
 extension WeatherViewModel {
-    enum Tempature {
-        case min
-        case max
-        case current
-    }
-    
+   
     func getAddress() -> String {
         guard let country = currentPlacemark?.name,
               let locality = currentPlacemark?.locality else {
@@ -74,19 +69,13 @@ extension WeatherViewModel {
         return locality + " " + country
     }
     
-    func getTempature(kind: Tempature) -> String? {
-        guard let data = currentData.value else {
+    func getFormattingTempature(_ tempature: Double?) -> String? {
+        guard let tempature = tempature else {
             return nil
         }
+        let numberFormat = "%.1f"
         
-        switch kind {
-        case .min:
-            return data.main.tempMinText.appending("°")
-        case .max:
-            return data.main.tempMaxText.appending("°")
-        case .current:
-            return data.main.tempText.appending("°")
-        }
+        return String(format: numberFormat, tempature).appending("°")
     }
     
     func getCellViewModel(at indexPath: IndexPath) -> ForecastWeather.List? {
@@ -105,6 +94,10 @@ extension WeatherViewModel {
         
         formatter.dateFormat = "MM/dd(E) HH시"
         return formatter.string(from: Date(timeIntervalSince1970: timeInterval))
+    }
+    
+    func refreshData() {
+        locationManager.requestLocation()
     }
 }
 

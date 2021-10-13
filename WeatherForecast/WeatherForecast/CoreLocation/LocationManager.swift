@@ -31,6 +31,10 @@ class LocationManager: NSObject {
     func getCoordinate() -> CLLocationCoordinate2D? {
         return currentLocation?.coordinate
     }
+    
+    func requestLocation() {
+        manager?.requestLocation()
+    }
 
     func getAddress(completion: @escaping (Result<CLPlacemark, Error>) -> Void) {
         guard let currentLocation = currentLocation else {

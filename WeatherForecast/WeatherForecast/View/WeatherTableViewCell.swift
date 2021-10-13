@@ -77,7 +77,7 @@ extension WeatherTableViewCell {
         ])
     }
     
-    func configureContents(date: String, tempature: String, weatherImage: UIImage?) {
+    func configureContents(date: String?, tempature: String?, weatherImage: UIImage?) {
         self.dateLabel.text = date
         self.temperatureLabel.text = tempature
         self.weatherImageView.image = weatherImage

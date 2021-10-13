@@ -29,6 +29,7 @@ class WeatherHeaderView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.isHidden = true
         label.text = NameSpace.minTempatureDescription
         label.textColor = .white
         return label
@@ -48,6 +49,7 @@ class WeatherHeaderView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.isHidden = true
         label.text = NameSpace.maxPempatureDescription
         label.textColor = .white
         return label
@@ -152,12 +154,13 @@ extension WeatherHeaderView {
         self.maxTempatureLabel.text = maxTempature
         self.currentTempatureLabel.text = currentTempature
         
+        self.minTempatureDescriptionLabel.isHidden = false
+        self.maxTempatureDescriptionLabel.isHidden = false
         guard let iconData = iconData,
               let iconImage = UIImage(data: iconData) else {
             return
         }
         
         self.weatherImageView.image = iconImage
-        
     }
 }
