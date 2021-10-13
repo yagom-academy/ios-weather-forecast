@@ -20,6 +20,7 @@ class WeatherForecastViewController: UIViewController {
         super.viewDidLoad()
         locationManager.delegate = self
         setTableView()
+        configureRefreshControl()
         // Do any additional setup after loading the view.
     }
 
@@ -29,15 +30,32 @@ class WeatherForecastViewController: UIViewController {
                             CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height * 0.15))
         tableView.tableHeaderView = tableHeaderView
         tableView.backgroundView = UIImageView(image: UIImage(named: "tokyo_tower.jpeg"))
+        tableView.backgroundView?.alpha = 0.8
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.separatorColor = .white
         tableView.register(WeatherForecastViewCell.self, forCellReuseIdentifier: WeatherForecastViewCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        let safeArea = view.safeAreaLayoutGuide
-        NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-                                     tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-                                     tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-                                     tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)])
+
+        NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalTo: view.topAnchor),
+                                     tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                                     tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                                     tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
+    }
+
+    func configureRefreshControl() {
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.tintColor = .orange
+        tableView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+
+    @objc func handleRefreshControl() {
+        locationManager.requestLocation()
+
+        DispatchQueue.main.async {
+            self.tableView.refreshControl?.endRefreshing()
+            self.tableView.reloadData()
+        }
     }
 }
 

@@ -46,6 +46,10 @@ class LocationManager: NSObject {
             completion(.success(placemark))
         }
     }
+
+    func requestLocation() {
+        manager?.requestLocation()
+    }
 }
 
 extension LocationManager: CLLocationManagerDelegate {
