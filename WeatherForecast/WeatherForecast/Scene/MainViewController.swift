@@ -51,52 +51,46 @@ extension MainViewController: CLLocationManagerDelegate {
             print(placemark)
             #endif
         }
-        
+    
         currentCoordinate.flatMap {
-            requestCurrentWeather(coordinate: $0)
-            requestForecast(coordinate: $0)
+            request(coordinate: $0) { [weak self] (result: Result<TodayWeatherInfo, Error>) in
+                switch result {
+                case .success(let model):
+                    self?.currentWeather = model
+                    #if DEBUG
+                    print(model)
+                    #endif
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            request(coordinate: $0) { [weak self] (result: Result<WeeklyWeatherForecast, Error>) in
+                switch result {
+                case .success(let model):
+                    self?.weatherForecast = model
+                    #if DEBUG
+                    print(model)
+                    #endif
+                case .failure(let error):
+                    print(error)
+                }
+            }
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { }
-    
 }
 
 extension MainViewController {
-    func requestForecast(coordinate: Coordinate) {
+    func request<Model: Requestable>(
+        coordinate: Coordinate,
+        completion: @escaping (Result<Model, Error>) -> Void) {
         NetworkManager().request(
-            with: WeeklyWeatherForecast.self,
+            with: Model.self,
             parameters: coordinate.parameters,
-            httpMethod: .get
-        ) { [weak self] result in
-            switch result {
-            case .success(let model):
-                self?.weatherForecast = model
-                #if DEBUG
-                print(model)
-                #endif
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    func requestCurrentWeather(coordinate: Coordinate) {
-        NetworkManager().request(
-            with: TodayWeatherInfo.self,
-            parameters: coordinate.parameters,
-            httpMethod: .get
-        ) { [weak self] result in
-            switch result {
-            case .success(let model):
-                self?.currentWeather = model
-                #if DEBUG
-                    print(model)
-                #endif
-            case .failure(let error):
-                print(error)
-            }
-        }
+            httpMethod: .get,
+            completion: completion
+        )
     }
     
     func convertToAddress(with location: CLLocation,
