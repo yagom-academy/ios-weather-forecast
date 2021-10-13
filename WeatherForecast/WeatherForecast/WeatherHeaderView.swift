@@ -26,13 +26,13 @@ class WeatherHeaderView: UITableViewHeaderFooterView {
     private lazy var currentTemperatureLabel: UILabel = {
         let currentTemperatureLabel = UILabel()
         currentTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
+        currentTemperatureLabel.font = UIFont.boldSystemFont(ofSize: 20)
         return currentTemperatureLabel
     }()
     
     private lazy var weatherImage: UIImageView = {
         let weatherImage = UIImageView()
         weatherImage.translatesAutoresizingMaskIntoConstraints = false
-        weatherImage.contentMode = .scaleAspectFill
         return weatherImage
     }()
 
@@ -52,9 +52,9 @@ class WeatherHeaderView: UITableViewHeaderFooterView {
         contentView.addSubview(currentTemperatureLabel)
         
         NSLayoutConstraint.activate([weatherImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-                                     weatherImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+                                     weatherImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -20),
                                      locationLabel.leadingAnchor.constraint(equalTo: weatherImage.trailingAnchor, constant: 10),
-                                     locationLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+                                     locationLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -20),
                                      minMaxTemperatureLabel.leadingAnchor.constraint(equalTo: locationLabel.leadingAnchor),
                                      minMaxTemperatureLabel.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 10),
                                      currentTemperatureLabel.leadingAnchor.constraint(equalTo: locationLabel.leadingAnchor),
