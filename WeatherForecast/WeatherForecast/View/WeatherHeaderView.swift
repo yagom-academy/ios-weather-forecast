@@ -8,13 +8,15 @@
 import UIKit
 
 class WeatherHeaderView: UIView {
-    
+    // MARK: NameSpace
     enum NameSpace {
         static let minTempatureDescription = "최저"
         static let maxPempatureDescription = "최고"
         static let tempatureStackViewSpacing: CGFloat = 8
         static let containerStackViewSpacing: CGFloat = 8
     }
+    
+    // MARK: Property
     private let addressLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -101,6 +103,7 @@ class WeatherHeaderView: UIView {
         return stackView
     }()
     
+    // MARK: Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureContentsLayout()
@@ -112,6 +115,7 @@ class WeatherHeaderView: UIView {
     }
 }
 
+// MARK: - Method
 extension WeatherHeaderView {
     private func configureContentsLayout() {
         tempatureStackView.addArrangedSubview(minTempatureDescriptionLabel)
@@ -156,6 +160,7 @@ extension WeatherHeaderView {
         
         self.minTempatureDescriptionLabel.isHidden = false
         self.maxTempatureDescriptionLabel.isHidden = false
+        
         guard let iconData = iconData,
               let iconImage = UIImage(data: iconData) else {
             return

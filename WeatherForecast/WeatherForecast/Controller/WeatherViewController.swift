@@ -52,10 +52,10 @@ class WeatherViewController: UIViewController {
                 self?.weatherTableView.reloadData()
             }
         }
-        
     }
 }
 
+// MARK: - Method
 extension WeatherViewController {
     private func configureTableView() {
         view.addSubview(weatherTableView)
@@ -90,6 +90,13 @@ extension WeatherViewController {
                                                      iconData: currentWeather?.imageData)
         }
     }
+    
+    private func failureFetchingWeather(error: Error?) {
+        let alert = UIAlertController.generateErrorAlertController(message: error?.localizedDescription)
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -106,31 +113,19 @@ extension WeatherViewController: UITableViewDataSource {
         
         let cellViewModel = weatherModel.getCellViewModel(at: indexPath)
         
-        guard let icon = cellViewModel?.weather.first?.icon,
-              let url = URL(string: WeatherAPI.icon.url + icon) else {
-            return UITableViewCell()
-        }
-
-        NetworkManager().dataTask(url: url) { [weak self] result in
-            switch result {
-            case .success(let data):
-                DispatchQueue.main.async {
-                    let date = self?.weatherModel.getForecastTime(cellViewModel?.forecastTime)
-                    let tempature = self?.weatherModel.getFormattingTempature(cellViewModel?.main.temp)
-                    
-                    cell.configureContents(date: date,
-                                           tempature: tempature,
-                                           weatherImage: UIImage(data: data))
-                }
-
-            case .failure(_):
-                break
+        weatherModel.getWeatherIconImage(at: indexPath) { [weak self] data in
+            DispatchQueue.main.async {
+                let date = self?.weatherModel.getForecastTime(cellViewModel?.forecastTime)
+                let tempature = self?.weatherModel.getFormattingTempature(cellViewModel?.main.temp)
+                
+                cell.configureContents(date: date,
+                                       tempature: tempature,
+                                       weatherImage: UIImage(data: data))
             }
         }
-       
+        
         return cell
     }
-    
 }
 
 // MARK: - UITableViewDelegate
@@ -141,14 +136,5 @@ extension WeatherViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return weatherHeaderView
-    }
-}
-
-extension WeatherViewController {
-    private func failureFetchingWeather(error: Error?) {
-        let alert = UIAlertController.generateErrorAlertController(message: error?.localizedDescription)
-        DispatchQueue.main.async {
-            self.present(alert, animated: true, completion: nil)
-        }
     }
 }

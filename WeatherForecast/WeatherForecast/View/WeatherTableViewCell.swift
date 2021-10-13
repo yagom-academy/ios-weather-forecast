@@ -65,15 +65,20 @@ extension WeatherTableViewCell {
         contentView.addSubview(dateLabel)
         contentView.addSubview(stackView)
         
+        let imageWidthSize: CGFloat = 30
+        let imageHeightSize: CGFloat = 30
+        let dateLabelLedingConstant: CGFloat = 10
+        let stackViewTrailingConstant: CGFloat = -10
+        
         NSLayoutConstraint.activate([
-            weatherImageView.widthAnchor.constraint(equalToConstant: 30),
-            weatherImageView.heightAnchor.constraint(equalToConstant: 30),
+            weatherImageView.widthAnchor.constraint(equalToConstant: imageWidthSize),
+            weatherImageView.heightAnchor.constraint(equalToConstant: imageHeightSize),
             
             dateLabel.centerYAnchor.constraint(equalTo: contentView.layoutMarginsGuide.centerYAnchor),
-            dateLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: 10),
+            dateLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: dateLabelLedingConstant),
            
             stackView.centerYAnchor.constraint(equalTo: contentView.layoutMarginsGuide.centerYAnchor),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: stackViewTrailingConstant)
         ])
     }
     

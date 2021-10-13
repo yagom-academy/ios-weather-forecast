@@ -73,9 +73,15 @@ extension WeatherViewModel {
         guard let tempature = tempature else {
             return nil
         }
-        let numberFormat = "%.1f"
         
-        return String(format: numberFormat, tempature).appending("°")
+        let numberFormat = NumberFormatter()
+        let maxDigits = 3
+        numberFormat.roundingMode = .floor
+        numberFormat.usesSignificantDigits = true
+        numberFormat.maximumSignificantDigits = maxDigits
+        let formattingText = numberFormat.string(from: NSNumber(value: tempature))
+
+        return formattingText?.appending("°")
     }
     
     func getCellViewModel(at indexPath: IndexPath) -> ForecastWeather.List? {
@@ -92,12 +98,30 @@ extension WeatherViewModel {
             formatter.locale = Locale(identifier: preferred)
         }
         
-        formatter.dateFormat = "MM/dd(E) HH시"
+        let dateFormat = "MM/dd(E) HH시"
+        formatter.dateFormat = dateFormat
         return formatter.string(from: Date(timeIntervalSince1970: timeInterval))
     }
     
     func refreshData() {
         locationManager.requestLocation()
+    }
+    
+    func getWeatherIconImage(at indexPath: IndexPath, completion: @escaping (Data) -> Void) {
+        
+        guard let icon = forecastData.value?.list[indexPath.row].weather.first?.icon,
+              let url = URL(string: WeatherAPI.icon.url + icon) else {
+            return
+        }
+    
+        NetworkManager().dataTask(url: url) { result in
+            switch result {
+            case .success(let data):
+                completion(data)
+            case .failure(_):
+                break
+            }
+        }
     }
 }
 
