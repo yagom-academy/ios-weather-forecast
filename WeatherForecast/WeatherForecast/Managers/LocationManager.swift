@@ -9,27 +9,31 @@ import Foundation
 import CoreLocation
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
-    static let shared = LocationManager()
+    typealias RequestLocationAction = (CLLocationCoordinate2D) -> Void
     
-    var locationManager = CLLocationManager()
+    private let locationManager = CLLocationManager()
+    private var completionHanler: RequestLocationAction?
     
-    func setupLocationInfo() {
+    override init() {
+        super.init()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
+    }
+    
+    func requestLocation(completion: @escaping RequestLocationAction) {
+        completionHanler = completion
         locationManager.startUpdatingLocation()
     }
 }
 
-// MARK:- CLLocationManagerDelegate
+// MARK: - CLLocationManagerDelegate
 extension LocationManager {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let currentLocation = locations.last else {
             return
         }
 
-        let longitude = currentLocation.coordinate.longitude
-        let latitude = currentLocation.coordinate.latitude
-
+        completionHanler?(currentLocation.coordinate)
         locationManager.stopUpdatingLocation()
     }
     
