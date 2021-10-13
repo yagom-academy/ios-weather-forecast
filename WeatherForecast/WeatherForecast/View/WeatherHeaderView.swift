@@ -124,8 +124,8 @@ extension WeatherHeaderView {
         addSubview(weatherImageView)
         addSubview(containerStackView)
         
-        let imageViewWidthSize: CGFloat = 50
-        let imageViewHeightSize: CGFloat = 50
+        let imageViewWidthSize: CGFloat = 80
+        let imageViewHeightSize: CGFloat = 80
         let imageViewCenterYConstant: CGFloat = 60
         let imageViewleadingConstant: CGFloat = 8
         let stackViewCenterYConstant: CGFloat = 60
