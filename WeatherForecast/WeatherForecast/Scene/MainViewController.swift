@@ -31,7 +31,11 @@ extension MainViewController: CLLocationManagerDelegate {
         case .authorizedAlways, .authorizedWhenInUse:
             break
         case .restricted, .denied:
+            showAlert(title: "위치 서비스 제공이 불가능합니다.",
+                      message: "어플리케이션 설정에서 위치 권한을 허용해주세요.")
         default:
+            showAlert(title: "위치 서비스 제공이 불가능합니다.",
+                      message: "개발자에게 신고해주세요.")
         }
     }
     
@@ -111,4 +115,21 @@ extension MainViewController {
     }
 }
 
+extension MainViewController {
+    func showAlert(title: String, message: String) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(
+                title: title,
+                message: message,
+                preferredStyle: .alert)
+            
+            let okAction = UIAlertAction(
+                title: "OK",
+                style: .default,
+                handler: nil)
+            alert.addAction(okAction)
+            
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
 }
