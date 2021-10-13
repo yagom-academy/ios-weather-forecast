@@ -10,7 +10,19 @@ import CoreLocation
 
 struct WeatherService {
     
-    func makeURL(by coordinate: CLLocationCoordinate2D) -> URL {
+    private var locationManager = LocationManager()
+    
+    func fetchCurrentWeatherByLocation(completion: @escaping (CurrentWeatherData) -> Void) {
+        locationManager.getUserLocation { location in
+            let currentCoordinate = location.coordinate
+            let url = makeURL(by: currentCoordinate)
+            self.fetchCurrentWeather(with: url, completion: { currentWeather in
+                completion(currentWeather)
+            })
+        }
+    }
+    
+    private func makeURL(by coordinate: CLLocationCoordinate2D) -> URL {
         let currentLatitude = coordinate.latitude
         let currentLongitude = coordinate.longitude
         let currentGeographic = WeatherAPI.current(.geographic(latitude: currentLatitude,
@@ -33,14 +45,13 @@ struct WeatherService {
         networkManager.fetchData(with: url) { result in
             switch result {
             case .success(let data):
-                guard let currentWeatherData = try? customDecoder.decode(
+                guard let currentWeather = try? customDecoder.decode(
                     CurrentWeatherData.self,
                     from: data
                 ) else {
                     return
                 }
-                print("Current Weather Data : \(currentWeatherData)")
-                completion(currentWeatherData)
+                completion(currentWeather)
             case .failure(let error):
                 print(error)
             }
