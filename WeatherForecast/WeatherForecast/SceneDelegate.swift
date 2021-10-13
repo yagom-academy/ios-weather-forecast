@@ -5,6 +5,7 @@
 // 
 
 import UIKit
+import CoreLocation
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -15,7 +16,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let mainScene = scene as? UIWindowScene else { return }
         window = UIWindow(windowScene: mainScene)
-        let mainViewController = MainViewController()
+
+        let locationManager = CLLocationManager(desiredAccuracy: kCLLocationAccuracyThreeKilometers)
+        let locationService = LocationService(locationManager: locationManager)
+        let mainViewController = MainViewController(locationService: locationService)
         
         window?.rootViewController = mainViewController
         window?.makeKeyAndVisible()
