@@ -11,7 +11,7 @@ class WeatherViewController: UIViewController {
     private let networkManager = NetworkManager<WeatherRequest>()
     private let parsingManager = ParsingManager()
     private var locationManager = CLLocationManager()
-    private let tableViewDatasource = WeatherInfoTable()
+//    private let tableViewDatasource = WeatherInfoTable()
     
     private var currentWeather: CurrentWeather? = nil {
         didSet {
@@ -34,7 +34,7 @@ class WeatherViewController: UIViewController {
     }()
     
     private func configure() {
-        weatherTableView.dataSource = tableViewDatasource
+        weatherTableView.dataSource = self
         weatherTableView.delegate = self
     }
     
@@ -119,6 +119,20 @@ extension WeatherViewController {
                 print(error)
             }
         }
+    }
+}
+
+extension WeatherViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return fiveDayForecast?.list.count ?? 0
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: HourlyWeatherInfo.identifier, for: indexPath) as? HourlyWeatherInfo else {
+            return UITableViewCell()
+        }
+        cell.setUpUI(forcast: fiveDayForecast, indexPath: indexPath)
+        return cell
     }
 }
 

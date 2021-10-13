@@ -50,4 +50,15 @@ class HourlyWeatherInfo: UITableViewCell {
                                      weatherImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5), temperatureLabel.trailingAnchor.constraint(equalTo: weatherImage.leadingAnchor, constant: 5),
                                      temperatureLabel.topAnchor.constraint(equalTo: weatherImage.topAnchor)])
     }
+    
+    func setUpUI(forcast: FiveDayForecast?, indexPath: IndexPath) {
+        guard let forecastItems = forcast?.list[indexPath.row] else { return }
+        dateLabel.text = forecastItems.dtText
+        temperatureLabel.text = String(forecastItems.main.temp)
+        if let icon = forecastItems.weather.first?.icon {
+            let imageURL = String(format: "https://openweathermap.org/img/w/%@.png", icon)
+            weatherImage.downloadImage(from: imageURL)
+        }
+    }
 }
+

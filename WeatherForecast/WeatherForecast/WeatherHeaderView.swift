@@ -84,7 +84,7 @@ extension UIImageView {
         guard let url = URL(string: link) else {
             return
         }
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+        URLSession.shared.dataTask(with: url) { (data, _, _) in
             DispatchQueue.main.async {
                 if let data = data {
                     self.image = UIImage(data: data)
