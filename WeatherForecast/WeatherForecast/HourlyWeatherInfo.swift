@@ -55,7 +55,8 @@ class HourlyWeatherInfo: UITableViewCell {
         guard let forecastItems = forcast?.list[indexPath.row] else { return }
         let dateFormat = forecastItems.dt
         dateLabel.text = changeStringFormat(to: dateFormat)
-        temperatureLabel.text = String(forecastItems.main.temp)
+        let averageTemperature = changeToCelcius(to: forecastItems.main.temp)
+        temperatureLabel.text = String(format: "%.1f°", averageTemperature)
         if let icon = forecastItems.weather.first?.icon {
             let imageURL = String(format: "https://openweathermap.org/img/w/%@.png", icon)
             weatherImage.downloadImage(from: imageURL)
@@ -69,5 +70,9 @@ extension HourlyWeatherInfo {
         dateformatter.dateFormat = "MM/dd(E) HH시"
         dateformatter.locale = Locale(identifier: "ko")
         return dateformatter.string(from: dateFormat)
+    }
+    
+    func changeToCelcius(to kelvin: Double) -> Double {
+        return kelvin - 273.15
     }
 }
