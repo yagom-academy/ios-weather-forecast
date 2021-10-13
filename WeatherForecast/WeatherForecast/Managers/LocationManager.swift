@@ -19,7 +19,7 @@ class LocationManager: NSObject {
         locationManager.startUpdatingLocation()
     }
     
-    func getUserAddress(completion: @escaping (Result<CLPlacemark, LocationError>) -> Void) {
+    func getUserAddress(completion: @escaping (Result<String, LocationError>) -> Void) {
         let locale = Locale(identifier: "ko-kr")
         guard let currentLocation = currentLocation else { return }
         CLGeocoder().reverseGeocodeLocation(currentLocation,
@@ -34,7 +34,14 @@ class LocationManager: NSObject {
                 return
             }
             
-            completion(.success(placemarks))
+            guard let administrativeArea = placemarks.administrativeArea,
+                  let thororoughfare = placemarks.thoroughfare else {
+                      completion(.failure(.inalidAddress))
+                      return
+                  }
+            
+            let currentAddress = "\(administrativeArea) \(thororoughfare)"
+            completion(.success(currentAddress))
         }
     }
 }
