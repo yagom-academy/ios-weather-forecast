@@ -9,8 +9,6 @@ import CoreLocation
 
 class WeatherListViewController: UIViewController {
     private var locationManager: CLLocationManager?
-    private var currentLocation: CLLocationCoordinate2D?
-    private var weatherDataManater = WeatherDataManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,12 +21,12 @@ extension WeatherListViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedWhenInUse, .authorizedAlways:
-            currentLocation = manager.location?.coordinate
+            let currentLocation = manager.location?.coordinate
             guard let currentLocation = currentLocation else { return }
-            weatherDataManater.longitude = currentLocation.longitude
-            weatherDataManater.latitude = currentLocation.latitude
-            convertToAddress(latitude: weatherDataManater.latitude, longitude: weatherDataManater.longitude)
-            weatherDataManater.fetchCurrentWeather()
+            WeatherDataManager.shared.longitude = currentLocation.longitude
+            WeatherDataManager.shared.latitude = currentLocation.latitude
+            convertToAddress(latitude: WeatherDataManager.shared.latitude, longitude: WeatherDataManager.shared.longitude)
+            WeatherDataManager.shared.fetchCurrentWeather()
             
             
         case .notDetermined, .restricted:
@@ -61,8 +59,8 @@ extension WeatherListViewController {
                guard let lat = currentCoordinate?.latitude, let lon = currentCoordinate?.longitude else {
                    return
                }
-               weatherDataManater.latitude = lat
-               weatherDataManater.longitude = lon
+               WeatherDataManager.shared.latitude = lat
+               WeatherDataManager.shared.longitude = lon
            }
        }
     

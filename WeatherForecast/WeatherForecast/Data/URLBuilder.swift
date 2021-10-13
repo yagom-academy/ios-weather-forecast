@@ -8,8 +8,12 @@
 import Foundation
 
 class URLBuilder: URLMakable {
-    var pathType: URLResource.PathType = .current
+    var pathType: URLResource.PathType
     var queries = [URLResource.QueryParam]()
+    
+    init(pathType: URLResource.PathType = .current) {
+        self.pathType = pathType
+    }
     
     func setPathType(_ pathType: URLResource.PathType) {
         self.pathType = pathType
@@ -34,9 +38,9 @@ class URLBuilder: URLMakable {
         
         switch pathType {
         case .current:
-            urlComponents.path = URLResource.PathType.current.rawValue
+            urlComponents.path = pathType.rawValue
         case .fiveDays:
-            urlComponents.path = URLResource.PathType.fiveDays.rawValue
+            urlComponents.path = pathType.rawValue
         }
         urlComponents.queryItems = queries.map({
             URLQueryItem(name: $0.name, value: $0.value)
