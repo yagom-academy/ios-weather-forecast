@@ -32,7 +32,17 @@ class WeatherViewController: UIViewController {
         weatherTableView.register(WeatherHeaderView.self, forHeaderFooterViewReuseIdentifier: WeatherHeaderView.identifier)
         return weatherTableView
     }()
-    
+    //MARK: - View Life Cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        locationManager.delegate = self
+        locationManager.startMonitoringSignificantLocationChanges()
+        configure()
+        addSubView()
+        autoLayout()
+        configureRefreshControl()
+    }
+    //MARK: - Method: related to TableView
     private func configure() {
         weatherTableView.dataSource = self
         weatherTableView.delegate = self
@@ -48,10 +58,6 @@ class WeatherViewController: UIViewController {
         }
     }
     
-    private func requestAuthorization() {
-        locationManager.requestLocation()
-    }
-    
     private func autoLayout() {
         let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -61,7 +67,11 @@ class WeatherViewController: UIViewController {
             weatherTableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
         ])
     }
-    
+    //MARK: - Method: related to CoreLocation
+    private func requestAuthorization() {
+        locationManager.requestLocation()
+    }
+    //MARK: - Method: related to UIRefreshControl
     private func configureRefreshControl() {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshWeatherTable), for: .valueChanged)
@@ -72,18 +82,8 @@ class WeatherViewController: UIViewController {
         locationManager.requestLocation()
         sender.endRefreshing()
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        locationManager.delegate = self
-        locationManager.startMonitoringSignificantLocationChanges()
-        configure()
-        addSubView()
-        autoLayout()
-        configureRefreshControl()
-    }
 }
-
+//MARK: - CLLocationManagerDelegate
 extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locations = locations.last else { return }
@@ -93,7 +93,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
         fetchFiveDayForecast(latitude: latitude, longitude: longitude)
         
         let geoCoder = CLGeocoder()
-        let locale = Locale(identifier: "Ko-kr")
+        let locale = Locale(identifier: "ko")
         geoCoder.reverseGeocodeLocation(locations, preferredLocale: locale) { placemarks, error in
             self.address = placemarks
         }
@@ -109,7 +109,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
         print("error:: \(error.localizedDescription)")
     }
 }
-
+//MARK: - Fetch Weather Data
 extension WeatherViewController {
     private func fetchCurrentWeather(latitude: Double, longitude: Double) {
         networkManager.request(WeatherRequest.getCurrentWeather(latitude: latitude, longitude: longitude)) { result in
@@ -145,7 +145,7 @@ extension WeatherViewController {
         }
     }
 }
-
+//MARK: - TableViewDataSource
 extension WeatherViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fiveDayForecast?.list.count ?? 0
@@ -159,7 +159,7 @@ extension WeatherViewController: UITableViewDataSource {
         return cell
     }
 }
-
+//MARK: - TableViewDelegate
 extension WeatherViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let view = weatherTableView.dequeueReusableHeaderFooterView(withIdentifier: WeatherHeaderView.identifier) as? WeatherHeaderView else {

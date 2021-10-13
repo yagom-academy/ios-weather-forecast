@@ -189,6 +189,7 @@
 			children = (
 				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
 				7532200B271494230035F772 /* WeatherHeaderView.swift */,
+				753220092714831E0035F772 /* HourlyWeatherInfo.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -209,7 +210,6 @@
 			isa = PBXGroup;
 			children = (
 				C79C8CF725ADDDF200EEE3F1 /* WeatherViewController.swift */,
-				753220092714831E0035F772 /* HourlyWeatherInfo.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
