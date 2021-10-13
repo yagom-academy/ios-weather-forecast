@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol baseRequestModel {
-    func request()
+protocol Requestable: Decodable {
+    static var endpoint: String { get }
 }
