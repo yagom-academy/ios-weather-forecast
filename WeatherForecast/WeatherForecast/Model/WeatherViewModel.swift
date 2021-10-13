@@ -13,11 +13,15 @@ final class WeatherViewModel {
     var currentPlacemark: CLPlacemark?
     var isDataTaskError: Observable<Bool>?
     
+    var numberOfCellCount: Int? {
+        return forecastData.value?.list.count
+    }
     private var locationManager = LocationManager()
     
     init() {
         self.locationManager.delegate = self
     }
+    
 }
 
 // MARK: - Private Method
@@ -85,6 +89,23 @@ extension WeatherViewModel {
         }
     }
     
+    func getCellViewModel(at indexPath: IndexPath) -> ForecastWeather.List? {
+        return forecastData.value?.list[indexPath.row]
+    }
+    
+    func getForecastTime(_ timeInterval: TimeInterval?) -> String {
+        guard let timeInterval = timeInterval else {
+            return ""
+        }
+        let formatter = DateFormatter()
+        
+        if let preferred = Locale.preferredLanguages.first {
+            formatter.locale = Locale(identifier: preferred)
+        }
+        
+        formatter.dateFormat = "MM/dd(E) HH시"
+        return formatter.string(from: Date(timeIntervalSince1970: timeInterval))
+    }
 }
 
 // MARK: - LocationManagerDelegate
@@ -121,6 +142,17 @@ extension WeatherViewModel: LocationManagerDelegate {
             }
             
             self.currentData.value = currentWeather
+        }
+        
+        fetchingWeatherData(api: WeatherAPI.forecast, type: ForecastWeather.self) { forecastWeather, error in
+            
+            guard let forecastWeather = forecastWeather,
+                      error == nil else {
+                self.isDataTaskError?.value = true
+                return
+            }
+            
+            self.forecastData.value = forecastWeather
         }
     }
 }

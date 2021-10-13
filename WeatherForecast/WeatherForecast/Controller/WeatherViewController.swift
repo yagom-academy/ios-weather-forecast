@@ -33,8 +33,8 @@ class WeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        self.weatherTableView.dataSource = self
         self.weatherTableView.delegate = self
+        self.weatherTableView.dataSource = self
         
         weatherModel.currentData.bind { [weak self] _ in
             guard let self = self else { return }
@@ -45,11 +45,17 @@ class WeatherViewController: UIViewController {
             guard let self = self else { return }
             self.failureFetchingWeather(error: nil)
         }
+        
+        weatherModel.forecastData.bind { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.weatherTableView.reloadData()
+            }
+        }
     }
 }
 
 extension WeatherViewController {
-   private func configureTableView() {
+    private func configureTableView() {
         view.addSubview(weatherTableView)
         
         NSLayoutConstraint.activate([
@@ -60,7 +66,7 @@ extension WeatherViewController {
         ])
     }
     
-   private func bindHeaderView() {
+    private func bindHeaderView() {
         DispatchQueue.main.async {
             self.weatherHeaderView.configureContents(address: self.weatherModel.getAddress(),
                                                      minTempature: self.weatherModel.getTempature(kind: .min),
@@ -76,7 +82,7 @@ extension WeatherViewController {
 extension WeatherViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return weatherModel.forecastData.value?.list.count ?? 10
+        return weatherModel.numberOfCellCount ?? .zero
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -84,6 +90,27 @@ extension WeatherViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        let cellViewModel = weatherModel.getCellViewModel(at: indexPath)
+        
+        guard let icon = cellViewModel?.weather.first?.icon,
+              let url = URL(string: WeatherAPI.icon.url + icon) else {
+            return UITableViewCell()
+        }
+
+        NetworkManager().dataTask(url: url) { result in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    cell.configureContents(date: self.weatherModel.getForecastTime(cellViewModel?.forecastTime),
+                                           tempature: "1111",
+                                           weatherImage: UIImage(data: data))
+                }
+
+            case .failure(_):
+                break
+            }
+        }
+       
         return cell
     }
     

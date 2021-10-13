@@ -22,7 +22,6 @@ class Observable<T> {
     
     func bind(_ completion: ((T?) -> Void)?) {
         self.completion = completion
-        completion?(value)
     }
 
 }
