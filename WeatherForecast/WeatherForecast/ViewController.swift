@@ -26,11 +26,13 @@ class ViewController: UIViewController {
         
         view.backgroundColor = .white
         collecionView.backgroundColor = .white
+        makeDataSource()
         initData()
         setupCollectionView()
         collecionView.register(WeatherForecastCustomCell.self, forCellWithReuseIdentifier: WeatherForecastCustomCell.identifier)
+        configureRefreshControl()
     }
-
+    
     private func initData() {
         guard let location = locationManager.getGeographicCoordinates() else {
             return
@@ -78,7 +80,7 @@ class ViewController: UIViewController {
             switch parsedData {
             case .success(let currentWeatherData):
                 self.currentWeather = currentWeatherData
-            
+                
             case .failure(let parsingError):
                 assertionFailure(parsingError.localizedDescription)
             }
@@ -87,7 +89,6 @@ class ViewController: UIViewController {
             switch parsedData {
             case .success(let fiveDayWeatherData):
                 self.fiveDayWeather = fiveDayWeatherData
-                makeDataSource()
                 makeSnapshot()
             case .failure(let parsingError):
                 assertionFailure(parsingError.localizedDescription)
@@ -100,12 +101,12 @@ class ViewController: UIViewController {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WeatherForecastCustomCell.identifier, for: indexPath) as? WeatherForecastCustomCell else {
                 return UICollectionViewCell()
             }
-
+            
             return cell
         }
         self.dataSource = dataSource
     }
-
+    
     private func makeSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, FiveDayWeather.List>()
         snapshot.appendSections([.fiveDayWeather])
@@ -125,7 +126,6 @@ class ViewController: UIViewController {
             collecionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
-        
         if #available(iOS 14.0, *) {
             let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
             collecionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
@@ -137,7 +137,16 @@ class ViewController: UIViewController {
             layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
             collecionView.collectionViewLayout = layout
         }
-        
-        
+    }
+    
+    func configureRefreshControl() {
+        collecionView.refreshControl = UIRefreshControl()
+        collecionView.refreshControl?.tintColor = .systemRed
+        collecionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+    
+    @objc func handleRefreshControl() {
+        initData()
+        self.collecionView.refreshControl?.endRefreshing()
     }
 }
