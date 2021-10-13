@@ -26,7 +26,7 @@ class WeatherForecastViewController: UIViewController {
     func setTableView() {
         view.addSubview(tableView)
         tableHeaderView = WeatherForecastHeaderView(frame:
-                            CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height * 0.2))
+                            CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height * 0.15))
         tableView.tableHeaderView = tableHeaderView
         tableView.dataSource = self
         tableView.delegate = self

@@ -36,7 +36,7 @@ class LocationManager: NSObject {
         guard let currentLocation = currentLocation else {
             return
         }
-        CLGeocoder().reverseGeocodeLocation(currentLocation, preferredLocale: Locale.current) { placemark, error in
+        CLGeocoder().reverseGeocodeLocation(currentLocation, preferredLocale: Locale(identifier: "ko_KR")) { placemark, error in
             guard error == nil else {
                 return completion(.failure(LocationManagerError.invalidLocation))
             }

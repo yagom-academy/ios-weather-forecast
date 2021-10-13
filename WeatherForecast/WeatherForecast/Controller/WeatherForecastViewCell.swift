@@ -53,7 +53,6 @@ class WeatherForecastViewCell: UITableViewCell {
         dateFormatter.dateFormat = "MM/dd(E) HH시"
         dateFormatter.locale = Locale(identifier: "ko_KR")
         timeLabel.text = dateFormatter.string(from: date)
-
         temperatureLabel.text = MeasurementFormatter().convertTemp(temp: data.main.temp, from: .kelvin, to: .celsius)
 
         if let iconID = data.weather.first?.icon {

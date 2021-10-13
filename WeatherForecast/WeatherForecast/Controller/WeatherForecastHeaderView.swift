@@ -32,9 +32,6 @@ class WeatherForecastHeaderView: UIView {
         stackView.addArrangedSubview(locationLabel)
         stackView.addArrangedSubview(minMaxTempLabel)
         stackView.addArrangedSubview(currentTempLabel)
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.distribution = .fill
 
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -42,14 +39,27 @@ class WeatherForecastHeaderView: UIView {
         minMaxTempLabel.translatesAutoresizingMaskIntoConstraints = false
         currentTempLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        NSLayoutConstraint.activate([iconImageView.topAnchor.constraint(equalTo: topAnchor),
+        NSLayoutConstraint.activate([iconImageView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
                                      iconImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-                                     iconImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
-                                     iconImageView.widthAnchor.constraint(equalTo: heightAnchor),
+                                     iconImageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.2),
+                                     iconImageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 0.2),
                                      stackView.topAnchor.constraint(equalTo: topAnchor),
                                      stackView.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor),
-                                     stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                                     stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
                                      stackView.trailingAnchor.constraint(equalTo: trailingAnchor)])
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.distribution = .fillProportionally
+
+        locationLabel.numberOfLines = 1
+        locationLabel.adjustsFontSizeToFitWidth = true
+
+        minMaxTempLabel.numberOfLines = 1
+        minMaxTempLabel.adjustsFontSizeToFitWidth = true
+
+        currentTempLabel.numberOfLines = 1
+        currentTempLabel.font = UIFont.preferredFont(forTextStyle: .title1)
+        currentTempLabel.adjustsFontSizeToFitWidth = true
     }
 
     func configure(data: CurrentWeather?, placemark: CLPlacemark) {
@@ -58,10 +68,17 @@ class WeatherForecastHeaderView: UIView {
             let iconURL = "https://openweathermap.org/img/w/\(iconID).png"
             iconImageView.setImageURL(iconURL)
         }
-        if let administrativeArea = placemark.administrativeArea, let thoroughfare = placemark.thoroughfare {
-            let address = administrativeArea + " " + thoroughfare
-            locationLabel.text = address
+
+        var address: String = ""
+        if let administrativeArea = placemark.administrativeArea {
+            address.append("\(administrativeArea) ")
         }
+        if let locality = placemark.locality {
+            address.append("\(locality) ")
+        }
+
+        locationLabel.text = address
+
         let minimumTemperatureText = "최저 " + measurementFormatter.convertTemp(temp: data.main.tempMin, from: .kelvin, to: .celsius)
         let maximumTemperatureText = "최고 " + measurementFormatter.convertTemp(temp: data.main.tempMax, from: .kelvin, to: .celsius)
 
