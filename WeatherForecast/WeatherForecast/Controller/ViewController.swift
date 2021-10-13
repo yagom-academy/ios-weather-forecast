@@ -8,7 +8,7 @@ import UIKit
 import CoreLocation
 
 final class ViewController: UIViewController {
-    private let networkManager = NetworkManager()
+    private let networkManager = WeatherNetworkManager()
     private let locationManager = LocationManager()
     private var location = (longitude: CLLocationDegrees() , latitude: CLLocationDegrees())
     private var fiveDaysForcastData: FiveDaysForecastData?
@@ -46,24 +46,7 @@ final class ViewController: UIViewController {
 
 extension ViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let groupOne = DispatchGroup()
-        
-        let fiveDaysForcastItem = DispatchWorkItem {
-            self.requestFiveDaysForcastData()
-        }
-        
-        groupOne.enter()
-        DispatchQueue.global().async(group: groupOne) {
-            guard let longitude = manager.location?.coordinate.longitude,
-                  let latitude = manager.location?.coordinate.latitude else {
-                return
-            }
-            self.location.longitude = longitude
-            self.location.latitude = latitude
-            groupOne.leave()
-        }
-        
-        groupOne.notify(queue: DispatchQueue.global(), work: fiveDaysForcastItem)
+
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -82,22 +65,9 @@ extension ViewController: CLLocationManagerDelegate {
             showAlert(title: "🌟", message: "애플이 새로운 정보를 추가했군요! 확인 해 봅시다😄")
         }
     }
-    
-    private func showAlert(title: String, message: String) {
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            let alertAction = UIAlertAction(title: "확인", style: .default, handler: nil)
-            alert.addAction(alertAction)
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
 }
 
 extension ViewController: URLSessionDataDelegate {
-    private func requestFiveDaysForcastData() {
-        
-    }
-
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         if error != nil {
             showAlert(title: "🥲", message: "네트워크가 불안정 합니다.")
@@ -115,5 +85,17 @@ extension ViewController: URLSessionDataDelegate {
         }
         
         completionHandler(proposedResponse)
+    }
+}
+
+
+extension ViewController {
+    private func showAlert(title: String, message: String) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+            alert.addAction(alertAction)
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }

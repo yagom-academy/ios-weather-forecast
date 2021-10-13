@@ -12,7 +12,7 @@ struct Holder {
     var forcast: FiveDaysForecastData?
     var current: CurrentWeather?
     
-    init(_ path: Path, _ data: Data) {
+    init(_ path: URLPath, _ data: Data) {
         switch path {
         case .forecast:
             do {
@@ -36,11 +36,7 @@ final class WeatherNetworkManager {
     private let router = Router<OpenWeatherApi>()
     static let apiKey = "9cda367698143794391817f65f81c76e"
 
-    func fetchData(requiredApi: OpenWeatherApi, _ session: URLSession, _ completionHandler: @escaping (Holder) -> ()) {
-        
-        router.request(requiredApi, session) { data in
-            let result = Holder(requiredApi.path, data)
-            completionHandler(result)
-        }
+    func fetchOpenWeatherData(requiredApi: OpenWeatherApi, _ session: URLSession) {
+        router.request(requiredApi, session)
     }
 }
