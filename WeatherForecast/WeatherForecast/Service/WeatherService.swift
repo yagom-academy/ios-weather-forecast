@@ -13,9 +13,9 @@ struct WeatherService {
     private var locationManager = LocationManager()
     
     func fetchCurrentWeatherByLocation(completion: @escaping (CurrentWeatherData) -> Void) {
-        locationManager.getUserLocation { location in
-            let currentCoordinate = location.coordinate
-            let url = makeURL(by: currentCoordinate)
+        locationManager.getUserLocation { currentLocation in
+            let url = makeURL(by: currentLocation.coordinate)
+            
             self.fetchCurrentWeather(with: url, completion: { currentWeather in
                 completion(currentWeather)
             })
@@ -23,10 +23,9 @@ struct WeatherService {
     }
     
     private func makeURL(by coordinate: CLLocationCoordinate2D) -> URL {
-        let currentLatitude = coordinate.latitude
-        let currentLongitude = coordinate.longitude
-        let currentGeographic = WeatherAPI.current(.geographic(latitude: currentLatitude,
-                                                               longitude: currentLongitude))
+        let currentGeographic = WeatherAPI.current(.geographic(latitude: coordinate.latitude,
+                                                               longitude: coordinate.longitude))
+        
         do {
             let currentWeatherUrl = try currentGeographic.makeURL()
             return currentWeatherUrl
