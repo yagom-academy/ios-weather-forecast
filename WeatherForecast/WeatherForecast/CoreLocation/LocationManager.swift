@@ -32,7 +32,7 @@ class LocationManager: NSObject {
         return currentLocation?.coordinate
     }
 
-    private func getAddress(completion: @escaping (Result<CLPlacemark, Error>) -> Void) {
+    func getAddress(completion: @escaping (Result<CLPlacemark, Error>) -> Void) {
         guard let currentLocation = currentLocation else {
             return
         }
