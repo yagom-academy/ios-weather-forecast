@@ -12,6 +12,7 @@ class WeatherViewController: UIViewController {
     private let parsingManager = ParsingManager()
     private var locationManager = CLLocationManager()
     private var address: [CLPlacemark]? = []
+    private let headerSectionHeigt: CGFloat = 70
     private var currentWeather: CurrentWeather? = nil {
         didSet {
             self.updateTable()
@@ -170,6 +171,13 @@ extension WeatherViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 70
+        return headerSectionHeigt
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {        if scrollView.contentOffset.y <= headerSectionHeigt && scrollView.contentOffset.y >= 0 {
+            scrollView.contentInset = UIEdgeInsets(top: -scrollView.contentOffset.y, left: 0, bottom: 0, right: 0)
+        } else if (scrollView.contentOffset.y >= headerSectionHeigt) {
+            scrollView.contentInset = UIEdgeInsets(top: -headerSectionHeigt, left: 0, bottom: 0, right: 0)
+        }
     }
 }
