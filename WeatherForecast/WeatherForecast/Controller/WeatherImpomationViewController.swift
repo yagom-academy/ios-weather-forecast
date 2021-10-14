@@ -28,8 +28,7 @@ class WeatherImpormationViewController: UIViewController {
     }
     
     private func getUserLocation() {
-        locationManager.getUserLocation { [weak self] location in
-            guard let self = self else { return }
+        locationManager.getUserLocation { location in
             self.currentLocation = location
         }
     }
