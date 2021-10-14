@@ -8,11 +8,11 @@
 import UIKit
 
 class WeatherHeaderView: UICollectionReusableView {
-    var addressLabel = UILabel()
-    var maxTemperatureLabel = UILabel()
-    var minTemperatureLabel = UILabel()
-    var temperatureLabel = UILabel()
-    var weatherIcon = UIImageView()
+    lazy var addressLabel = makeLabel(font: .title3)
+    lazy var maxTemperatureLabel = makeLabel(font: .title3)
+    lazy var minTemperatureLabel = makeLabel(font: .title3)
+    lazy var temperatureLabel = makeLabel(font: .title2)
+    lazy var weatherIcon = UIImageView()
     
     lazy var maxMinStackView: UIStackView = {
         var maxMinStackView = UIStackView(arrangedSubviews: [minTemperatureLabel, maxTemperatureLabel])
@@ -64,21 +64,20 @@ class WeatherHeaderView: UICollectionReusableView {
         ])
     }
     
-    private func makeLabel(text: String, font: UIFont.TextStyle) -> UILabel {
+    private func makeLabel(font: UIFont.TextStyle) -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .systemGray
-        label.text = text
         label.font = UIFont.preferredFont(forTextStyle: font)
         
         return label
     }
     
-    func configureContents(from currentWeather: WeatherHeader) {
-        addressLabel = makeLabel(text: currentWeather.address, font: .title3)
-        maxTemperatureLabel = makeLabel(text: currentWeather.maxTemperature, font: .title3)
-        minTemperatureLabel = makeLabel(text: currentWeather.minTemperature, font: .title3)
-        temperatureLabel = makeLabel(text: currentWeather.temperature, font: .title2)
-        weatherIcon = UIImageView(image: currentWeather.image)
+    func configureContents(from currentWeather: WeatherHeader?) {
+        addressLabel.text = currentWeather?.address
+        maxTemperatureLabel.text = currentWeather?.maxTemperature
+        minTemperatureLabel.text = currentWeather?.minTemperature
+        temperatureLabel.text = currentWeather?.temperature
+        weatherIcon.image = currentWeather?.image
     }
 }

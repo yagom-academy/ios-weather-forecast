@@ -9,6 +9,7 @@ import UIKit
 
 class WeatherForecastCustomCell: UICollectionViewCell {
     static let identifier = "fiveDay"
+    private var imageDataTask: URLSessionDataTask?
     
     let dateLabel: UILabel = {
         let dateLabel = UILabel()
@@ -24,7 +25,7 @@ class WeatherForecastCustomCell: UICollectionViewCell {
         let temperatureLabel = UILabel()
         temperatureLabel.translatesAutoresizingMaskIntoConstraints = false
         temperatureLabel.font = UIFont.preferredFont(forTextStyle: .title2)
-        temperatureLabel.textColor = .white
+        temperatureLabel.textColor = .systemGray
         temperatureLabel.adjustsFontForContentSizeCategory = true
         return temperatureLabel
     }()
@@ -32,11 +33,13 @@ class WeatherForecastCustomCell: UICollectionViewCell {
     let weatherImage: UIImageView = {
         let weatherImage = UIImageView()
         weatherImage.translatesAutoresizingMaskIntoConstraints = false
+        weatherImage.widthAnchor.constraint(equalTo: weatherImage.heightAnchor).isActive = true
+        weatherImage.widthAnchor.constraint(equalToConstant: 40).isActive = true
         return weatherImage
     }()
     
     lazy var horizontalStackView: UIStackView = {
-        var horizontalStackView = UIStackView(arrangedSubviews: [dateLabel, temperatureLabel])
+        var horizontalStackView = UIStackView(arrangedSubviews: [dateLabel, temperatureLabel, weatherImage])
         horizontalStackView.alignment = .fill
         horizontalStackView.distribution = .fill
         horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -56,6 +59,12 @@ class WeatherForecastCustomCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageDataTask?.cancel()
+        imageDataTask = nil
+    }
+    
     func setLayoutForStackView() {
         NSLayoutConstraint.activate([
             horizontalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -64,4 +73,24 @@ class WeatherForecastCustomCell: UICollectionViewCell {
             horizontalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
+    
+    func configure(image: UIImage?) {
+        if let image = image {
+            weatherImage.image = image
+        }
+    }
+    
+    func configure(date: Int, temparature: Double, dataTask: URLSessionDataTask?) {
+        resetContents()
+        
+        dateLabel.text = date.description
+        imageDataTask = dataTask
+        temperatureLabel.text = temparature.description + "°"
+    }
+    
+    func resetContents() {
+            dateLabel.text = nil
+            temperatureLabel.text = nil
+            weatherImage.image = nil
+        }
 }

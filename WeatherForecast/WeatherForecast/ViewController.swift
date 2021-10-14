@@ -26,10 +26,8 @@ class ViewController: UIViewController {
         
         view.backgroundColor = .white
         collecionView.backgroundColor = .white
-        makeDataSource()
-        initData()
         setupCollectionView()
-        collecionView.register(WeatherForecastCustomCell.self, forCellWithReuseIdentifier: WeatherForecastCustomCell.identifier)
+        initData()
         configureRefreshControl()
     }
     
@@ -82,7 +80,7 @@ class ViewController: UIViewController {
                 imageManager.loadImage(with: "https://openweathermap.org/img/w/\(currentWeatherData.weather[0].icon).png") { result in
                     switch result {
                     case .success(let image):
-                        self.fiveDayWeather = WeatherHeader(address: self.address[.city]!, minTemperature: currentWeatherData.main.minTemperature.description, maxTemperature: currentWeatherData.main.maxTemperature.description, temperature: currentWeatherData.main.temperature.description, weatherIcon: image)
+                        self.fiveDayWeather = WeatherHeader(address: "주소", minTemperature: currentWeatherData.main.minTemperature.description, maxTemperature: currentWeatherData.main.maxTemperature.description, temperature: currentWeatherData.main.temperature.description, weatherIcon: image)
                     case .failure(let error):
                         assertionFailure(error.localizedDescription)
                     }
@@ -102,17 +100,9 @@ class ViewController: UIViewController {
             }
         }
     }
-    
-    private func makeDataSource() {
-        let dataSource = DataSource(collectionView: collecionView) { collectionView, indexPath, itemIdentifier in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WeatherForecastCustomCell.identifier, for: indexPath) as? WeatherForecastCustomCell else {
-                return UICollectionViewCell()
-            }
-            
-            return cell
-        }
-        self.dataSource = dataSource
-    }
+}
+
+extension ViewController {
     
     private func makeSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<WeatherHeader, FiveDayWeather.List>()
@@ -123,6 +113,20 @@ class ViewController: UIViewController {
     }
     
     private func setupCollectionView() {
+        setCollectionViewLayoutConfiguration()
+        setAutoLayoutCollectionView()
+        registerCell()
+        registerHeader()
+    }
+    
+    private func setCollectionViewLayoutConfiguration() {
+        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        configuration.headerMode = .supplementary
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        collecionView.collectionViewLayout = layout
+    }
+    
+    private func setAutoLayoutCollectionView() {
         collecionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collecionView)
         NSLayoutConstraint.activate([
@@ -131,21 +135,42 @@ class ViewController: UIViewController {
             collecionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             collecionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func registerCell() {
+        let cellRegistration = UICollectionView.CellRegistration<WeatherForecastCustomCell, FiveDayWeather.List> { (cell, indexPath, fiveDayWeatherItem) in
+            let dataTask = self.imageManager.loadImage(with: "https://openweathermap.org/img/w/\(fiveDayWeatherItem.weather[0].icon).png") { result in
+                switch result {
+                case .success(let image):
+                    cell.configure(image: image)
+                case .failure:
+                    cell.configure(image: UIImage(systemName: "photo"))
+                }
+            }
+            cell.configure(date: fiveDayWeatherItem.UnixForecastTime, temparature: fiveDayWeatherItem.main.temperature, dataTask: dataTask)
+        }
         
-        if #available(iOS 14.0, *) {
-            let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-            collecionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
-        } else {
-            let layout = UICollectionViewFlowLayout()
-            let contentWidth = view.bounds.width
-            let cellWidth = contentWidth
-            let cellHeight:CGFloat = 30
-            layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
-            collecionView.collectionViewLayout = layout
+        dataSource = DataSource(collectionView: collecionView) { collectionView, indexPath, itemIdentifier in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         }
     }
     
-    func configureRefreshControl() {
+    private func registerHeader() {
+        let headerRegistration = UICollectionView.SupplementaryRegistration<WeatherHeaderView>(elementKind: UICollectionView.elementKindSectionHeader) { headerView, elementKind, indexPath in
+            let headerItem = self.dataSource?.snapshot().sectionIdentifiers[indexPath.section]
+            headerView.configureContents(from: headerItem)
+        }
+        
+        dataSource?.supplementaryViewProvider = { (collecionView, elementKind, indexpath) in
+            let header = collecionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexpath)
+            print(header)
+            return header
+        }
+    }
+}
+
+extension ViewController {
+    private func configureRefreshControl() {
         collecionView.refreshControl = UIRefreshControl()
         collecionView.refreshControl?.tintColor = .systemRed
         collecionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
@@ -156,3 +181,4 @@ class ViewController: UIViewController {
         self.collecionView.refreshControl?.endRefreshing()
     }
 }
+
