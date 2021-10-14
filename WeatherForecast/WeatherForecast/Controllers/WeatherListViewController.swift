@@ -12,6 +12,12 @@ class WeatherListViewController: UIViewController {
     private var currentWeatherData: CurrentWeather?
     private var fiveDaysWeatherData: FivedaysWeather?
     
+    private lazy var refreshControl: UIRefreshControl = { [weak self] in
+        let control = UIRefreshControl()
+        control.tintColor = self?.view.tintColor
+        return control
+    }()
+    
     private var weatherListTableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -31,6 +37,8 @@ class WeatherListViewController: UIViewController {
         bringCoordinates()
         configureTableView()
         designateTableViewDataSourceDelegate()
+        setRefreshControl()
+        
         
     }
 }
@@ -109,6 +117,21 @@ extension WeatherListViewController: CLLocationManagerDelegate {
     }
 }
 extension WeatherListViewController {
+    @objc private func refresh() {
+        DispatchQueue.global().async { [weak self] in
+            guard let strongSelf = self else { return }
+            DispatchQueue.main.async {
+                strongSelf.weatherListTableView.reloadData()
+                strongSelf.weatherListTableView.refreshControl?.endRefreshing()
+            }
+        }
+    }
+    
+    private func setRefreshControl() {
+        weatherListTableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+    }
+    
     private func designateTableViewDataSourceDelegate() {
         weatherListTableView.dataSource = self
         weatherListTableView.delegate = self
