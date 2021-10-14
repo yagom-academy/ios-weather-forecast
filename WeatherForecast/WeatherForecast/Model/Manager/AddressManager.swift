@@ -17,7 +17,7 @@ enum AddressTranslationError: Error, LocalizedError {
         case .failedToGetAddress:
             return "주소값을 얻어오는데에 실패하였습니다."
         case .invalidAddress:
-            return "도로명 주소가 존재하지 않습니다."
+            return "유효한 주소가 존재하지 않습니다."
         }
     }
 }
@@ -32,10 +32,10 @@ struct AddressManager {
             guard let placeMarks = placeMarks, let address = placeMarks.last else {
                 return completionHandler(.failure(AddressTranslationError.failedToGetAddress))
             }
-            guard let adminstrativeArea = address.administrativeArea, let roadName = address.thoroughfare else {
+            guard let adminstrativeArea = address.administrativeArea, let locality = address.locality, let thoroughfare = address.thoroughfare else {
                 return completionHandler(.failure(AddressTranslationError.invalidAddress))
             }
-            let userAddress = "\(adminstrativeArea) \(roadName)"
+            let userAddress = "\(adminstrativeArea) \(locality) \(thoroughfare)"
             completionHandler(.success(userAddress))
         }
     }
