@@ -12,15 +12,24 @@ struct WeatherService {
     
     private var locationManager = LocationManager()
     
-    func fetchCurrentWeatherByLocation(completion: @escaping (CurrentWeatherData) -> Void) {
-        locationManager.getUserLocation { currentLocation in
-            let url = makeURL(by: currentLocation.coordinate)
+    func obtainPlacemark(completion: @escaping (CLPlacemark) -> Void) {
+        locationManager.lookUpCurrentPlacemark { placemark in
+            completion(placemark)
+        }
+    }
+    
+    func fetchByLocation<Model: Decodable>(completion: @escaping (Model) -> Void) {
+        locationManager.getUserLocation { location in
+            let url = makeURL(by: location.coordinate)
             
-            self.fetchCurrentWeather(with: url, completion: { currentWeather in
+            self.parseFetchedModel(with: url, completion: { currentWeather in
                 completion(currentWeather)
             })
         }
     }
+}
+
+extension WeatherService {
     
     private func makeURL(by coordinate: CLLocationCoordinate2D) -> URL {
         let currentGeographic = WeatherAPI.current(.geographic(latitude: coordinate.latitude,
@@ -30,36 +39,31 @@ struct WeatherService {
             let currentWeatherUrl = try currentGeographic.makeURL()
             return currentWeatherUrl
         } catch {
+            print(error)
             return URL(fileURLWithPath: "")
         }
     }
     
-    private func fetchCurrentWeather(
+    private func parseFetchedModel<Model: Decodable>(
         with url: URL,
-        completion: @escaping (CurrentWeatherData) -> Void
+        completion: @escaping (Model) -> Void
     ) {
         let networkManager = WeatherNetworkManager(session: URLSession(configuration: .default))
-        let customDecoder = WeatherJSONDecoder()
         
         networkManager.fetchData(with: url) { result in
             switch result {
             case .success(let data):
-                guard let currentWeather = try? customDecoder.decode(
-                    CurrentWeatherData.self,
-                    from: data
-                ) else {
-                    return
-                }
-                completion(currentWeather)
+                guard let weatherData = self.decode(type: Model.self, from: data) else { return }
+                completion(weatherData)
             case .failure(let error):
                 print(error)
             }
         }
     }
     
-    func obtainPlacemark(completion: @escaping (CLPlacemark) -> Void) {
-        locationManager.lookUpCurrentPlacemark { placemark in
-            completion(placemark)
-        }
+    private func decode<Model>(type: Model.Type, from data: Data) -> Model? where Model: Decodable {
+        let decoder = WeatherJSONDecoder()
+        let parsedData = try? decoder.decode(type, from: data)
+        return parsedData
     }
 }
