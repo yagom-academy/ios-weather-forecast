@@ -25,8 +25,21 @@ class WeatherImpormationViewController: UIViewController {
             let fiveDaysWeatherURL =
             WeatherURL.forecastCoordinates(latitude: location.coordinate.latitude,
                                           longitude: location.coordinate.longitude)
-            self.getCurrentWeatherImpormation(request: currentWeatherURL)
-            self.getFiveDaysWeatherImpormation(request: fiveDaysWeatherURL)
+            
+            self.getWeatherImpormation(request: currentWeatherURL,
+                                       type: CurrentWeather.self) { result in
+                if let result = result {
+                    debugPrint(result)
+                }
+            }
+            
+            self.getWeatherImpormation(request: fiveDaysWeatherURL,
+                                       type: FiveDaysWeather.self) { result in
+                if let result = result {
+                    debugPrint(result)
+                }
+            }
+            
         }
     }
     
@@ -41,34 +54,19 @@ class WeatherImpormationViewController: UIViewController {
         }
     }
     
-    private func getCurrentWeatherImpormation(request: UrlGeneratable) {
+    private func getWeatherImpormation<T: Decodable>(request: UrlGeneratable,
+                                                     type: T.Type,
+                                                     completion: @escaping (T?) -> Void) {
         self.apiManager.requestAPI(
             resource: APIResource(apiURL: request)) { result in
                 switch result {
                 case .success(let data):
                     guard let product =
                             try? self.decodingManager.decodeJSON(
-                                CurrentWeather.self, from: data) else {
+                                type, from: data) else {
                                     return
                                 }
-                    debugPrint(product)
-                case .failure(let error):
-                    self.handlerError(error)
-                }
-            }
-    }
-    
-    private func getFiveDaysWeatherImpormation(request: UrlGeneratable) {
-        self.apiManager.requestAPI(
-            resource: APIResource(apiURL: request)) { result in
-                switch result {
-                case .success(let data):
-                    guard let product =
-                            try? self.decodingManager.decodeJSON(
-                                FiveDaysWeather.self, from: data) else {
-                                    return
-                                }
-                    debugPrint(product)
+                    completion(product)
                 case .failure(let error):
                     self.handlerError(error)
                 }
