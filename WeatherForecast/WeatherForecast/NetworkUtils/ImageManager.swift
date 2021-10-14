@@ -17,16 +17,15 @@ struct ImageManager: MediaNetworkable {
         return URLSession(configuration: config)
     }()
     
-    @discardableResult
     func loadImage(with urlPath: String,
-                   completionHandler: @escaping (Result<UIImage, Error>) -> Void) -> URLSessionDataTask?
+                   completionHandler: @escaping (Result<UIImage, Error>) -> Void)
     {
         guard let url = URL(string: urlPath) else {
             completionHandler(.failure(NetworkError.invalidURL))
-            return nil
+            return
         }
         
-        let dataTask = customURLSession.dataTask(with: url) { [self] (data, response, error) in
+        customURLSession.dataTask(with: url) { [self] (data, response, error) in
             if let error = error {
                 DispatchQueue.main.async {
                     completionHandler(.failure(error))
@@ -52,8 +51,6 @@ struct ImageManager: MediaNetworkable {
             DispatchQueue.main.async {
                 completionHandler(.success(image))
             }
-        }
-        dataTask.resume()
-        return dataTask
+        }.resume()
     }
 }

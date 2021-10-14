@@ -9,7 +9,7 @@ import UIKit
 
 class WeatherForecastCustomCell: UICollectionViewCell {
     static let identifier = "fiveDay"
-    private var imageDataTask: URLSessionDataTask?
+    var urlString: String?
     
     let dateLabel: UILabel = {
         let dateLabel = UILabel()
@@ -52,17 +52,14 @@ class WeatherForecastCustomCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        backgroundColor = UIColor.clear
+        backgroundView?.backgroundColor = UIColor.clear
+        backgroundColor = UIColor.init(white: 1.0, alpha: 0.5)
         setLayoutForStackView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        imageDataTask?.cancel()
-        imageDataTask = nil
     }
     
     func setLayoutForStackView() {
@@ -80,11 +77,10 @@ class WeatherForecastCustomCell: UICollectionViewCell {
         }
     }
     
-    func configure(date: Int, temparature: Double, dataTask: URLSessionDataTask?) {
+    func configure(date: Int, temparature: Double) {
         resetContents()
         
         dateLabel.text = format(date: date)
-        imageDataTask = dataTask
         temperatureLabel.text = temparature.description + "°"
     }
     

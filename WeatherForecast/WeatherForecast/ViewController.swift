@@ -153,17 +153,20 @@ extension ViewController {
         let cellRegistration = UICollectionView.CellRegistration
         <WeatherForecastCustomCell, FiveDayWeather.List> { (cell, indexPath, fiveDayWeatherItem) in
             let iconID = fiveDayWeatherItem.weather[0].icon
-            let dataTask = self.imageManager.loadImage(with: self.imageURL(of: iconID)) { result in
-                switch result {
-                case .success(let image):
-                    cell.configure(image: image)
-                case .failure:
-                    cell.configure(image: UIImage(systemName: "photo"))
+            let currentImageURL = self.imageURL(of: iconID)
+            cell.urlString = currentImageURL
+            self.imageManager.loadImage(with: currentImageURL) { result in
+                if currentImageURL == cell.urlString {
+                    switch result {
+                    case .success(let image):
+                        cell.configure(image: image)
+                    case .failure:
+                        cell.configure(image: UIImage(systemName: "photo"))
+                    }
                 }
             }
             cell.configure(date: fiveDayWeatherItem.UnixForecastTime,
-                           temparature: fiveDayWeatherItem.main.temperature,
-                           dataTask: dataTask)
+                           temparature: fiveDayWeatherItem.main.temperature)
         }
         
         dataSource = DataSource(collectionView: collecionView) { collectionView, indexPath, itemIdentifier in
