@@ -83,7 +83,7 @@ class WeatherForecastCustomCell: UICollectionViewCell {
     func configure(date: Int, temparature: Double, dataTask: URLSessionDataTask?) {
         resetContents()
         
-        dateLabel.text = date.description
+        dateLabel.text = format(date: date)
         imageDataTask = dataTask
         temperatureLabel.text = temparature.description + "°"
     }
@@ -93,4 +93,12 @@ class WeatherForecastCustomCell: UICollectionViewCell {
             temperatureLabel.text = nil
             weatherImage.image = nil
         }
+    
+    func format(date: Int) -> String? {
+        let dateFormatter = DateFormatter()
+        let date = Date(timeIntervalSince1970: TimeInterval(date))
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "MM/dd(E) HH시"
+        return dateFormatter.string(from: date)
+    }
 }

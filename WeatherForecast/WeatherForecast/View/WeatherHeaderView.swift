@@ -12,7 +12,11 @@ class WeatherHeaderView: UICollectionReusableView {
     lazy var maxTemperatureLabel = makeLabel(font: .title3)
     lazy var minTemperatureLabel = makeLabel(font: .title3)
     lazy var temperatureLabel = makeLabel(font: .title2)
-    lazy var weatherIcon = UIImageView()
+    lazy var weatherIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
+        return imageView
+    }()
     
     lazy var maxMinStackView: UIStackView = {
         var maxMinStackView = UIStackView(arrangedSubviews: [minTemperatureLabel, maxTemperatureLabel])
