@@ -14,7 +14,7 @@ class CustomTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "background")
         imageView.contentMode = .scaleToFill
-
+        
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -42,30 +42,34 @@ class CustomTableViewCell: UITableViewCell {
         return stackView
     }()
     
+    override func setNeedsLayout() {
+        self.backgroundColor = .clear
+        configureLayout()
+    }
+    
+}
+
+extension CustomTableViewCell {
     private func configureLayout() {
         horizontalStackView.addArrangedSubview(dateLabel)
         horizontalStackView.addArrangedSubview(mininumTemperatureLabel)
         horizontalStackView.addArrangedSubview(weatherImageView)
         contentView.addSubview(horizontalStackView)
         
-            NSLayoutConstraint.activate([
-                
-                horizontalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-                horizontalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-                horizontalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-                horizontalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
-            ])
-        }
-    override func setNeedsLayout() {
-        self.backgroundColor = .clear
-        configureLayout()
+        NSLayoutConstraint.activate([
+            
+            horizontalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            horizontalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            horizontalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            horizontalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+        ])
     }
-
-}
-
-extension UIImageView {
-    open override var intrinsicContentSize: CGSize {
-        super.intrinsicContentSize
-        return CGSize(width: 40, height: 40)
+    
+    func cellConfiguration(date: String, minTemperature: String, weatherImage: UIImage? = nil) {
+        self.dateLabel.text = date
+        self.mininumTemperatureLabel.text = minTemperature
+        self.weatherImageView.image = weatherImage
     }
 }
+
+
