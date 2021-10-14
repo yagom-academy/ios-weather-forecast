@@ -8,6 +8,13 @@ import UIKit
 
 class MainWeatherTableViewController: UITableViewController {
     private let weatherDataViewModel: WeatherDataViewModel
+    
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko-KR")
+        formatter.dateFormat = "MM/dd(EEE) HH시"
+        return formatter
+    }()
         
     init(weatherDataViewModel: WeatherDataViewModel) {
         self.weatherDataViewModel = weatherDataViewModel
