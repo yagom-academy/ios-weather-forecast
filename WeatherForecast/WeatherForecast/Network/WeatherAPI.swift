@@ -24,6 +24,7 @@ enum WeatherAPI {
     private static let scheme = "https"
     private static let host = "api.openweathermap.org"
     private static let appID = WeatherAPI.apiKey
+    private static let unit = "metric"
     
     case current(CurrentData)
     case fiveday(FiveDayData)
@@ -49,9 +50,9 @@ enum WeatherAPI {
     private var keys: [String] {
         switch self {
         case .current(.geographic):
-            return ["lat", "lon", "appid"]
+            return ["lat", "lon", "units", "appid"]
         case .fiveday(.geographic):
-            return ["lat", "lon", "appid"]
+            return ["lat", "lon", "units", "appid"]
         case .fiveday(.cityName):
             return ["q", "appid"]
         }
@@ -67,6 +68,7 @@ enum WeatherAPI {
         case .fiveday(.cityName(name: let name)):
             parameters = [name]
         }
+        parameters.append(WeatherAPI.unit)
         parameters.append(WeatherAPI.appID)
         return parameters
     }
