@@ -10,7 +10,18 @@ import CoreLocation
 class WeatherDataViewModel {
     private var locationService: LocationService
     
-    var fivedayWeatherData: FiveDayWeatherData?
+    var currentAddress: String?
+    var currentWeatherData: CurrentWeatherData?
+    private var fivedayWeatherData: FiveDayWeatherData? {
+        willSet {
+            guard let listResource = newValue?.intervalWeathers else {
+                NSLog("IntervalWeathers nil")
+                return
+            }
+            intervalWeatherInfos = listResource
+        }
+    }
+    var intervalWeatherInfos: [IntervalWeatherData] = []
     
     init(locationService: LocationService) {
         self.locationService = locationService
@@ -18,48 +29,33 @@ class WeatherDataViewModel {
 }
 
 extension WeatherDataViewModel {
-    func setUpWeatherData(completion: @escaping (String, CurrentWeatherData, FiveDayWeatherData) -> Void) {
+    func setUpWeatherData(completion: @escaping () -> Void) {
         locationService.requestLocation { location in
             DispatchQueue.global().async {
-                var currentAddress: String?
-                var currentWeather: CurrentWeatherData?
-                var fivedayWeather: FiveDayWeatherData?
                 let preparingGroup = DispatchGroup()
 
                 preparingGroup.enter()
                 self.fetchAddressInfomation(location) { address in
-                    currentAddress = address
+                    self.currentAddress = address
                     preparingGroup.leave()
                 }
 
                 preparingGroup.enter()
                 let currentWeatherAPI = WeatherAPI.current(.geographic(location.coordinate))
                 self.fetchCurrentWeatherData(of: currentWeatherAPI) { decodedData in
-                    currentWeather = decodedData
+                    self.currentWeatherData = decodedData
                     preparingGroup.leave()
                 }
 
                 preparingGroup.enter()
                 let fivedayWeatherAPI = WeatherAPI.fiveday(.geographic(location.coordinate))
                 self.fetchFiveDayWeatherData(of: fivedayWeatherAPI) { decodedData in
-                    fivedayWeather = decodedData
+                    self.fivedayWeatherData = decodedData
                     preparingGroup.leave()
                 }
 
                 preparingGroup.wait()
-                guard let currentAddress = currentAddress else {
-                    NSLog("\(#function) - 주소 요청 실패")
-                    return
-                }
-                guard let currentWeather = currentWeather else {
-                    NSLog("\(#function) - 현재 날씨 요청 실패")
-                    return
-                }
-                guard let fivedayWeather = fivedayWeather else {
-                    NSLog("\(#function) - 5일 날씨 요청 실패")
-                    return
-                }
-                completion(currentAddress, currentWeather, fivedayWeather)
+                completion()
             }
         }
     }
