@@ -32,7 +32,7 @@ final class OpenWeatherSessionDelegate: NSObject, URLSessionDataDelegate {
         
         if let pathComponent = pathCompnent,
            let path = URLPath(rawValue: pathComponent) {
-            Holder.shared.generate(path, requestData)
+            WheaterDataHolder.shared.generate(path, requestData)
             NotificationCenter.default.post(name: .reloadTableView, object: nil)
         }
         
@@ -40,8 +40,8 @@ final class OpenWeatherSessionDelegate: NSObject, URLSessionDataDelegate {
     }
 }
 
-class Holder {
-    static let shared = Holder()
+class WheaterDataHolder {
+    static let shared = WheaterDataHolder()
     
     var forcast: FiveDaysForecastData?
     var current: CurrentWeather?
