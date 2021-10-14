@@ -31,7 +31,7 @@ class URLBuilder: URLMakable {
         queries.removeAll()
     }
     
-    func build(resource: URLResource) -> URL? {
+    func buildWeatherURL(resource: URLResource) -> URL? {
         var urlComponents = URLComponents()
         urlComponents.scheme = resource.scheme
         urlComponents.host = resource.host
@@ -45,6 +45,14 @@ class URLBuilder: URLMakable {
         urlComponents.queryItems = queries.map({
             URLQueryItem(name: $0.name, value: $0.value)
         })
+        return urlComponents.url
+    }
+    
+    func builderImageURL(resource: URLResource, index: Int) -> URL? {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = resource.scheme
+        urlComponents.host = resource.host
+        urlComponents.path = URLResource.PathType.weatherImage(num: index)
         return urlComponents.url
     }
 }

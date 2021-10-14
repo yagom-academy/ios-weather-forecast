@@ -14,6 +14,13 @@ struct URLResource {
     enum PathType: String {
         case current = "/data/2.5/weather"
         case fiveDays = "/data/2.5/forecast"
+        
+        static func weatherImage(num: Int) -> String {
+            if num < 10 {
+                return "img/w/0\(num)d.png"
+            }
+            return "img/w/\(num)d.png"
+        }
     }
 
     struct QueryParam {
