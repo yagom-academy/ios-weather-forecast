@@ -20,7 +20,7 @@ struct WeatherService {
     
     func fetchByLocation<Model: Decodable>(completion: @escaping (Model) -> Void) {
         locationManager.getUserLocation { location in
-            let url = makeURL(by: location.coordinate)
+            let url = makeURL(ofType: Model.self, by: location.coordinate)
             
             self.parseFetchedModel(with: url, completion: { currentWeather in
                 completion(currentWeather)
@@ -31,12 +31,25 @@ struct WeatherService {
 
 extension WeatherService {
     
-    private func makeURL(by coordinate: CLLocationCoordinate2D) -> URL {
-        let currentGeographic = WeatherAPI.current(.geographic(latitude: coordinate.latitude,
+    private func makeURL<Model: Decodable>(
+        ofType: Model.Type,
+        by coordinate: CLLocationCoordinate2D
+    ) -> URL {
+        var currentGeographic: WeatherAPI?
+        
+        switch ofType {
+        case is CurrentWeatherData.Type:
+            currentGeographic = WeatherAPI.current(.geographic(latitude: coordinate.latitude,
                                                                longitude: coordinate.longitude))
+        case is FiveDayWeatherData.Type:
+            currentGeographic = WeatherAPI.fiveday(.geographic(latitude: coordinate.latitude,
+                                                               longitude: coordinate.longitude))
+        default:
+            break
+        }
         
         do {
-            let currentWeatherUrl = try currentGeographic.makeURL()
+            let currentWeatherUrl = try currentGeographic?.makeURL() ?? URL(fileURLWithPath: "")
             return currentWeatherUrl
         } catch {
             print(error)
