@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-        locationManager.startMonitoringVisits()
+        locationManager.startMonitoringSignificantLocationChanges()
         setUpTableView()
     }
 }
@@ -50,9 +50,9 @@ extension ViewController: UITableViewDelegate {
 }
 
 extension ViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
-        let latitude = visit.coordinate.latitude
-        let longitude = visit.coordinate.longitude
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let latitude = locations.first?.coordinate.latitude,
+              let longitude = locations.first?.coordinate.longitude else { return }
         fetchCurrentWeather(latitude: latitude, longitude: longitude)
         fetchFiveDayForecast(latitude: latitude, longitude: longitude)
         
