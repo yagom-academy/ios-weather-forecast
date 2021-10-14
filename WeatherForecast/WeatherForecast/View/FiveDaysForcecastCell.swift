@@ -12,7 +12,7 @@ extension DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
-        formatter.locale = Locale(identifier: "ko")
+        formatter.locale = Locale(identifier: "Ko-kr")
         formatter.setLocalizedDateFormatFromTemplate("MM.dd E hh시")
         
         return formatter
