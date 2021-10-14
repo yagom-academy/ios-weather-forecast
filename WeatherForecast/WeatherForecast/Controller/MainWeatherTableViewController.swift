@@ -31,14 +31,20 @@ class MainWeatherTableViewController: UITableViewController {
         backgroundImageView.contentMode = .scaleAspectFill
         
         tableView.backgroundView = backgroundImageView
+        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.className)
+        
         weatherDataViewModel.setUpWeatherData {
-            self.tableView.reloadData()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
 }
 
 // MARK: - TableView DataSource
 extension MainWeatherTableViewController {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -46,5 +52,18 @@ extension MainWeatherTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.className,
+                                                       for: indexPath) as? MainTableViewCell else {
+            return UITableViewCell()
+        }
+        let intervalData = weatherDataViewModel.intervalWeatherInfos[indexPath.row]
+        let date = dateFormatter.string(from: Date(timeIntervalSince1970: intervalData.date))
+        
+        print(#function)
+        cell.configure(date,
+                       temperature: "\(intervalData.mainInformation.temperature)º",
+                       image: intervalData.conditions.last!.iconName)
+        
+        return cell
     }
 }
