@@ -15,6 +15,8 @@
 		4D3052112702E6CE00898455 /* FiveDaysWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3052102702E6CE00898455 /* FiveDaysWeather.swift */; };
 		4D3052142702EECB00898455 /* CommonWeatherModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3052132702EECB00898455 /* CommonWeatherModels.swift */; };
 		4D3052172702FB2300898455 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3052162702FB2300898455 /* APIManager.swift */; };
+		4D3C9864271842CF00423CE2 /* LocationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3C9863271842CF00423CE2 /* LocationProtocol.swift */; };
+		4D3C98662718433000423CE2 /* MockLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3C98652718433000423CE2 /* MockLocationManager.swift */; };
 		4D896F6A2704999D00614E6E /* WeatherError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D896F692704999D00614E6E /* WeatherError.swift */; };
 		4DB5BA102715149400872F47 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB5BA0F2715149400872F47 /* LocationManager.swift */; };
 		4DB5BA132715997A00872F47 /* LocationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB5BA122715997A00872F47 /* LocationError.swift */; };
@@ -66,6 +68,8 @@
 		4D3052102702E6CE00898455 /* FiveDaysWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDaysWeather.swift; sourceTree = "<group>"; };
 		4D3052132702EECB00898455 /* CommonWeatherModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWeatherModels.swift; sourceTree = "<group>"; };
 		4D3052162702FB2300898455 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		4D3C9863271842CF00423CE2 /* LocationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProtocol.swift; sourceTree = "<group>"; };
+		4D3C98652718433000423CE2 /* MockLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocationManager.swift; sourceTree = "<group>"; };
 		4D896F692704999D00614E6E /* WeatherError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherError.swift; sourceTree = "<group>"; };
 		4DB5BA0F2715149400872F47 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		4DB5BA122715997A00872F47 /* LocationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationError.swift; sourceTree = "<group>"; };
@@ -145,6 +149,7 @@
 				79FF2F8F2709879600942D6F /* RequestGeneratable.swift */,
 				79FF2F91270987B400942D6F /* UrlGeneratable.swift */,
 				4DCDD765270B289600010396 /* URLSessionProtocol.swift */,
+				4D3C9863271842CF00423CE2 /* LocationProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -169,6 +174,14 @@
 				4DB5BA0F2715149400872F47 /* LocationManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		4D3C98672718434400423CE2 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				4D3C98652718433000423CE2 /* MockLocationManager.swift */,
+			);
+			path = Mock;
 			sourceTree = "<group>";
 		};
 		4DB5BA112715253D00872F47 /* Controller */ = {
@@ -250,6 +263,7 @@
 		C79C8D0925ADDDF400EEE3F1 /* WeatherForecastTests */ = {
 			isa = PBXGroup;
 			children = (
+				4D3C98672718434400423CE2 /* Mock */,
 				C79C8D0A25ADDDF400EEE3F1 /* WeatherForecastTests.swift */,
 				C79C8D0C25ADDDF400EEE3F1 /* Info.plist */,
 			);
@@ -497,6 +511,7 @@
 			files = (
 				4DCDD766270B289600010396 /* URLSessionProtocol.swift in Sources */,
 				79FF2F902709879600942D6F /* RequestGeneratable.swift in Sources */,
+				4D3C9864271842CF00423CE2 /* LocationProtocol.swift in Sources */,
 				4D30520D2702E2B300898455 /* CurrentWeather.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* WeatherImpomationViewController.swift in Sources */,
 				794EC4A52702F32F00F1AF9B /* DecodingManager.swift in Sources */,
@@ -522,6 +537,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D3C98662718433000423CE2 /* MockLocationManager.swift in Sources */,
 				C79C8D0B25ADDDF400EEE3F1 /* WeatherForecastTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

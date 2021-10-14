@@ -9,14 +9,14 @@ import Foundation
 import CoreLocation
 
 class LocationManager: NSObject {
-    private let locationManager = CLLocationManager()
+    private var locationManager: LocationManagerProtocol
     private var locationCompletion: ((CLLocation) -> Void)?
     private var currentLocation: CLLocation?
     
-    override init() {
+    init(locationManager: LocationManagerProtocol = CLLocationManager()) {
+        self.locationManager = locationManager
         super.init()
-        
-        locationManager.delegate = self
+        self.locationManager.locationManagerDelegate = self
     }
     
     func getUserLocation(completion: @escaping ((CLLocation) -> Void)) {
@@ -51,7 +51,7 @@ class LocationManager: NSObject {
     }
 }
 
-extension LocationManager: CLLocationManagerDelegate {
+extension LocationManager: LocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }

@@ -10,7 +10,6 @@ class WeatherImpormationViewController: UIViewController {
     private let locationManager = LocationManager()
     private let apiManager = APIManager()
     private let decodingManager = DecodingManager()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,7 +27,6 @@ class WeatherImpormationViewController: UIViewController {
                                           longitude: location.coordinate.longitude)
             self.getCurrentWeatherImpormation(request: currentWeatherURL)
             self.getFiveDaysWeatherImpormation(request: fiveDaysWeatherURL)
-            self.getUserAddress()
         }
     }
     
