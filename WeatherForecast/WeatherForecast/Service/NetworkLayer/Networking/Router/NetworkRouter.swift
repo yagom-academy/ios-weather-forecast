@@ -41,7 +41,6 @@ final class Router<EndPointType: EndPoint>: NetworkRouter {
                 print(error)
             }
         }
-
         return request
     }
 }
