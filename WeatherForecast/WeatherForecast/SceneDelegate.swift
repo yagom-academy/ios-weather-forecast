@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let locationManager = CLLocationManager(desiredAccuracy: kCLLocationAccuracyThreeKilometers)
         let locationService = LocationService(locationManager: locationManager)
         let weatherDataViewModel = WeatherDataViewModel(locationService: locationService)
-        let mainViewController = MainViewController(weatherDataViewModel: weatherDataViewModel)
+        let mainViewController = MainWeatherTableViewController(weatherDataViewModel: weatherDataViewModel)
         
         window?.rootViewController = mainViewController
         window?.makeKeyAndVisible()
