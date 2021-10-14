@@ -34,11 +34,44 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
         return label
     }()
     
+    private let verticalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .leading
+        stackView.backgroundColor = .white
+        return stackView
+    }()
+    
+    private let horizontalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.alignment = .leading
+        stackView.backgroundColor = .white
+        return stackView
+    }()
+    
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
+        configureContents()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+extension CurrentWeatherHeader {
+     private func configureContents() {
+         contentView.addSubview(horizontalStackView)
+         contentView.addSubview(verticalStackView)
+
+         NSLayoutConstraint.activate([
+             horizontalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+             horizontalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+             horizontalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+             horizontalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+         ])
+     }
 }
