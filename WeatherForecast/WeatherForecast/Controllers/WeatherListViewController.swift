@@ -18,9 +18,10 @@ class WeatherListViewController: UIViewController {
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
         tableView.register(CustomHeaderView.self, forHeaderFooterViewReuseIdentifier: CustomHeaderView.identifier)
         
-        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
-        tableView.backgroundView = backgroundImage
-        backgroundImage.alpha = 0.9
+        let backgroundImageView = UIImageView(frame: UIScreen.main.bounds)
+        backgroundImageView.image = UIImage(named: "background")
+        tableView.backgroundView = backgroundImageView
+        backgroundImageView.alpha = 0.9
         return tableView
     }()
     
@@ -28,18 +29,22 @@ class WeatherListViewController: UIViewController {
         super.viewDidLoad()
         generateLocationManager()
         bringCoordinates()
-        weatherListTableView.dataSource = self
-        weatherListTableView.delegate = self
+        configureTableView()
+        designateTableViewDataSourceDelegate()
+        
     }
 }
 
 extension WeatherListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        2
+        return fiveDaysWeatherData?.list.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as? CustomTableViewCell else { return UITableViewCell() }
+        cell.dateLabel.text = "2200-00-11"
+        cell.mininumTemperatureLabel.text = "4.0"
+        cell.weatherImageView.image = UIImage(named: "background")
         return cell
     }
 }
@@ -49,6 +54,7 @@ extension WeatherListViewController: UITableViewDelegate {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CustomHeaderView.identifier) as? CustomHeaderView else {
             return UIView()
         }
+        headerView.tintColor = .clear
         return headerView
     }
 }
@@ -63,26 +69,35 @@ extension WeatherListViewController: CLLocationManagerDelegate {
             WeatherDataManager.shared.latitude = currentLocation.latitude
             convertToAddress(latitude: WeatherDataManager.shared.latitude, longitude: WeatherDataManager.shared.longitude)
             
-            WeatherDataManager.shared.fetchCurrentWeather { result in
-                switch result {
-                case .success(let currentWeatherData):
-                    self.currentWeatherData = currentWeatherData
-                    print(currentWeatherData)
-                case .failure(let error):
-                    print(error.localizedDescription)
+            DispatchQueue.global().async {
+                WeatherDataManager.shared.fetchCurrentWeather { result in
+                    switch result {
+                    case .success(let currentWeatherData):
+                        self.currentWeatherData = currentWeatherData
+                        DispatchQueue.main.async {
+                            self.weatherListTableView.reloadData()
+                        }
+                        print(currentWeatherData)
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
                 }
             }
             
-            WeatherDataManager.shared.fetchFiveDaysWeather { result in
-                switch result {
-                case .success(let fiveDaysWeatherData):
-                    self.fiveDaysWeatherData = fiveDaysWeatherData
-                    print(fiveDaysWeatherData)
-                case .failure(let error):
-                    print(error.localizedDescription)
+            DispatchQueue.global().async {
+                WeatherDataManager.shared.fetchFiveDaysWeather { result in
+                    switch result {
+                    case .success(let fiveDaysWeatherData):
+                        self.fiveDaysWeatherData = fiveDaysWeatherData
+                        DispatchQueue.main.async {
+                            self.weatherListTableView.reloadData()
+                        }
+                        print(fiveDaysWeatherData)
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
                 }
             }
-            
             
         case .notDetermined, .restricted:
             manager.requestWhenInUseAuthorization()
@@ -94,6 +109,21 @@ extension WeatherListViewController: CLLocationManagerDelegate {
     }
 }
 extension WeatherListViewController {
+    private func designateTableViewDataSourceDelegate() {
+        weatherListTableView.dataSource = self
+        weatherListTableView.delegate = self
+    }
+    
+    private func configureTableView() {
+        view.addSubview(weatherListTableView)
+        
+        NSLayoutConstraint.activate([
+            weatherListTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            weatherListTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            weatherListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            weatherListTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
     
     private func generateLocationManager() {
         locationManager = CLLocationManager()
