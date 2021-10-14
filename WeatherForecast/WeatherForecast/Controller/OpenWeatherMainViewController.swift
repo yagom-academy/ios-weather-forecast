@@ -10,10 +10,7 @@ import CoreLocation
 final class OpenWeatherMainViewController: UIViewController {
     private let locationManager = LocationManager()
     private var location = (longitude: CLLocationDegrees() , latitude: CLLocationDegrees())
-    
-    private let networkManager = WeatherNetworkManager()
-    private let sessionDelegate = OpenWeatherSessionDelegate()
-    
+        
     private let tableViewDataSource = WeatherTableviewDataSource()
     private let tableView = UITableView()
     private lazy var address: String = {
@@ -59,11 +56,13 @@ extension OpenWeatherMainViewController: CLLocationManagerDelegate {
               let longitude = locations.last?.coordinate.longitude else {
             return
         }
+        let sessionDelegate = OpenWeatherSessionDelegate()
+        let networkManager = WeatherNetworkManager()
         
         guard let api = networkManager.buildApi(weatherOrCurrent: .forecast, location: (latitude, longitude)) else {
             return
         }
-        
+
         networkManager.fetchOpenWeatherData(requiredApi: api, sessionDelegate.session)
     }
     
