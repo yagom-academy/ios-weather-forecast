@@ -9,7 +9,11 @@ import Foundation
 import CoreLocation
 
 class GeocoderManager {
-    private let geocoder = CLGeocoder()
+    private let geocoder: GeocoderProtocol
+    
+    init(geocoder: GeocoderProtocol = CLGeocoder()) {
+        self.geocoder = geocoder
+    }
     
     func requestAddress(on coordinate: CLLocationCoordinate2D,
                         completion: @escaping (Result<CLPlacemark, Error>) -> Void) {
