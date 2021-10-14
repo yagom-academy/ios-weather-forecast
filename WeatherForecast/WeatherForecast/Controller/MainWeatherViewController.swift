@@ -22,11 +22,18 @@ final class MainWeatherViewController: UIViewController {
     //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpLocationManager()
+        setUpTableView()
+        setUpRefreshControl()
+    }
+}
+
+//MARK:- LocationManager
+extension MainWeatherViewController {
+    private func setUpLocationManager() {
         locationManager.delegate = self
         guard CLLocationManager.significantLocationChangeMonitoringAvailable() else { return }
         locationManager.startMonitoringSignificantLocationChanges()
-        setUpTableView()
-        setUpRefreshControl()
     }
 }
 
