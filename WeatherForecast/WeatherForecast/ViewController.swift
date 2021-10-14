@@ -7,19 +7,19 @@
 import UIKit
 import CoreLocation
 
-typealias DataSource = UICollectionViewDiffableDataSource<Section, FiveDayWeather.List>
+typealias DataSource = UICollectionViewDiffableDataSource<WeatherHeader, FiveDayWeather.List>
 
 class ViewController: UIViewController {
     private var networkManager = NetworkManager()
     private let locationManager = LocationManager()
-    private var currentWeather: CurrentWeather?
-    private var fiveDayWeather: FiveDayWeather?
-    
+    private var imageManager = ImageManager()
+    private var address: [Address: String] = [:]
+    private var fiveDayWeather = WeatherHeader(address: "주소", minTemperature: "최저기온", maxTemperature: "최고기온", temperature: "온도", weatherIcon: UIImage(systemName: "photo")!)
     
     private var collecionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     
     private var dataSource: DataSource?
-    private var snapshot: NSDiffableDataSourceSnapshot<Section, FiveDayWeather.List>?
+    private var snapshot: NSDiffableDataSourceSnapshot<WeatherHeader, FiveDayWeather.List>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +38,7 @@ class ViewController: UIViewController {
             return
         }
         
-        let address = getAddress(of: location)
+        address = getAddress(of: location)
         getWeatherData(of: location, route: .current)
         getWeatherData(of: location, route: .fiveDay)
     }
@@ -79,7 +79,14 @@ class ViewController: UIViewController {
             let parsedData = data.parse(to: CurrentWeather.self)
             switch parsedData {
             case .success(let currentWeatherData):
-                self.currentWeather = currentWeatherData
+                imageManager.loadImage(with: "https://openweathermap.org/img/w/\(currentWeatherData.weather[0].icon).png") { result in
+                    switch result {
+                    case .success(let image):
+                        self.fiveDayWeather = WeatherHeader(address: self.address[.city]!, minTemperature: currentWeatherData.main.minTemperature.description, maxTemperature: currentWeatherData.main.maxTemperature.description, temperature: currentWeatherData.main.temperature.description, weatherIcon: image)
+                    case .failure(let error):
+                        assertionFailure(error.localizedDescription)
+                    }
+                }
                 
             case .failure(let parsingError):
                 assertionFailure(parsingError.localizedDescription)
@@ -88,7 +95,7 @@ class ViewController: UIViewController {
             let parsedData = data.parse(to: FiveDayWeather.self)
             switch parsedData {
             case .success(let fiveDayWeatherData):
-                self.fiveDayWeather = fiveDayWeatherData
+                self.fiveDayWeather.weathers = fiveDayWeatherData.list
                 makeSnapshot()
             case .failure(let parsingError):
                 assertionFailure(parsingError.localizedDescription)
@@ -108,10 +115,9 @@ class ViewController: UIViewController {
     }
     
     private func makeSnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, FiveDayWeather.List>()
-        snapshot.appendSections([.fiveDayWeather])
-        guard let data = fiveDayWeather?.list else { return }
-        snapshot.appendItems(data, toSection: .fiveDayWeather)
+        var snapshot = NSDiffableDataSourceSnapshot<WeatherHeader, FiveDayWeather.List>()
+        snapshot.appendSections([fiveDayWeather])
+        snapshot.appendItems(fiveDayWeather.weathers, toSection: fiveDayWeather)
         self.snapshot = snapshot
         dataSource?.apply(snapshot)
     }
