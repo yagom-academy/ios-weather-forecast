@@ -6,31 +6,29 @@
 //
 
 import UIKit
+import CoreLocation
 
 class CurrentWeatherHeader: UITableViewHeaderFooterView {
     static let headerIdentifier = "\(self)"
     
-    private let weatherImageView: UIImageView = {
-        let imageView = UIImageView()
+    private let weatherImageView: CustomImageVieew = {
+        let imageView = CustomImageVieew()
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
     private let locationLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
         return label
     }()
     
     private let minMaxTemperatureLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
         return label
     }()
     
     private let currentTemperatureLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
         return label
     }()
     
@@ -65,6 +63,29 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
 }
 
 extension CurrentWeatherHeader {
+    func setUp(with currentWeather: CurrentWeather, _ location: [CLPlacemark]?) {
+        guard let iconName = currentWeather.weather[0].icon,
+              let address = location?.first,
+              let tempMin = currentWeather.main.tempMin,
+              let tempMax = currentWeather.main.tempMax else {
+                  return
+        }
+        let minimunTemperature = convertToCelsius(from: tempMin)
+        let maximumTemperature = convertToCelsius(from: tempMax)
+        let currentTemperature = convertToCelsius(from: currentWeather.main.temp)
+        let iconURL = "https://openweathermap.org/img/w/\(iconName).png"
+        
+        if let url = URL(string: iconURL) {
+            weatherImageView.loadImage(from: url)
+        }
+        if let city = address.administrativeArea,
+           let district = address.locality {
+            locationLabel.text = "\(city) \(district)"
+        }
+        minMaxTemperatureLabel.text = "최저 \(minimunTemperature)° 최고 \(maximumTemperature)°"
+        currentTemperatureLabel.text = currentTemperature.description
+    }
+    
     private func configureContents() {
         contentView.addSubview(horizontalStackView)
         contentView.addSubview(verticalStackView)
@@ -95,7 +116,7 @@ extension CurrentWeatherHeader {
     }
     
     private func convertToCelsius(from kelvin: Double) -> Double {
-        let celsius = kelvin - 273.15
+        let celsius = round(kelvin - 273.15)
         return celsius
     }
 }

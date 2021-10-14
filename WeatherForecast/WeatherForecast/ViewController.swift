@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     private let parsingManager = ParsingManager()
     private var currentWeather: CurrentWeather?
     private var fiveDayForecast: FiveDayForecast?
+    private var address: [CLPlacemark]? = []
     private var locationManager = CLLocationManager()
     private var weatherTableView = UITableView()
     private let cellIdentifier = "ForecastCell"
@@ -42,6 +43,7 @@ extension ViewController: UITableViewDelegate {
         guard let currentWeather = currentWeather else {
             return UIView()
         }
+        view.setUp(with: currentWeather, address)
         
         return view
     }
@@ -58,10 +60,7 @@ extension ViewController: CLLocationManagerDelegate {
         let geoCoder = CLGeocoder()
         let locale = Locale(identifier: "Ko-kr")
         geoCoder.reverseGeocodeLocation(location, preferredLocale: locale) { placemarks, error in
-            if let address = placemarks?.first {
-                print(address.administrativeArea)
-                print(address.locality)
-            }
+            self.address = placemarks
         }
     }
 }
@@ -92,6 +91,9 @@ extension ViewController {
                 switch decodedData {
                 case .success(let modelType):
                     self.currentWeather = modelType
+                    DispatchQueue.main.async {
+                        self.weatherTableView.reloadData()
+                    }
                 case .failure(let error):
                     print(error)
                 }
