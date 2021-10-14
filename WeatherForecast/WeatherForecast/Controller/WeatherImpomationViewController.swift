@@ -20,23 +20,14 @@ class WeatherImpormationViewController: UIViewController {
        
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        processWeatherImpormation()
-        getUserAddress()
-    }
-    
     private func getUserLocation() {
         locationManager.getUserLocation { location in
-            self.currentLocation = location
+            self.processWeatherImpormation(location: location)
+            self.getUserAddress(location: location)
         }
     }
     
-    private func processWeatherImpormation() {
-        guard let location = currentLocation else {
-            return
-        }
+    private func processWeatherImpormation(location: CLLocation) {
         let currentWeatherURL =
         WeatherURL.weatherCoordinates(latitude: location.coordinate.latitude,
                                       longitude: location.coordinate.longitude)
@@ -59,10 +50,7 @@ class WeatherImpormationViewController: UIViewController {
         }
     }
     
-    private func getUserAddress() {
-        guard let location = currentLocation else {
-            return
-        }
+    private func getUserAddress(location: CLLocation) {
         locationManager.getUserAddress(location: location) { address in
             switch address {
             case .success(let data):
