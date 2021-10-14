@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkManager {
+final class NetworkManager {
     enum APIError: Error, LocalizedError {
         case filePathError
         case plistError
@@ -23,7 +23,7 @@ class NetworkManager {
     }
     
     private let router = Router<WeatherApi>()
-    private var apiKey: String {
+    var apiKey: String {
         get {
             guard let filePath = Bundle.main.path(forResource: "APIKey", ofType: "plist") else {
                 return APIError.filePathError.description
@@ -40,10 +40,6 @@ class NetworkManager {
     }
     
     func getCurrentWeatherData(weatherAPI: WeatherApi, _ session: URLSession) {
-        router.request(weatherAPI, session)
-    }
-    
-    func getFiveDaysForecastData(weatherAPI: WeatherApi, _ session: URLSession) {
         router.request(weatherAPI, session)
     }
 }

@@ -14,8 +14,9 @@ protocol NetworkRouter {
     func cancel()
 }
 
-class Router<EndPointType: EndPoint>: NetworkRouter {
+final class Router<EndPointType: EndPoint>: NetworkRouter {
     private var task: URLSessionDataTask?
+    var data: FiveDaysForecast?
     
     func request(_ route: EndPointType, _ session: URLSession) {
         let request = self.buildRequest(from: route)
@@ -37,17 +38,13 @@ class Router<EndPointType: EndPoint>: NetworkRouter {
         
         switch route.httpTask {
         case .request(withUrlParameters: let urlParameter):
-            self.configureRequestUrl(&request, urlParameter)
+            do {
+                try URLManager.configure(urlRequest: &request, with: urlParameter)
+            } catch {
+                print(error)
+            }
         }
         
         return request
-    }
-    
-    private func configureRequestUrl(_ request: inout URLRequest, _ urlParameters: Parameters) {
-        do {
-            try URLManager.configure(urlRequest: &request, with: urlParameters)
-        } catch {
-            print(error)
-        }
     }
 }
