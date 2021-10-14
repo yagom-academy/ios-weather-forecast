@@ -8,7 +8,8 @@
 import UIKit
 
 class CustomTableViewCell: UITableViewCell {
-
+    static let identifier = "cell"
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

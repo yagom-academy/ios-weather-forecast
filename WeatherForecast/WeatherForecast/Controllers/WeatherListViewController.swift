@@ -9,11 +9,44 @@ import CoreLocation
 
 class WeatherListViewController: UIViewController {
     private var locationManager: CLLocationManager?
+    private var weatherListTableView: UITableView = {
+        let tableView = UITableView(frame: CGRect.zero, style: .grouped)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
+        tableView.register(CustomHeaderView.self, forHeaderFooterViewReuseIdentifier: CustomHeaderView.identifier)
+        
+        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+        tableView.backgroundView = backgroundImage
+        backgroundImage.alpha = 0.9
+        return tableView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         generateLocationManager()
         bringCoordinates()
+        weatherListTableView.dataSource = self
+        weatherListTableView.delegate = self
+    }
+}
+
+extension WeatherListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath)
+        return cell
+    }
+}
+
+extension WeatherListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CustomHeaderView.identifier) as? CustomHeaderView else {
+            return UIView()
+        }
+        return headerView
     }
 }
 
@@ -38,7 +71,6 @@ extension WeatherListViewController: CLLocationManagerDelegate {
         }
     }
 }
-
 extension WeatherListViewController {
     
     private func generateLocationManager() {
@@ -51,18 +83,18 @@ extension WeatherListViewController {
     }
     
     private func bringCoordinates() {
-           if CLLocationManager.locationServicesEnabled() {
-               guard let locationManager = locationManager else { return }
-               let currentCoordinate = locationManager.location?.coordinate
-
-               locationManager.startUpdatingLocation()
-               guard let lat = currentCoordinate?.latitude, let lon = currentCoordinate?.longitude else {
-                   return
-               }
-               WeatherDataManager.shared.latitude = lat
-               WeatherDataManager.shared.longitude = lon
-           }
-       }
+        if CLLocationManager.locationServicesEnabled() {
+            guard let locationManager = locationManager else { return }
+            let currentCoordinate = locationManager.location?.coordinate
+            
+            locationManager.startUpdatingLocation()
+            guard let lat = currentCoordinate?.latitude, let lon = currentCoordinate?.longitude else {
+                return
+            }
+            WeatherDataManager.shared.latitude = lat
+            WeatherDataManager.shared.longitude = lon
+        }
+    }
     
     private func convertToAddress(latitude: Double?, longitude: Double?) {
         guard let latitude = latitude, let longitude = longitude else {
