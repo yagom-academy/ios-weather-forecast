@@ -11,13 +11,15 @@ import CoreLocation
 class LocationManager: NSObject, CLLocationManagerDelegate {
     typealias RequestLocationAction = (CLLocationCoordinate2D) -> Void
     
-    private let locationManager = CLLocationManager()
+    private var locationManager: LocationManagerProtocol
     private var completionHanler: RequestLocationAction?
-    
-    override init() {
+
+    init(locationManager: LocationManagerProtocol = CLLocationManager()) {
+        self.locationManager = locationManager
         super.init()
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
+        
+        self.locationManager.customDelegate = self
+        self.locationManager.requestWhenInUseAuthorization()
     }
     
     func requestLocation(completion: @escaping RequestLocationAction) {

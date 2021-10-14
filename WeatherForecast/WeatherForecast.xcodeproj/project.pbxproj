@@ -22,6 +22,7 @@
 		79A488542715BEFD006BF85D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A488532715BEFD006BF85D /* LocationManager.swift */; };
 		79A4885927171E65006BF85D /* GeocoderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A4885827171E65006BF85D /* GeocoderManager.swift */; };
 		79A4885B27185B40006BF85D /* GeocoderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A4885A27185B40006BF85D /* GeocoderProtocol.swift */; };
+		79A4885D27186E30006BF85D /* LocationManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A4885C27186E30006BF85D /* LocationManagerProtocol.swift */; };
 		79FF2F902709879600942D6F /* RequestGeneratable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FF2F8F2709879600942D6F /* RequestGeneratable.swift */; };
 		79FF2F92270987B400942D6F /* UrlGeneratable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FF2F91270987B400942D6F /* UrlGeneratable.swift */; };
 		79FF2F95270B442500942D6F /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FF2F94270B442500942D6F /* APIError.swift */; };
@@ -76,6 +77,7 @@
 		79A488532715BEFD006BF85D /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		79A4885827171E65006BF85D /* GeocoderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocoderManager.swift; sourceTree = "<group>"; };
 		79A4885A27185B40006BF85D /* GeocoderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocoderProtocol.swift; sourceTree = "<group>"; };
+		79A4885C27186E30006BF85D /* LocationManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerProtocol.swift; sourceTree = "<group>"; };
 		79FF2F8F2709879600942D6F /* RequestGeneratable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestGeneratable.swift; sourceTree = "<group>"; };
 		79FF2F91270987B400942D6F /* UrlGeneratable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlGeneratable.swift; sourceTree = "<group>"; };
 		79FF2F94270B442500942D6F /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				79FF2F91270987B400942D6F /* UrlGeneratable.swift */,
 				4DCDD765270B289600010396 /* URLSessionProtocol.swift */,
 				79A4885A27185B40006BF85D /* GeocoderProtocol.swift */,
+				79A4885C27186E30006BF85D /* LocationManagerProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -496,6 +499,7 @@
 				4D30520D2702E2B300898455 /* CurrentWeather.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
 				794EC4A52702F32F00F1AF9B /* DecodingManager.swift in Sources */,
+				79A4885D27186E30006BF85D /* LocationManagerProtocol.swift in Sources */,
 				4D3052172702FB2300898455 /* APIManager.swift in Sources */,
 				79FF2F97270B4BDD00942D6F /* ErrorHandler.swift in Sources */,
 				79A4885927171E65006BF85D /* GeocoderManager.swift in Sources */,
