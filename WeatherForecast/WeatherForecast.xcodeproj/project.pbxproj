@@ -17,6 +17,7 @@
 		795E076D27171E17007CF905 /* CurrentWeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795E076C27171E17007CF905 /* CurrentWeatherViewModel.swift */; };
 		795E077027174EA9007CF905 /* NumberFormatter+FloatingPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795E076F27174EA9007CF905 /* NumberFormatter+FloatingPoint.swift */; };
 		79C6A2AC271036A80067ED44 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C6A2AB271036A80067ED44 /* LocationManager.swift */; };
+		79CC18872718591900DF5199 /* DateFormatter+TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CC18862718591900DF5199 /* DateFormatter+TimeInterval.swift */; };
 		79ED8AB5270304D800F1225B /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 79ED8AB4270304D700F1225B /* .swiftlint.yml */; };
 		975BF4DA7577793921DE34EC /* Pods_WeatherForecast_WeatherForecastUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E3CBF32B5200003A33C4A12 /* Pods_WeatherForecast_WeatherForecastUITests.framework */; };
 		A93752B5270C64DA008C0DA8 /* WeatherInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = A93752B4270C64DA008C0DA8 /* WeatherInfo.plist */; };
@@ -75,6 +76,7 @@
 		795E076C27171E17007CF905 /* CurrentWeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherViewModel.swift; sourceTree = "<group>"; };
 		795E076F27174EA9007CF905 /* NumberFormatter+FloatingPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+FloatingPoint.swift"; sourceTree = "<group>"; };
 		79C6A2AB271036A80067ED44 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		79CC18862718591900DF5199 /* DateFormatter+TimeInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+TimeInterval.swift"; sourceTree = "<group>"; };
 		79ED8AB4270304D700F1225B /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		896E7CA1D949ED8DD7233213 /* Pods_WeatherForecast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherForecast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A93752B4270C64DA008C0DA8 /* WeatherInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = WeatherInfo.plist; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				795E076F27174EA9007CF905 /* NumberFormatter+FloatingPoint.swift */,
+				79CC18862718591900DF5199 /* DateFormatter+TimeInterval.swift */,
 			);
 			path = Formatter;
 			sourceTree = "<group>";
@@ -579,6 +582,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79CC18872718591900DF5199 /* DateFormatter+TimeInterval.swift in Sources */,
 				792D2C232706F8830060326A /* URLSessionProtocol.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
 				A97EFF3B27030677009558C9 /* CurrentWeatherData.swift in Sources */,
