@@ -16,6 +16,7 @@
 		2B7E731927182BAD00EA0F1C /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7E731827182BAD00EA0F1C /* CustomTableViewCell.swift */; };
 		2B7E731E2718B28100EA0F1C /* extension + UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7E731D2718B28100EA0F1C /* extension + UIImage.swift */; };
 		2B7E73202718B57200EA0F1C /* extension + Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7E731F2718B57200EA0F1C /* extension + Double.swift */; };
+		2B7E73222718C91A00EA0F1C /* extension + Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7E73212718C91A00EA0F1C /* extension + Date.swift */; };
 		2BF212352710383E00F16190 /* URLResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF212342710383E00F16190 /* URLResource.swift */; };
 		2BF212372710388600F16190 /* URLMakable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF212362710388600F16190 /* URLMakable.swift */; };
 		2BF21239271038C800F16190 /* WeatherURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF21238271038C800F16190 /* WeatherURL.swift */; };
@@ -57,6 +58,7 @@
 		2B7E731827182BAD00EA0F1C /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		2B7E731D2718B28100EA0F1C /* extension + UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension + UIImage.swift"; sourceTree = "<group>"; };
 		2B7E731F2718B57200EA0F1C /* extension + Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension + Double.swift"; sourceTree = "<group>"; };
+		2B7E73212718C91A00EA0F1C /* extension + Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension + Date.swift"; sourceTree = "<group>"; };
 		2BF212342710383E00F16190 /* URLResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLResource.swift; sourceTree = "<group>"; };
 		2BF212362710388600F16190 /* URLMakable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMakable.swift; sourceTree = "<group>"; };
 		2BF21238271038C800F16190 /* WeatherURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherURL.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 			children = (
 				2B7E731D2718B28100EA0F1C /* extension + UIImage.swift */,
 				2B7E731F2718B57200EA0F1C /* extension + Double.swift */,
+				2B7E73212718C91A00EA0F1C /* extension + Date.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				C79C8CF825ADDDF200EEE3F1 /* WeatherListViewController.swift in Sources */,
 				2BF212372710388600F16190 /* URLMakable.swift in Sources */,
 				2BF212352710383E00F16190 /* URLResource.swift in Sources */,
+				2B7E73222718C91A00EA0F1C /* extension + Date.swift in Sources */,
 				2BF21239271038C800F16190 /* WeatherURL.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
 				2B38AF8927034F8900081039 /* FiveDaysWeather.swift in Sources */,

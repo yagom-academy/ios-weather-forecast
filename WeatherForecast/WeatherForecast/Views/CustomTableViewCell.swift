@@ -21,12 +21,14 @@ class CustomTableViewCell: UITableViewCell {
     
     var mininumTemperatureLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     var dateLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

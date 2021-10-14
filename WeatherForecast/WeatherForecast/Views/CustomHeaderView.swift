@@ -19,21 +19,21 @@ class CustomHeaderView: UITableViewHeaderFooterView {
     
     var addressLabel: UILabel = {
         let label = UILabel()
-        label.text = "테스트"
+        label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     var mininumAndMaximumTemperatureLabel: UILabel = {
         let label = UILabel()
-        label.text = "테스트2"
+        label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     var currentTemperatureLabel: UILabel = {
         let label = UILabel()
-        label.text = "테스트3"
+        label.textColor = .white
         label.font = .preferredFont(forTextStyle: .largeTitle)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -59,7 +59,7 @@ class CustomHeaderView: UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        configureHeaderView()
+        setupHeaderView()
         
     }
     
@@ -67,7 +67,17 @@ class CustomHeaderView: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureHeaderView() {
+}
+
+extension CustomHeaderView {
+    func configurationHeaderView(address: String, minMaxTemperature: String, currentTemperature: String, image: UIImage? = nil) {
+        self.addressLabel.text = address
+        self.currentTemperatureLabel.text = currentTemperature
+        self.mininumAndMaximumTemperatureLabel.text = minMaxTemperature
+        self.weatherImageView.image = UIImage(named: "background")
+    }
+    
+    func setupHeaderView() {
         verticalStackView.addArrangedSubview(addressLabel)
         verticalStackView.addArrangedSubview(mininumAndMaximumTemperatureLabel)
         verticalStackView.addArrangedSubview(currentTemperatureLabel)
