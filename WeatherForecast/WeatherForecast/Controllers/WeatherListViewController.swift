@@ -11,6 +11,8 @@ class WeatherListViewController: UIViewController {
     private var locationManager: CLLocationManager?
     private var currentWeatherData: CurrentWeather?
     private var fiveDaysWeatherData: FivedaysWeather?
+    private var weatherImages: [UIImage?] = [UIImage?]()
+    private var downloadTasks = [URLSessionTask]()
     
     private lazy var refreshControl: UIRefreshControl = { [weak self] in
         let control = UIRefreshControl()
@@ -39,7 +41,20 @@ class WeatherListViewController: UIViewController {
         designateTableViewDataSourceDelegate()
         setRefreshControl()
         
-        
+    }
+}
+
+extension WeatherListViewController: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            downloadImage(at: indexPath.row)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            cancelDownload(at: indexPath.row)
+        }
     }
 }
 
@@ -50,9 +65,12 @@ extension WeatherListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as? CustomTableViewCell else { return UITableViewCell() }
-        cell.dateLabel.text = "2200-00-11"
-        cell.mininumTemperatureLabel.text = "4.0"
-        cell.weatherImageView.image = UIImage(named: "background")
+        if let unWrappedFiveDaysWeatherData = fiveDaysWeatherData {
+            let daysWeatherData = unWrappedFiveDaysWeatherData.list[indexPath.row]
+            let date = daysWeatherData.timeOfDataText
+            let minTemperature = "\(daysWeatherData.mainInfo.temperatureMin)℃"
+            cell.cellConfiguration(date: date, minTemperature: minTemperature)
+        }
         return cell
     }
 }
@@ -117,6 +135,58 @@ extension WeatherListViewController: CLLocationManagerDelegate {
     }
 }
 extension WeatherListViewController {
+    func generateImageURL(at index: Int) -> URL {
+        let urlbuilder = URLBuilder()
+        let resource = URLResource()
+        guard let imageURL = urlbuilder.builderImageURL(resource: resource, index: index) else { fatalError("Invalid URL") }
+        return imageURL
+    }
+    
+    func downloadImage(at index: Int) {
+        guard weatherImages[index] == nil else {
+            return
+        }
+        let imageURL = generateImageURL(at: index)
+        guard !downloadTasks.contains(where: { task in
+            task.originalRequest?.url == imageURL
+        }) else { return }
+        
+        let task = URLSession.shared.dataTask(with: imageURL) { [weak self] data, response, error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            if let data = data, let image = UIImage(data: data), let strongSelf = self {
+                strongSelf.weatherImages.append(image)
+                let reloadIndexPath = IndexPath(row: index, section: 0)
+                DispatchQueue.main.async {
+                    if strongSelf.weatherListTableView.indexPathsForVisibleRows?.contains(reloadIndexPath) == .some(true) {
+                        strongSelf.weatherListTableView.reloadRows(at: [reloadIndexPath], with: .automatic)
+                    }
+                }
+                strongSelf.completeTask()
+            }
+            
+        }
+        task.resume()
+        downloadTasks.append(task)
+    }
+    
+    func completeTask() {
+        downloadTasks = downloadTasks.filter({ task in
+            task.state != .completed
+        })
+    }
+    
+    func cancelDownload(at index: Int) {
+        let imageURL = generateImageURL(at: index)
+        guard let taskIndex = downloadTasks.firstIndex(where: { $0.originalRequest?.url == imageURL }) else { return }
+        let task = downloadTasks[taskIndex]
+        task.cancel()
+        downloadTasks.remove(at: taskIndex)
+    }
+    
     @objc private func refresh() {
         DispatchQueue.global().async { [weak self] in
             guard let strongSelf = self else { return }
