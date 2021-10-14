@@ -16,19 +16,3 @@ struct Coordinate: Codable {
         case latitude = "lat"
     }
 }
-
-struct City: Codable {
-    let identifier: Int?
-    let name: String?
-    let coordinate: Coordinate?
-    let country: String?
-    let timezone: Int?
-    let sunrise: Int?
-    let sunset: Int?
-    
-    enum CodingKeys: String, CodingKey {
-        case name, country, timezone, sunrise, sunset
-        case identifier = "id"
-        case coordinate = "coord"
-    }
-}

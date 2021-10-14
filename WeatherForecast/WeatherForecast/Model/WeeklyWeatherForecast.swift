@@ -17,25 +17,21 @@ struct WeatherForecast: Codable {
     let pop: Double?
     let rain: Rain?
     let snow: Snow?
-    let sys: WeeklySys?
     let formattedForecastedTime: String?
     
     enum CodingKeys: String, CodingKey {
-        case main, weather, clouds, wind, visibility, pop, rain, snow, sys
+        case main, weather, clouds, wind, visibility, pop, rain, snow
         case forecastedTime = "dt"
         case formattedForecastedTime = "dt_txt"
     }
 }
 
 struct WeeklyWeatherForecast: Codable {
-    let cod: String?
-    let message: Int?
-    let timestampCount: Int?
     let list: [WeatherForecast]?
-    let city: City?
-    
+    let timestampCount: Int?
+
     enum CodingKeys: String, CodingKey {
-        case cod, message, list, city
+        case list
         case timestampCount = "cnt"
     }
 }

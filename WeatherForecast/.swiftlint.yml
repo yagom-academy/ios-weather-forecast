@@ -2,8 +2,8 @@ excluded:
     - Pods
     - WeatherForecastTests
     - WeatherForecastUITests
-    - WeatherForecast/AppDelegate.swift
-    - WeatherForecast/SceneDelegate.swift
+    - WeatherForecast/App/AppDelegate.swift
+    - WeatherForecast/App/SceneDelegate.swift
 disabled_rules:
     - trailing_whitespace
     - identifier_name
