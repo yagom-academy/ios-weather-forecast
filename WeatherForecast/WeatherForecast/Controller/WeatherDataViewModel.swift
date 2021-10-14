@@ -10,8 +10,8 @@ import CoreLocation
 class WeatherDataViewModel {
     private var locationService: LocationService
     
-    var currentAddress: String?
-    var currentWeatherData: CurrentWeatherData?
+    private(set) var currentAddress: String?
+    private(set) var currentWeatherData: CurrentWeatherData?
     private var fivedayWeatherData: FiveDayWeatherData? {
         willSet {
             guard let listResource = newValue?.intervalWeathers else {
@@ -21,7 +21,7 @@ class WeatherDataViewModel {
             intervalWeatherInfos = listResource
         }
     }
-    var intervalWeatherInfos: [IntervalWeatherData] = []
+    private(set) var intervalWeatherInfos: [IntervalWeatherData] = []
     
     init(locationService: LocationService) {
         self.locationService = locationService
