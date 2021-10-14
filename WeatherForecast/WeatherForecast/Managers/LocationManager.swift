@@ -73,6 +73,5 @@ extension LocationManager: LocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         debugPrint(error.localizedDescription)
-        locationManager.requestLocation()
     }
 }
