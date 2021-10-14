@@ -16,14 +16,6 @@ final class OpenWeatherMainViewController: UIViewController {
     
     private let tableViewDataSource = WeatherTableviewDataSource()
     private let tableView = UITableView()
-    
-    private func drawTableView() {
-            self.view.addSubview(tableView)
-            tableView.frame = self.view.bounds
-            tableView.register(FiveDaysForcecastCell.self, forCellReuseIdentifier: "weatherCell")
-            tableView.dataSource = tableViewDataSource
-    }
-    
     private lazy var address: String = {
         let location = CLLocation(latitude: self.location.latitude, longitude: self.location.longitude)
         let geoCoder = CLGeocoder()
@@ -47,6 +39,17 @@ final class OpenWeatherMainViewController: UIViewController {
         drawTableView()
         locationManager.delegate = self
         locationManager.askUserLocation()
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView), name: .reloadTableView, object: nil)
+    }
+    
+    @objc func reloadTableView() {
+        DispatchQueue.main.async { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+            self.tableView.dataSource = self.tableViewDataSource
+            self.tableView.reloadData()
+        }
     }
 }
 
@@ -57,7 +60,7 @@ extension OpenWeatherMainViewController: CLLocationManagerDelegate {
             return
         }
         
-        guard let api = networkManager.buildApi(weatherOfCurrent: .forecast, location: (latitude, longitude)) else {
+        guard let api = networkManager.buildApi(weatherOrCurrent: .forecast, location: (latitude, longitude)) else {
             return
         }
         
@@ -90,6 +93,15 @@ extension OpenWeatherMainViewController: CLLocationManagerDelegate {
 }
 
 extension OpenWeatherMainViewController {
+    private func drawTableView() {
+        self.view.addSubview(tableView)
+        self.tableView.frame = self.view.bounds
+        self.tableView.register(FiveDaysForcecastCell.self, forCellReuseIdentifier: "weatherCell")
+        self.tableView.cellLayoutMarginsFollowReadableWidth = false
+        self.tableView.rowHeight = UITableView.automaticDimension
+        self.tableView.estimatedRowHeight = UITableView.automaticDimension
+    }
+    
     private func showAlert(title: String, message: String) {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

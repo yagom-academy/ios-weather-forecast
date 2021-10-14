@@ -7,70 +7,127 @@
 
 import UIKit
 
-struct CellHolder {
-    let dateLabelText: String?
-    let temperatureText: String?
-    var iconImage: UIImage?
+extension DateFormatter {
+    static func customDateFormatter() -> DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .none
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd")
+        
+        return formatter
+    }
+}
+
+extension NumberFormatter {
+    static func customTemperatureFormatter() -> NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = 1
+        formatter.roundingMode = .halfUp
+        formatter.numberStyle = .decimal
+        return formatter
+    }
+}
+
+class CellHolder {
+    private let dateLabelText: String
+    private let temperatureText: String
+    
+    init(forcastInformation: ForcastInfomation) {
+        let dateformatter = DateFormatter.customDateFormatter()
+        let date = Date(timeIntervalSince1970: TimeInterval(forcastInformation.date))
+        let formattedDate = dateformatter.string(from: date)
+        self.dateLabelText = formattedDate
+        
+        let celsiusUnit = UnitTemperature.celsius
+        let convertedTemperature = celsiusUnit.converter.value(fromBaseUnitValue: forcastInformation.main.temperature)
+        let formattedTemperature = NumberFormatter.customTemperatureFormatter().string(for: convertedTemperature)!
+        self.temperatureText = "\(formattedTemperature)℃"
+        }
+
+    
+    var date: String {
+        return self.dateLabelText
+    }
+    
+    var temperature: String {
+        return self.temperatureText
+    }
 }
 
 class FiveDaysForcecastCell: UITableViewCell {
-
+    
     func configure(_ holder: CellHolder) {
-        self.dateLabel.text = holder.dateLabelText
-        self.temperatureLabel.text = holder.temperatureText
-        self.weatherIconImageView.image = holder.iconImage
+        self.dateLabel.text = holder.date
+        self.temperatureLabel.text = holder.temperature
+    }
+    
+    func configure(_ iconImgae: UIImage) {
+        self.weatherIconImageView.image = iconImgae
     }
     
     private lazy var dateLabel: UILabel = {
         let dateLabel = UILabel()
+        self.contentView.addSubview(dateLabel)
+        dateLabel.setPosition(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: nil)
         dateLabel.textColor = .black
         dateLabel.textAlignment = .center
-        dateLabel.adjustsFontForContentSizeCategory = true
         
         return dateLabel
     }()
     
-    private lazy var temperatureLabel: UILabel = {
+    private var temperatureLabel: UILabel = {
         let tempLabel = UILabel()
         tempLabel.textColor = .black
         tempLabel.textAlignment = .center
-        tempLabel.adjustsFontForContentSizeCategory = true
         
         return tempLabel
     }()
     
     private lazy var weatherIconImageView: UIImageView = {
         let weatherIcon = UIImageView()
-        if let placeHolderImage = UIImage(named: "cat") {
-            weatherIcon.image = placeHolderImage
-            return weatherIcon
-        }
+        weatherIcon.translatesAutoresizingMaskIntoConstraints = false
+        weatherIcon.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        weatherIcon.widthAnchor.constraint(equalToConstant: 30).isActive = true
         return UIImageView()
     }()
     
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [self.dateLabel, self.temperatureLabel, self.weatherIconImageView])
-        
-        stackView.axis = .horizontal
-        self.contentView.addSubview(stackView)
-        self.translatesAutoresizingMaskIntoConstraints = false
-        
-        stackView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
-        stackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor).isActive = true
-        
-        stackView.distribution = .fill
-        stackView.alignment = .center
-        
-        return stackView
-    }()
+    private var stackView = UIStackView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        drawStackView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    private func drawStackView() {
+        stackView = UIStackView(arrangedSubviews: [temperatureLabel, weatherIconImageView])
+        self.contentView.addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
+        stackView.axis = .horizontal
+        stackView.setPosition(top: self.contentView.topAnchor, bottom: self.contentView.bottomAnchor, leading: self.contentView.leadingAnchor, leadingConstant: 250, trailing: self.contentView.trailingAnchor)
+        
+        stackView.distribution = .equalCentering
+        stackView.alignment = .center
+        stackView.spacing = 5
+        
+        setLabelStyle()
+    }
+    
+    private func setLabelStyle() {
+        self.setDynamicType(dateLabel, .body)
+        self.setDynamicType(temperatureLabel, .body)
+        self.dateLabel.textAlignment = .center
+        self.temperatureLabel.textAlignment = .center
+    }
+    
+    private func setDynamicType(_ label: UILabel, _ font: UIFont.TextStyle) {
+        label.adjustsFontForContentSizeCategory = true
+        label.font = UIFont.preferredFont(forTextStyle: font)
+    }
+    
 }
