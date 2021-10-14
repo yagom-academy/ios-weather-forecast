@@ -9,7 +9,7 @@ import UIKit
 
 class WeatherTableviewDataSource: NSObject, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return WheaterDataHolder.shared.forcast?.list.count ?? .zero
+        return WeatherDataHolder.shared.forcast?.list.count ?? .zero
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -17,7 +17,7 @@ class WeatherTableviewDataSource: NSObject, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        guard let list = WheaterDataHolder.shared.forcast?.list[indexPath.row] else {
+        guard let list = WeatherDataHolder.shared.forcast?.list[indexPath.row] else {
             return UITableViewCell()
         }
 

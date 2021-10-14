@@ -43,7 +43,6 @@ extension ImageLoader {
             return
         }
         
-        let taskIdentifier = UUID()
         let task = URLSession.shared.dataTask(with: url) { data, _, _ in
             guard let data = data else { return }
             
