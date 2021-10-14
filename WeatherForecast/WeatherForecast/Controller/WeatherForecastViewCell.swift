@@ -9,7 +9,6 @@ import UIKit
 
 class WeatherForecastViewCell: UITableViewCell {
     static let identifier = "CustomTableViewCell"
-
     private let timeLabel = UILabel(color: .white)
     private let temperatureLabel = UILabel(color: .white)
     private let iconImageView = UIImageView()
@@ -51,9 +50,10 @@ class WeatherForecastViewCell: UITableViewCell {
         let date = Date(timeIntervalSince1970: data.dataReceivingTime)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd(E) HH시"
-        dateFormatter.locale = Locale(identifier: "ko_KR")
+        if let lang = Locale.preferredLanguages.first {
+            dateFormatter.locale = Locale(identifier: lang)
+        }
         timeLabel.text = dateFormatter.string(from: date)
-
         temperatureLabel.text = MeasurementFormatter().convertTemp(temp: data.main.temp, from: .kelvin, to: .celsius)
 
         if let iconID = data.weather.first?.icon {

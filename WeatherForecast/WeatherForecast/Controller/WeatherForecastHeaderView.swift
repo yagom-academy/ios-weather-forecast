@@ -14,7 +14,6 @@ class WeatherForecastHeaderView: UIView {
     private let minMaxTempLabel = UILabel(color: .white)
     private let currentTempLabel = UILabel(color: .white)
     private let stackView = UIStackView()
-
     private let measurementFormatter = MeasurementFormatter()
 
     override init(frame: CGRect) {
@@ -76,7 +75,6 @@ class WeatherForecastHeaderView: UIView {
         if let locality = placemark.locality {
             address.append("\(locality) ")
         }
-
         locationLabel.text = address
 
         let minimumTemperatureText = "최저 " + measurementFormatter.convertTemp(temp: data.main.tempMin, from: .kelvin, to: .celsius)

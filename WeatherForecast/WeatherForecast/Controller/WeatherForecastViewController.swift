@@ -7,7 +7,6 @@
 import UIKit
 
 class WeatherForecastViewController: UIViewController {
-
     private var tableView = UITableView(frame: .zero, style: .grouped)
     private var tableHeaderView: WeatherForecastHeaderView!
     private var locationManager = LocationManager()
@@ -20,7 +19,6 @@ class WeatherForecastViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         locationManager.delegate = self
-
         setUpTableView()
         // Do any additional setup after loading the view.
     }
