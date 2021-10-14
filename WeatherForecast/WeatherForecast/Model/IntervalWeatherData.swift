@@ -8,15 +8,13 @@
 import Foundation
 
 struct IntervalWeatherData: WeatherInformation {
-    var conditions: [Condition]?
-    var mainInformation: MainInformation?
-    let date: TimeInterval?
-    let dateText: String?
+    var conditions: [Condition]
+    var mainInformation: MainInformation
+    let date: TimeInterval
     
     enum CodingKeys: String, CodingKey {
         case conditions = "weather"
         case mainInformation = "main"
         case date = "dt"
-        case dateText = "dt_txt"
     }
 }

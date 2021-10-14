@@ -8,8 +8,8 @@
 import Foundation
 
 struct CurrentWeatherData: WeatherInformation {
-    var conditions: [Condition]?
-    var mainInformation: MainInformation?
+    var conditions: [Condition]
+    var mainInformation: MainInformation
 
     enum CodingKeys: String, CodingKey {
         case conditions = "weather"

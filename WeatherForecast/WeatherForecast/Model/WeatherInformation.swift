@@ -8,13 +8,13 @@
 import Foundation
 
 protocol WeatherInformation: Codable {
-    var conditions: [Condition]? { get }
-    var mainInformation: MainInformation? { get }
+    var conditions: [Condition] { get }
+    var mainInformation: MainInformation { get }
 }
 
 struct Coordinate: Codable {
-    let latitude: Double?
-    let longitude: Double?
+    let latitude: Double
+    let longitude: Double
     
     private enum CodingKeys: String, CodingKey {
         case latitude = "lat"
@@ -23,7 +23,7 @@ struct Coordinate: Codable {
 }
 
 struct Condition: Codable {
-    let iconName: String?
+    let iconName: String
     
     private enum CodingKeys: String, CodingKey {
         case iconName = "icon"
@@ -31,9 +31,9 @@ struct Condition: Codable {
 }
 
 struct MainInformation: Codable {
-    let temperature: Double?
-    let minimumTemperature: Double?
-    let maximumTemperature: Double?
+    let temperature: Double
+    let minimumTemperature: Double
+    let maximumTemperature: Double
     
     private enum CodingKeys: String, CodingKey {
         case temperature = "temp"

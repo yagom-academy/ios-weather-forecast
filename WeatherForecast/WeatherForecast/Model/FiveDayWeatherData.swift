@@ -8,7 +8,7 @@
 import Foundation
 
 struct FiveDayWeatherData: Codable {
-    let intervalWeathers: [IntervalWeatherData]?
+    let intervalWeathers: [IntervalWeatherData]
     
     enum CodingKeys: String, CodingKey {
         case intervalWeathers = "list"
