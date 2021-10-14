@@ -9,5 +9,6 @@ import Foundation
 import UIKit.UIImage
 
 protocol MediaNetworkable {
-    func loadImage(with urlPath: String, completionHandler: @escaping (Result<UIImage, Error>) -> Void) -> URLSessionDataTask?
+    func loadImage(with urlPath: String,
+                   completionHandler: @escaping (Result<UIImage, Error>) -> Void) -> URLSessionDataTask?
 }

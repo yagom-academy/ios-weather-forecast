@@ -17,6 +17,7 @@ struct ImageManager: MediaNetworkable {
         return URLSession(configuration: config)
     }()
     
+    @discardableResult
     func loadImage(with urlPath: String,
                    completionHandler: @escaping (Result<UIImage, Error>) -> Void) -> URLSessionDataTask?
     {

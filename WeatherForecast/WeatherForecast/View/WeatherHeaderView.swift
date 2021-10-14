@@ -8,10 +8,10 @@
 import UIKit
 
 class WeatherHeaderView: UICollectionReusableView {
-    lazy var addressLabel = makeLabel(font: .title3)
-    lazy var maxTemperatureLabel = makeLabel(font: .title3)
-    lazy var minTemperatureLabel = makeLabel(font: .title3)
-    lazy var temperatureLabel = makeLabel(font: .title2)
+    lazy var addressLabel = makeLabel(font: .caption1)
+    lazy var maxTemperatureLabel = makeLabel(font: .callout)
+    lazy var minTemperatureLabel = makeLabel(font: .callout)
+    lazy var temperatureLabel = makeLabel(font: .title1)
     lazy var weatherIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
@@ -27,7 +27,7 @@ class WeatherHeaderView: UICollectionReusableView {
         maxMinStackView.spacing = 5
         return maxMinStackView
     }()
-
+    
     lazy var infoStackView: UIStackView = {
         var infoStackView = UIStackView(arrangedSubviews: [addressLabel, maxMinStackView, temperatureLabel])
         infoStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +61,8 @@ class WeatherHeaderView: UICollectionReusableView {
     
     private func setLayoutForCurrentWeatherStackView() {
         NSLayoutConstraint.activate([
-            currentWeatherStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 5),
+            currentWeatherStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor,
+                                                             constant: 5),
             currentWeatherStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             currentWeatherStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             currentWeatherStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
@@ -73,15 +74,21 @@ class WeatherHeaderView: UICollectionReusableView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .systemGray
         label.font = UIFont.preferredFont(forTextStyle: font)
-        
+        label.text = "-"
         return label
     }
     
     func configureContents(from currentWeather: WeatherHeader?) {
         addressLabel.text = currentWeather?.address
-        maxTemperatureLabel.text = currentWeather?.maxTemperature
-        minTemperatureLabel.text = currentWeather?.minTemperature
-        temperatureLabel.text = currentWeather?.temperature
+        if let maxTemperature = currentWeather?.maxTemperature {
+            maxTemperatureLabel.text = "최고 " + maxTemperature + "°"
+        }
+        if let minTemperature = currentWeather?.minTemperature {
+            minTemperatureLabel.text = "최저 " + minTemperature + "°"
+        }
+        if let temperature = currentWeather?.temperature {
+            temperatureLabel.text = temperature + "°"
+        }
         weatherIcon.image = currentWeather?.image
     }
 }

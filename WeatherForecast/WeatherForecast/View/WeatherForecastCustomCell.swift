@@ -17,7 +17,7 @@ class WeatherForecastCustomCell: UICollectionViewCell {
         dateLabel.font = UIFont.preferredFont(forTextStyle: .title2)
         dateLabel.textColor = .systemGray
         dateLabel.adjustsFontForContentSizeCategory = true
-        dateLabel.text = "날씨/시간"
+        dateLabel.text = Placeholder.date.text
         return dateLabel
     }()
     
@@ -89,10 +89,10 @@ class WeatherForecastCustomCell: UICollectionViewCell {
     }
     
     func resetContents() {
-            dateLabel.text = nil
-            temperatureLabel.text = nil
-            weatherImage.image = nil
-        }
+        dateLabel.text = nil
+        temperatureLabel.text = nil
+        weatherImage.image = nil
+    }
     
     func format(date: Int) -> String? {
         let dateFormatter = DateFormatter()

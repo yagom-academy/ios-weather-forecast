@@ -13,9 +13,9 @@ class ViewController: UIViewController {
     private var networkManager = NetworkManager()
     private let locationManager = LocationManager()
     private var imageManager = ImageManager()
-    private var address: [Address: String] = [:]
-    private var fiveDayWeather = WeatherHeader(address: "주소", minTemperature: "최저기온", maxTemperature: "최고기온", temperature: "온도", weatherIcon: UIImage(systemName: "photo")!)
-    
+    private var address = Address()
+    private var currentWeatherHeader = WeatherHeader()
+    private var fiveDayWeathers: [FiveDayWeather.List] = []
     private var collecionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     
     private var dataSource: DataSource?
@@ -36,22 +36,22 @@ class ViewController: UIViewController {
             return
         }
         
-        address = getAddress(of: location)
-        getWeatherData(of: location, route: .current)
-        getWeatherData(of: location, route: .fiveDay)
+        getAddress(of: location) { address in
+            self.address = address
+            self.getWeatherData(of: location, route: .current)
+            self.getWeatherData(of: location, route: .fiveDay)
+        }
     }
     
-    private func getAddress(of location: CLLocation?) -> [Address: String] {
-        var address = [Address: String]()
+    private func getAddress(of location: CLLocation?, completionHandler: @escaping (Address) -> Void) {
         locationManager.getAddress(of: location) { result in
             switch result {
             case .success(let addressElements):
-                address = addressElements
+                completionHandler(addressElements)
             case .failure(let error):
                 assertionFailure(error.localizedDescription)
             }
         }
-        return address
     }
     
     private func getWeatherData(of location: CLLocation, route: WeatherForecastRoute) {
@@ -75,30 +75,42 @@ class ViewController: UIViewController {
         switch period {
         case .current:
             let parsedData = data.parse(to: CurrentWeather.self)
-            switch parsedData {
-            case .success(let currentWeatherData):
-                imageManager.loadImage(with: "https://openweathermap.org/img/w/\(currentWeatherData.weather[0].icon).png") { result in
+            filter(parsedData: parsedData)
+        case .fiveDay:
+            let parsedData = data.parse(to: FiveDayWeather.self)
+            filter(parsedData: parsedData)
+        }
+    }
+    
+    func filter<T: WeatherModel>(parsedData: Result<T, ParsingError>) {
+        switch parsedData {
+        case .success(let data):
+            if let currentWeatherData = data as? CurrentWeather {
+                imageManager.loadImage(with: imageURL(of: currentWeatherData.weather[0].icon)) { result in
                     switch result {
                     case .success(let image):
-                        self.fiveDayWeather = WeatherHeader(address: "주소", minTemperature: currentWeatherData.main.minTemperature.description, maxTemperature: currentWeatherData.main.maxTemperature.description, temperature: currentWeatherData.main.temperature.description, weatherIcon: image)
+                        self.currentWeatherHeader = WeatherHeader(
+                            address: self.address.combined,
+                            minTemperature: currentWeatherData.main.minTemperature.description,
+                            maxTemperature: currentWeatherData.main.maxTemperature.description,
+                            temperature: currentWeatherData.main.temperature.description,
+                            weatherIcon: image
+                        )
                     case .failure(let error):
                         assertionFailure(error.localizedDescription)
                     }
                 }
-                
-            case .failure(let parsingError):
-                assertionFailure(parsingError.localizedDescription)
-            }
-        case .fiveDay:
-            let parsedData = data.parse(to: FiveDayWeather.self)
-            switch parsedData {
-            case .success(let fiveDayWeatherData):
-                self.fiveDayWeather.weathers = fiveDayWeatherData.list
+            } else if let fiveDayWeatherData = data as? FiveDayWeather {
+                self.fiveDayWeathers = fiveDayWeatherData.list
                 makeSnapshot()
-            case .failure(let parsingError):
-                assertionFailure(parsingError.localizedDescription)
             }
+        case .failure(let parsingError):
+            assertionFailure(parsingError.localizedDescription)
         }
+    }
+    
+    private func imageURL(of icon: String) -> String {
+        return "https://openweathermap.org/img/w/\(icon).png"
     }
 }
 
@@ -106,8 +118,8 @@ extension ViewController {
     
     private func makeSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<WeatherHeader, FiveDayWeather.List>()
-        snapshot.appendSections([fiveDayWeather])
-        snapshot.appendItems(fiveDayWeather.weathers, toSection: fiveDayWeather)
+        snapshot.appendSections([currentWeatherHeader])
+        snapshot.appendItems(fiveDayWeathers, toSection: currentWeatherHeader)
         self.snapshot = snapshot
         dataSource?.apply(snapshot)
     }
@@ -138,8 +150,10 @@ extension ViewController {
     }
     
     private func registerCell() {
-        let cellRegistration = UICollectionView.CellRegistration<WeatherForecastCustomCell, FiveDayWeather.List> { (cell, indexPath, fiveDayWeatherItem) in
-            let dataTask = self.imageManager.loadImage(with: "https://openweathermap.org/img/w/\(fiveDayWeatherItem.weather[0].icon).png") { result in
+        let cellRegistration = UICollectionView.CellRegistration
+        <WeatherForecastCustomCell, FiveDayWeather.List> { (cell, indexPath, fiveDayWeatherItem) in
+            let iconID = fiveDayWeatherItem.weather[0].icon
+            let dataTask = self.imageManager.loadImage(with: self.imageURL(of: iconID)) { result in
                 switch result {
                 case .success(let image):
                     cell.configure(image: image)
@@ -147,24 +161,29 @@ extension ViewController {
                     cell.configure(image: UIImage(systemName: "photo"))
                 }
             }
-            cell.configure(date: fiveDayWeatherItem.UnixForecastTime, temparature: fiveDayWeatherItem.main.temperature, dataTask: dataTask)
+            cell.configure(date: fiveDayWeatherItem.UnixForecastTime,
+                           temparature: fiveDayWeatherItem.main.temperature,
+                           dataTask: dataTask)
         }
         
         dataSource = DataSource(collectionView: collecionView) { collectionView, indexPath, itemIdentifier in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+                                                                for: indexPath,
+                                                                item: itemIdentifier)
         }
     }
     
     private func registerHeader() {
-        let headerRegistration = UICollectionView.SupplementaryRegistration<WeatherHeaderView>(elementKind: UICollectionView.elementKindSectionHeader) { headerView, elementKind, indexPath in
+        let headerRegistration = UICollectionView.SupplementaryRegistration
+        <WeatherHeaderView>(elementKind: UICollectionView.elementKindSectionHeader)
+        { headerView, elementKind, indexPath in
             let headerItem = self.dataSource?.snapshot().sectionIdentifiers[indexPath.section]
             headerView.configureContents(from: headerItem)
         }
         
         dataSource?.supplementaryViewProvider = { (collecionView, elementKind, indexpath) in
-            let header = collecionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexpath)
-            print(header)
-            return header
+            return collecionView.dequeueConfiguredReusableSupplementary(using: headerRegistration,
+                                                                              for: indexpath)
         }
     }
 }
@@ -173,7 +192,9 @@ extension ViewController {
     private func configureRefreshControl() {
         collecionView.refreshControl = UIRefreshControl()
         collecionView.refreshControl?.tintColor = .systemRed
-        collecionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        collecionView.refreshControl?.addTarget(self,
+                                                action: #selector(handleRefreshControl),
+                                                for: .valueChanged)
     }
     
     @objc func handleRefreshControl() {

@@ -13,21 +13,26 @@ struct WeatherHeader: Hashable {
     let maxTemperature: String
     let minTemperature: String
     let temperature: String
-    let image: UIImage
-    var weathers: [FiveDayWeather.List]
+    let image: UIImage?
     
     init(address: String,
          minTemperature: String,
          maxTemperature: String,
          temperature: String,
-         weatherIcon: UIImage,
-         weathers: [FiveDayWeather.List] = [])
+         weatherIcon: UIImage)
     {
         self.address = address
         self.maxTemperature = maxTemperature
         self.minTemperature = minTemperature
         self.temperature = temperature
         self.image = weatherIcon
-        self.weathers = weathers
+    }
+    
+    init() {
+        self.address = ""
+        self.maxTemperature = ""
+        self.minTemperature = ""
+        self.temperature = ""
+        self.image = UIImage(systemName: "photo")
     }
 }
