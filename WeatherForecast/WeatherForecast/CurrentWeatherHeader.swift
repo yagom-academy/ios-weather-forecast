@@ -93,4 +93,9 @@ extension CurrentWeatherHeader {
         horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
         weatherImageView.translatesAutoresizingMaskIntoConstraints = false
     }
+    
+    private func convertToCelsius(from kelvin: Double) -> Double {
+        let celsius = kelvin - 273.15
+        return celsius
+    }
 }
