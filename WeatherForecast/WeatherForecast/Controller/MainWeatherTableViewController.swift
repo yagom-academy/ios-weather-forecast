@@ -20,9 +20,10 @@ class MainWeatherTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let backgroundImageView = UIImageView(image: UIImage(named: "NightStreet"))
+        let backgroundImageView = UIImageView(image: UIImage(named: "BackGroundImage"))
         backgroundImageView.contentMode = .scaleAspectFill
         
+        tableView.backgroundView = backgroundImageView
         weatherDataViewModel.setUpWeatherData {
             self.tableView.reloadData()
         }
@@ -31,24 +32,12 @@ class MainWeatherTableViewController: UITableViewController {
 
 // MARK: - TableView DataSource
 extension MainWeatherTableViewController {
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
     }
-    
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0.0
-    }
-    
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return nil
-    }
-    
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return weatherDataViewModel.intervalWeatherInfos.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
     }
 }
