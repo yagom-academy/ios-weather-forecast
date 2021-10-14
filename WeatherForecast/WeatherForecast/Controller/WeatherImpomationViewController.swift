@@ -5,46 +5,66 @@
 // 
 
 import UIKit
+import CoreLocation
 
 class WeatherImpormationViewController: UIViewController {
     private let locationManager = LocationManager()
     private let apiManager = APIManager()
     private let decodingManager = DecodingManager()
+    private var currentLocation: CLLocation?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        getUserLocation()
+       
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         processWeatherImpormation()
+        getUserAddress()
+    }
+    
+    private func getUserLocation() {
+        locationManager.getUserLocation { [weak self] location in
+            guard let self = self else { return }
+            self.currentLocation = location
+        }
     }
     
     private func processWeatherImpormation() {
-        locationManager.getUserLocation { [weak self] location in
-            guard let self = self else { return }
-            let currentWeatherURL =
-            WeatherURL.weatherCoordinates(latitude: location.coordinate.latitude,
-                                          longitude: location.coordinate.longitude)
-            let fiveDaysWeatherURL =
-            WeatherURL.forecastCoordinates(latitude: location.coordinate.latitude,
-                                          longitude: location.coordinate.longitude)
-            
-            self.getWeatherImpormation(request: currentWeatherURL,
-                                       type: CurrentWeather.self) { result in
-                if let result = result {
-                    debugPrint(result)
-                }
+        guard let location = currentLocation else {
+            return
+        }
+        let currentWeatherURL =
+        WeatherURL.weatherCoordinates(latitude: location.coordinate.latitude,
+                                      longitude: location.coordinate.longitude)
+        let fiveDaysWeatherURL =
+        WeatherURL.forecastCoordinates(latitude: location.coordinate.latitude,
+                                      longitude: location.coordinate.longitude)
+        
+        self.getWeatherImpormation(request: currentWeatherURL,
+                                   type: CurrentWeather.self) { result in
+            if let result = result {
+                debugPrint(result)
             }
-            
-            self.getWeatherImpormation(request: fiveDaysWeatherURL,
-                                       type: FiveDaysWeather.self) { result in
-                if let result = result {
-                    debugPrint(result)
-                }
+        }
+        
+        self.getWeatherImpormation(request: fiveDaysWeatherURL,
+                                   type: FiveDaysWeather.self) { result in
+            if let result = result {
+                debugPrint(result)
             }
-            
         }
     }
     
     private func getUserAddress() {
-        locationManager.getUserAddress { address in
+        guard let location = currentLocation else {
+            return
+        }
+        locationManager.getUserAddress(location: location) { address in
             switch address {
             case .success(let data):
                 debugPrint(data)

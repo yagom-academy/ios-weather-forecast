@@ -11,7 +11,6 @@ import CoreLocation
 class LocationManager: NSObject {
     private var locationManager: LocationManagerProtocol
     private var locationCompletion: ((CLLocation) -> Void)?
-    private var currentLocation: CLLocation?
     
     init(locationManager: LocationManagerProtocol = CLLocationManager()) {
         self.locationManager = locationManager
@@ -24,10 +23,10 @@ class LocationManager: NSObject {
         locationManager.requestLocation()
     }
     
-    func getUserAddress(completion: @escaping (Result<String, LocationError>) -> Void) {
+    func getUserAddress(location: CLLocation,
+                        completion: @escaping (Result<String, LocationError>) -> Void) {
         let locale = Locale(identifier: "ko-kr")
-        guard let currentLocation = currentLocation else { return }
-        CLGeocoder().reverseGeocodeLocation(currentLocation,
+        CLGeocoder().reverseGeocodeLocation(location,
                                             preferredLocale: locale) { placemarks, error in
             if let error = error {
                 completion(.failure(.unknown(description: error.localizedDescription)))
@@ -55,7 +54,6 @@ extension LocationManager: LocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        currentLocation = location
         locationCompletion?(location)
     }
     
