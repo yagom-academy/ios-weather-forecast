@@ -55,6 +55,8 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         configureContents()
+        configureVerticalStackView()
+        configureHorizontalStackView()
     }
     
     required init?(coder: NSCoder) {
@@ -63,15 +65,32 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
 }
 
 extension CurrentWeatherHeader {
-     private func configureContents() {
-         contentView.addSubview(horizontalStackView)
-         contentView.addSubview(verticalStackView)
-
-         NSLayoutConstraint.activate([
-             horizontalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-             horizontalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-             horizontalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-             horizontalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-         ])
-     }
+    private func configureContents() {
+        contentView.addSubview(horizontalStackView)
+        contentView.addSubview(verticalStackView)
+        
+        NSLayoutConstraint.activate([
+            horizontalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            horizontalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            horizontalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            horizontalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
+    }
+    
+    private func configureVerticalStackView() {
+        verticalStackView.addArrangedSubview(locationLabel)
+        verticalStackView.addArrangedSubview(minMaxTemperatureLabel)
+        verticalStackView.addArrangedSubview(currentTemperatureLabel)
+        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
+        locationLabel.translatesAutoresizingMaskIntoConstraints = false
+        minMaxTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
+        currentTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private func configureHorizontalStackView() {
+        horizontalStackView.addArrangedSubview(weatherImageView)
+        horizontalStackView.addArrangedSubview(verticalStackView)
+        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
+        weatherImageView.translatesAutoresizingMaskIntoConstraints = false
+    }
 }
