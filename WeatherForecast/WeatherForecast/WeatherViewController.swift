@@ -38,6 +38,7 @@ class WeatherViewController: UIViewController {
         super.viewDidLoad()
         locationManager.delegate = self
         locationManager.startMonitoringSignificantLocationChanges()
+        locationManager.requestWhenInUseAuthorization()
         configure()
         addSubView()
         autoLayout()
