@@ -93,7 +93,7 @@ extension WeatherDataManager {
             ])
         }
         let urlResource = URLResource()
-        let url = builder.build(resource: urlResource)
+        let url = builder.buildWeatherURL(resource: urlResource)
         return url
     }
 }
