@@ -12,8 +12,8 @@ extension DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd")
+        formatter.locale = Locale(identifier: "ko")
+        formatter.setLocalizedDateFormatFromTemplate("MM.dd E hh시")
         
         return formatter
     }
@@ -129,5 +129,4 @@ class FiveDaysForcecastCell: UITableViewCell {
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: font)
     }
-    
 }

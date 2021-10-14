@@ -98,8 +98,8 @@ extension OpenWeatherMainViewController {
         self.tableView.frame = self.view.bounds
         self.tableView.register(FiveDaysForcecastCell.self, forCellReuseIdentifier: "weatherCell")
         self.tableView.cellLayoutMarginsFollowReadableWidth = false
-        self.tableView.rowHeight = UITableView.automaticDimension
-        self.tableView.estimatedRowHeight = UITableView.automaticDimension
+        let iconSize = 40
+        self.tableView.rowHeight = CGFloat(iconSize)
     }
     
     private func showAlert(title: String, message: String) {
