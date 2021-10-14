@@ -15,4 +15,36 @@ class CurrentWeatherViewModel {
     var minTemperature: String = "-"
     var maxTemperature: String = "-"
     var weatherImage: UIImage = UIImage()
+    
+    let weatherService = WeatherService()
+    
+    func reload() {
+        weatherService.obtainPlacemark { [weak self] placemark in
+            guard let self = self else { return }
+            
+            if let administrativeArea = placemark.administrativeArea,
+               let locality = placemark.locality {
+                self.administrativeArea = administrativeArea
+                self.locality = locality
+                print(administrativeArea, locality)
+            }
+        }
+        
+        weatherService.fetchByLocation { [weak self] (currentWeather: CurrentWeatherData) in
+            guard let self = self else { return }
+            
+            if let temperature = currentWeather.mainInformation?.temperature {
+                self.temperature = temperature.franctionDisits()
+                print(temperature.franctionDisits())
+            }
+            if let minTemperature = currentWeather.mainInformation?.minimumTemperature {
+                self.minTemperature = minTemperature.franctionDisits()
+                print(minTemperature.franctionDisits())
+            }
+            if let maxTemperature = currentWeather.mainInformation?.maximumTemperature {
+                self.maxTemperature = maxTemperature.franctionDisits()
+                print(maxTemperature.franctionDisits())
+            }
+        }
+    }
 }
