@@ -34,7 +34,7 @@ enum APIError: LocalizedError {
 final class WeatherDataManager {
     static let shared = WeatherDataManager()
     private init() {}
-
+    
     var latitude: Double?
     var longitude: Double?
     var location: CLLocation {
@@ -44,31 +44,41 @@ final class WeatherDataManager {
         return CLLocation()
     }
 }
- 
+
 extension WeatherDataManager {
-    func fetchCurrentWeather() {
+    //    func fetchCurrentWeather()  {
+    //        let url = generateURL(path: .current)
+    //        self.fetch(url: url) { (result: Result<CurrentWeather, APIError>) in
+    //            switch result {
+    //            case .success(let currentWeather):
+    //                return print(currentWeather)
+    //            case .failure(let error):
+    //                print(error.localizedDescription)
+    //            }
+    //        }
+    //    }
+    func fetchCurrentWeather(completion: @escaping (Result<CurrentWeather, APIError>) -> ()) {
         let url = generateURL(path: .current)
-        self.fetch(url: url) { (result: Result<CurrentWeather, APIError>) in
-            switch result {
-            case .success(let currentWeather):
-                return print(currentWeather)
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+        self.fetch(url: url, completion: completion)
     }
     
-    func fetchFiveDaysWeather() {
+    func fetchFiveDaysWeather(completion: @escaping (Result<FivedaysWeather, APIError>) -> ()) {
         let url = generateURL(path: .fiveDays)
-        self.fetch(url: url) { (result: Result<FivedaysWeather, APIError>) in
-            switch result {
-            case .success(let currentWeather):
-                return print(currentWeather)
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+        self.fetch(url: url, completion: completion)
     }
+    
+    //    func fetchFiveDaysWeather() {
+    //        let url = generateURL(path: .fiveDays)
+    //        self.fetch(url: url) { (result: Result<FivedaysWeather, APIError>) in
+    //            switch result {
+    //            case .success(let currentWeather):
+    //                return print(currentWeather)
+    //            case .failure(let error):
+    //                print(error.localizedDescription)
+    //            }
+    //        }
+    //    }
+    
     
     private func generateURL(path: URLResource.PathType) -> URL? {
         let builder = URLBuilder()
@@ -110,7 +120,7 @@ extension WeatherDataManager: JSONDecodable {
                 completion(.failure(APIError.emptyData))
                 return
             }
-         
+            
             do {
                 let data = try self.decodeJSON(ParsingType.self, from: data)
                 completion(.success(data))

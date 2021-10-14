@@ -9,6 +9,9 @@ import CoreLocation
 
 class WeatherListViewController: UIViewController {
     private var locationManager: CLLocationManager?
+    private var currentWeatherData: CurrentWeather?
+    private var fiveDaysWeatherData: FivedaysWeather?
+    
     private var weatherListTableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -32,7 +35,7 @@ class WeatherListViewController: UIViewController {
 
 extension WeatherListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        0
+        2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -59,7 +62,26 @@ extension WeatherListViewController: CLLocationManagerDelegate {
             WeatherDataManager.shared.longitude = currentLocation.longitude
             WeatherDataManager.shared.latitude = currentLocation.latitude
             convertToAddress(latitude: WeatherDataManager.shared.latitude, longitude: WeatherDataManager.shared.longitude)
-            WeatherDataManager.shared.fetchCurrentWeather()
+            
+            WeatherDataManager.shared.fetchCurrentWeather { result in
+                switch result {
+                case .success(let currentWeatherData):
+                    self.currentWeatherData = currentWeatherData
+                    print(currentWeatherData)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            
+            WeatherDataManager.shared.fetchFiveDaysWeather { result in
+                switch result {
+                case .success(let fiveDaysWeatherData):
+                    self.fiveDaysWeatherData = fiveDaysWeatherData
+                    print(fiveDaysWeatherData)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
             
             
         case .notDetermined, .restricted:
