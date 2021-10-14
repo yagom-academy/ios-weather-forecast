@@ -8,22 +8,21 @@
 import CoreLocation
 
 class LocationService: NSObject {
-    typealias ReceiveLocationAction = (CLLocation) -> Void
+    typealias ReceivedLocationAction = (CLLocation) -> Void
     
-    private var receiveLocationAction: ReceiveLocationAction?
+    private var receivedLocationAction: ReceivedLocationAction?
     
     private let locationManager: CLLocationManager
 
     init(locationManager: CLLocationManager) {
         self.locationManager = locationManager
-    }
-    
-    func setUpDelegate() {
+        super.init()
+        
         locationManager.delegate = self
     }
-    
-    func requestLocation(receiveLocationAction: ReceiveLocationAction?) {
-        self.receiveLocationAction = receiveLocationAction
+
+    func requestLocation(receiveLocationAction: ReceivedLocationAction?) {
+        self.receivedLocationAction = receiveLocationAction
         locationManager.requestLocation()
     }
 }
@@ -46,7 +45,7 @@ extension LocationService: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print(#function)
         if let lastLocation = locations.last {
-            receiveLocationAction?(lastLocation)
+            receivedLocationAction?(lastLocation)
         } else {
             locationManager.requestLocation()
         }
