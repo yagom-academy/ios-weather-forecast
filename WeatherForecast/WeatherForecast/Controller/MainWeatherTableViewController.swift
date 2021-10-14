@@ -32,6 +32,10 @@ class MainWeatherTableViewController: UITableViewController {
         
         tableView.backgroundView = backgroundImageView
         tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.className)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         weatherDataViewModel.setUpWeatherData {
             DispatchQueue.main.async {
