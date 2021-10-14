@@ -13,6 +13,8 @@ class WeatherListViewController: UIViewController {
     private var fiveDaysWeatherData: FivedaysWeather?
     private var weatherImages: [UIImage?] = [UIImage?]()
     private var downloadTasks = [URLSessionTask]()
+    private var area: String?
+    private var local: String?
     
     private lazy var refreshControl: UIRefreshControl = { [weak self] in
         let control = UIRefreshControl()
@@ -68,7 +70,8 @@ extension WeatherListViewController: UITableViewDataSource {
         if let unWrappedFiveDaysWeatherData = fiveDaysWeatherData {
             let daysWeatherData = unWrappedFiveDaysWeatherData.list[indexPath.row]
             let date = daysWeatherData.timeOfDataText
-            let minTemperature = "\(daysWeatherData.mainInfo.temperatureMin)℃"
+//            let formattedDateString = "\(dateFormatter.string(from: date))시"
+            let minTemperature = "\(daysWeatherData.mainInfo.temperatureMin)º"
             cell.cellConfiguration(date: date, minTemperature: minTemperature)
         }
         return cell
@@ -79,6 +82,12 @@ extension WeatherListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CustomHeaderView.identifier) as? CustomHeaderView else {
             return UIView()
+        }
+        if let unWrappedCurrentWeatherData = currentWeatherData, let area = area, let local = local {
+            let address = area + local
+            let minMaxTemperature = "최저\(unWrappedCurrentWeatherData.mainInfo.temperatureMin)º 최고\(unWrappedCurrentWeatherData.mainInfo.temperatureMax)º"
+            let currentTemperature = "\(unWrappedCurrentWeatherData.mainInfo.temperature)º"
+            headerView.configurationHeaderView(address: address, minMaxTemperature: minMaxTemperature, currentTemperature: currentTemperature)
         }
         headerView.tintColor = .clear
         return headerView
@@ -93,7 +102,10 @@ extension WeatherListViewController: CLLocationManagerDelegate {
             guard let currentLocation = currentLocation else { return }
             WeatherDataManager.shared.longitude = currentLocation.longitude
             WeatherDataManager.shared.latitude = currentLocation.latitude
-            convertToAddress(latitude: WeatherDataManager.shared.latitude, longitude: WeatherDataManager.shared.longitude)
+            convertToAddress(latitude: WeatherDataManager.shared.latitude, longitude: WeatherDataManager.shared.longitude) { area, local in
+                self.area = area
+                self.local = local
+            }
             
             DispatchQueue.global().async {
                 WeatherDataManager.shared.fetchCurrentWeather { result in
@@ -103,7 +115,6 @@ extension WeatherListViewController: CLLocationManagerDelegate {
                         DispatchQueue.main.async {
                             self.weatherListTableView.reloadData()
                         }
-                        print(currentWeatherData)
                     case .failure(let error):
                         print(error.localizedDescription)
                     }
@@ -118,7 +129,6 @@ extension WeatherListViewController: CLLocationManagerDelegate {
                         DispatchQueue.main.async {
                             self.weatherListTableView.reloadData()
                         }
-                        print(fiveDaysWeatherData)
                     case .failure(let error):
                         print(error.localizedDescription)
                     }
@@ -190,6 +200,34 @@ extension WeatherListViewController {
     @objc private func refresh() {
         DispatchQueue.global().async { [weak self] in
             guard let strongSelf = self else { return }
+            DispatchQueue.global().async {
+                WeatherDataManager.shared.fetchCurrentWeather { result in
+                    switch result {
+                    case .success(let currentWeatherData):
+                        strongSelf.currentWeatherData = currentWeatherData
+                        DispatchQueue.main.async {
+                            strongSelf.weatherListTableView.reloadData()
+                        }
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+            
+            DispatchQueue.global().async {
+                WeatherDataManager.shared.fetchFiveDaysWeather { result in
+                    switch result {
+                    case .success(let fiveDaysWeatherData):
+                        strongSelf.fiveDaysWeatherData = fiveDaysWeatherData
+                        DispatchQueue.main.async {
+                            strongSelf.weatherListTableView.reloadData()
+                        }
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+       
             DispatchQueue.main.async {
                 strongSelf.weatherListTableView.reloadData()
                 strongSelf.weatherListTableView.refreshControl?.endRefreshing()
@@ -241,7 +279,7 @@ extension WeatherListViewController {
         }
     }
     
-    private func convertToAddress(latitude: Double?, longitude: Double?) {
+    private func convertToAddress(latitude: Double?, longitude: Double?, completion: @escaping (String, String) -> ()) {
         guard let latitude = latitude, let longitude = longitude else {
             return
         }
@@ -255,12 +293,10 @@ extension WeatherListViewController {
                 print(error)
                 return
             }
-            if let administrativeArea = placemark?.first?.administrativeArea {
-                print(administrativeArea)
+            if let administrativeArea = placemark?.first?.administrativeArea, let locality = placemark?.first?.locality {
+                completion(administrativeArea, locality)
             }
-            if let locality = placemark?.first?.locality {
-                print(locality)
-            }
+
         }
     }
 }
