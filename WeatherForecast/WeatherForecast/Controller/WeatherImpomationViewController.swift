@@ -11,7 +11,12 @@ class WeatherImpormationViewController: UIViewController {
     private let locationManager = LocationManager()
     private let apiManager = APIManager()
     private let decodingManager = DecodingManager()
-    private var currentLocation: CLLocation?
+    private var currentLocation: CLLocation? = nil {
+        didSet {
+            processWeatherImpormation()
+            getUserAddress()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,12 +27,12 @@ class WeatherImpormationViewController: UIViewController {
     
     private func getUserLocation() {
         locationManager.getUserLocation { location in
-            self.processWeatherImpormation(location: location)
-            self.getUserAddress(location: location)
+            self.currentLocation = location
         }
     }
     
-    private func processWeatherImpormation(location: CLLocation) {
+    private func processWeatherImpormation() {
+        guard let location = currentLocation else { return }
         let currentWeatherURL =
         WeatherURL.weatherCoordinates(latitude: location.coordinate.latitude,
                                       longitude: location.coordinate.longitude)
@@ -50,7 +55,8 @@ class WeatherImpormationViewController: UIViewController {
         }
     }
     
-    private func getUserAddress(location: CLLocation) {
+    private func getUserAddress() {
+        guard let location = currentLocation else { return }
         locationManager.getUserAddress(location: location) { address in
             switch address {
             case .success(let data):
