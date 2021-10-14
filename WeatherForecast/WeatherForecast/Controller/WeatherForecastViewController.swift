@@ -10,7 +10,6 @@ class WeatherForecastViewController: UIViewController {
 
     private var tableView = UITableView(frame: .zero, style: .grouped)
     private var tableHeaderView: WeatherForecastHeaderView!
-
     private var locationManager = LocationManager()
     private var networkManager = NetworkManager()
     private var currentData: CurrentWeather?
@@ -18,22 +17,23 @@ class WeatherForecastViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.dataSource = self
+        tableView.delegate = self
         locationManager.delegate = self
-        setTableView()
-        configureRefreshControl()
+
+        setUpTableView()
         // Do any additional setup after loading the view.
     }
 
-    func setTableView() {
+    private func setUpTableView() {
         view.addSubview(tableView)
         tableHeaderView = WeatherForecastHeaderView(frame:
                             CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height * 0.15))
         tableView.tableHeaderView = tableHeaderView
         tableView.backgroundView = UIImageView(image: UIImage(named: "tokyo_tower.jpeg"))
         tableView.backgroundView?.alpha = 0.8
-        tableView.dataSource = self
-        tableView.delegate = self
         tableView.separatorColor = .white
+
         tableView.register(WeatherForecastViewCell.self, forCellReuseIdentifier: WeatherForecastViewCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -41,9 +41,10 @@ class WeatherForecastViewController: UIViewController {
                                      tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                                      tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                                      tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
+        configureRefreshControl()
     }
 
-    func configureRefreshControl() {
+    private func configureRefreshControl() {
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl?.tintColor = .orange
         tableView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
@@ -98,7 +99,6 @@ extension WeatherForecastViewController: LocationManagerDelegate {
             if case .success(let data) = result {
                 do {
                     let data = try JSONDecoder().decode(type, from: data)
-                    debugPrint(data)
                     if let data = data as? CurrentWeather {
                         self.currentData = data
                         self.configureHeader(data: data)
@@ -120,10 +120,9 @@ extension WeatherForecastViewController: LocationManagerDelegate {
             switch result {
             case .success(let placemark):
                 tableHeaderView.configure(data: data, placemark: placemark)
-            default:
-                print("error")
+            case .failure(let error):
+                debugPrint(error)
             }
-            tableView.layoutIfNeeded()
         }
     }
 }
@@ -132,8 +131,5 @@ extension WeatherForecastViewController: LocationManagerDelegate {
 extension WeatherForecastViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return view.frame.height / 15
-    }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
     }
 }

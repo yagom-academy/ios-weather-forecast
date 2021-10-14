@@ -65,7 +65,7 @@ class WeatherForecastHeaderView: UIView {
     func configure(data: CurrentWeather?, placemark: CLPlacemark) {
         guard let data = data else { return }
         if let iconID = data.weather.first?.icon {
-            let iconURL = "https://openweathermap.org/img/w/\(iconID).png"
+            let iconURL = WeatherAPI.imagebaseURL + iconID + ".png"
             iconImageView.setImageURL(iconURL)
         }
 

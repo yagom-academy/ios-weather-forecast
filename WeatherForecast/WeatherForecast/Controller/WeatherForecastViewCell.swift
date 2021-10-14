@@ -14,7 +14,6 @@ class WeatherForecastViewCell: UITableViewCell {
     private let temperatureLabel = UILabel(color: .white)
     private let iconImageView = UIImageView()
     private let stackView = UIStackView()
-    private var number: Int!
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -26,7 +25,7 @@ class WeatherForecastViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setUpCellLayout() {
+    private func setUpCellLayout() {
         stackView.axis = .horizontal
         stackView.addArrangedSubview(temperatureLabel)
         stackView.addArrangedSubview(iconImageView)
@@ -58,7 +57,7 @@ class WeatherForecastViewCell: UITableViewCell {
         temperatureLabel.text = MeasurementFormatter().convertTemp(temp: data.main.temp, from: .kelvin, to: .celsius)
 
         if let iconID = data.weather.first?.icon {
-            let iconURL = "https://openweathermap.org/img/w/\(iconID).png"
+            let iconURL = WeatherAPI.imagebaseURL + iconID + ".png"
             iconImageView.setImageURL(iconURL)
         }
     }

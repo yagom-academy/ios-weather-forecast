@@ -9,6 +9,7 @@ import Foundation
 
 enum WeatherAPI: API {
     static let baseURL = "https://api.openweathermap.org/data/2.5/"
+    static let imagebaseURL = "https://openweathermap.org/img/w/"
 
     case current
     case forecast
