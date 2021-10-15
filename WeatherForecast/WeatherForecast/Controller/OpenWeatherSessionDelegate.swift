@@ -33,7 +33,6 @@ final class OpenWeatherSessionDelegate: NSObject, URLSessionDataDelegate {
         
         if let path = pathCompnent {
             WeatherDataHolder.shared.generate(path, requestData)
-            session.finishTasksAndInvalidate()
             NotificationCenter.default.post(name: .reloadTableView,
                                             object: nil)
         }
