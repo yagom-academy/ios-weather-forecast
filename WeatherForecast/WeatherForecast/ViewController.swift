@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     private var fiveDayForecast: FiveDayForecast?
     private var address: [CLPlacemark]? = []
     private var locationManager = CLLocationManager()
-    private var weatherTableView = UITableView()
+    private var weatherTableView = UITableView(frame: .zero, style: .grouped)
     private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
@@ -79,6 +79,7 @@ extension ViewController: CLLocationManagerDelegate {
 extension ViewController {
     private func setUpTableView() {
         view.addSubview(weatherTableView)
+        weatherTableView.sectionFooterHeight = .zero
         weatherTableView.backgroundColor = UIColor.clear
         weatherTableView.dataSource = self
         weatherTableView.delegate = self
