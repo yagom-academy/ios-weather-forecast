@@ -58,6 +58,15 @@ class MainWeatherHeaderView: UIView {
         
         return label
     }()
+    private let locationSettingButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("위치 변경", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -71,6 +80,7 @@ class MainWeatherHeaderView: UIView {
     private func setUpUI() {
         addSubview(weatherIconImageView)
         addSubview(stackView)
+        addSubview(locationSettingButton)
         
         let margin = CGFloat(10)
         temperatureStackView.addArrangedSubview(lowestTemperatureLabel)
@@ -85,10 +95,13 @@ class MainWeatherHeaderView: UIView {
         weatherIconImageView.centerYAnchor.constraint(equalTo: stackView.centerYAnchor).isActive = true
         
         stackView.leadingAnchor.constraint(equalTo: weatherIconImageView.trailingAnchor, constant: margin).isActive = true
-
         stackView.topAnchor.constraint(equalTo: topAnchor, constant: margin).isActive = true
         stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -margin).isActive = true
         stackView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        
+        locationSettingButton.topAnchor.constraint(equalTo: topAnchor, constant: margin/3).isActive = true
+        locationSettingButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -margin).isActive = true
+        locationSettingButton.addTarget(self, action: #selector(didTapLocationSettingButton), for: .touchUpInside)
     }
     
     func configure(addressData: String) {
@@ -111,5 +124,9 @@ class MainWeatherHeaderView: UIView {
     
     func configure(image: UIImage) {
         weatherIconImageView.image = image
+    }
+    
+    @objc private func didTapLocationSettingButton() {
+        
     }
 }
