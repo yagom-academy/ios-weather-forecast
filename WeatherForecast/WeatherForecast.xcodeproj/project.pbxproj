@@ -229,8 +229,8 @@
 			isa = PBXGroup;
 			children = (
 				A9A0BF312716BE8C00A695CC /* LocationService.swift */,
-				A93752B7270C8451008C0DA8 /* Network */,
 				A99693D22719AC3C00E58AD8 /* ImageLoader.swift */,
+				A93752B7270C8451008C0DA8 /* Network */,
 			);
 			path = Utility;
 			sourceTree = "<group>";

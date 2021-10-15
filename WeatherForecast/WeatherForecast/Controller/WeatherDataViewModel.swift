@@ -38,6 +38,7 @@ extension WeatherDataViewModel {
                 preparingGroup.enter()
                 let currentWeatherAPI = WeatherAPI.current(.geographic(location.coordinate))
                 self.fetchCurrentWeatherData(of: currentWeatherAPI) { currentweather in
+                    self.currentWeatherIconName = currentweather.conditions[0].iconName
                     self.currentTemperature = currentweather.mainInformation.temperature
                     self.currentMinimumTemperature = currentweather.mainInformation.minimumTemperature
                     self.currentMaximumTemperature = currentweather.mainInformation.maximumTemperature

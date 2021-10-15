@@ -57,6 +57,21 @@ extension MainWeatherTableViewController {
         headerView.configureTexts(weatherDataViewModel.currentAddress,
                                   temperatureRange: "최소 \(range.min)º 최대 \(range.max)º",
                                   temperature: "\(weatherDataViewModel.currentTemperature)º")
+        let iconName = weatherDataViewModel.currentWeatherIconName
+        
+        print(iconName)
+        if let cachedImage = imageLoader.fetchCachedData(key: iconName) {
+            headerView.configureIcon(image: cachedImage)
+        } else {
+            if let imageUrl = WeatherAPI.makeImageURL(iconName) {
+                imageLoader.imageFetch(url: imageUrl) { image in
+                    DispatchQueue.main.async {
+                        self.headerView.configureIcon(image: image)
+                        self.imageLoader.cacheData(key: iconName, data: image)
+                    }
+                }
+            }
+        }
     }
 }
 
