@@ -33,14 +33,21 @@ class ViewController: UIViewController {
     }
     
     private func initAlert() -> UIAlertController {
-        let alert = UIAlertController.makeAlert { alert in
-            let latitude = alert.textFields?[0].text
-            let longitude = alert.textFields?[1].text
-            self.initData(latitude: latitude, longitude: longitude)
-        } resetToCurrentLocationHandler: {
-            self.initData()
+        if address.combined == " " {
+            return UIAlertController.makeInvalidLocationAlert { alert in
+                let latitude = alert.textFields?[0].text
+                let longitude = alert.textFields?[1].text
+                self.initData(latitude: latitude, longitude: longitude)
+            }
+        } else {
+            return UIAlertController.makeValidLocationAlert{ alert in
+                let latitude = alert.textFields?[0].text
+                let longitude = alert.textFields?[1].text
+                self.initData(latitude: latitude, longitude: longitude)
+            } resetToCurrentLocationHandler: {
+                self.initData()
+            }
         }
-        return alert
     }
     
     private func initData(latitude: String? = nil, longitude: String? = nil) {
@@ -61,6 +68,7 @@ class ViewController: UIViewController {
         
         getAddress(of: location) { address in
             self.address = address
+            self.alert = self.initAlert()
             self.getWeatherData(of: location, route: .current)
             self.getWeatherData(of: location, route: .fiveDay)
         }
@@ -204,12 +212,13 @@ extension ViewController {
         <WeatherHeaderView>(elementKind: UICollectionView.elementKindSectionHeader)
         { headerView, elementKind, indexPath in
             let headerItem = self.dataSource?.snapshot().sectionIdentifiers[indexPath.section]
-            headerView.configureContents(from: headerItem)
             
-            headerView.presentLocationSelector = {
+    
+            let buttonType: LocationSelectButtonType = self.address.combined == " " ? .invalid : .valid
+            headerView.configureLocationSelectButton(button: buttonType) {
                 self.present(self.alert, animated: true, completion: nil)
             }
-            
+            headerView.configureContents(from: headerItem)
         }
         
         dataSource?.supplementaryViewProvider = { (collecionView, elementKind, indexpath) in

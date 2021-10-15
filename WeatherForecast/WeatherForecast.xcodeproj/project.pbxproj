@@ -39,6 +39,7 @@
 		E6C277AA27043EA70033FC67 /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = E6C277A927043EA70033FC67 /* APIKey.plist */; };
 		E6C277AD27043F1A0033FC67 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C277AC27043F1A0033FC67 /* NetworkManager.swift */; };
 		E6C277B1270451620033FC67 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C277B0270451620033FC67 /* APIKey.swift */; };
+		E6EA921F2719BB4D009E3AC1 /* LocationSelectButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA921E2719BB4D009E3AC1 /* LocationSelectButtonType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,7 @@
 		E6C277A927043EA70033FC67 /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
 		E6C277AC27043F1A0033FC67 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		E6C277B0270451620033FC67 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		E6EA921E2719BB4D009E3AC1 /* LocationSelectButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectButtonType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,7 +198,6 @@
 			isa = PBXGroup;
 			children = (
 				D4DDB10027030BA2004996CA /* Decodable+Extension.swift */,
-				D4726BEC2719994F008FAB6C /* UIAlertController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -209,6 +210,7 @@
 				D4DDB12627046C93004996CA /* NetworkError.swift */,
 				E69376632705E986007E00E3 /* HTTPMethod.swift */,
 				D4726BDF2718922B008FAB6C /* Placeholder.swift */,
+				E6EA921E2719BB4D009E3AC1 /* LocationSelectButtonType.swift */,
 			);
 			path = Enumeration;
 			sourceTree = "<group>";
@@ -237,6 +239,7 @@
 			children = (
 				E6AF5F7C2702ED08001C4613 /* CommonWeatherForecast.swift */,
 				D4DDB0F12702F8FC004996CA /* CurrentWeather.swift */,
+				D4726BEC2719994F008FAB6C /* UIAlertController+Extension.swift */,
 				D4DDB0F927030203004996CA /* FiveDayWeather.swift */,
 				D4726BC4271856D4008FAB6C /* WeatherHeader.swift */,
 				D4726BD727188D83008FAB6C /* Address.swift */,
@@ -406,6 +409,7 @@
 				D48866A4270608C10044CEF5 /* Networkable.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
 				E69376662706040F007E00E3 /* URLRequestTask.swift in Sources */,
+				E6EA921F2719BB4D009E3AC1 /* LocationSelectButtonType.swift in Sources */,
 				D48866A9270609700044CEF5 /* NetworkModule.swift in Sources */,
 				D4726BE527189731008FAB6C /* WeatherModel.swift in Sources */,
 				E6C277B1270451620033FC67 /* APIKey.swift in Sources */,

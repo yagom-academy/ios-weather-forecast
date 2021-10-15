@@ -20,10 +20,10 @@ class WeatherHeaderView: UICollectionReusableView {
     lazy var maxTemperatureLabel = makeLabel(font: .callout)
     lazy var minTemperatureLabel = makeLabel(font: .callout)
     lazy var temperatureLabel = makeLabel(font: .title1)
-    var presentLocationSelector: (()-> Void)?
+    private var presentLocationSelector: (()-> Void)?
     private lazy var locationSelectButton: UIButton = {
         let locationSelectButton = UIButton()
-        locationSelectButton.setTitle("위치설정", for: .normal)
+        locationSelectButton.setTitle("", for: .normal)
         locationSelectButton.setTitleColor(.systemGray, for: .normal)
         
         locationSelectButton.addAction(UIAction(handler: { [weak self] _ in
@@ -109,7 +109,6 @@ class WeatherHeaderView: UICollectionReusableView {
     }
     
     func configureContents(from currentWeather: WeatherHeader?) {
-        locationSelectButton.titleLabel?.text = "위치설정"
         addressLabel.textColor = .black
         if let address = currentWeather?.address, address != " " {
             addressLabel.text = address
@@ -127,5 +126,10 @@ class WeatherHeaderView: UICollectionReusableView {
         }
         
         weatherIcon.image = currentWeather?.image
+    }
+    
+    func configureLocationSelectButton(button: LocationSelectButtonType, action: @escaping ()->Void) {
+        locationSelectButton.setTitle(button.text, for: .normal)
+        presentLocationSelector = action
     }
 }
