@@ -19,25 +19,28 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
     
     private let locationLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
     
     private let minMaxTemperatureLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
     
     private let currentTemperatureLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 30)
         return label
     }()
     
     private let verticalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fill
         stackView.alignment = .leading
-        stackView.backgroundColor = .white
+        stackView.spacing = 5
         return stackView
     }()
     
@@ -46,7 +49,7 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .leading
-        stackView.backgroundColor = .white
+        stackView.spacing = 15
         return stackView
     }()
     
@@ -111,6 +114,9 @@ extension CurrentWeatherHeader {
     private func configureHorizontalStackView() {
         horizontalStackView.addArrangedSubview(weatherImageView)
         horizontalStackView.addArrangedSubview(verticalStackView)
+        weatherImageView.widthAnchor.constraint(equalTo: horizontalStackView.widthAnchor,
+                                                multiplier: 0.25).isActive = true
+        weatherImageView.heightAnchor.constraint(equalTo: horizontalStackView.heightAnchor).isActive = true
         horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
         weatherImageView.translatesAutoresizingMaskIntoConstraints = false
     }
