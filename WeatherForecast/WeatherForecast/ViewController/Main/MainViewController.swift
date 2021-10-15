@@ -57,6 +57,11 @@ extension MainViewController {
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
         ])
+        
+        tableView.backgroundView = UIImageView(image: UIImage(named: "backgroundImage"))
+        let mask = UIView()
+        mask.alpha = 0
+        tableView.backgroundView?.mask = mask
     }
 }
 
