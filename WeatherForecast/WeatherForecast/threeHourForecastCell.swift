@@ -39,6 +39,7 @@ class threeHourForecastCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureContents()
         configureStackView()
+        backgroundColor = UIColor.clear
     }
     
     required init?(coder: NSCoder) {

@@ -21,6 +21,7 @@ class ViewController: UIViewController {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.startMonitoringSignificantLocationChanges()
+        setBackgroundImage()
         setUpTableView()
     }
 }
@@ -73,7 +74,7 @@ extension ViewController: CLLocationManagerDelegate {
 extension ViewController {
     private func setUpTableView() {
         view.addSubview(weatherTableView)
-        view.backgroundColor = .white
+        weatherTableView.backgroundColor = UIColor.clear
         weatherTableView.dataSource = self
         weatherTableView.delegate = self
         weatherTableView.register(threeHourForecastCell.self, forCellReuseIdentifier: threeHourForecastCell.cellIdentifier)
@@ -85,6 +86,21 @@ extension ViewController {
             weatherTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             weatherTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             weatherTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+    }
+    
+    private func setBackgroundImage() {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "weatherAppBg")
+        imageView.contentMode = .scaleAspectFill
+        view.addSubview(imageView)
+
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+          imageView.topAnchor.constraint(equalTo: view.topAnchor),
+          imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+          imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+          imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
     
