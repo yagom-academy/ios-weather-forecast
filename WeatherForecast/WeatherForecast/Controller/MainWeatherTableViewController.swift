@@ -8,6 +8,7 @@ import UIKit
 
 class MainWeatherTableViewController: UITableViewController {
     private let weatherDataViewModel: WeatherDataViewModel
+    private let headerView: MainTableViewHeaderView = MainTableViewHeaderView()
     
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -32,6 +33,8 @@ class MainWeatherTableViewController: UITableViewController {
         
         tableView.backgroundView = backgroundImageView
         tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.className)
+        tableView.tableHeaderView = headerView
+        tableView.tableHeaderView?.frame.size.height = headerView.calculateHeaderHeight()
     }
     
     override func viewWillAppear(_ animated: Bool) {
