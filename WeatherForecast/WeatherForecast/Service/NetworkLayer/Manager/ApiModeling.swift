@@ -18,7 +18,7 @@ extension ApiModeling {
             return nil
         }
 
-        let requestInfo: Parameters = ["lat": location.latitude , "lon": location.longitude, "appid": WeatherNetworkManager.apiKey]
+        let requestInfo: QueryItems = ["lat": location.latitude , "lon": location.longitude, "appid": WeatherNetworkManager.apiKey]
 
         let api = OpenWeatherAPI(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: url, path: weatherOrCurrent)
 

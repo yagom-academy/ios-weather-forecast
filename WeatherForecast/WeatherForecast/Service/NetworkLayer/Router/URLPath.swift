@@ -8,6 +8,6 @@
 import Foundation
 
 enum URLPath: String {
-    case weather
+    case current
     case forecast
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 struct URLManager {
-    static func configure(urlRequest: inout URLRequest, with parameter: Parameters) throws {
+    static func configure(urlRequest: inout URLRequest, with parameter: QueryItems) throws {
         guard let url = urlRequest.url else {
             throw NetworkError.urlMissing
         }

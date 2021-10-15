@@ -60,7 +60,7 @@ class WeatherDataHolder {
                 print(error)
             }
             
-        case .weather:
+        case .current:
             do {
                 let decodedData = try  Parser().decode(data, to: CurrentWeather.self)
                 self.current = decodedData
