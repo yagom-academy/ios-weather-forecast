@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainWeatherHeaderView: UIView {
+final class MainWeatherHeaderView: UIView {
     private let weatherIconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -16,7 +16,7 @@ class MainWeatherHeaderView: UIView {
         
         return imageView
     }()
-    private let stackView: UIStackView = {
+    private let weatherInformationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -97,7 +97,7 @@ class MainWeatherHeaderView: UIView {
     
     private func setUpUI() {
         addSubview(weatherIconImageView)
-        addSubview(stackView)
+        addSubview(weatherInformationStackView)
         
         let margin = CGFloat(10)
         temperatureStackView.addArrangedSubview(lowestTemperatureLabel)
@@ -106,19 +106,19 @@ class MainWeatherHeaderView: UIView {
         locationStackView.addArrangedSubview(addressLabel)
         locationStackView.addArrangedSubview(locationSettingButton)
         
-        stackView.addArrangedSubview(locationStackView)
-        stackView.addArrangedSubview(temperatureStackView)
-        stackView.addArrangedSubview(currentTamperatureLabel)
+        weatherInformationStackView.addArrangedSubview(locationStackView)
+        weatherInformationStackView.addArrangedSubview(temperatureStackView)
+        weatherInformationStackView.addArrangedSubview(currentTamperatureLabel)
         
         weatherIconImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: margin).isActive = true
         weatherIconImageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.2).isActive = true
         weatherIconImageView.heightAnchor.constraint(equalTo: weatherIconImageView.widthAnchor).isActive = true
-        weatherIconImageView.centerYAnchor.constraint(equalTo: stackView.centerYAnchor).isActive = true
+        weatherIconImageView.centerYAnchor.constraint(equalTo: weatherInformationStackView.centerYAnchor).isActive = true
         
-        stackView.leadingAnchor.constraint(equalTo: weatherIconImageView.trailingAnchor, constant: margin).isActive = true
-        stackView.topAnchor.constraint(equalTo: topAnchor, constant: margin).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -margin).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -margin).isActive = true
+        weatherInformationStackView.leadingAnchor.constraint(equalTo: weatherIconImageView.trailingAnchor, constant: margin).isActive = true
+        weatherInformationStackView.topAnchor.constraint(equalTo: topAnchor, constant: margin).isActive = true
+        weatherInformationStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -margin).isActive = true
+        weatherInformationStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -margin).isActive = true
         
         locationSettingButton.addTarget(self, action: #selector(didTapLocationSettingButton), for: .touchUpInside)
     }
