@@ -22,6 +22,7 @@ class threeHourForecastCell: UITableViewCell {
     
     private let weatherImageView: CustomImageVieew = {
         let imageView = CustomImageVieew()
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -67,12 +68,12 @@ extension threeHourForecastCell {
         contentView.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor),
+            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            stackView.topAnchor.constraint(equalTo: dateLabel.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: dateLabel.bottomAnchor)
         ])
         
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
