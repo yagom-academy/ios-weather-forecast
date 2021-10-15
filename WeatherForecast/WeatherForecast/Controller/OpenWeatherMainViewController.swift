@@ -36,6 +36,8 @@ final class OpenWeatherMainViewController: UIViewController {
         drawTableView()
         locationManager.delegate = self
         locationManager.askUserLocation()
+        
+        //MARK: Notified after OpenWeatherAPI response delivered successfully
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView), name: .reloadTableView, object: nil)
     }
     
@@ -63,7 +65,7 @@ extension OpenWeatherMainViewController: CLLocationManagerDelegate {
         guard let api = networkManager.buildApi(weatherOrCurrent: .forecast, location: (latitude, longitude)) else {
             return
         }
-
+        
         networkManager.fetchOpenWeatherData(requiredApi: api, sessionDelegate.session)
     }
     

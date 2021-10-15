@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct URLManager: RequestConfigurable {
+struct URLManager {
     static func configure(urlRequest: inout URLRequest, with parameter: Parameters) throws {
         guard let url = urlRequest.url else {
             throw NetworkError.urlMissing

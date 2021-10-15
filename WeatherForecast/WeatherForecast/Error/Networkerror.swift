@@ -6,10 +6,10 @@
 //
 
 import Foundation
-
-protocol RequestConfigurable {
-    static func configure(urlRequest: inout URLRequest, with parameter: Parameters) throws
-}
+//
+//protocol RequestConfigurable {
+//    static func configure(urlRequest: inout URLRequest, with parameter: Parameters) throws
+//}
 
 enum NetworkError: LocalizedError {
     case encodingFailed
