@@ -91,7 +91,6 @@ extension WeatherDataViewModel {
             NSLog("\(#function) - URL 생성 실패")
             return
         }
-        
         let networkManager = WeatherNetworkManager(session: URLSession(configuration: .default))
         networkManager.requestData(with: url) { result in
             switch result {
@@ -114,7 +113,6 @@ extension WeatherDataViewModel {
             NSLog("\(#function) - URL 생성 실패")
             return
         }
-        
         let networkManager = WeatherNetworkManager(session: URLSession(configuration: .default))
         networkManager.requestData(with: url) { result in
             switch result {

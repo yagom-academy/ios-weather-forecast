@@ -8,7 +8,6 @@
 import Foundation
 
 extension JSONDecoder {
-
     convenience init(keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy) {
         self.init()
         self.keyDecodingStrategy = keyDecodingStrategy

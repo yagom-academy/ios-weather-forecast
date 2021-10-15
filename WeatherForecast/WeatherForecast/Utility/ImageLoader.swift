@@ -24,10 +24,14 @@ struct ImageLoader {
     
     func imageFetch(url: URL, completion: @escaping (UIImage) -> Void) {
         DispatchQueue.global().async {
-            if let fetchedData = try? Data(contentsOf: url),
-               let iconImage = UIImage(data: fetchedData) {
-                completion(iconImage)
-            } else {
+            do {
+                let fetchedData = try Data(contentsOf: url)
+                if let iconImage = UIImage(data: fetchedData) {
+                    completion(iconImage)
+                } else {
+                    NSLog("\(#function) - image 변환 실패")
+                }
+            } catch {
                 NSLog("\(#function) - image 데이터 불러오기 실패")
             }
         }

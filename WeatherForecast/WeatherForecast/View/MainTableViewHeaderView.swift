@@ -7,8 +7,7 @@
 
 import UIKit
 
-class MainTableViewHeaderView: UIView {
-    
+final class MainTableViewHeaderView: UIView {
     private let containView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -87,7 +86,7 @@ class MainTableViewHeaderView: UIView {
         self.layoutIfNeeded()
     }
     
-    func configureTexts(_ address: String, temperatureRange: String, temperature: String) {
+    func configureTexts(address: String, temperatureRange: String, temperature: String) {
         addressLabel.text = address
         temperatureRangeLabel.text = temperatureRange
         currentTemperatureLabel.text = temperature

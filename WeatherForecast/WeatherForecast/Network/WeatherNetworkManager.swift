@@ -8,7 +8,6 @@
 import Foundation
 
 struct WeatherNetworkManager {
-    
     enum NetworkError: Error {
         case responseError
         case dataError
@@ -23,20 +22,17 @@ struct WeatherNetworkManager {
     func requestData(with url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
         session.makeCustomDataTask(with: url) { data, response, error in
             let successRange = 200..<300
-            
             guard error == nil else {
                 if let error = error {
                     completion(.failure(error))
                 }
                 return
             }
-            
             guard let response = response as? HTTPURLResponse,
                   successRange ~= response.statusCode else {
                 completion(.failure(NetworkError.responseError))
                 return
             }
-                  
             guard let data = data else {
                 completion(.failure(NetworkError.dataError))
                 return

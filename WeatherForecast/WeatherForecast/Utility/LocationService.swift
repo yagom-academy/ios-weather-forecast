@@ -7,17 +7,15 @@
 
 import CoreLocation
 
-class LocationService: NSObject {
+final class LocationService: NSObject {
     typealias ReceivedLocationAction = (CLLocation) -> Void
     
     private var receivedLocationAction: ReceivedLocationAction?
-    
     private let locationManager: CLLocationManager
 
     init(locationManager: CLLocationManager) {
         self.locationManager = locationManager
         super.init()
-        
         locationManager.delegate = self
     }
 
@@ -29,7 +27,6 @@ class LocationService: NSObject {
 
 // MARK: - CLLocationManagerDelegate
 extension LocationService: CLLocationManagerDelegate {
-    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .notDetermined:

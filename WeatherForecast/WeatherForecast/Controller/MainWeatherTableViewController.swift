@@ -9,9 +9,8 @@ import UIKit
 class MainWeatherTableViewController: UITableViewController {
     private let weatherDataViewModel: WeatherDataViewModel
     private let headerView: MainTableViewHeaderView = MainTableViewHeaderView()
-    
-    let imageLoader: ImageLoader = ImageLoader(imageCacher: NSCache<NSString, UIImage>())
-    let dateFormatter: DateFormatter = {
+    private let imageLoader: ImageLoader = ImageLoader(imageCacher: NSCache<NSString, UIImage>())
+    private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko-KR")
         formatter.dateFormat = "MM/dd(EEE) HH시"
@@ -64,7 +63,6 @@ extension MainWeatherTableViewController {
                 if let control = refreshControl {
                     control.endRefreshing()
                 }
-                
                 self.reloadHeaderView()
                 self.tableView.reloadData()
             }
@@ -73,13 +71,11 @@ extension MainWeatherTableViewController {
     private func reloadHeaderView() {
         let range = (min: weatherDataViewModel.currentMinimumTemperature,
                      max: weatherDataViewModel.currentMaximumTemperature)
-        
-        headerView.configureTexts(weatherDataViewModel.currentAddress,
+        headerView.configureTexts(address: weatherDataViewModel.currentAddress,
                                   temperatureRange: "최소 \(range.min)º 최대 \(range.max)º",
                                   temperature: "\(weatherDataViewModel.currentTemperature)º")
         
         let iconName = weatherDataViewModel.currentWeatherIconName
-        
         if let cachedImage = imageLoader.fetchCachedData(key: iconName) {
             headerView.configureIcon(image: cachedImage)
         } else {
@@ -111,10 +107,9 @@ extension MainWeatherTableViewController {
             return UITableViewCell()
         }
         let intervalData = weatherDataViewModel.intervalWeatherInfos[indexPath.row]
-        let date = dateFormatter.string(from: Date(timeIntervalSince1970: intervalData.date))
+        let formattedDate = dateFormatter.string(from: Date(timeIntervalSince1970: intervalData.date))
         let iconName = intervalData.conditions[0].iconName
-        cell.configureTexts(date,
-                            temperature: "\(intervalData.mainInformation.temperature)º")
+        cell.configureTexts(date: formattedDate, temperature: "\(intervalData.mainInformation.temperature)º")
         
         if let cachedImage = imageLoader.fetchCachedData(key: iconName) {
             cell.configureIcon(image: cachedImage)

@@ -7,8 +7,7 @@
 
 import UIKit
 
-class MainTableViewCell: UITableViewCell {
-    
+final class MainTableViewCell: UITableViewCell {
     private let containView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -71,7 +70,7 @@ class MainTableViewCell: UITableViewCell {
         weatherIconImage.image = nil
     }
     
-    func configureTexts(_ date: String, temperature: String) {
+    func configureTexts(date: String, temperature: String) {
         dateLabel.text = date
         temperatureLabel.text = temperature
     }

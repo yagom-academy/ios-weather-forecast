@@ -6,10 +6,9 @@
 //
 
 import Foundation
-import CoreLocation
+import CoreLocation.CLLocation
 
 enum WeatherAPI {
-    
     private static var apiKey: String {
         guard let filePath = Bundle.main.path(forResource: "WeatherInfo", ofType: "plist"),
               let plist = NSDictionary(contentsOfFile: filePath),
