@@ -152,6 +152,7 @@ extension MainWeatherViewController {
         
         tableView.dataSource = tableViewDataSource
         tableView.tableHeaderView = headerView
+        sizeHeaderViewHeightToFit()
         
         headerView.changeLocationDelegate = self
     }
@@ -166,7 +167,6 @@ extension MainWeatherViewController {
             return
         }
         headerView.configure(addressData: newInformation)
-        sizeHeaderViewHeightToFit()
     }
     
     private func updateHeadView(to newInformation: WeatherForOneDay?) {
@@ -186,7 +186,6 @@ extension MainWeatherViewController {
             }
         }
         headerView.configure(weatherData: newInformation)
-        sizeHeaderViewHeightToFit()
     }
     
     private func sizeHeaderViewHeightToFit() {

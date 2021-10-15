@@ -21,39 +21,55 @@ class MainWeatherHeaderView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fill
-        stackView.alignment = .leading
+        stackView.alignment = .fill
+        
+        return stackView
+    }()
+    private let locationStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        stackView.spacing = UIStackView.spacingUseSystem
         
         return stackView
     }()
     private let temperatureStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
-        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.alignment = .fill
         stackView.spacing = UIStackView.spacingUseSystem
         
         return stackView
     }()
     private let addressLabel: UILabel = {
         let label = UILabel()
+        label.text = "-"
         label.font = UIFont.preferredFont(forTextStyle: .callout)
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
         return label
     }()
     private let lowestTemperatureLabel: UILabel = {
         let label = UILabel()
+        label.text = "-"
         label.font = UIFont.preferredFont(forTextStyle: .callout)
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
         return label
     }()
     private let highestTemperatureLabel: UILabel = {
         let label = UILabel()
+        label.text = "-"
         label.font = UIFont.preferredFont(forTextStyle: .callout)
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
         return label
     }()
     private let currentTamperatureLabel: UILabel = {
         let label = UILabel()
+        label.text = "-"
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         
         return label
@@ -63,6 +79,7 @@ class MainWeatherHeaderView: UIView {
         button.setTitle("위치 변경", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
+        button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
@@ -81,12 +98,15 @@ class MainWeatherHeaderView: UIView {
     private func setUpUI() {
         addSubview(weatherIconImageView)
         addSubview(stackView)
-        addSubview(locationSettingButton)
         
         let margin = CGFloat(10)
         temperatureStackView.addArrangedSubview(lowestTemperatureLabel)
         temperatureStackView.addArrangedSubview(highestTemperatureLabel)
-        stackView.addArrangedSubview(addressLabel)
+        
+        locationStackView.addArrangedSubview(addressLabel)
+        locationStackView.addArrangedSubview(locationSettingButton)
+        
+        stackView.addArrangedSubview(locationStackView)
         stackView.addArrangedSubview(temperatureStackView)
         stackView.addArrangedSubview(currentTamperatureLabel)
         
@@ -98,10 +118,8 @@ class MainWeatherHeaderView: UIView {
         stackView.leadingAnchor.constraint(equalTo: weatherIconImageView.trailingAnchor, constant: margin).isActive = true
         stackView.topAnchor.constraint(equalTo: topAnchor, constant: margin).isActive = true
         stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -margin).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -margin).isActive = true
         
-        locationSettingButton.topAnchor.constraint(equalTo: topAnchor, constant: margin/3).isActive = true
-        locationSettingButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -margin).isActive = true
         locationSettingButton.addTarget(self, action: #selector(didTapLocationSettingButton), for: .touchUpInside)
     }
     
