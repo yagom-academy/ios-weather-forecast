@@ -35,7 +35,10 @@ class MainWeatherTableViewController: UITableViewController {
         tableView.backgroundView = backgroundImageView
         tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.className)
         tableView.tableHeaderView = headerView
-        tableView.tableHeaderView?.frame.size.height = headerView.calculateHeaderHeight()
+        tableView.tableHeaderView?.frame = CGRect(x: 0,
+                                                  y: 0,
+                                                  width: view.bounds.width,
+                                                  height: headerView.calculateHeaderHeight())
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,7 +62,6 @@ extension MainWeatherTableViewController {
                                   temperature: "\(weatherDataViewModel.currentTemperature)º")
         let iconName = weatherDataViewModel.currentWeatherIconName
         
-        print(iconName)
         if let cachedImage = imageLoader.fetchCachedData(key: iconName) {
             headerView.configureIcon(image: cachedImage)
         } else {
