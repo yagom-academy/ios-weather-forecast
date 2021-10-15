@@ -42,7 +42,9 @@ class WeatherListViewController: UIViewController {
         configureTableView()
         designateTableViewDataSourceDelegate()
         setRefreshControl()
-        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("alert"), object: nil, queue: .main) { _ in
+            self.presentAlert()
+        }
     }
 }
 
@@ -62,12 +64,12 @@ extension WeatherListViewController: UITableViewDataSourcePrefetching {
 
 extension WeatherListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fiveDaysWeatherData?.list.count ?? 0
+        return WeatherDataManager.shared.fiveDaysWeatherData?.list.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as? CustomTableViewCell else { return UITableViewCell() }
-        if let unWrappedFiveDaysWeatherData = fiveDaysWeatherData {
+        if let unWrappedFiveDaysWeatherData = WeatherDataManager.shared.fiveDaysWeatherData {
             let daysWeatherData = unWrappedFiveDaysWeatherData.list[indexPath.row]
             let date = daysWeatherData.timeOfDataText
 //            let formattedDateString = "\(dateFormatter.string(from: date))시"
@@ -83,9 +85,9 @@ extension WeatherListViewController: UITableViewDelegate {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CustomHeaderView.identifier) as? CustomHeaderView else {
             return UIView()
         }
-        if let unWrappedCurrentWeatherData = currentWeatherData, let area = area, let local = local {
+        if let unWrappedCurrentWeatherData = WeatherDataManager.shared.currentWeatherData, let area = area, let local = local {
             let address = area + local
-            let minMaxTemperature = "최저\(unWrappedCurrentWeatherData.mainInfo.temperatureMin)º 최고\(unWrappedCurrentWeatherData.mainInfo.temperatureMax)º"
+            let minMaxTemperature = "최저\(String(format: "%.1f", unWrappedCurrentWeatherData.mainInfo.temperatureMin))º 최고\(String(format: "%.1f",unWrappedCurrentWeatherData.mainInfo.temperatureMax))º"
             let currentTemperature = "\(unWrappedCurrentWeatherData.mainInfo.temperature)º"
             headerView.configurationHeaderView(address: address, minMaxTemperature: minMaxTemperature, currentTemperature: currentTemperature)
         }
@@ -107,32 +109,8 @@ extension WeatherListViewController: CLLocationManagerDelegate {
                 self.local = local
             }
             
-            DispatchQueue.global().async {
-                WeatherDataManager.shared.fetchCurrentWeather { result in
-                    switch result {
-                    case .success(let currentWeatherData):
-                        self.currentWeatherData = currentWeatherData
-                        DispatchQueue.main.async {
-                            self.weatherListTableView.reloadData()
-                        }
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                    }
-                }
-            }
-            
-            DispatchQueue.global().async {
-                WeatherDataManager.shared.fetchFiveDaysWeather { result in
-                    switch result {
-                    case .success(let fiveDaysWeatherData):
-                        self.fiveDaysWeatherData = fiveDaysWeatherData
-                        DispatchQueue.main.async {
-                            self.weatherListTableView.reloadData()
-                        }
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                    }
-                }
+            WeatherDataManager.shared.fetchWeatherDatas(location: CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)) {
+                self.weatherListTableView.reloadData()
             }
             
         case .notDetermined, .restricted:
@@ -145,6 +123,39 @@ extension WeatherListViewController: CLLocationManagerDelegate {
     }
 }
 extension WeatherListViewController {
+    private func presentAlert() {
+        let alert = UIAlertController(title: AlertResource.alertTitle.rawValue, message: AlertResource.alertMessage.rawValue, preferredStyle: .alert)
+        let coordinateChangeButton = UIAlertAction(title: AlertResource.changeButton.rawValue, style: .default) { [weak self] _ in
+            guard let latitudeString = alert.textFields?.first?.text,
+                  let latitude = Double(latitudeString),
+                  let longitudeString = alert.textFields?[1].text,
+                  let longitude = Double(longitudeString) else { return }
+
+            WeatherDataManager.shared.fetchWeatherDatas(location: CLLocation(latitude: latitude, longitude: longitude)) {
+                self?.weatherListTableView.reloadData()
+            }
+            
+        }
+        let resetByCurrentCoorinateButton = UIAlertAction(title: AlertResource.resetCurrentCoordinateButton.rawValue, style: .default) { [weak self] _ in
+            guard let latitude = WeatherDataManager.shared.latitude, let longitude = WeatherDataManager.shared.longitude else { return }
+            
+            WeatherDataManager.shared.fetchWeatherDatas(location: CLLocation(latitude: latitude, longitude: longitude)) {
+                self?.weatherListTableView.reloadData()
+            }
+        }
+        let cancelButton = UIAlertAction(title: AlertResource.cancelButton.rawValue, style: .cancel, handler: nil)
+        alert.addTextField { textField in
+            textField.placeholder = "위도"
+        }
+        alert.addTextField { textField in
+            textField.placeholder = "경도"
+        }
+        alert.addAction(coordinateChangeButton)
+        alert.addAction(resetByCurrentCoorinateButton)
+        alert.addAction(cancelButton)
+        present(alert, animated: true, completion: nil)
+    }
+    
     func generateImageURL(at index: Int) -> URL {
         let urlbuilder = URLBuilder()
         let resource = URLResource()
@@ -200,32 +211,11 @@ extension WeatherListViewController {
     @objc private func refresh() {
         DispatchQueue.global().async { [weak self] in
             guard let strongSelf = self else { return }
-            DispatchQueue.global().async {
-                WeatherDataManager.shared.fetchCurrentWeather { result in
-                    switch result {
-                    case .success(let currentWeatherData):
-                        strongSelf.currentWeatherData = currentWeatherData
-                        DispatchQueue.main.async {
-                            strongSelf.weatherListTableView.reloadData()
-                        }
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                    }
-                }
-            }
+           
+            guard let currentLocation = self?.locationManager?.location?.coordinate else { return }
             
-            DispatchQueue.global().async {
-                WeatherDataManager.shared.fetchFiveDaysWeather { result in
-                    switch result {
-                    case .success(let fiveDaysWeatherData):
-                        strongSelf.fiveDaysWeatherData = fiveDaysWeatherData
-                        DispatchQueue.main.async {
-                            strongSelf.weatherListTableView.reloadData()
-                        }
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                    }
-                }
+            WeatherDataManager.shared.fetchWeatherDatas(location: CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)) {
+                self?.weatherListTableView.reloadData()
             }
        
             DispatchQueue.main.async {
