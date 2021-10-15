@@ -12,11 +12,13 @@ class threeHourForecastCell: UITableViewCell {
     
     private let dateLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
         return label
     }()
     
     private let temperatureLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
         return label
     }()
     
@@ -70,8 +72,8 @@ extension threeHourForecastCell {
         
         NSLayoutConstraint.activate([
             dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
+            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             stackView.topAnchor.constraint(equalTo: dateLabel.topAnchor),
             stackView.bottomAnchor.constraint(equalTo: dateLabel.bottomAnchor)

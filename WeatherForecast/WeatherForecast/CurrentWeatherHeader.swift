@@ -19,18 +19,21 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
     
     private let locationLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
     
     private let minMaxTemperatureLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
     
     private let currentTemperatureLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 30)
         return label
     }()
