@@ -43,42 +43,54 @@ final class WeatherDataManager {
         }
         return CLLocation()
     }
+    let group = DispatchGroup()
+    let concurrentQueue = DispatchQueue(label: "concurrentQueue", attributes: .concurrent)
+    var currentWeatherData: CurrentWeather?
+    var fiveDaysWeatherData: FivedaysWeather?
 }
 
 extension WeatherDataManager {
-    //    func fetchCurrentWeather()  {
-    //        let url = generateURL(path: .current)
-    //        self.fetch(url: url) { (result: Result<CurrentWeather, APIError>) in
-    //            switch result {
-    //            case .success(let currentWeather):
-    //                return print(currentWeather)
-    //            case .failure(let error):
-    //                print(error.localizedDescription)
-    //            }
-    //        }
-    //    }
-    func fetchCurrentWeather(completion: @escaping (Result<CurrentWeather, APIError>) -> ()) {
+    func fetchCurrentWeather(location: CLLocation ,completion: @escaping (Result<CurrentWeather, APIError>) -> ()) {
         let url = generateURL(path: .current)
-        self.fetch(url: url, completion: completion)
+        self.fetch(url: url, location: location, completion: completion)
     }
     
-    func fetchFiveDaysWeather(completion: @escaping (Result<FivedaysWeather, APIError>) -> ()) {
+    func fetchFiveDaysWeather(location: CLLocation, completion: @escaping (Result<FivedaysWeather, APIError>) -> ()) {
         let url = generateURL(path: .fiveDays)
-        self.fetch(url: url, completion: completion)
+        self.fetch(url: url, location: location, completion: completion)
     }
     
-    //    func fetchFiveDaysWeather() {
-    //        let url = generateURL(path: .fiveDays)
-    //        self.fetch(url: url) { (result: Result<FivedaysWeather, APIError>) in
-    //            switch result {
-    //            case .success(let currentWeather):
-    //                return print(currentWeather)
-    //            case .failure(let error):
-    //                print(error.localizedDescription)
-    //            }
-    //        }
-    //    }
-    
+    func fetchWeatherDatas(location: CLLocation, completion: @escaping () -> ()) {
+        group.enter()
+        concurrentQueue.async {
+            self.fetchCurrentWeather(location: location) { result in
+                switch result {
+                case .success(let currentWeatherData):
+                    self.currentWeatherData = currentWeatherData
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+                self.group.leave()
+            }
+        }
+        
+        group.enter()
+        concurrentQueue.async {
+            self.fetchFiveDaysWeather(location: location) { result in
+                switch result {
+                case .success(let fiveDaysWeatherData):
+                    self.fiveDaysWeatherData = fiveDaysWeatherData
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+                self.group.leave()
+            }
+        }
+        
+        group.notify(queue: .main) {
+            completion()
+        }
+    }
     
     private func generateURL(path: URLResource.PathType) -> URL? {
         let builder = URLBuilder()
@@ -99,7 +111,7 @@ extension WeatherDataManager {
 }
 
 extension WeatherDataManager: JSONDecodable {
-    private func fetch<ParsingType: Decodable>(url: URL?, completion: @escaping (Result<ParsingType, APIError>) -> ()) {
+    private func fetch<ParsingType: Decodable>(url: URL?, location: CLLocation ,completion: @escaping (Result<ParsingType, APIError>) -> ()) {
         guard let url = url else {
             completion(.failure(APIError.invalidURL))
             return
