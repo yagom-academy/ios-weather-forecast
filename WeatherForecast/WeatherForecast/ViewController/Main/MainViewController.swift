@@ -10,32 +10,31 @@ import CoreLocation
 final class MainViewController: UIViewController {
     private let locationManager = LocationManager()
     private let networkManager = NetworkManager()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
+        
         NotificationCenter.default.addObserver(
             forName: LocationManager.locationUpdated,
             object: nil,
             queue: .main,
             using: utilizeLocation
         )
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         locationManager.requestLocation()
     }
     
     private func utilizeLocation(_ notification: Notification) {
-        guard let locations = notification.object as? [CLLocation],
-              let location = locations.last else {
-            return
-        }
+        guard let location = notification.object as? CLLocation else {
+                  return
+              }
         let coordinate = location.coordinate
-        self.convertToAddress(location: location)
-        self.requestDailyWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        self.requestWeeklyWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        convertToAddress(location: location)
+        requestDailyWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        requestWeeklyWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
     }
     
     private func requestDailyWeather(latitude: Double, longitude: Double) {

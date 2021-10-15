@@ -48,7 +48,7 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        NotificationCenter.default.post(name: Self.locationUpdated, object: locations)
+        NotificationCenter.default.post(name: Self.locationUpdated, object: locations.last)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
