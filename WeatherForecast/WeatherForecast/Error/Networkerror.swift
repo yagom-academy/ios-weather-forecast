@@ -13,7 +13,7 @@ import Foundation
 
 enum NetworkError: LocalizedError {
     case encodingFailed
-    case urlMissing
+    case invalidURL
     case unIdentified
     
     var description: String {
@@ -21,7 +21,7 @@ enum NetworkError: LocalizedError {
 
         case .encodingFailed:
             return "Parameter encoding fail."
-        case .urlMissing:
+        case .invalidURL:
             return "URL is missing."
         case .unIdentified:
             return "Error can't be identified."

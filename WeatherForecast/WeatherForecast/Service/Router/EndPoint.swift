@@ -10,15 +10,17 @@ typealias QueryItems = [String: Any]
 typealias PathComponents = [String]
 
 protocol EndPoint {
+    var requestPurpose: RequestPurpose { get }
     var httpMethod: HTTPMethod { get }
-    var baseUrl: URL { get }
-    var path: URLPath? { get }
-    var qeury: QueryItems? { get }
+    var urlElements: URLElements { get }
 }
 
 struct OpenWeatherAPI: EndPoint {
+    var requestPurpose: RequestPurpose
     var httpMethod: HTTPMethod
-    var baseUrl: URL
-    var path: URLPath?
-    var qeury: QueryItems?
+    var urlElements: URLElements
+}
+
+enum URLElements {
+    case with(_ : QueryItems?, and: PathComponents?)
 }
