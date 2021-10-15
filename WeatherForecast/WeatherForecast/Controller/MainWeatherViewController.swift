@@ -15,10 +15,22 @@ final class MainWeatherViewController: UIViewController {
     private var fiveDayWeatherForecast: FiveDayWeatherForecast?
     private let prepareInformationDispatchGroup = DispatchGroup()
     private var updateWorkItem: DispatchWorkItem?
+    private let tableView = UITableView()
+    private let headerView = MainWeatherHeaderView()
+    private let tableViewDataSource = MainWeatherTableViewDataSource()
     
     //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpLocationManager()
+        setUpTableView()
+        setUpRefreshControl()
+    }
+}
+
+//MARK:- LocationManager
+extension MainWeatherViewController {
+    private func setUpLocationManager() {
         locationManager.delegate = self
         guard CLLocationManager.significantLocationChangeMonitoringAvailable() else { return }
         locationManager.startMonitoringSignificantLocationChanges()
@@ -52,16 +64,17 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
             self?.prepareWeatherInformation(with: lastLocation) { userAddress, weatherForOneDay, weatherForFiveDay in
                 if self?.userAddress != userAddress {
                     self?.userAddress = userAddress
-                    self?.updateUserAddressLabel()
+                    self?.updateUserAddressLabel(to: userAddress)
                 }
                 if self?.weatherForOneDay != weatherForOneDay {
                     self?.weatherForOneDay = weatherForOneDay
-                    self?.updateHeadView()
+                    self?.updateHeadView(to: weatherForOneDay)
                 }
                 if self?.fiveDayWeatherForecast != weatherForFiveDay {
                     self?.fiveDayWeatherForecast = weatherForFiveDay
-                    self?.updateTableView()
+                    self?.updateTableView(to: weatherForFiveDay?.weatherForFiveDays)
                 }
+                self?.tableView.refreshControl?.endRefreshing()
             }
         })
         if let updateWorkItem = updateWorkItem {
@@ -126,15 +139,77 @@ extension MainWeatherViewController {
 
 //MARK:- UI
 extension MainWeatherViewController {
-    private func updateUserAddressLabel() {
-
+    private func setUpTableView() {
+        view.addSubview(tableView)
+        tableView.register(MainWeatherTableViewCell.self, forCellReuseIdentifier: MainWeatherTableViewCell.identifier)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let safeArea = view.safeAreaLayoutGuide
+        tableView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
+        tableView.leftAnchor.constraint(equalTo: safeArea.leftAnchor).isActive = true
+        tableView.rightAnchor.constraint(equalTo: safeArea.rightAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
+        
+        tableView.dataSource = tableViewDataSource
+        tableView.tableHeaderView = headerView
     }
     
-    private func updateHeadView() {
-        
+    private func setUpRefreshControl() {
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self, action: #selector(loadNewData), for: .valueChanged)
     }
     
-    private func updateTableView() {
-        
+    private func updateUserAddressLabel(to newInformation: String?) {
+        guard let newInformation = newInformation else {
+            return
+        }
+        headerView.configure(addressData: newInformation)
+        sizeHeaderViewHeightToFit()
+    }
+    
+    private func updateHeadView(to newInformation: WeatherForOneDay?) {
+        guard let newInformation = newInformation else {
+            return
+        }
+        if let imageId = newInformation.weatherConditionCodes?.last?.iconId {
+            NetworkManager.imageRequest(using: imageId) { [self] result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .failure(_):
+                        break
+                    case .success(let image):
+                        headerView.configure(image: image)
+                    }
+                }
+            }
+        }
+        headerView.configure(weatherData: newInformation)
+        sizeHeaderViewHeightToFit()
+    }
+    
+    private func sizeHeaderViewHeightToFit() {
+        guard let headerView = tableView.tableHeaderView else {
+            return
+        }
+        let height = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
+        var frame = headerView.frame
+        frame.size.height = height
+        headerView.frame = frame
+    }
+    
+    private func updateTableView(to newInformation: [WeatherForOneDay]?) {
+        guard let newInformation = newInformation else {
+            return
+        }
+        tableViewDataSource.fiveDayWeatherList = newInformation
+        tableView.reloadData()
+    }
+    
+    @objc private func loadNewData() {
+        guard let lastLocation = locationManager.location else {
+            tableView.refreshControl?.endRefreshing()
+            return
+        }
+        locationManager(locationManager, didUpdateLocations: [lastLocation])
     }
 }
