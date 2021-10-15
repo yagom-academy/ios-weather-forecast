@@ -8,10 +8,10 @@
 import Foundation
 
 final class WeatherNetworkManager: ApiModeling {
-    private let router = Router<OpenWeatherApi>()
+    private let router = Router<OpenWeatherAPI>()
     static let apiKey = "9cda367698143794391817f65f81c76e"
     
-    func fetchOpenWeatherData(requiredApi: OpenWeatherApi, _ session: URLSession) {
+    func fetchOpenWeatherData(requiredApi: OpenWeatherAPI, _ session: URLSession) {
         router.request(requiredApi, session)
     }
 }

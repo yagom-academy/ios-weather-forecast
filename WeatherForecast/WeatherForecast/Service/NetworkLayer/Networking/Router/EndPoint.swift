@@ -14,7 +14,7 @@ protocol EndPoint {
     var path: URLPath { get }
 }
 
-struct OpenWeatherApi: EndPoint {
+struct OpenWeatherAPI: EndPoint {
     var httpTask: HTTPTask
     var httpMethod: HTTPMethod
     var baseUrl: URL
