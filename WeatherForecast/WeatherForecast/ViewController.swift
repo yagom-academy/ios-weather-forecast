@@ -13,33 +13,37 @@ class ViewController: UIViewController {
     private let apiManager = APIManager()
     private var coordinate = CLLocationCoordinate2D() {
         didSet {
-            fetchWeatherAPI(CurrentWeather.self,
-                            weatherURL: .weatherCoordinates(latitude: coordinate.latitude,
-                                                            longitude: coordinate.longitude),
-                            completion: { data in
-                                dump(data)
-                            })
-            fetchWeatherAPI(FiveDaysWeather.self,
-                            weatherURL: .forecastCoordinates(latitude: coordinate.latitude,
-                                                             longitude: coordinate.longitude),
-                            completion: { data in
-                                dump(data)
-                            })
-            fetchAddress(on: coordinate)
+            fetchWeatherData(on: coordinate)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchWeatherData()
+        requestCoordinate()
     }
 }
 
 extension ViewController {
-    private func fetchWeatherData() {
+    private func requestCoordinate() {
         locationManager.requestLocation { coordinate in
             self.coordinate = coordinate
         }
+    }
+    
+    private func fetchWeatherData(on coordinate: CLLocationCoordinate2D) {
+        fetchWeatherAPI(CurrentWeather.self,
+                        weatherURL: .weatherCoordinates(latitude: coordinate.latitude,
+                                                        longitude: coordinate.longitude),
+                        completion: { data in
+                            dump(data)
+                        })
+        fetchWeatherAPI(FiveDaysWeather.self,
+                        weatherURL: .forecastCoordinates(latitude: coordinate.latitude,
+                                                         longitude: coordinate.longitude),
+                        completion: { data in
+                            dump(data)
+                        })
+        fetchAddress(on: coordinate)
     }
     
     private func fetchWeatherAPI<T: Decodable>(
