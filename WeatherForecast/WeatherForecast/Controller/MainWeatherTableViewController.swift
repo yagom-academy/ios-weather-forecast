@@ -47,21 +47,29 @@ class MainWeatherTableViewController: UITableViewController {
         @unknown default:
             fatalError("\(#function) - 기본 설정 값 읽어오기 에러")
         }
+        tableView.initRefresh(targetView: self, action: #selector(reloadWeatherData(_:)))
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        reloadWeatherData()
+    }
+}
+
+extension MainWeatherTableViewController {
+    @objc private func reloadWeatherData(_ refreshControl: UIRefreshControl? = nil) {
         weatherDataViewModel.setUpWeatherData {
             DispatchQueue.main.async {
+                if let control = refreshControl {
+                    control.endRefreshing()
+                }
+                
                 self.reloadHeaderView()
                 self.tableView.reloadData()
             }
         }
     }
-}
-
-extension MainWeatherTableViewController {
     private func reloadHeaderView() {
         let range = (min: weatherDataViewModel.currentMinimumTemperature,
                      max: weatherDataViewModel.currentMaximumTemperature)
