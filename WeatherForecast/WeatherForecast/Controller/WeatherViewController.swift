@@ -16,8 +16,8 @@ class WeatherViewController: UIViewController {
         }
     }
     
-    private var headerViewModel = WeatherHeaderViewModel()
-    private var weatherHeaderView = WeatherHeaderView()
+    //private let headerViewModel = WeatherHeaderViewModel
+    //private var weatherHeaderView = WeatherHeaderView()
     
     private var weatherTableView: UITableView = {
         let tableView = UITableView()
@@ -75,7 +75,6 @@ extension WeatherViewController {
 //        headerViewModel.refreshData()
         weatherTableView.refreshControl?.endRefreshing()
     }
-    
     
     private func failureFetchingWeather(error: Error?) {
         let alert = UIAlertController.generateErrorAlertController(message: error?.localizedDescription)

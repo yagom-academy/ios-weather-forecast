@@ -14,7 +14,11 @@ final class WeatherService {
         return currentData?.imageData
     }
     
-    private var currentData: CurrentWeather?
+    private var currentData: CurrentWeather? {
+        didSet {
+            onCompleted?()
+        }
+    }
     
     private var forecastData: ForecastWeather? {
         didSet {
@@ -104,7 +108,8 @@ extension WeatherService {
         formatter.dateFormat = dateFormat
         return formatter.string(from: Date(timeIntervalSince1970: timeInterval))
     }
-    
+
+
     func getWeatherIconImage(at indexPath: IndexPath, completion: @escaping (Data) -> Void) {
         
         guard let icon = forecastData?.list[indexPath.row].weather.first?.icon,

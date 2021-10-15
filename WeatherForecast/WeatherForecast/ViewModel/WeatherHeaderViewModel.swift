@@ -8,73 +8,17 @@
 import Foundation
 
 final class WeatherHeaderViewModel {
-    private let service = WeatherService()
-    
-    var onCompleted: (() -> Void)?
-    
-    var address: String? {
-        didSet {
-            onCompleted?()
-        }
+    var address: String
+    var minTempature: String
+    var maxTempature: String
+    var currentTempature: String
+    var iconData: Data
+   
+    init(_ viewModel : WeatherHeaderViewModel) {
+        self.address = viewModel.address
+        self.minTempature = viewModel.minTempature
+        self.maxTempature = viewModel.maxTempature
+        self.currentTempature = viewModel.currentTempature
+        self.iconData = viewModel.iconData
     }
-    var minTempature: String? {
-        didSet {
-            onCompleted?()
-        }
-    }
-    var maxTempature: String? {
-        didSet {
-            onCompleted?()
-        }
-    }
-    var iconData: Data? {
-        didSet {
-            onCompleted?()
-        }
-    }
-    var currentTempature: String? {
-        didSet {
-            onCompleted?()
-        }
-    }
-    
-    init() {
-        configureContents()
-        service.onCompleted = { [weak self] in
-            guard let self = self else { return }
-            self.iconData = self.service.currentImageData
-            self.configureContents()
-        }
-    }
-    
-    private func configureContents() {
-        address = service.getAddress()
-        
-        let tempatures = service.currentWeatherTempature()
-        minTempature = formattingTempature(tempatures.min)
-        maxTempature = formattingTempature(tempatures.max)
-        currentTempature = formattingTempature(tempatures.current)
-    }
-    
-    private func formattingTempature(_ tempature: Double?) -> String? {
-        guard let tempature = tempature else {
-            return nil
-        }
-        
-        let numberFormat = NumberFormatter()
-        let minInterDigits = 1
-        let minFractionDigits = 1
-        let maxFractionDigits = 1
-        
-        numberFormat.roundingMode = .floor
-        numberFormat.minimumIntegerDigits = minInterDigits
-        numberFormat.minimumFractionDigits = minFractionDigits
-        numberFormat.maximumFractionDigits = maxFractionDigits
-        
-        let formattingText = numberFormat.string(from: NSNumber(value: tempature))
-        
-        return formattingText?.appending("°")
-    }
-    
-
 }
