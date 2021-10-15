@@ -15,7 +15,7 @@ class WeatherDataViewModel {
     private(set) var currentMinimumTemperature: Double = 0
     private(set) var currentMaximumTemperature: Double = 0
     private(set) var currentWeatherIconName: String = ""
-    private(set) var intervalWeatherInfos: [IntervalWeatherData] = []
+    private(set) var intervalWeatherInfos: [FiveDayWeatherData.IntervalWeatherData] = []
     
     init(locationService: LocationService) {
         self.locationService = locationService

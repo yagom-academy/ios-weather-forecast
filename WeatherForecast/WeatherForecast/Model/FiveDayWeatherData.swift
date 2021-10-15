@@ -13,4 +13,16 @@ struct FiveDayWeatherData: Codable {
     enum CodingKeys: String, CodingKey {
         case intervalWeathers = "list"
     }
+    
+    struct IntervalWeatherData: WeatherInformation {
+        var conditions: [Condition]
+        var mainInformation: MainInformation
+        let date: TimeInterval
+        
+        enum CodingKeys: String, CodingKey {
+            case conditions = "weather"
+            case mainInformation = "main"
+            case date = "dt"
+        }
+    }
 }

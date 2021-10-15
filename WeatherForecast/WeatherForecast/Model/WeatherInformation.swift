@@ -12,16 +12,6 @@ protocol WeatherInformation: Codable {
     var mainInformation: MainInformation { get }
 }
 
-struct Coordinate: Codable {
-    let latitude: Double
-    let longitude: Double
-    
-    private enum CodingKeys: String, CodingKey {
-        case latitude = "lat"
-        case longitude = "lon"
-    }
-}
-
 struct Condition: Codable {
     let iconName: String
     
