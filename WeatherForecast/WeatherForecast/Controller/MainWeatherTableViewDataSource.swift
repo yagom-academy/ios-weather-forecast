@@ -8,15 +8,7 @@
 import UIKit
 
 final class MainWeatherTableViewDataSource: NSObject {
-    private var _fiveDayWeatherList: [WeatherForOneDay] = []
-    var fiveDayWeatherList: [WeatherForOneDay] {
-        set {
-            _fiveDayWeatherList = newValue
-        }
-        get {
-            return _fiveDayWeatherList
-        }
-    }
+    var fiveDayWeatherList: [WeatherForOneDay] = []
 }
 
 extension MainWeatherTableViewDataSource: UITableViewDataSource {

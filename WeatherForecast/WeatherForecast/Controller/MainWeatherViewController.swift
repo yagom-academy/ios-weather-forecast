@@ -68,7 +68,7 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
                 }
                 if self?.weatherForOneDay != weatherForOneDay {
                     self?.weatherForOneDay = weatherForOneDay
-                    self?.updateHeadView(to: weatherForOneDay)
+                    self?.updateHeaderView(to: weatherForOneDay)
                 }
                 if self?.fiveDayWeatherForecast != weatherForFiveDay {
                     self?.fiveDayWeatherForecast = weatherForFiveDay
@@ -173,7 +173,7 @@ extension MainWeatherViewController {
         headerView.configure(addressData: newInformation)
     }
     
-    private func updateHeadView(to newInformation: WeatherForOneDay?) {
+    private func updateHeaderView(to newInformation: WeatherForOneDay?) {
         guard let newInformation = newInformation else {
             return
         }
