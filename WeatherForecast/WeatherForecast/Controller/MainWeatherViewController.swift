@@ -51,7 +51,7 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
             break
         }
     }
- 
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let lastLocation = locations.last else {
             return
@@ -81,6 +81,10 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
             DispatchQueue.main.async(execute: updateWorkItem)
         }
     }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
 }
 
 //MARK:- Load Information
@@ -93,7 +97,7 @@ extension MainWeatherViewController {
         var userAddress: String?
         var weatherForOneDay: WeatherForOneDay?
         var weatherForFiveDay: FiveDayWeatherForecast?
-    
+        
         prepareInformationDispatchGroup.enter()
         AddressManager.generateAddress(from: location) { [self] in
             switch $0 {
@@ -207,11 +211,7 @@ extension MainWeatherViewController {
     }
     
     @objc private func loadNewData() {
-        guard let lastLocation = locationManager.location else {
-            tableView.refreshControl?.endRefreshing()
-            return
-        }
-        locationManager(locationManager, didUpdateLocations: [lastLocation])
+        locationManager.requestLocation()
     }
 }
 
@@ -239,7 +239,9 @@ extension MainWeatherViewController: ChangeLocationDelegate {
                 self.locationManager(self.locationManager, didUpdateLocations: [CLLocation(latitude: latitude, longitude: longitude)])
             }
         }
-        let setCurrentLocationAction = UIAlertAction(title: "현재 위치로 재설정", style: .default, handler: nil)
+        let setCurrentLocationAction = UIAlertAction(title: "현재 위치로 재설정", style: .default) { [weak self] _ in
+            self?.locationManager.requestLocation()
+        }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
         alert.addAction(changeAction)
@@ -247,7 +249,7 @@ extension MainWeatherViewController: ChangeLocationDelegate {
             alert.addAction(setCurrentLocationAction)
         }
         alert.addAction(cancelAction)
-                
+        
         present(alert, animated: true, completion: nil)
     }
 }
