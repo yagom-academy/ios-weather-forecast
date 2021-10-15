@@ -7,6 +7,14 @@
 
 import UIKit
 
+enum AlertResource: String {
+    case alertTitle = "위치 변경"
+    case alertMessage = "변경할 좌표를 선택해 주세요"
+    case changeButton = "변경"
+    case resetCurrentCoordinateButton = "현재 위치로 재설정"
+    case cancelButton = "취소"
+}
+
 class CustomHeaderView: UITableViewHeaderFooterView {
     static let identifier = "headerView"
     
@@ -53,6 +61,7 @@ class CustomHeaderView: UITableViewHeaderFooterView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("위치 설정", for: .normal)
         button.setTitleColor(.white, for: .normal)
+//        button.isUserInteractionEnabled = true
         button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return button
     }()
@@ -60,6 +69,7 @@ class CustomHeaderView: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setupHeaderView()
+        addTargetCoordinateButton()
         
     }
     
@@ -70,6 +80,14 @@ class CustomHeaderView: UITableViewHeaderFooterView {
 }
 
 extension CustomHeaderView {
+    private func addTargetCoordinateButton() {
+        coordinateButton.addTarget(self, action: #selector(coordinateButtonAction), for: .touchUpInside)
+    }
+    
+    @objc private func coordinateButtonAction() {
+        NotificationCenter.default.post(name: NSNotification.Name("alert"), object: nil)
+    }
+    
     func configurationHeaderView(address: String, minMaxTemperature: String, currentTemperature: String, image: UIImage? = nil) {
         self.addressLabel.text = address
         self.currentTemperatureLabel.text = currentTemperature
