@@ -51,6 +51,8 @@ class threeHourForecastCell: UITableViewCell {
 
 extension threeHourForecastCell {
     func setUp(with fiveDayForecast: FiveDayForecast, of indexPath: IndexPath) {
+        resetContents()
+        
         guard let forecastInfo = fiveDayForecast.list,
               let iconName = forecastInfo[indexPath.row].weather[0].icon else {
             return
@@ -64,6 +66,12 @@ extension threeHourForecastCell {
         if let url = URL(string: iconURL) {
             weatherImageView.loadImage(from: url)
         }
+    }
+    
+    private func resetContents() {
+        dateLabel.text = nil
+        temperatureLabel.text = nil
+        weatherImageView.image = nil
     }
     
     private func configureContents() {
