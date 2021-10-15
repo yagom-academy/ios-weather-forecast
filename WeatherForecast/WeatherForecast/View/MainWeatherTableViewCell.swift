@@ -71,8 +71,8 @@ final class MainWeatherTableViewCell: UITableViewCell {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
-        if let forecastedDate = data.timeOfDataForecasted, let date = dateFormatter.date(from: forecastedDate) {
-            dateFormatter.locale = .current
+        if let forecastedDate = data.timeOfDataForecasted, let date = dateFormatter.date(from: forecastedDate), let preferredLanguage = Locale.preferredLanguages.first {
+            dateFormatter.locale = Locale(identifier: preferredLanguage)
             dateFormatter.setLocalizedDateFormatFromTemplate("MMMMdEHH")
             dateLabel.text = dateFormatter.string(from: date)
         }
