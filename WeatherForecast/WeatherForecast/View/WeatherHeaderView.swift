@@ -20,7 +20,7 @@ class WeatherHeaderView: UICollectionReusableView {
     lazy var maxTemperatureLabel = makeLabel(font: .callout)
     lazy var minTemperatureLabel = makeLabel(font: .callout)
     lazy var temperatureLabel = makeLabel(font: .title1)
-    private var presentLocationSelector: (()-> Void)?
+    var presentLocationSelector: (()-> Void)?
     private lazy var locationSelectButton: UIButton = {
         let locationSelectButton = UIButton()
         locationSelectButton.setTitle("위치설정", for: .normal)

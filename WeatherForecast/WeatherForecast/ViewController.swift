@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     private var currentWeatherHeader = WeatherHeader()
     private var fiveDayWeathers: [FiveDayWeather.List] = []
     private var collecionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    private lazy var alert = initAlert()
     
     private var dataSource: DataSource?
     private var snapshot: NSDiffableDataSourceSnapshot<WeatherHeader, FiveDayWeather.List>?
@@ -31,8 +32,30 @@ class ViewController: UIViewController {
         configureRefreshControl()
     }
     
-    private func initData() {
-        guard let location = locationManager.getGeographicCoordinates() else {
+    private func initAlert() -> UIAlertController {
+        let alert = UIAlertController.makeAlert { alert in
+            let latitude = alert.textFields?[0].text
+            let longitude = alert.textFields?[1].text
+            self.initData(latitude: latitude, longitude: longitude)
+        } resetToCurrentLocationHandler: {
+            self.initData()
+        }
+        return alert
+    }
+    
+    private func initData(latitude: String? = nil, longitude: String? = nil) {
+        var currentLocation: CLLocation?
+        
+        if let latitude = latitude,
+           let latitudeNumber = Double(latitude),
+           let longitude = longitude,
+           let longitudeNumber = Double(longitude) {
+            currentLocation = CLLocation(latitude: latitudeNumber, longitude: longitudeNumber)
+        } else {
+            currentLocation = locationManager.getGeographicCoordinates()
+        }
+        
+        guard let location = currentLocation else {
             return
         }
         
@@ -182,6 +205,11 @@ extension ViewController {
         { headerView, elementKind, indexPath in
             let headerItem = self.dataSource?.snapshot().sectionIdentifiers[indexPath.section]
             headerView.configureContents(from: headerItem)
+            
+            headerView.presentLocationSelector = {
+                self.present(self.alert, animated: true, completion: nil)
+            }
+            
         }
         
         dataSource?.supplementaryViewProvider = { (collecionView, elementKind, indexpath) in
