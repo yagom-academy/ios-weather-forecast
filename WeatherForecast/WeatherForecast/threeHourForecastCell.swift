@@ -69,4 +69,13 @@ extension threeHourForecastCell {
         stackView.addArrangedSubview(temperatureLabel)
         stackView.addArrangedSubview(weatherImageView)
     }
-}
+
+    private func formatDate(of date: Int) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko")
+        formatter.dateFormat = "MM/dd(E) HH시"
+        let date = Date(timeIntervalSince1970: TimeInterval(date))
+        let formattedDate = formatter.string(from: date)
+        
+        return formattedDate
+    }}
