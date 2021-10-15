@@ -26,6 +26,15 @@ enum WeatherAPI {
     private static let appID = WeatherAPI.apiKey
     private static let unit = "metric"
     
+    static func makeImageURL(_ iconName: String) -> URL? {
+        var components = URLComponents()
+        components.scheme = WeatherAPI.scheme
+        components.host = WeatherAPI.host
+        components.path = "/img/w/\(iconName).png"
+        
+        return components.url
+    }
+    
     case current(CurrentData)
     case fiveday(FiveDayData)
     
