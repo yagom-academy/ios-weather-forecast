@@ -55,7 +55,7 @@ class CellHolder {
     }
 }
 
-class FiveDaysForcecastCell: UITableViewCell {
+class FiveDaysForecastCell: UITableViewCell {
     
     func configure(_ holder: CellHolder) {
         self.dateLabel.text = holder.date

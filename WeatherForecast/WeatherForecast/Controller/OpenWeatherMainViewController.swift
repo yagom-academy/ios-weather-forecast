@@ -56,6 +56,7 @@ extension OpenWeatherMainViewController: CLLocationManagerDelegate {
               let longitude = locations.last?.coordinate.longitude else {
             return
         }
+        
         let sessionDelegate = OpenWeatherSessionDelegate()
         let networkManager = WeatherNetworkManager()
         
@@ -95,7 +96,7 @@ extension OpenWeatherMainViewController {
     private func drawTableView() {
         self.view.addSubview(tableView)
         self.tableView.frame = self.view.bounds
-        self.tableView.register(FiveDaysForcecastCell.self, forCellReuseIdentifier: "weatherCell")
+        self.tableView.register(FiveDaysForecastCell.self, forCellReuseIdentifier: "weatherCell")
         self.tableView.cellLayoutMarginsFollowReadableWidth = false
         let iconSize = 40
         self.tableView.rowHeight = CGFloat(iconSize)
