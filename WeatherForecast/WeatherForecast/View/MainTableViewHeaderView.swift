@@ -93,8 +93,15 @@ class MainTableViewHeaderView: UIView {
         currentTemperatureLabel.text = temperature
     }
     
-    func configureIcon(image: String) {
-//        weatherIconImage.image = image
+    func configureIcon(image: UIImage) {
+        weatherIconImage.image = image
+        
+        let height = calculateHeaderHeight()
+        NSLayoutConstraint.activate([
+            weatherIconImage.heightAnchor.constraint(equalToConstant: height),
+            weatherIconImage.widthAnchor.constraint(equalToConstant: height)
+        ])
+        self.layoutIfNeeded()
     }
     
     func calculateHeaderHeight() -> CGFloat {
