@@ -67,6 +67,7 @@ class MainWeatherHeaderView: UIView {
         
         return button
     }()
+    weak var changeLocationDelegate: ChangeLocationDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -127,6 +128,6 @@ class MainWeatherHeaderView: UIView {
     }
     
     @objc private func didTapLocationSettingButton() {
-        
+        changeLocationDelegate?.locationChangeRequested()
     }
 }

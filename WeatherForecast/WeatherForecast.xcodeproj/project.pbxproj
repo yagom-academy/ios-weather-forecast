@@ -35,6 +35,7 @@
 		C96F2EDA27144F1E00004338 /* MainWeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96F2ED927144F1E00004338 /* MainWeatherTableViewCell.swift */; };
 		C96F2EDC2714632800004338 /* MainWeatherTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96F2EDB2714632800004338 /* MainWeatherTableViewDataSource.swift */; };
 		C9D4DB91270C460300EAF3A5 /* AddressManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D4DB90270C460300EAF3A5 /* AddressManager.swift */; };
+		C9D9305227195C8300BDBCF7 /* ChangeLocationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D9305127195C8300BDBCF7 /* ChangeLocationDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 		C96F2ED927144F1E00004338 /* MainWeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWeatherTableViewCell.swift; sourceTree = "<group>"; };
 		C96F2EDB2714632800004338 /* MainWeatherTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWeatherTableViewDataSource.swift; sourceTree = "<group>"; };
 		C9D4DB90270C460300EAF3A5 /* AddressManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressManager.swift; sourceTree = "<group>"; };
+		C9D9305127195C8300BDBCF7 /* ChangeLocationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeLocationDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +227,7 @@
 			children = (
 				C96F2ED927144F1E00004338 /* MainWeatherTableViewCell.swift */,
 				3F14EBB4271478A80090C854 /* MainWeatherHeaderView.swift */,
+				C9D9305127195C8300BDBCF7 /* ChangeLocationDelegate.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				3F14EBB5271478A80090C854 /* MainWeatherHeaderView.swift in Sources */,
 				C91EF6A42702EF880013E3D6 /* City.swift in Sources */,
 				C91EF69E2702E7430013E3D6 /* Clouds.swift in Sources */,
+				C9D9305227195C8300BDBCF7 /* ChangeLocationDelegate.swift in Sources */,
 				C96F2EDC2714632800004338 /* MainWeatherTableViewDataSource.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* MainWeatherViewController.swift in Sources */,
 				C91EF6B127035D330013E3D6 /* WeatherAPI.swift in Sources */,

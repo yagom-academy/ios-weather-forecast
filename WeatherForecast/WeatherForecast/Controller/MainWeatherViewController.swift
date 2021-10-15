@@ -152,6 +152,8 @@ extension MainWeatherViewController {
         
         tableView.dataSource = tableViewDataSource
         tableView.tableHeaderView = headerView
+        
+        headerView.changeLocationDelegate = self
     }
     
     private func setUpRefreshControl() {
@@ -211,5 +213,24 @@ extension MainWeatherViewController {
             return
         }
         locationManager(locationManager, didUpdateLocations: [lastLocation])
+    }
+}
+
+extension MainWeatherViewController: ChangeLocationDelegate {
+    func locationChangeRequested() {
+        showLocationChangeAlert()
+    }
+    
+    private func showLocationChangeAlert() {
+        let alert = UIAlertController(title: "위치변경", message: "변경할 좌표를 선택해주세요", preferredStyle: .alert)
+        let changeAction = UIAlertAction(title: "변경", style: .default, handler: nil)
+        let setCurrentLocationAction = UIAlertAction(title: "현재 위치로 재설정", style: .default, handler: nil)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(changeAction)
+        alert.addAction(setCurrentLocationAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
     }
 }
