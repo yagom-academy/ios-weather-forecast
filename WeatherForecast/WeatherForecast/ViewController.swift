@@ -19,15 +19,15 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        requestCoordinate()
+        locationManager.requestAuthorization { coordinate in
+            self.coordinate = coordinate
+        }
     }
 }
 
 extension ViewController {
     private func requestCoordinate() {
-        locationManager.requestLocation { coordinate in
-            self.coordinate = coordinate
-        }
+        locationManager.requestLocation()
     }
     
     private func fetchWeatherData(on coordinate: CLLocationCoordinate2D) {
