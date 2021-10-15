@@ -25,7 +25,9 @@ extension MainWeatherTableViewDataSource: UITableViewDataSource {
         cell.configure(data: weather)
         cell.iconId = weather.weatherConditionCodes?.last?.iconId
         if let imageId = cell.iconId {
-            NetworkManager.imageRequest(using: imageId) { result in
+            let imageAPI = ImageAPI(imageId: imageId)
+            
+            NetworkManager.imageRequest(using: imageAPI) { result in
                 guard cell.iconId == imageId else {
                     return
                 }

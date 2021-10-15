@@ -178,7 +178,9 @@ extension MainWeatherViewController {
             return
         }
         if let imageId = newInformation.weatherConditionCodes?.last?.iconId {
-            NetworkManager.imageRequest(using: imageId) { [self] result in
+            let imageAPI = ImageAPI(imageId: imageId)
+            
+            NetworkManager.imageRequest(using: imageAPI) { [self] result in
                 DispatchQueue.main.async {
                     switch result {
                     case .failure(_):
