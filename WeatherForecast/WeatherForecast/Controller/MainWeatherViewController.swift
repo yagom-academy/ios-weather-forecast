@@ -222,14 +222,32 @@ extension MainWeatherViewController: ChangeLocationDelegate {
     
     private func showLocationChangeAlert() {
         let alert = UIAlertController(title: "위치변경", message: "변경할 좌표를 선택해주세요", preferredStyle: .alert)
-        let changeAction = UIAlertAction(title: "변경", style: .default, handler: nil)
+        alert.addTextField { latitudeTextField in
+            latitudeTextField.placeholder = "위도"
+            latitudeTextField.keyboardType = .decimalPad
+        }
+        alert.addTextField { longitudeTextField in
+            longitudeTextField.placeholder = "경도"
+            longitudeTextField.keyboardType = .decimalPad
+        }
+        let changeAction = UIAlertAction(title: "변경", style: .default) { [weak self, weak alert] _ in
+            guard let self = self, let alert = alert else {
+                return
+            }
+            if let latitudeText = alert.textFields?.first?.text, let longitudeText = alert.textFields?.last?.text,
+               let latitude = Double(latitudeText), let longitude = Double(longitudeText) {
+                self.locationManager(self.locationManager, didUpdateLocations: [CLLocation(latitude: latitude, longitude: longitude)])
+            }
+        }
         let setCurrentLocationAction = UIAlertAction(title: "현재 위치로 재설정", style: .default, handler: nil)
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
         alert.addAction(changeAction)
-        alert.addAction(setCurrentLocationAction)
+        if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            alert.addAction(setCurrentLocationAction)
+        }
         alert.addAction(cancelAction)
-        
+                
         present(alert, animated: true, completion: nil)
     }
 }
