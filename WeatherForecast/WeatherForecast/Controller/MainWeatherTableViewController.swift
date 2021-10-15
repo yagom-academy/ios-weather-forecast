@@ -42,9 +42,20 @@ class MainWeatherTableViewController: UITableViewController {
         
         weatherDataViewModel.setUpWeatherData {
             DispatchQueue.main.async {
+                self.reloadHeaderView()
                 self.tableView.reloadData()
             }
         }
+    }
+}
+
+extension MainWeatherTableViewController {
+    private func reloadHeaderView() {
+        let range = (min: weatherDataViewModel.currentMinimumTemperature,
+                     max: weatherDataViewModel.currentMaximumTemperature)
+        headerView.configureTexts(weatherDataViewModel.currentAddress,
+                                  temperatureRange: "최소 \(range.min)º 최대 \(range.max)º",
+                                  temperature: "\(weatherDataViewModel.currentTemperature)º")
     }
 }
 

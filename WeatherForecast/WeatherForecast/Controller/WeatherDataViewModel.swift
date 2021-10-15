@@ -10,17 +10,11 @@ import CoreLocation
 class WeatherDataViewModel {
     private var locationService: LocationService
     
-    private(set) var currentAddress: String?
-    private(set) var currentWeatherData: CurrentWeatherData?
-    private var fivedayWeatherData: FiveDayWeatherData? {
-        willSet {
-            guard let listResource = newValue?.intervalWeathers else {
-                NSLog("IntervalWeathers nil")
-                return
-            }
-            intervalWeatherInfos = listResource
-        }
-    }
+    private(set) var currentAddress: String = ""
+    private(set) var currentTemperature: Double = 0
+    private(set) var currentMinimumTemperature: Double = 0
+    private(set) var currentMaximumTemperature: Double = 0
+    private(set) var currentWeatherIconName: String = ""
     private(set) var intervalWeatherInfos: [IntervalWeatherData] = []
     
     init(locationService: LocationService) {
@@ -28,6 +22,7 @@ class WeatherDataViewModel {
     }
 }
 
+// MARK: - 데이터 Set-Up
 extension WeatherDataViewModel {
     func setUpWeatherData(completion: @escaping () -> Void) {
         locationService.requestLocation { location in
@@ -42,15 +37,17 @@ extension WeatherDataViewModel {
 
                 preparingGroup.enter()
                 let currentWeatherAPI = WeatherAPI.current(.geographic(location.coordinate))
-                self.fetchCurrentWeatherData(of: currentWeatherAPI) { decodedData in
-                    self.currentWeatherData = decodedData
+                self.fetchCurrentWeatherData(of: currentWeatherAPI) { currentweather in
+                    self.currentTemperature = currentweather.mainInformation.temperature
+                    self.currentMinimumTemperature = currentweather.mainInformation.minimumTemperature
+                    self.currentMaximumTemperature = currentweather.mainInformation.maximumTemperature
                     preparingGroup.leave()
                 }
 
                 preparingGroup.enter()
                 let fivedayWeatherAPI = WeatherAPI.fiveday(.geographic(location.coordinate))
-                self.fetchFiveDayWeatherData(of: fivedayWeatherAPI) { decodedData in
-                    self.fivedayWeatherData = decodedData
+                self.fetchFiveDayWeatherData(of: fivedayWeatherAPI) { fivedayWeather in
+                    self.intervalWeatherInfos = fivedayWeather.intervalWeathers
                     preparingGroup.leave()
                 }
 
