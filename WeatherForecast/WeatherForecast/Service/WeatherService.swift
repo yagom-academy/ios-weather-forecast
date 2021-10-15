@@ -7,18 +7,24 @@
 
 import CoreLocation
 
-final class WeatherViewModel {
-    var currentData = Observable<CurrentWeather>()
-    var forecastData = Observable<ForecastWeather>()
-    var currentPlacemark: CLPlacemark?
-    var isDataTaskError: Observable<Bool>?
+final class WeatherService {
     
+    var onCompleted: (() -> Void)?
+    var currentImageData: Data? {
+        return currentData?.imageData
+    }
+    
+    private var currentData: CurrentWeather?
+    
+    private var forecastData: ForecastWeather? {
+        didSet {
+            onCompleted?()
+        }
+    }
+    
+    private var currentPlacemark: CLPlacemark?
     private var locationManager = LocationManager()
     private var weatherIconDataCache = NSCache<NSString, NSData>()
-    
-    var numberOfCellCount: Int? {
-        return forecastData.value?.list.count
-    }
     
     init() {
         self.locationManager.delegate = self
@@ -27,7 +33,7 @@ final class WeatherViewModel {
 }
 
 // MARK: - Private Method
-extension WeatherViewModel {
+extension WeatherService {
     private func fetchingWeatherData<T: Decodable>(api: WeatherAPI,
                                                    type: T.Type,
                                                    completion: @escaping (T?, Error?) -> Void) {
@@ -61,8 +67,8 @@ extension WeatherViewModel {
 }
 
 // MARK: - Method
-extension WeatherViewModel {
-   
+extension WeatherService {
+
     func getAddress() -> String {
         guard let country = currentPlacemark?.name,
               let locality = currentPlacemark?.locality else {
@@ -71,31 +77,20 @@ extension WeatherViewModel {
         return locality + " " + country
     }
     
-    func getFormattingTempature(_ tempature: Double?) -> String? {
-        guard let tempature = tempature else {
-            return nil
-        }
-        
-        let numberFormat = NumberFormatter()
-        let minInterDigits = 1
-        let minFractionDigits = 1
-        let maxFractionDigits = 1
-        
-        numberFormat.roundingMode = .floor
-        numberFormat.minimumIntegerDigits = minInterDigits
-        numberFormat.minimumFractionDigits = minFractionDigits
-        numberFormat.maximumFractionDigits = maxFractionDigits
-        
-        let formattingText = numberFormat.string(from: NSNumber(value: tempature))
-
-        return formattingText?.appending("°")
+    func currentWeatherTempature() -> (current: Double?, min: Double?, max: Double?) {
+        let current = currentData?.main
+        return (current: current?.temp, min: current?.tempMin, max: current?.tempMax)
     }
     
     func getCellViewModel(at indexPath: IndexPath) -> ForecastWeather.List? {
-        return forecastData.value?.list[indexPath.row]
+        return forecastData?.list[indexPath.row]
     }
     
-    func getForecastTime(_ timeInterval: TimeInterval?) -> String {
+    func refreshData() {
+        locationManager.requestLocation()
+    }
+    
+    private func getForecastTime(_ timeInterval: TimeInterval?) -> String {
         guard let timeInterval = timeInterval else {
             return ""
         }
@@ -110,14 +105,10 @@ extension WeatherViewModel {
         return formatter.string(from: Date(timeIntervalSince1970: timeInterval))
     }
     
-    func refreshData() {
-        locationManager.requestLocation()
-    }
-    
     func getWeatherIconImage(at indexPath: IndexPath, completion: @escaping (Data) -> Void) {
         
-        guard let icon = forecastData.value?.list[indexPath.row].weather.first?.icon,
-              let cacheKey = forecastData.value?.list[indexPath.row].forecastTime,
+        guard let icon = forecastData?.list[indexPath.row].weather.first?.icon,
+              let cacheKey = forecastData?.list[indexPath.row].forecastTime,
               let url = URL(string: WeatherAPI.icon.url + icon) else {
             return
         }
@@ -142,7 +133,7 @@ extension WeatherViewModel {
 }
 
 // MARK: - LocationManagerDelegate
-extension WeatherViewModel: LocationManagerDelegate {
+extension WeatherService: LocationManagerDelegate {
     func didUpdateLocation(_ location: CLLocation) {
         
         self.locationManager.getAddress { result in
@@ -150,7 +141,6 @@ extension WeatherViewModel: LocationManagerDelegate {
             case .success(let placemark):
                 self.currentPlacemark = placemark
             case .failure(_):
-                self.isDataTaskError?.value = true
                 return
             }
         }
@@ -161,31 +151,29 @@ extension WeatherViewModel: LocationManagerDelegate {
                   let icon = currentWeather.weather.first?.icon,
                   let iconURL = URL(string: WeatherAPI.icon.url + icon),
                   error == nil else {
-                self.isDataTaskError = Observable<Bool>(true)
                 return
             }
             
             NetworkManager().dataTask(url: iconURL) { result in
                 switch result {
                 case .success(let data):
-                    self.currentData.value?.imageData = data
+                    self.currentData?.imageData = data
                 case .failure(_):
-                    self.isDataTaskError = Observable<Bool>(true)
+                    return
                 }
             }
             
-            self.currentData.value = currentWeather
+            self.currentData = currentWeather
         }
         
         fetchingWeatherData(api: WeatherAPI.forecast, type: ForecastWeather.self) { forecastWeather, error in
             
             guard let forecastWeather = forecastWeather,
-                      error == nil else {
-                self.isDataTaskError = Observable<Bool>(true)
+                  error == nil else {
                 return
             }
             
-            self.forecastData.value = forecastWeather
+            self.forecastData = forecastWeather
         }
     }
 }

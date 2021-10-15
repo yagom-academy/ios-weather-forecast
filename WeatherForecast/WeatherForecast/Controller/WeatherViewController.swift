@@ -16,7 +16,7 @@ class WeatherViewController: UIViewController {
         }
     }
     
-    private var weatherModel = WeatherViewModel()
+    private var headerViewModel = WeatherHeaderViewModel()
     private var weatherHeaderView = WeatherHeaderView()
     
     private var weatherTableView: UITableView = {
@@ -37,19 +37,15 @@ class WeatherViewController: UIViewController {
         self.weatherTableView.delegate = self
         self.weatherTableView.dataSource = self
         
-        weatherModel.currentData.bind { [weak self] currentWeather in
+        headerViewModel.onCompleted = { [weak self] in
             guard let self = self else { return }
-            self.bindHeaderView(currentWeather)
-        }
-        
-        weatherModel.isDataTaskError?.bind { [weak self] _ in
-            guard let self = self else { return }
-            self.failureFetchingWeather(error: nil)
-        }
-        
-        weatherModel.forecastData.bind { [weak self] _ in
             DispatchQueue.main.async {
-                self?.weatherTableView.reloadData()
+                self.weatherHeaderView.configureContents(address: self.headerViewModel.address,
+                                                    minTempature: self.headerViewModel.minTempature,
+                                                    maxTempature: self.headerViewModel.maxTempature,
+                                                    currentTempature: self.headerViewModel.currentTempature,
+                                                    iconData: self.headerViewModel.iconData)
+                self.weatherTableView.reloadData()
             }
         }
     }
@@ -76,20 +72,10 @@ extension WeatherViewController {
     }
     
     @objc func updateWeather() {
-        weatherModel.refreshData()
+//        headerViewModel.refreshData()
         weatherTableView.refreshControl?.endRefreshing()
     }
     
-    private func bindHeaderView(_ currentWeather: CurrentWeather?) {
-        guard let mainWeather = currentWeather?.main else { return }
-        DispatchQueue.main.async {
-            self.weatherHeaderView.configureContents(address: self.weatherModel.getAddress(),
-                                                     minTempature: self.weatherModel.getFormattingTempature(mainWeather.tempMin),
-                                                     maxTempature: self.weatherModel.getFormattingTempature(mainWeather.tempMax),
-                                                     currentTempature: self.weatherModel.getFormattingTempature(mainWeather.temp),
-                                                     iconData: currentWeather?.imageData)
-        }
-    }
     
     private func failureFetchingWeather(error: Error?) {
         let alert = UIAlertController.generateErrorAlertController(message: error?.localizedDescription)
@@ -103,7 +89,7 @@ extension WeatherViewController {
 extension WeatherViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return weatherModel.numberOfCellCount ?? .zero
+        return 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -111,18 +97,18 @@ extension WeatherViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let cellViewModel = weatherModel.getCellViewModel(at: indexPath)
-        
-        weatherModel.getWeatherIconImage(at: indexPath) { [weak self] data in
-            DispatchQueue.main.async {
-                let date = self?.weatherModel.getForecastTime(cellViewModel?.forecastTime)
-                let tempature = self?.weatherModel.getFormattingTempature(cellViewModel?.main.temp)
-                
-                cell.configureContents(date: date,
-                                       tempature: tempature,
-                                       weatherImage: UIImage(data: data))
-            }
-        }
+//        let cellViewModel = headerViewModel.getCellViewModel(at: indexPath)
+//
+//        headerViewModel.getWeatherIconImage(at: indexPath) { [weak self] data in
+//            DispatchQueue.main.async {
+//                let date = self?.headerViewModel.getForecastTime(cellViewModel?.forecastTime)
+//                let tempature = self?.weatherModel.getFormattingTempature(cellViewModel?.main.temp)
+//
+//                cell.configureContents(date: date,
+//                                       tempature: tempature,
+//                                       weatherImage: UIImage(data: data))
+//            }
+//        }
         
         return cell
     }
