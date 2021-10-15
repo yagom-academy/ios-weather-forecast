@@ -43,7 +43,7 @@ enum WeatherForecastRoute: Route {
         }
     }
     
-    static func createParameters(latitude: Int, longitude: Int) -> [URLQueryItem] {
+    static func createParameters(latitude: Double, longitude: Double) -> [URLQueryItem] {
         let latitudeQuery = URLQueryItem(name: "lat", value: latitude.description)
         let longitudeQuery = URLQueryItem(name: "lon", value: longitude.description)
         let apiKeyQuery = URLQueryItem(name: "appid", value: apiKey)

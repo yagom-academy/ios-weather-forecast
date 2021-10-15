@@ -8,14 +8,15 @@
 import Foundation
 
 struct FiveDayWeather: Decodable {
-    let cod: String
+    let HTTPStatusCode: String
     let message: Double
     let timestampCount: Int
     let list: [List]
     let city: City
     
     enum CodingKeys: String, CodingKey {
-        case cod, message, list, city
+        case message, list, city
+        case HTTPStatusCode = "cod"
         case timestampCount = "cnt"
     }
     

@@ -11,7 +11,7 @@ enum ParsingError: LocalizedError {
     case dataConvertError
     case decodingError
     
-    var errorDescription: String {
+    var errorDescription: String? {
         switch self {
         case .dataConvertError:
             return "Data 타입으로 변환 중 문제가 발생하였습니다."

@@ -13,16 +13,22 @@ struct NetworkManager {
     init(networkable: Networkable = NetworkModule()) {
         self.networkable = networkable
     }
+    
     mutating func request(with route: Route,
                           queryItems: [URLQueryItem]?,
-                          header: [String: String]?,
-                          bodyParameters: [String: Any]?,
+                          header: [String: String]? = nil,
+                          bodyParameters: [String: Any]? = nil,
                           httpMethod: HTTPMethod,
                           requestType: URLRequestTask,
                           completionHandler: @escaping (Result<Data, Error>) -> Void)
     {
         
-        guard let urlRequest = requestType.buildRequest(route: route, queryItems: queryItems, header: header, bodyParameters: bodyParameters, httpMethod: httpMethod) else {
+        guard let urlRequest = requestType.buildRequest(route: route,
+                                                        queryItems: queryItems,
+                                                        header: header,
+                                                        bodyParameters: bodyParameters,
+                                                        httpMethod: httpMethod)
+        else {
             completionHandler(.failure(NetworkError.invalidURL))
             return
         }
