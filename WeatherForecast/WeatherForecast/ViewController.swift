@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     private var address: [CLPlacemark]? = []
     private var locationManager = CLLocationManager()
     private var weatherTableView = UITableView()
+    private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +24,7 @@ class ViewController: UIViewController {
         locationManager.startMonitoringSignificantLocationChanges()
         setBackgroundImage()
         setUpTableView()
+        setRefreshControl()
     }
 }
 
@@ -69,6 +71,8 @@ extension ViewController: CLLocationManagerDelegate {
         geoCoder.reverseGeocodeLocation(location, preferredLocale: locale) { placemarks, error in
             self.address = placemarks
         }
+        
+        locationManager.stopUpdatingLocation()
     }
 }
 
@@ -103,6 +107,16 @@ extension ViewController {
           imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
           imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+    }
+    
+    private func setRefreshControl() {
+        weatherTableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshWeatherData(_:)), for: .valueChanged)
+    }
+    
+    @objc private func refreshWeatherData(_ sender: UIRefreshControl) {
+        locationManager.startUpdatingLocation()
+        sender.endRefreshing()
     }
     
     private func fetchCurrentWeather(latitude: Double, longitude: Double) {
