@@ -76,11 +76,9 @@ extension MainWeatherTableViewController {
         }
         let intervalData = weatherDataViewModel.intervalWeatherInfos[indexPath.row]
         let date = dateFormatter.string(from: Date(timeIntervalSince1970: intervalData.date))
-        
-        print(#function)
-        cell.configure(date,
-                       temperature: "\(intervalData.mainInformation.temperature)º",
-                       image: intervalData.conditions.last!.iconName)
+//        cell.separatorInset = UIEdgeInsets.zero
+        cell.configureTexts(date,
+                       temperature: "\(intervalData.mainInformation.temperature)º")
         
         return cell
     }

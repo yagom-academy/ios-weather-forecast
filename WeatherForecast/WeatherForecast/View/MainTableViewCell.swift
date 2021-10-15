@@ -20,7 +20,6 @@ class MainTableViewCell: UITableViewCell {
         let label = UILabel()
         label.tintColor = .label
         label.font = .preferredFont(forTextStyle: .body)
-        label.text = "1"
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return label
     }()
@@ -35,11 +34,6 @@ class MainTableViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

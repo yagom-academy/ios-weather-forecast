@@ -31,14 +31,13 @@ class LocationService: NSObject {
 extension LocationService: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        print(#function)
         switch status {
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .restricted, .denied:
-            print("restricted, denied")
+            print("\(#function) - restricted, denied")
         default:
-            print("default")
+            print("\(#function) - default")
         }
     }
     
