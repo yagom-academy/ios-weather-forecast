@@ -27,37 +27,43 @@ class MainTableViewCell: UITableViewCell {
         let label = UILabel()
         label.tintColor = .label
         label.font = .preferredFont(forTextStyle: .body)
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return label
     }()
     private var weatherIconImage: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return imageView
     }()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .clear
-        self.translatesAutoresizingMaskIntoConstraints = false
-        
+        setUpViewLayout()
+        setUpConstraints()
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setUpViewLayout() {
         containView.addArrangedSubview(dateLabel)
         containView.addArrangedSubview(temperatureLabel)
         containView.addArrangedSubview(weatherIconImage)
         
         self.contentView.addSubview(containView)
+    }
+    
+    private func setUpConstraints() {
+        self.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            weatherIconImage.heightAnchor.constraint(equalToConstant: 30),
-            weatherIconImage.widthAnchor.constraint(equalToConstant: 30),
-            
             containView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8.0),
-            containView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 8.0),
-            containView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: 8.0)
-//            containView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 8.0)
+            containView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8.0),
+            containView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -8.0)
         ])
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     override func prepareForReuse() {

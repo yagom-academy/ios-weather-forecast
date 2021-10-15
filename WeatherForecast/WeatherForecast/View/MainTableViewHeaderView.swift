@@ -55,31 +55,36 @@ class MainTableViewHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .clear
-        self.translatesAutoresizingMaskIntoConstraints = false
-        
+        setUpViewLayout()
+        setUpConstraints()
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setUpViewLayout() {
         currentDataStackView.addArrangedSubview(addressLabel)
         currentDataStackView.addArrangedSubview(temperatureRangeLabel)
         currentDataStackView.addArrangedSubview(currentTemperatureLabel)
         
         self.addSubview(currentDataStackView)
-        
-        containView.addArrangedSubview(currentDataStackView)
+    
         containView.addArrangedSubview(weatherIconImage)
+        containView.addArrangedSubview(currentDataStackView)
         
         self.addSubview(containView)
+    }
+    
+    private func setUpConstraints() {
+        self.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            weatherIconImage.heightAnchor.constraint(greaterThanOrEqualToConstant: 50),
-            weatherIconImage.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
-            
             containView.topAnchor.constraint(equalTo: self.topAnchor),
             containView.leftAnchor.constraint(equalTo: self.leftAnchor),
             containView.rightAnchor.constraint(equalTo: self.rightAnchor),
             containView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.layoutIfNeeded()
     }
     
     func configureTexts(_ address: String, temperatureRange: String, temperature: String) {
