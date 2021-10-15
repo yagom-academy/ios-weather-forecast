@@ -188,6 +188,7 @@
 		C79C8D0925ADDDF400EEE3F1 /* WeatherForecastTests */ = {
 			isa = PBXGroup;
 			children = (
+				D11498082719090800918623 /* Mock */,
 				C79C8D0A25ADDDF400EEE3F1 /* WeatherForecastTests.swift */,
 				C79C8D0C25ADDDF400EEE3F1 /* Info.plist */,
 			);
@@ -213,6 +214,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D11498082719090800918623 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				63B33CE4270AAC8D00B438C9 /* sampleOfCurrent.json */,
+				63B33CE5270AAC8D00B438C9 /* sampleOfWeek.json */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
 		D1658EEA2713F0C20035CDCC /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -233,8 +243,6 @@
 		D1658EF22713F4640035CDCC /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
-				63B33CE4270AAC8D00B438C9 /* sampleOfCurrent.json */,
-				63B33CE5270AAC8D00B438C9 /* sampleOfWeek.json */,
 				C79C8CFC25ADDDF300EEE3F1 /* Assets.xcassets */,
 				C79C8CFE25ADDDF300EEE3F1 /* LaunchScreen.storyboard */,
 				C79C8D0125ADDDF300EEE3F1 /* Info.plist */,
