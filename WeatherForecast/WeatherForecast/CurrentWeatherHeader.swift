@@ -120,9 +120,14 @@ extension CurrentWeatherHeader {
     private func configureHorizontalStackView() {
         horizontalStackView.addArrangedSubview(weatherImageView)
         horizontalStackView.addArrangedSubview(verticalStackView)
-        weatherImageView.widthAnchor.constraint(equalTo: horizontalStackView.widthAnchor,
-                                                multiplier: 0.25).isActive = true
-        weatherImageView.heightAnchor.constraint(equalTo: horizontalStackView.heightAnchor).isActive = true
+        
+        NSLayoutConstraint.activate([
+            weatherImageView.widthAnchor.constraint(equalTo: horizontalStackView.widthAnchor,
+                                                    multiplier: 0.25),
+            weatherImageView.heightAnchor.constraint(equalTo: horizontalStackView.heightAnchor),
+            weatherImageView.leadingAnchor.constraint(equalTo: horizontalStackView.leadingAnchor,
+                                                      constant: 10)
+        ])
     }
     
     private func convertToCelsius(from kelvin: Double) -> Double {

@@ -96,6 +96,8 @@ extension threeHourForecastCell {
     private func configureStackView() {
         stackView.addArrangedSubview(temperatureLabel)
         stackView.addArrangedSubview(weatherImageView)
+        
+        weatherImageView.heightAnchor.constraint(equalToConstant: 10).isActive = true
     }
     
     private func formatDate(of date: Int) -> String {
