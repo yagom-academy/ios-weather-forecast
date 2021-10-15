@@ -105,11 +105,10 @@
 		436B3DA027031CE70069B3AA /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A8570E772719187300C2EF01 /* Extension */,
-				A86E0D0827145B5400822E96 /* FiveDaysForecastCell.swift */,
-				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
-				C79C8CFE25ADDDF300EEE3F1 /* LaunchScreen.storyboard */,
 				A8570E752717C0E300C2EF01 /* ImageLoader.swift */,
+				A818BB25271983FE007C4350 /* Cell */,
+				A818BB24271983EB007C4350 /* StoryBoard */,
+				A8570E772719187300C2EF01 /* Extension */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -138,6 +137,39 @@
 				A84D4759270315A9002C1324 /* WeatherNetworkManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		A818BB22271983C3007C4350 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				A86E0D0C2714723100822E96 /* WeatherTableViewDataSource.swift */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
+		A818BB23271983D9007C4350 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				435D6425270C151F008BE703 /* LocationManager.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		A818BB24271983EB007C4350 /* StoryBoard */ = {
+			isa = PBXGroup;
+			children = (
+				C79C8CFE25ADDDF300EEE3F1 /* LaunchScreen.storyboard */,
+				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
+			);
+			path = StoryBoard;
+			sourceTree = "<group>";
+		};
+		A818BB25271983FE007C4350 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				A86E0D0827145B5400822E96 /* FiveDaysForecastCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		A824B894270452DE009F9193 /* Decoding */ = {
@@ -187,10 +219,10 @@
 		A86E0D0327144A2C00822E96 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				435D6425270C151F008BE703 /* LocationManager.swift */,
+				A818BB23271983D9007C4350 /* Location */,
+				A818BB22271983C3007C4350 /* TableView */,
 				C79C8CF725ADDDF200EEE3F1 /* OpenWeatherMainViewController.swift */,
 				A8570E6D2716887C00C2EF01 /* OpenWeatherSessionDelegate.swift */,
-				A86E0D0C2714723100822E96 /* WeatherTableViewDataSource.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

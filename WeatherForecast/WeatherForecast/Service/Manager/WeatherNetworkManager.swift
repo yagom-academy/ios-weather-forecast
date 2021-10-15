@@ -27,7 +27,6 @@ enum PathOptions {
     var paths: [String] {
         switch self {
         case .forecast:
-            print(Paths.twoPointFive.rawValue)
             return ["\(Paths.data)", "\(Paths.twoPointFive.rawValue)", "\(Paths.forecast)"]
         case .current:
             return ["\(Paths.data)", "\(Paths.twoPointFive)", "\(Paths.current)"]
@@ -48,7 +47,7 @@ final class WeatherNetworkManager {
                            requestPurpose: requestPurpose)
         router.request(api, session)
     }
-
+    
     private func buildApi(location: Location?,
                           requestPurpose: RequestPurpose) -> OpenWeatherAPI {
         let query = maekQueryItems(requestPurpose, location)

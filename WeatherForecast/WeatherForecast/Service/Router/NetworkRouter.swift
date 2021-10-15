@@ -21,7 +21,6 @@ final class Router<EndPointType: EndPoint>: NetworkRouter {
         do {
             let request = try self.buildRequest(from: route)
             task = session.dataTask(with: request)
-            print(request.url)
             self.task?.resume()
         } catch {
             print(error)
@@ -33,45 +32,48 @@ final class Router<EndPointType: EndPoint>: NetworkRouter {
     }
     
     private func buildRequest(from route: EndPointType) throws -> URLRequest {
-        guard let url = self.generateBaseURL(route.requestPurpose),
-              var urlComponents = URLComponents(url: url,
-                                                resolvingAgainstBaseURL: false) else {
+        guard let url = self.generateBaseURL(route.requestPurpose) else {
             throw NetworkError.invalidURL
         }
-     
+        var request = URLRequest(url: url)
+        
         switch route.urlElements {
         case .with(let query, and: let path):
-            insert(pathComponents: path, to: &urlComponents)
-            insert(queryItems: query, to: &urlComponents)
+            insert(pathComponents: path, to: &request)
+            insert(queryItems: query, to: &request)
         }
-        
-        guard let url = urlComponents.url else {
-            throw NetworkError.invalidURL
-        }
-        
-        return URLRequest(url: url)
+
+        return request
     }
     
     private func insert(queryItems: QueryItems?,
-                        to urlComponents: inout URLComponents) {
-        guard let queryItems = queryItems else {
+                        to urlRequest: inout URLRequest) {
+        guard let queryItems = queryItems,
+              let url = urlRequest.url,
+              var urlComponents = URLComponents(
+                url: url,
+                resolvingAgainstBaseURL: false) else {
             return
         }
+    
+        urlComponents.queryItems = [URLQueryItem]()
         
         for (key, value) in queryItems {
             let queryItem = URLQueryItem(name: key, value: "\(value)")
             urlComponents.queryItems?.append(queryItem)
         }
+        
+        urlRequest.url = urlComponents.url
     }
     
     private func insert(pathComponents: PathComponents?,
-                        to urlComponents: inout URLComponents) {
+                        to urlRequest: inout URLRequest) {
         guard let pathComponents = pathComponents else {
             return
         }
         
-        for key in pathComponents {
-            urlComponents.path.appending(key)
+        for component in pathComponents {
+            urlRequest.url?.appendPathComponent(component)
         }
     }
     

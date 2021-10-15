@@ -36,7 +36,6 @@ final class OpenWeatherSessionDelegate: NSObject, URLSessionDataDelegate {
             NotificationCenter.default.post(name: .reloadTableView,
                                             object: nil)
         }
-
         
         completionHandler(proposedResponse)
     }
