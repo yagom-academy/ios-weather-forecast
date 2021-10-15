@@ -15,7 +15,6 @@ class ViewController: UIViewController {
     private var address: [CLPlacemark]? = []
     private var locationManager = CLLocationManager()
     private var weatherTableView = UITableView()
-    private let cellIdentifier = "ForecastCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,11 +27,17 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return fiveDayForecast?.list?.count ?? .zero
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+        guard let cell = weatherTableView.dequeueReusableCell(withIdentifier: threeHourForecastCell.cellIdentifier, for: indexPath) as? threeHourForecastCell else {
+            return UITableViewCell()
+        }
+        if let fiveDayForercast = fiveDayForecast {
+            cell.setUp(with: fiveDayForercast, of: indexPath)
+        }
+        
         return cell
     }
 }
@@ -71,7 +76,7 @@ extension ViewController {
         view.backgroundColor = .white
         weatherTableView.dataSource = self
         weatherTableView.delegate = self
-        weatherTableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        weatherTableView.register(threeHourForecastCell.self, forCellReuseIdentifier: threeHourForecastCell.cellIdentifier)
         weatherTableView.register(CurrentWeatherHeader.self,
                                   forHeaderFooterViewReuseIdentifier: CurrentWeatherHeader.headerIdentifier)
         weatherTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -111,6 +116,9 @@ extension ViewController {
                 switch decodedData {
                 case .success(let modelType):
                     self.fiveDayForecast = modelType
+                    DispatchQueue.main.async {
+                        self.weatherTableView.reloadData()
+                    }
                 case .failure(let error):
                     print(error)
                 }

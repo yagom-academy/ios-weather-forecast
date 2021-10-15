@@ -33,19 +33,35 @@ class threeHourForecastCell: UITableViewCell {
         stackView.spacing = 5
         return stackView
     }()
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureContents()
         configureStackView()
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
 extension threeHourForecastCell {
+    func setUp(with fiveDayForecast: FiveDayForecast, of indexPath: IndexPath) {
+        guard let forecastInfo = fiveDayForecast.list,
+              let iconName = forecastInfo[indexPath.row].weather[0].icon else {
+            return
+        }
+        let date = formatDate(of: forecastInfo[indexPath.row].dt)
+        let temperature = convertToCelsius(from: forecastInfo[indexPath.row].main.temp).description
+        let iconURL = "https://openweathermap.org/img/w/\(iconName).png"
+        
+        dateLabel.text = date
+        temperatureLabel.text = temperature + "°"
+        if let url = URL(string: iconURL) {
+            weatherImageView.loadImage(from: url)
+        }
+    }
+    
     private func configureContents() {
         contentView.addSubview(dateLabel)
         contentView.addSubview(stackView)
@@ -69,7 +85,7 @@ extension threeHourForecastCell {
         stackView.addArrangedSubview(temperatureLabel)
         stackView.addArrangedSubview(weatherImageView)
     }
-
+    
     private func formatDate(of date: Int) -> String {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko")
@@ -78,4 +94,10 @@ extension threeHourForecastCell {
         let formattedDate = formatter.string(from: date)
         
         return formattedDate
-    }}
+    }
+    
+    private func convertToCelsius(from kelvin: Double) -> Double {
+        let celsius = round(kelvin - 273.15)
+        return celsius
+    }
+}
