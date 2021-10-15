@@ -99,16 +99,19 @@ extension CurrentWeatherHeader {
             horizontalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             horizontalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
+        
+        locationLabel.translatesAutoresizingMaskIntoConstraints = false
+        minMaxTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
+        currentTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
+        weatherImageView.translatesAutoresizingMaskIntoConstraints = false
+        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
+        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func configureVerticalStackView() {
         verticalStackView.addArrangedSubview(locationLabel)
         verticalStackView.addArrangedSubview(minMaxTemperatureLabel)
         verticalStackView.addArrangedSubview(currentTemperatureLabel)
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
-        locationLabel.translatesAutoresizingMaskIntoConstraints = false
-        minMaxTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
-        currentTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func configureHorizontalStackView() {
@@ -117,8 +120,6 @@ extension CurrentWeatherHeader {
         weatherImageView.widthAnchor.constraint(equalTo: horizontalStackView.widthAnchor,
                                                 multiplier: 0.25).isActive = true
         weatherImageView.heightAnchor.constraint(equalTo: horizontalStackView.heightAnchor).isActive = true
-        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
-        weatherImageView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func convertToCelsius(from kelvin: Double) -> Double {
