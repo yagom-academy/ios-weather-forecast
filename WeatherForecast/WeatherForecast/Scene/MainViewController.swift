@@ -96,11 +96,10 @@ extension MainViewController {
             location,
             preferredLocale: Locale(identifier: "ko_KR")
         ) { (placemarks, error) in
-            if error != nil {
-                return
-            }
-            guard let placemark = placemarks?.first
+            guard error == nil,
+                  let placemark = placemarks?.first
             else { return }
+            
             completion(placemark)
         }
     }
