@@ -176,7 +176,6 @@
 			isa = PBXGroup;
 			children = (
 				D1A005A127152C450096C8BD /* Location */,
-				D1A0059E27144B790096C8BD /* Util */,
 				63B10ABF2705DBBF0040EC8B /* Network */,
 				F95147092702F0C000A7AC28 /* Model */,
 				D1658EF12713F3A40035CDCC /* Entry */,
@@ -250,13 +249,6 @@
 				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
 			);
 			path = Scene;
-			sourceTree = "<group>";
-		};
-		D1A0059E27144B790096C8BD /* Util */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Util;
 			sourceTree = "<group>";
 		};
 		D1A005A127152C450096C8BD /* Location */ = {
