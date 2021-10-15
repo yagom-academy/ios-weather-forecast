@@ -13,7 +13,7 @@ class WeatherTableviewDataSource: NSObject, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "weatherCell", for: indexPath) as? FiveDaysForecastCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: FiveDaysForecastCell.identifier, for: indexPath) as? FiveDaysForecastCell else {
             return UITableViewCell()
         }
         

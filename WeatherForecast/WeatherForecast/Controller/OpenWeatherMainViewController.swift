@@ -13,22 +13,6 @@ final class OpenWeatherMainViewController: UIViewController {
     
     private let tableViewDataSource = WeatherTableviewDataSource()
     private let tableView = UITableView()
-    private lazy var address: String = {
-        let location = CLLocation(latitude: self.location.latitude, longitude: self.location.longitude)
-        let geoCoder = CLGeocoder()
-        let locale = Locale(identifier: "Ko-kr")
-        geoCoder.reverseGeocodeLocation(location, preferredLocale: locale) { placeMarks, error in
-            guard error == nil else {
-                return
-            }
-            
-            guard let addresses = placeMarks,
-                  let address = addresses.last?.name else {
-                return
-            }
-        }
-        return address
-    }()
     
     //MARK: - View's Life Cycle
     override func viewDidLoad() {
@@ -52,6 +36,7 @@ final class OpenWeatherMainViewController: UIViewController {
             self.tableView.dataSource = self.tableViewDataSource
             self.tableView.reloadData()
         }
+        
     }
     
     deinit {
@@ -71,9 +56,15 @@ extension OpenWeatherMainViewController: CLLocationManagerDelegate {
         let sessionDelegate = OpenWeatherSessionDelegate()
         let networkManager = WeatherNetworkManager()
         
+        
+        networkManager.fetchOpenWeatherData(latitudeAndLongitude: location,
+                                            requestPurpose: .currentWeather,
+                                            sessionDelegate.session)
+        
         networkManager.fetchOpenWeatherData(latitudeAndLongitude: location,
                                             requestPurpose: .forecast,
                                             sessionDelegate.session)
+        
     }
     
     func locationManager(_ manager: CLLocationManager,

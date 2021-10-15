@@ -109,7 +109,6 @@
 		436B3DA027031CE70069B3AA /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A818BB2627199BAD007C4350 /* OpenWeatherHeaderView.swift */,
 				A818BB25271983FE007C4350 /* Cell */,
 				A818BB24271983EB007C4350 /* StoryBoard */,
 				A8570E772719187300C2EF01 /* Extension */,
@@ -149,6 +148,7 @@
 			children = (
 				A86E0D0C2714723100822E96 /* WeatherTableViewDataSource.swift */,
 				A818BB282719A339007C4350 /* WeatherTableViewDelegate.swift */,
+				A818BB2627199BAD007C4350 /* OpenWeatherHeaderView.swift */,
 			);
 			path = TableView;
 			sourceTree = "<group>";
