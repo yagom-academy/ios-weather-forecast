@@ -83,8 +83,6 @@ final class Router<EndPointType: EndPoint>: NetworkRouter {
         switch purpose {
         case .currentWeather, .forecast:
             urlDescription = "https://api.openweathermap.org"
-        case .weatherIconImage:
-            urlDescription = "https://openweathermap.org"
         }
         
         guard let url = URL(string: urlDescription) else {

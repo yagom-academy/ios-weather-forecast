@@ -8,5 +8,5 @@
 import Foundation
 
 enum RequestPurpose {
-    case forecast, currentWeather, weatherIconImage
+    case forecast, currentWeather
 }

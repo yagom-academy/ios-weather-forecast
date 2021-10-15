@@ -13,7 +13,6 @@ typealias Location = (latitude: CLLocationDegrees, longitude: CLLocationDegrees)
 enum PathOptions {
     case current
     case forecast
-    case weatherIcon
     
     enum Paths: String {
         case data = "data"
@@ -30,8 +29,6 @@ enum PathOptions {
             return ["\(Paths.data)", "\(Paths.twoPointFive.rawValue)", "\(Paths.forecast)"]
         case .current:
             return ["\(Paths.data)", "\(Paths.twoPointFive)", "\(Paths.current)"]
-        case .weatherIcon:
-            return ["\(Paths.img)", "\(Paths.w)"]
         }
     }
 }
@@ -69,9 +66,6 @@ final class WeatherNetworkManager {
             return ["lat": location.latitude ,
                     "lon": location.longitude,
                     "appid": self.apiKey]
-            
-        case .weatherIconImage:
-            return nil
         }
     }
     
@@ -81,8 +75,6 @@ final class WeatherNetworkManager {
             return PathOptions.current.paths
         case .forecast:
             return PathOptions.forecast.paths
-        case .weatherIconImage:
-            return PathOptions.weatherIcon.paths
         }
     }
 }

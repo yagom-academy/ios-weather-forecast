@@ -29,6 +29,7 @@ final class OpenWeatherMainViewController: UIViewController {
         }
         return address
     }()
+    
     //MARK: - View's Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()

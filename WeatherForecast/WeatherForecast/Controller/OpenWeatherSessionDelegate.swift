@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit.UIImage
 
 extension Notification.Name {
     static let reloadTableView = Notification.Name("reload TableView")
@@ -50,7 +51,6 @@ class WeatherDataHolder {
     private init() { }
     
     func generate(_ path: String, _ data: Data) {
-        
         switch path {
         case PathOptions.Paths.forecast.rawValue:
             do {
@@ -67,6 +67,7 @@ class WeatherDataHolder {
             } catch {
                 print(error)
             }
+            
         default:
             print("")
         }
