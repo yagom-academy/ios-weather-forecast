@@ -39,6 +39,14 @@ class MainWeatherTableViewController: UITableViewController {
                                                   y: 0,
                                                   width: view.bounds.width,
                                                   height: headerView.calculateHeaderHeight())
+        switch self.traitCollection.userInterfaceStyle {
+        case .light, .unspecified:
+            tableView.separatorColor = .black
+        case .dark:
+            tableView.separatorColor = .white
+        @unknown default:
+            fatalError("\(#function) - 기본 설정 값 읽어오기 에러")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,9 +65,11 @@ extension MainWeatherTableViewController {
     private func reloadHeaderView() {
         let range = (min: weatherDataViewModel.currentMinimumTemperature,
                      max: weatherDataViewModel.currentMaximumTemperature)
+        
         headerView.configureTexts(weatherDataViewModel.currentAddress,
                                   temperatureRange: "최소 \(range.min)º 최대 \(range.max)º",
                                   temperature: "\(weatherDataViewModel.currentTemperature)º")
+        
         let iconName = weatherDataViewModel.currentWeatherIconName
         
         if let cachedImage = imageLoader.fetchCachedData(key: iconName) {
