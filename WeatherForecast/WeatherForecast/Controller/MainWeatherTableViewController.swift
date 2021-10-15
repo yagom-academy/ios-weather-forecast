@@ -10,6 +10,7 @@ class MainWeatherTableViewController: UITableViewController {
     private let weatherDataViewModel: WeatherDataViewModel
     private let headerView: MainTableViewHeaderView = MainTableViewHeaderView()
     
+    let imageLoader: ImageLoader = ImageLoader(imageCacher: NSCache<NSString, UIImage>())
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko-KR")
@@ -76,10 +77,22 @@ extension MainWeatherTableViewController {
         }
         let intervalData = weatherDataViewModel.intervalWeatherInfos[indexPath.row]
         let date = dateFormatter.string(from: Date(timeIntervalSince1970: intervalData.date))
-//        cell.separatorInset = UIEdgeInsets.zero
+        let iconName = intervalData.conditions[0].iconName
         cell.configureTexts(date,
-                       temperature: "\(intervalData.mainInformation.temperature)º")
+                            temperature: "\(intervalData.mainInformation.temperature)º")
         
+        if let cachedImage = imageLoader.fetchCachedData(key: iconName) {
+            cell.configureIcon(image: cachedImage)
+        } else {
+            if let imageUrl = WeatherAPI.makeImageURL(iconName) {
+                imageLoader.imageFetch(url: imageUrl) { image in
+                    DispatchQueue.main.async {
+                        cell.configureIcon(image: image)
+                        self.imageLoader.cacheData(key: iconName, data: image)
+                    }
+                }
+            }
+        }
         return cell
     }
 }

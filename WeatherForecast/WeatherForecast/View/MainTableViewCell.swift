@@ -60,12 +60,17 @@ class MainTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        weatherIconImage.image = nil
+    }
+    
     func configureTexts(_ date: String, temperature: String) {
         dateLabel.text = date
         temperatureLabel.text = temperature
     }
     
-    func configureIcon(image: String) {
-//        weatherIconImage.image = image
+    func configureIcon(image: UIImage) {
+        weatherIconImage.image = image
     }
 }
