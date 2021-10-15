@@ -20,15 +20,17 @@ class WeatherForecastTests: XCTestCase {
         }
         let sut = LocationManager(locationManager: mockLocationManager)
         let expectation = XCTestExpectation()
-        // then
+        var currentLocation: CLLocation?
+        
         sut.getUserLocation { location in
             expectation.fulfill()
-            XCTAssertEqual(location.coordinate.latitude,
-                           expectLocation.coordinate.latitude)
-            XCTAssertEqual(location.coordinate.longitude,
-                           expectLocation.coordinate.longitude)
+            currentLocation = location
         }
         wait(for: [expectation], timeout: 2)
+        // then
+        XCTAssertEqual(currentLocation?.coordinate.latitude,
+                       expectLocation.coordinate.latitude)
+        XCTAssertEqual(currentLocation?.coordinate.longitude,
+                       expectLocation.coordinate.longitude)
     }
-    
 }
