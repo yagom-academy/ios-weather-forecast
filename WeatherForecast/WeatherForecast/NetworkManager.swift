@@ -16,7 +16,7 @@ class NetworkManager<T: TargetType> {
         self.session = session
     }
     
-    func request(_ request: TargetType, completion: @escaping SessionResult) {
+    func request(_ request: T, completion: @escaping SessionResult) {
         guard let urlRequest = request.configure() else {
             completion(.failure(.invalidURL))
             return

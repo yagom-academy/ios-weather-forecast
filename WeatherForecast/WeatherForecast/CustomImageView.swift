@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CustomImageVieew: UIImageView {
+final class CustomImageView: UIImageView {
     var task: URLSessionDataTask!
     
     func loadImage(from url: URL) {

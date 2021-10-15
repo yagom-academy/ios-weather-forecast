@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         locationManager.startMonitoringSignificantLocationChanges()
         setBackgroundImage()
         setUpTableView()
+        setUpLayouts()
         setRefreshControl()
     }
 }
@@ -34,7 +35,7 @@ extension ViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = weatherTableView.dequeueReusableCell(withIdentifier: threeHourForecastCell.cellIdentifier, for: indexPath) as? threeHourForecastCell else {
+        guard let cell = weatherTableView.dequeueReusableCell(withIdentifier: ThreeHourForecastCell.cellIdentifier, for: indexPath) as? ThreeHourForecastCell else {
             return UITableViewCell()
         }
         if let fiveDayForercast = fiveDayForecast {
@@ -48,11 +49,12 @@ extension ViewController: UITableViewDataSource {
 
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = weatherTableView.dequeueReusableHeaderFooterView(withIdentifier: CurrentWeatherHeader.headerIdentifier) as! CurrentWeatherHeader
-        guard let currentWeather = currentWeather else {
+        guard let view = weatherTableView.dequeueReusableHeaderFooterView(withIdentifier: CurrentWeatherHeader.headerIdentifier) as? CurrentWeatherHeader else {
             return UIView()
         }
-        view.setUp(with: currentWeather, address)
+        if let currentWeather = currentWeather {
+            view.setUp(with: currentWeather, address)
+        }
         
         return view
     }
@@ -83,10 +85,14 @@ extension ViewController {
         weatherTableView.backgroundColor = UIColor.clear
         weatherTableView.dataSource = self
         weatherTableView.delegate = self
-        weatherTableView.register(threeHourForecastCell.self, forCellReuseIdentifier: threeHourForecastCell.cellIdentifier)
+        weatherTableView.register(ThreeHourForecastCell.self, forCellReuseIdentifier: ThreeHourForecastCell.cellIdentifier)
         weatherTableView.register(CurrentWeatherHeader.self,
                                   forHeaderFooterViewReuseIdentifier: CurrentWeatherHeader.headerIdentifier)
+    }
+    
+    private func setUpLayouts() {
         weatherTableView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             weatherTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             weatherTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),

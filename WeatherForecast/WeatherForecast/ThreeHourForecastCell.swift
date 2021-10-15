@@ -7,7 +7,7 @@
 
 import UIKit
 
-class threeHourForecastCell: UITableViewCell {
+class ThreeHourForecastCell: UITableViewCell {
     static let cellIdentifier = "\(self)"
     
     private let dateLabel: UILabel = {
@@ -22,8 +22,8 @@ class threeHourForecastCell: UITableViewCell {
         return label
     }()
     
-    private let weatherImageView: CustomImageVieew = {
-        let imageView = CustomImageVieew()
+    private let weatherImageView: CustomImageView = {
+        let imageView = CustomImageView()
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -49,7 +49,7 @@ class threeHourForecastCell: UITableViewCell {
     }
 }
 
-extension threeHourForecastCell {
+extension ThreeHourForecastCell {
     func setUp(with fiveDayForecast: FiveDayForecast, of indexPath: IndexPath) {
         resetContents()
         

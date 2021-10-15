@@ -11,8 +11,8 @@ import CoreLocation
 class CurrentWeatherHeader: UITableViewHeaderFooterView {
     static let headerIdentifier = "\(self)"
     
-    private let weatherImageView: CustomImageVieew = {
-        let imageView = CustomImageVieew()
+    private let weatherImageView: CustomImageView = {
+        let imageView = CustomImageView()
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -76,7 +76,7 @@ extension CurrentWeatherHeader {
               let tempMax = currentWeather.main.tempMax else {
                   return
         }
-        let minimunTemperature = convertToCelsius(from: tempMin)
+        let minimumTemperature = convertToCelsius(from: tempMin)
         let maximumTemperature = convertToCelsius(from: tempMax)
         let currentTemperature = convertToCelsius(from: currentWeather.main.temp)
         let iconURL = "https://openweathermap.org/img/w/\(iconName).png"
@@ -88,7 +88,7 @@ extension CurrentWeatherHeader {
            let district = address.locality {
             locationLabel.text = "\(city) \(district)"
         }
-        minMaxTemperatureLabel.text = "최저 \(minimunTemperature)° 최고 \(maximumTemperature)°"
+        minMaxTemperatureLabel.text = "최저 \(minimumTemperature)° 최고 \(maximumTemperature)°"
         currentTemperatureLabel.text = currentTemperature.description
     }
     
