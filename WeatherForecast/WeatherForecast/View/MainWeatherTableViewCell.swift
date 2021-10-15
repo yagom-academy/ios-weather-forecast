@@ -8,7 +8,6 @@
 import UIKit
 
 final class MainWeatherTableViewCell: UITableViewCell {
-    static let identifier = "MainWeatherTableViewCell"
     var iconId: String?
     
     private let stackView: UIStackView = {
