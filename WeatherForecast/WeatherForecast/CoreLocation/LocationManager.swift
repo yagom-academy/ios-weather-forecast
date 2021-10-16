@@ -8,7 +8,7 @@
 import CoreLocation
 
 protocol LocationManagerDelegate: AnyObject {
-    func didUpdateLocation(_ location: CLLocation)
+    func didUpdateLocation(_ currnet: CurrentWeather?, _ fiveDays: FiveDaysWeather?)
 }
 
 enum LocationManagerError: Error {
@@ -20,14 +20,14 @@ class LocationManager: NSObject {
     private var manager: CLLocationManager?
     private var currentLocation: CLLocation?
     weak var delegate: LocationManagerDelegate?
-
+    
     init(manager: CLLocationManager = CLLocationManager()) {
         super.init()
         self.manager = manager
         self.manager?.delegate = self
         self.manager?.desiredAccuracy = kCLLocationAccuracyBest
     }
-
+    
     func getCoordinate() -> CLLocationCoordinate2D? {
         return currentLocation?.coordinate
     }
@@ -35,7 +35,7 @@ class LocationManager: NSObject {
     func requestLocation() {
         manager?.requestLocation()
     }
-
+    
     func getAddress(completion: @escaping (Result<CLPlacemark, Error>) -> Void) {
         guard let currentLocation = currentLocation else {
             return
@@ -69,15 +69,63 @@ extension LocationManager: CLLocationManagerDelegate {
             print("알수없음")
         }
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else {
             return
         }
-        currentLocation = location
-        delegate?.didUpdateLocation(location)
+        self.currentLocation = location
+        let networkManager = WeatherNetworkManager()
+        var currentWeather: CurrentWeather?
+        var fiveDaysWeather: FiveDaysWeather?
+        
+        let weatherTaskGroup = DispatchGroup()
+        
+        DispatchQueue.global().async {
+            weatherTaskGroup.enter()
+            networkManager.fetchingWeatherData(api: WeatherAPI.current,
+                                               type: CurrentWeather.self,
+                                               coordinate: (lat: location.coordinate.latitude, lon: location.coordinate.longitude)) { weather, error in
+                
+                guard let weather = weather,
+                      let icon = weather.weather.first?.icon,
+                      let iconURL = URL(string: WeatherAPI.icon.url + icon),
+                      error == nil else {
+                    return
+                }
+                
+                NetworkManager().dataTask(url: iconURL) { result in
+                    switch result {
+                    case .success(let data):
+                        currentWeather = weather
+                        currentWeather?.imageData = data
+                        weatherTaskGroup.leave()
+                    case .failure(_):
+                        return
+                    }
+                }
+            }
+            
+            weatherTaskGroup.enter()
+            networkManager.fetchingWeatherData(api: WeatherAPI.forecast,
+                                               type: FiveDaysWeather.self,
+                                               coordinate: (lat: location.coordinate.latitude,
+                                                            lon: location.coordinate.longitude)) { forecastWeather, error in
+                
+                guard let forecastWeather = forecastWeather,
+                      error == nil else {
+                    return
+                }
+                fiveDaysWeather = forecastWeather
+                weatherTaskGroup.leave()
+            }
+        }
+        
+        weatherTaskGroup.notify(queue: DispatchQueue.main) {
+            self.delegate?.didUpdateLocation(currentWeather, fiveDaysWeather)
+        }
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         manager.stopUpdatingLocation()
     }

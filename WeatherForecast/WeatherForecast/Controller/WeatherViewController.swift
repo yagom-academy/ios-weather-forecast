@@ -16,10 +16,18 @@ class WeatherViewController: UIViewController {
         }
     }
     
-    //private let headerViewModel = WeatherHeaderViewModel
-    //private var weatherHeaderView = WeatherHeaderView()
+    private var tableViewRows: Int = .zero {
+        didSet {
+            DispatchQueue.main.async {
+                self.weatherTableView.reloadData()
+            }
+        }
+    }
     
-    private var weatherTableView: UITableView = {
+    private let WeatherViewModel = WeatherTableViewModel()
+    private let weatherHeaderView = WeatherHeaderView()
+    
+    private let weatherTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(WeatherTableViewCell.self,
@@ -36,18 +44,7 @@ class WeatherViewController: UIViewController {
         configureRefreshControl()
         self.weatherTableView.delegate = self
         self.weatherTableView.dataSource = self
-        
-        headerViewModel.onCompleted = { [weak self] in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                self.weatherHeaderView.configureContents(address: self.headerViewModel.address,
-                                                    minTempature: self.headerViewModel.minTempature,
-                                                    maxTempature: self.headerViewModel.maxTempature,
-                                                    currentTempature: self.headerViewModel.currentTempature,
-                                                    iconData: self.headerViewModel.iconData)
-                self.weatherTableView.reloadData()
-            }
-        }
+        WeatherViewModel.delegate = self
     }
 }
 
@@ -72,7 +69,7 @@ extension WeatherViewController {
     }
     
     @objc func updateWeather() {
-//        headerViewModel.refreshData()
+        WeatherViewModel.action(.refresh)
         weatherTableView.refreshControl?.endRefreshing()
     }
     
@@ -84,11 +81,27 @@ extension WeatherViewController {
     }
 }
 
+// MARK: - ViewModel Delegate
+extension WeatherViewController: WeatherViewModelDelegete {
+    
+    func setHederViewContents(_ viewModel: WeatherHeaderModel?) {
+        weatherHeaderView.configureContents(address: viewModel?.address,
+                                            minTempature: viewModel?.minTempature,
+                                            maxTempature: viewModel?.maxTempature,
+                                            currentTempature: viewModel?.currentTempature,
+                                            iconData: viewModel?.iconData)
+    }
+    
+    func setTableViewRows(_ count: Int) {
+        self.tableViewRows = count
+    }
+}
+
 // MARK: - UITableViewDataSource
 extension WeatherViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return tableViewRows
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -96,18 +109,15 @@ extension WeatherViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-//        let cellViewModel = headerViewModel.getCellViewModel(at: indexPath)
-//
-//        headerViewModel.getWeatherIconImage(at: indexPath) { [weak self] data in
-//            DispatchQueue.main.async {
-//                let date = self?.headerViewModel.getForecastTime(cellViewModel?.forecastTime)
-//                let tempature = self?.weatherModel.getFormattingTempature(cellViewModel?.main.temp)
-//
-//                cell.configureContents(date: date,
-//                                       tempature: tempature,
-//                                       weatherImage: UIImage(data: data))
-//            }
-//        }
+        let cellViewModel = WeatherViewModel.getCellViewModel(at: indexPath)
+        
+        guard let url = URL(string: WeatherAPI.icon.url + cellViewModel.iconPath) else {
+            return UITableViewCell()
+        }
+        
+        WeatherNetworkManager().weatherIconImageDataTask(url: url) { data in
+            <#code#>
+        }
         
         return cell
     }

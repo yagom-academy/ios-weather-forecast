@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ForecastWeather: Decodable {
+struct FiveDaysWeather: Decodable {
     var list: [List]
 
     struct List: Decodable, Equatable {
@@ -26,7 +26,7 @@ struct ForecastWeather: Decodable {
             case dataReceivingTimeText = "dt_txt"
         }
         
-        static func == (lhs: ForecastWeather.List, rhs: ForecastWeather.List) -> Bool {
+        static func == (lhs: FiveDaysWeather.List, rhs: FiveDaysWeather.List) -> Bool {
             guard let lhs = lhs.weather.first?.id,
                   let rhs = rhs.weather.first?.id else { return false }
             

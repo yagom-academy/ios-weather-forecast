@@ -27,4 +27,19 @@ extension String {
         
         return formattingText?.appending("°")
     }
+    
+    static func convertFormatteText(_ timeInterval: TimeInterval?) -> String {
+        guard let timeInterval = timeInterval else {
+            return ""
+        }
+        let formatter = DateFormatter()
+        
+        Locale.preferredLanguages.first.flatMap {
+            formatter.locale = Locale(identifier: $0)
+        }
+        
+        let dateFormat = "MM/dd(E) HH시"
+        formatter.dateFormat = dateFormat
+        return formatter.string(from: Date(timeIntervalSince1970: timeInterval))
+    }
 }

@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		740D12352705D332000B814C /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740D12342705D332000B814C /* CurrentWeather.swift */; };
-		740D12372705D94B000B814C /* ForecastWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740D12362705D94B000B814C /* ForecastWeather.swift */; };
+		740D12372705D94B000B814C /* FiveDaysWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740D12362705D94B000B814C /* FiveDaysWeather.swift */; };
 		740D12392705F305000B814C /* WeatherAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740D12382705F305000B814C /* WeatherAPI.swift */; };
-		7434B722271869ED0015C5AB /* WeatherHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7434B721271869ED0015C5AB /* WeatherHeaderViewModel.swift */; };
-		7434B724271919C80015C5AB /* FiveDaysForecastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7434B723271919C80015C5AB /* FiveDaysForecastViewModel.swift */; };
+		7434B722271869ED0015C5AB /* WeatherHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7434B721271869ED0015C5AB /* WeatherHeaderModel.swift */; };
+		7434B724271919C80015C5AB /* WeatherCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7434B723271919C80015C5AB /* WeatherCellModel.swift */; };
 		7434B728271926020015C5AB /* WeatherTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7434B727271926020015C5AB /* WeatherTableViewModel.swift */; };
 		7434B72A271926960015C5AB /* Extension + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7434B729271926960015C5AB /* Extension + String.swift */; };
+		7434B72C27195DEB0015C5AB /* WeatherNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7434B72B27195DEB0015C5AB /* WeatherNetworkManager.swift */; };
+		7434B72E271AA7430015C5AB /* WeatherImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7434B72D271AA7430015C5AB /* WeatherImageCache.swift */; };
 		7467F48B2714668400A0F2A3 /* WeatherHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7467F48A2714668400A0F2A3 /* WeatherHeaderView.swift */; };
 		7467F4CF271558F800A0F2A3 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7467F4CE271558F800A0F2A3 /* WeatherService.swift */; };
 		7467F4D327155FFF00A0F2A3 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7467F4D227155FFF00A0F2A3 /* Observable.swift */; };
@@ -60,12 +62,14 @@
 		3CFF2764081192C64F3CF3C8 /* Pods-WeatherForecastTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherForecastTests.release.xcconfig"; path = "Target Support Files/Pods-WeatherForecastTests/Pods-WeatherForecastTests.release.xcconfig"; sourceTree = "<group>"; };
 		4560E074546CCD200171A5CE /* Pods-WeatherForecast-WeatherForecastUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherForecast-WeatherForecastUITests.release.xcconfig"; path = "Target Support Files/Pods-WeatherForecast-WeatherForecastUITests/Pods-WeatherForecast-WeatherForecastUITests.release.xcconfig"; sourceTree = "<group>"; };
 		740D12342705D332000B814C /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
-		740D12362705D94B000B814C /* ForecastWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastWeather.swift; sourceTree = "<group>"; };
+		740D12362705D94B000B814C /* FiveDaysWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDaysWeather.swift; sourceTree = "<group>"; };
 		740D12382705F305000B814C /* WeatherAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPI.swift; sourceTree = "<group>"; };
-		7434B721271869ED0015C5AB /* WeatherHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHeaderViewModel.swift; sourceTree = "<group>"; };
-		7434B723271919C80015C5AB /* FiveDaysForecastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDaysForecastViewModel.swift; sourceTree = "<group>"; };
+		7434B721271869ED0015C5AB /* WeatherHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHeaderModel.swift; sourceTree = "<group>"; };
+		7434B723271919C80015C5AB /* WeatherCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCellModel.swift; sourceTree = "<group>"; };
 		7434B727271926020015C5AB /* WeatherTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTableViewModel.swift; sourceTree = "<group>"; };
 		7434B729271926960015C5AB /* Extension + String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + String.swift"; sourceTree = "<group>"; };
+		7434B72B27195DEB0015C5AB /* WeatherNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherNetworkManager.swift; sourceTree = "<group>"; };
+		7434B72D271AA7430015C5AB /* WeatherImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherImageCache.swift; sourceTree = "<group>"; };
 		7467F48A2714668400A0F2A3 /* WeatherHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHeaderView.swift; sourceTree = "<group>"; };
 		7467F4CE271558F800A0F2A3 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		7467F4D227155FFF00A0F2A3 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
@@ -153,7 +157,9 @@
 			children = (
 				7467F4D227155FFF00A0F2A3 /* Observable.swift */,
 				740D12342705D332000B814C /* CurrentWeather.swift */,
-				740D12362705D94B000B814C /* ForecastWeather.swift */,
+				740D12362705D94B000B814C /* FiveDaysWeather.swift */,
+				7434B721271869ED0015C5AB /* WeatherHeaderModel.swift */,
+				7434B723271919C80015C5AB /* WeatherCellModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -184,12 +190,18 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		7434B730271AA7540015C5AB /* ImageCache */ = {
+			isa = PBXGroup;
+			children = (
+				7434B72D271AA7430015C5AB /* WeatherImageCache.swift */,
+			);
+			path = ImageCache;
+			sourceTree = "<group>";
+		};
 		7467F4D627167EE700A0F2A3 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				7434B727271926020015C5AB /* WeatherTableViewModel.swift */,
-				7434B721271869ED0015C5AB /* WeatherHeaderViewModel.swift */,
-				7434B723271919C80015C5AB /* FiveDaysForecastViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -225,6 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				89E250732705DD080076778E /* NetworkManager.swift */,
+				7434B72B27195DEB0015C5AB /* WeatherNetworkManager.swift */,
 				740D12382705F305000B814C /* WeatherAPI.swift */,
 			);
 			path = Network;
@@ -255,6 +268,7 @@
 		C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */ = {
 			isa = PBXGroup;
 			children = (
+				7434B730271AA7540015C5AB /* ImageCache */,
 				7434B71E271869CB0015C5AB /* Service */,
 				893F9AA5270EFF72004D4125 /* CoreLocation */,
 				89970796270B18D9006DE539 /* Protocol */,
@@ -516,7 +530,9 @@
 				7434B72A271926960015C5AB /* Extension + String.swift in Sources */,
 				89E250742705DD080076778E /* NetworkManager.swift in Sources */,
 				7467F48B2714668400A0F2A3 /* WeatherHeaderView.swift in Sources */,
-				740D12372705D94B000B814C /* ForecastWeather.swift in Sources */,
+				7434B72E271AA7430015C5AB /* WeatherImageCache.swift in Sources */,
+				740D12372705D94B000B814C /* FiveDaysWeather.swift in Sources */,
+				7434B72C27195DEB0015C5AB /* WeatherNetworkManager.swift in Sources */,
 				893F9AA7270EFF86004D4125 /* LocationManager.swift in Sources */,
 				749C2E5E2713E03600BD2EEB /* Extension + UIAlertController.swift in Sources */,
 				7467F4D327155FFF00A0F2A3 /* Observable.swift in Sources */,
@@ -524,8 +540,8 @@
 				89970795270B1887006DE539 /* Extension + URL.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
 				740D12392705F305000B814C /* WeatherAPI.swift in Sources */,
-				7434B722271869ED0015C5AB /* WeatherHeaderViewModel.swift in Sources */,
-				7434B724271919C80015C5AB /* FiveDaysForecastViewModel.swift in Sources */,
+				7434B722271869ED0015C5AB /* WeatherHeaderModel.swift in Sources */,
+				7434B724271919C80015C5AB /* WeatherCellModel.swift in Sources */,
 				740D12352705D332000B814C /* CurrentWeather.swift in Sources */,
 				89970798270B18F5006DE539 /* API.swift in Sources */,
 				7467F4CF271558F800A0F2A3 /* WeatherService.swift in Sources */,
