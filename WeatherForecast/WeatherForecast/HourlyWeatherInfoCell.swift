@@ -55,13 +55,12 @@ class HourlyWeatherInfoCell: UITableViewCell {
                                      temperatureLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)])
     }
     
-    func setUpUI(forcast: FiveDayForecast?, indexPath: IndexPath) {
-        guard let forecastItems = forcast?.list[indexPath.row] else { return }
-        let dateFormat = forecastItems.dt
+    func setUpUI(forcast: FiveDayForecast?, forecastItem: List) {
+        let dateFormat = forecastItem.dt
         dateLabel.text = changeStringFormat(to: dateFormat)
-        let averageTemperature = changeToCelcius(to: forecastItems.main.temp)
+        let averageTemperature = changeToCelcius(to: forecastItem.main.temp)
         temperatureLabel.text = String(format: "%.1f°", averageTemperature)
-        if let icon = forecastItems.weather.first?.icon {
+        if let icon = forecastItem.weather.first?.icon {
             let imageURL = String(format: "https://openweathermap.org/img/w/%@.png", icon)
             weatherImage.downloadImage(from: imageURL)
         }

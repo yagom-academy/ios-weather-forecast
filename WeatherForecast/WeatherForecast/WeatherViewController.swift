@@ -157,7 +157,10 @@ extension WeatherViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HourlyWeatherInfoCell.identifier, for: indexPath) as? HourlyWeatherInfoCell else {
             return UITableViewCell()
         }
-        cell.setUpUI(forcast: fiveDayForecast, indexPath: indexPath)
+        guard let forecastItems = fiveDayForecast?.list[indexPath.row] else {
+            return UITableViewCell()
+        }
+        cell.setUpUI(forcast: fiveDayForecast, forecastItem: forecastItems)
         return cell
     }
 }
