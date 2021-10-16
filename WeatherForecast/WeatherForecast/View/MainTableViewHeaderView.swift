@@ -51,14 +51,11 @@ final class MainTableViewHeaderView: UIView {
         return label
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.backgroundColor = .clear
+    convenience init(backgroundColor: UIColor) {
+        self.init(frame: .zero)
+        self.backgroundColor = backgroundColor
         setUpViewLayout()
         setUpConstraints()
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     private func setUpViewLayout() {

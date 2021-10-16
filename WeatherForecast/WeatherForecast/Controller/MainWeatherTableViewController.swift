@@ -8,7 +8,7 @@ import UIKit
 
 class MainWeatherTableViewController: UITableViewController {
     private let weatherDataViewModel: WeatherDataViewModel
-    private let headerView: MainTableViewHeaderView = MainTableViewHeaderView()
+    private let headerView: MainTableViewHeaderView = MainTableViewHeaderView(backgroundColor: .clear)
     private let imageLoader: ImageLoader = ImageLoader(imageCacher: NSCache<NSString, UIImage>())
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
