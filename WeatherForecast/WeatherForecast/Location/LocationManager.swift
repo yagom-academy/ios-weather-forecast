@@ -12,6 +12,7 @@ final class LocationManager: NSObject {
     static let locationUpdated = NSNotification.Name(rawValue: "locationUpdated")
     private let coreLocation = CLLocationManager()
     private let geocoder = CLGeocoder()
+    private var workItem: DispatchWorkItem?
     
     override init() {
         super.init()
@@ -40,15 +41,21 @@ extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedWhenInUse:
-          requestLocation()
+            requestLocation()
         default:
-        // TODO: - 권한에 획득 실패에 따른 분기 처리 언젠가는 해야함
-         print("권한 획득 실패")
+            // TODO: - 권한에 획득 실패에 따른 분기 처리 언젠가는 해야함
+            print("권한 획득 실패")
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        NotificationCenter.default.post(name: Self.locationUpdated, object: locations.last)
+        workItem?.cancel()
+        workItem = DispatchWorkItem {
+            NotificationCenter.default.post(name: Self.locationUpdated, object: locations.last)
+        }
+        if let workItem = workItem {
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.3, execute: workItem)
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
