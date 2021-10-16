@@ -23,6 +23,7 @@
 		79A4885927171E65006BF85D /* GeocoderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A4885827171E65006BF85D /* GeocoderManager.swift */; };
 		79A4885B27185B40006BF85D /* GeocoderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A4885A27185B40006BF85D /* GeocoderProtocol.swift */; };
 		79A4885D27186E30006BF85D /* LocationManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A4885C27186E30006BF85D /* LocationManagerProtocol.swift */; };
+		79A4885F2719FFB6006BF85D /* MockLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A4885E2719FFB6006BF85D /* MockLocationManager.swift */; };
 		79FF2F902709879600942D6F /* RequestGeneratable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FF2F8F2709879600942D6F /* RequestGeneratable.swift */; };
 		79FF2F92270987B400942D6F /* UrlGeneratable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FF2F91270987B400942D6F /* UrlGeneratable.swift */; };
 		79FF2F95270B442500942D6F /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FF2F94270B442500942D6F /* APIError.swift */; };
@@ -78,6 +79,7 @@
 		79A4885827171E65006BF85D /* GeocoderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocoderManager.swift; sourceTree = "<group>"; };
 		79A4885A27185B40006BF85D /* GeocoderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocoderProtocol.swift; sourceTree = "<group>"; };
 		79A4885C27186E30006BF85D /* LocationManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerProtocol.swift; sourceTree = "<group>"; };
+		79A4885E2719FFB6006BF85D /* MockLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocationManager.swift; sourceTree = "<group>"; };
 		79FF2F8F2709879600942D6F /* RequestGeneratable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestGeneratable.swift; sourceTree = "<group>"; };
 		79FF2F91270987B400942D6F /* UrlGeneratable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlGeneratable.swift; sourceTree = "<group>"; };
 		79FF2F94270B442500942D6F /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
@@ -187,6 +189,14 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		79A48860271A0169006BF85D /* MockManagers */ = {
+			isa = PBXGroup;
+			children = (
+				79A4885E2719FFB6006BF85D /* MockLocationManager.swift */,
+			);
+			path = MockManagers;
+			sourceTree = "<group>";
+		};
 		79FF2F93270B441400942D6F /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -248,6 +258,7 @@
 		C79C8D0925ADDDF400EEE3F1 /* WeatherForecastTests */ = {
 			isa = PBXGroup;
 			children = (
+				79A48860271A0169006BF85D /* MockManagers */,
 				C79C8D0A25ADDDF400EEE3F1 /* WeatherForecastTests.swift */,
 				C79C8D0C25ADDDF400EEE3F1 /* Info.plist */,
 			);
@@ -522,6 +533,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79A4885F2719FFB6006BF85D /* MockLocationManager.swift in Sources */,
 				C79C8D0B25ADDDF400EEE3F1 /* WeatherForecastTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
