@@ -36,6 +36,7 @@ class MainViewTableViewCell: UITableViewCell {
         temperatureLabel.text = "10"
         
         iconView.image = UIImage(systemName: "pencil")
+        iconView.setContentHuggingPriority(.required, for: .horizontal)
         
         stackView.axis = .horizontal
         stackView.distribution = .fillProportionally

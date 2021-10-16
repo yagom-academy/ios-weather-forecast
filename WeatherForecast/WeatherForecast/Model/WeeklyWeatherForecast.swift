@@ -28,10 +28,8 @@ struct WeatherForecast: Codable {
 
 struct WeeklyWeatherForecast: Codable {
     let list: [WeatherForecast]?
-    let timestampCount: Int?
 
     enum CodingKeys: String, CodingKey {
         case list
-        case timestampCount = "cnt"
     }
 }

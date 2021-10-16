@@ -14,6 +14,7 @@ struct URLGenerator {
     ) -> URL? {
         var components = URLComponents(string: endpoint.urlString)
         var queryItems = [URLQueryItem]()
+
         for (key, value) in parameters {
             queryItems.append(URLQueryItem(name: key, value: String(describing: value)))
         }
@@ -24,6 +25,15 @@ struct URLGenerator {
             )
         )        
         components?.queryItems = queryItems
+
+        return components?.url
+    }
+
+    func work(
+        endpoint: ImageEndPoint
+    ) -> URL? {
+        let components = URLComponents(string: endpoint.urlString)
+
         return components?.url
     }
 }

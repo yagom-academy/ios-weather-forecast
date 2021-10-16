@@ -39,7 +39,6 @@ final class MainViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        locationManager.requestLocation()
     }
 }
 
@@ -57,11 +56,6 @@ extension MainViewController {
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
         ])
-        
-        tableView.backgroundView = UIImageView(image: UIImage(named: "backgroundImage"))
-        let mask = UIView()
-        mask.alpha = 0
-        tableView.backgroundView?.mask = mask
     }
 }
 
@@ -99,8 +93,8 @@ extension MainViewController: UITableViewDelegate {
 extension MainViewController {
     private func utilizeLocation(_ notification: Notification) {
         guard let location = notification.object as? CLLocation else {
-                  return
-              }
+            return
+        }
         let coordinate = location.coordinate
         convertToAddress(location: location)
         requestDailyWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
@@ -128,7 +122,10 @@ extension MainViewController {
         ) { (result: Result<WeeklyWeatherForecast, Error>) in
             switch result {
             case .success(let weeklyWeatherForecast):
-                print("weekly success")
+                guard let weeklyWeatherForecast = weeklyWeatherForecast.list else {
+                    return
+                }
+                self.requestWeatherIcons(with: weeklyWeatherForecast)
             case .failure:
                 print("weekly failure")
             }
@@ -138,6 +135,32 @@ extension MainViewController {
     private func convertToAddress(location: CLLocation) {
         locationManager.convertToAddress(from: location) { placemarks, error in
             print(placemarks)
+        }
+    }
+
+    private func requestWeatherIcons(with weeklyWeatherForecast: [WeatherForecast]) {
+        DispatchQueue.global().async {
+            for (rowIndex, weatherForecast) in weeklyWeatherForecast.enumerated() {
+                guard let iconName = weatherForecast.weather?.first?.icon else {
+                    continue
+                }
+
+                self.networkManager.request(endpoint: .png(iconName: iconName)) { result in
+                    switch result {
+                    case .success(let image):
+                        DispatchQueue.main.async {
+                            let indexPath = IndexPath(row: rowIndex, section: .zero)
+                            guard let cell = self.tableView.cellForRow(at: indexPath) as? MainViewTableViewCell else {
+                                return
+                            }
+
+                            cell.iconView.image = image
+                        }
+                    case .failure:
+                        print("image download failure")
+                    }
+                }
+            }
         }
     }
 }

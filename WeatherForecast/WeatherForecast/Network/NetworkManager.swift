@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol URLSessionable {
     func dataTask(
@@ -31,8 +32,8 @@ struct NetworkManager {
         completionHandler: @escaping (Result<Model, Error>) -> Void
     ) {
         guard let url = urlGenerator.work(
-                endpoint: endpoint,
-                parameters: parameters
+            endpoint: endpoint,
+            parameters: parameters
         ) else {
             completionHandler(
                 .failure(NetworkError.invalidURL)
@@ -50,14 +51,54 @@ struct NetworkManager {
                 )
                 return
             }
-            
+
             guard let response = response as? HTTPURLResponse else {
                 completionHandler(
                     .failure(NetworkError.invalidResponse)
                 )
                 return
             }
-            
+
+            switch response.statusCode {
+            case 200..<300:
+                handleSuccessStatusCode(data: data, completionHandler: completionHandler)
+            default:
+                handleFailureStatusCode(response: response, completionHandler: completionHandler)
+            }
+        }.resume()
+    }
+
+    func request(
+        endpoint: ImageEndPoint,
+        completionHandler: @escaping (Result<UIImage, Error>) -> Void
+    ) {
+        guard let url = urlGenerator.work(
+            endpoint: endpoint
+        ) else {
+            completionHandler(
+                .failure(NetworkError.invalidURL)
+            )
+            return
+        }
+
+        session.dataTask(with: url) { data, response, error in
+            if let error = error {
+                let unknownError = NetworkError.unknown(
+                    description: error.localizedDescription
+                )
+                completionHandler(
+                    .failure(unknownError)
+                )
+                return
+            }
+
+            guard let response = response as? HTTPURLResponse else {
+                completionHandler(
+                    .failure(NetworkError.invalidResponse)
+                )
+                return
+            }
+
             switch response.statusCode {
             case 200..<300:
                 handleSuccessStatusCode(data: data, completionHandler: completionHandler)
@@ -88,6 +129,25 @@ struct NetworkManager {
                 .failure(error)
             )
         }
+    }
+
+    private func handleSuccessStatusCode(
+        data: Data?,
+        completionHandler: @escaping (Result<UIImage, Error>) -> Void
+    ) {
+        guard let data = data else {
+            completionHandler(
+                .failure(NetworkError.dataIsNil)
+            )
+            return
+        }
+
+        if let image = UIImage(data: data) {
+            completionHandler(.success(image))
+        } else {
+            completionHandler(.failure(NetworkError.dataIsNil))
+        }
+
     }
     
     private func handleFailureStatusCode<Model>(
