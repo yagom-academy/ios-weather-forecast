@@ -10,6 +10,7 @@ import CoreLocation
 final class MainViewController: UIViewController {
     private let locationManager = LocationManager()
     private let networkManager = NetworkManager()
+    var weeklyWeatherForecast: [WeatherForecast] = []
 
     var tableView = UITableView()
     
@@ -62,7 +63,7 @@ extension MainViewController {
 // MARK: - TableViewDataSource
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return weeklyWeatherForecast.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -125,7 +126,11 @@ extension MainViewController {
                 guard let weeklyWeatherForecast = weeklyWeatherForecast.list else {
                     return
                 }
+                self.weeklyWeatherForecast += weeklyWeatherForecast
                 self.requestWeatherIcons(with: weeklyWeatherForecast)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             case .failure:
                 print("weekly failure")
             }
