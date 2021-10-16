@@ -46,7 +46,10 @@ final class MainTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+}
+
+// MARK: - Private 메서드
+extension MainTableViewCell {
     private func setUpProperties() {
         self.backgroundColor = .clear
         self.selectionStyle = .none
@@ -74,7 +77,10 @@ final class MainTableViewCell: UITableViewCell {
         super.prepareForReuse()
         weatherIconImage.image = nil
     }
-    
+}
+
+// MARK: - Internal 메서드
+extension MainTableViewCell {
     func configureTexts(date: String, temperature: String) {
         dateLabel.text = date
         temperatureLabel.text = temperature

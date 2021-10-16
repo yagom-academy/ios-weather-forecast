@@ -57,7 +57,10 @@ final class MainTableViewHeaderView: UIView {
         setUpViewLayout()
         setUpConstraints()
     }
-    
+}
+
+// MARK: - Private 메서드
+extension MainTableViewHeaderView {
     private func setUpViewLayout() {
         currentDataStackView.addArrangedSubview(addressLabel)
         currentDataStackView.addArrangedSubview(temperatureRangeLabel)
@@ -82,7 +85,10 @@ final class MainTableViewHeaderView: UIView {
         ])
         self.layoutIfNeeded()
     }
-    
+}
+
+// MARK: - Internal 메서드
+extension MainTableViewHeaderView {
     func configureTexts(address: String, temperatureRange: String, temperature: String) {
         addressLabel.text = address
         temperatureRangeLabel.text = temperatureRange
