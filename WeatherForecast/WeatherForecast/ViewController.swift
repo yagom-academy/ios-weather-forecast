@@ -83,7 +83,7 @@ extension ViewController {
                     handlerError(error)
                 }
             } catch {
-                
+                handlerError(error)
             }
         }
         
