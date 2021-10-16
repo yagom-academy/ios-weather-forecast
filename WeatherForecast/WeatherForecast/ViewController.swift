@@ -19,8 +19,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.requestAuthorization { coordinate in
-            self.coordinate = coordinate
+        locationManager.requestAuthorization { [weak self] coordinate in
+            self?.coordinate = coordinate
         }
     }
 }
