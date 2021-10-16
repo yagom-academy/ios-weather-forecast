@@ -39,13 +39,17 @@ final class MainTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.backgroundColor = .clear
-        self.selectionStyle = .none
+        setUpProperties()
         setUpViewLayout()
         setUpConstraints()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setUpProperties() {
+        self.backgroundColor = .clear
+        self.selectionStyle = .none
     }
     
     private func setUpViewLayout() {
