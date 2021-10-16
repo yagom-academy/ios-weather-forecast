@@ -5,7 +5,7 @@
 //  Created by Yongwoo Marco on 2021/10/13.
 //
 
-import Foundation
+import Foundation.NSObject
 
 extension NSObject {
     class var className: String {

@@ -5,7 +5,7 @@
 //  Created by Yongwoo Marco on 2021/10/15.
 //
 
-import UIKit
+import UIKit.UIImage
 
 struct ImageLoader {
     private let imageCacher: NSCache<NSString, UIImage>

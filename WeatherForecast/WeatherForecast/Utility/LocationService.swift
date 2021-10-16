@@ -39,7 +39,6 @@ extension LocationService: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(#function)
         if let lastLocation = locations.last {
             receivedLocationAction?(lastLocation)
         } else {
