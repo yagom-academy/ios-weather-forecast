@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HourlyWeatherInfo: UITableViewCell {
+class HourlyWeatherInfoCell: UITableViewCell {
 
     static let identifier = "HourlyWeatherInfo"
 
@@ -68,7 +68,7 @@ class HourlyWeatherInfo: UITableViewCell {
     }
 }
 
-extension HourlyWeatherInfo {
+extension HourlyWeatherInfoCell {
     func changeStringFormat(to dateFormat: Date) -> String {
         let dateformatter = DateFormatter()
         dateformatter.dateFormat = "MM/dd(E) HH시"

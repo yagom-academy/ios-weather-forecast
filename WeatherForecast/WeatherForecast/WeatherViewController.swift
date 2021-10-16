@@ -28,7 +28,7 @@ class WeatherViewController: UIViewController {
     private lazy var weatherTableView: UITableView = {
         let weatherTableView = UITableView()
         weatherTableView.translatesAutoresizingMaskIntoConstraints = false
-        weatherTableView.register(HourlyWeatherInfo.self, forCellReuseIdentifier: HourlyWeatherInfo.identifier)
+        weatherTableView.register(HourlyWeatherInfoCell.self, forCellReuseIdentifier: HourlyWeatherInfoCell.identifier)
         weatherTableView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0)
         weatherTableView.register(WeatherHeaderView.self, forHeaderFooterViewReuseIdentifier: WeatherHeaderView.identifier)
         return weatherTableView
@@ -154,7 +154,7 @@ extension WeatherViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: HourlyWeatherInfo.identifier, for: indexPath) as? HourlyWeatherInfo else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: HourlyWeatherInfoCell.identifier, for: indexPath) as? HourlyWeatherInfoCell else {
             return UITableViewCell()
         }
         cell.setUpUI(forcast: fiveDayForecast, indexPath: indexPath)
