@@ -16,13 +16,17 @@ class WeatherViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     private var currentWeather: CurrentWeather? = nil {
         didSet {
-            self.updateTable()
+            DispatchQueue.main.async {
+                self.weatherTableView.reloadData()
+            }
         }
     }
     
     private var fiveDayForecast: FiveDayForecast? = nil {
         didSet {
-            self.updateTable()
+            DispatchQueue.main.async {
+                self.weatherTableView.reloadData()
+            }
         }
     }
     
@@ -53,12 +57,6 @@ class WeatherViewController: UIViewController {
     
     private func addSubView() {
         view.addSubview(weatherTableView)
-    }
-    
-    private func updateTable() {
-        DispatchQueue.main.async {
-            self.weatherTableView.reloadData()
-        }
     }
     
     private func autoLayout() {
