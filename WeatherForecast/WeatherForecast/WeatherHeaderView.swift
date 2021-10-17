@@ -67,7 +67,7 @@ class WeatherHeaderView: UITableViewHeaderFooterView {
                                      currentTemperatureLabel.topAnchor.constraint(equalTo: minMaxTemperatureLabel.bottomAnchor, constant: 10)])
     }
     
-    func setUpUI(currentWeather: CurrentWeather?, placemark: [CLPlacemark]?) {
+    func setUpUI(currentWeather: CurrentWeather?, location: String) {
         if let icon = currentWeather?.weather.first?.icon {
             let imageURL = String(format: "https://openweathermap.org/img/w/%@.png", icon)
             weatherImage.downloadImage(from: imageURL)
@@ -75,11 +75,7 @@ class WeatherHeaderView: UITableViewHeaderFooterView {
         guard let currentWeather = currentWeather else {
             return
         }
-        
-        if let placemark = placemark?.first {
-            locationLabel.text = String(placemark.administrativeArea ?? "")
-            + String(placemark.locality ?? "")
-        }
+        locationLabel.text = location
         minMaxTemperatureLabel.text = changeToCelcius(minimum: currentWeather.main.tempMin,
                                                       maximum: currentWeather.main.tempMax)
         currentTemperatureLabel.text = changeToCelcius(to: currentWeather.main.temp)

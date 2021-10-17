@@ -167,10 +167,15 @@ extension WeatherViewController: UITableViewDataSource {
 //MARK: - TableViewDelegate
 extension WeatherViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        var location = ""
         guard let view = weatherTableView.dequeueReusableHeaderFooterView(withIdentifier: WeatherHeaderView.identifier) as? WeatherHeaderView else {
             return weatherTableView
         }
-        view.setUpUI(currentWeather: currentWeather, placemark: address)
+        if let placemark = address?.first {
+            location = String(placemark.administrativeArea ?? "")
+            + String(placemark.locality ?? "")
+        }
+        view.setUpUI(currentWeather: currentWeather, location: location)
         return view
     }
     
