@@ -13,6 +13,7 @@ class WeatherViewController: UIViewController {
     private var locationManager = CLLocationManager()
     private var address: [CLPlacemark]? = []
     private let headerSectionHeigt: CGFloat = 70
+    private let refreshControl = UIRefreshControl()
     private var currentWeather: CurrentWeather? = nil {
         didSet {
             self.updateTable()
@@ -71,14 +72,12 @@ class WeatherViewController: UIViewController {
     }
     //MARK: - Method: related to UIRefreshControl
     private func configureRefreshControl() {
-        let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshWeatherTable), for: .valueChanged)
         weatherTableView.refreshControl = refreshControl
     }
     
     @objc func refreshWeatherTable(_ sender: UIRefreshControl) {
-        locationManager.requestLocation()
-        sender.endRefreshing()
+        self.locationManager.requestLocation()
     }
 }
 //MARK: - CLLocationManagerDelegate
@@ -89,7 +88,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
         let longitude = locations.coordinate.longitude
         fetchCurrentWeather(latitude: latitude, longitude: longitude)
         fetchFiveDayForecast(latitude: latitude, longitude: longitude)
-        
+        self.refreshControl.endRefreshing()
         let geoCoder = CLGeocoder()
         let locale = Locale(identifier: "ko")
         geoCoder.reverseGeocodeLocation(locations, preferredLocale: locale) { placemarks, error in
@@ -186,4 +185,8 @@ extension WeatherViewController: UITableViewDelegate {
             scrollView.contentInset = UIEdgeInsets(top: -headerSectionHeigt, left: 0, bottom: 0, right: 0)
         }
     }
+}
+
+extension Notification.Name {
+    static let test = "test"
 }
