@@ -37,7 +37,7 @@ extension WeatherDataViewModel {
 
                 preparingGroup.enter()
                 let currentWeatherAPI = WeatherAPI.current(.geographic(location.coordinate))
-                self.fetchCurrentWeatherData(of: currentWeatherAPI) { currentweather in
+                self.requestWeatherData(type: CurrentWeatherData.self, of: currentWeatherAPI) { currentweather in
                     self.currentWeatherIconName = currentweather.conditions[0].iconName
                     self.currentTemperature = currentweather.mainInformation.temperature
                     self.currentMinimumTemperature = currentweather.mainInformation.minimumTemperature
@@ -47,7 +47,7 @@ extension WeatherDataViewModel {
 
                 preparingGroup.enter()
                 let fivedayWeatherAPI = WeatherAPI.fiveday(.geographic(location.coordinate))
-                self.fetchFiveDayWeatherData(of: fivedayWeatherAPI) { fivedayWeather in
+                self.requestWeatherData(type: FiveDayWeatherData.self, of: fivedayWeatherAPI) { fivedayWeather in
                     self.intervalWeatherInfos = fivedayWeather.intervalWeathers
                     preparingGroup.leave()
                 }
@@ -86,7 +86,8 @@ extension WeatherDataViewModel {
 
 // MARK: - 날씨 정보 불러오기
 extension WeatherDataViewModel {
-    private func fetchCurrentWeatherData(of api: WeatherAPI, completion: @escaping (CurrentWeatherData) -> Void) {
+    private func requestWeatherData<T: Decodable>(type: T.Type = T.self, of api: WeatherAPI,
+                                                  completion: @escaping (T) -> Void) {
         guard let url = api.makeURL() else {
             NSLog("\(#function) - URL 생성 실패")
             return
@@ -97,29 +98,7 @@ extension WeatherDataViewModel {
             case .success(let data):
                 let decoder = JSONDecoder(keyDecodingStrategy: .convertFromSnakeCase)
                 do {
-                    let decodedInstance: CurrentWeatherData = try decoder.decode(CurrentWeatherData.self, from: data)
-                    completion(decodedInstance)
-                } catch {
-                    NSLog("\(#function) - \(error.localizedDescription)")
-                }
-            case .failure(let error):
-                NSLog("\(#function) - \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    private func fetchFiveDayWeatherData(of api: WeatherAPI, completion: @escaping (FiveDayWeatherData) -> Void) {
-        guard let url = api.makeURL() else {
-            NSLog("\(#function) - URL 생성 실패")
-            return
-        }
-        let networkManager = WeatherNetworkManager(session: URLSession(configuration: .default))
-        networkManager.requestData(with: url) { result in
-            switch result {
-            case .success(let data):
-                let decoder = JSONDecoder(keyDecodingStrategy: .convertFromSnakeCase)
-                do {
-                    let decodedInstance: FiveDayWeatherData = try decoder.decode(FiveDayWeatherData.self, from: data)
+                    let decodedInstance: T = try decoder.decode(T.self, from: data)
                     completion(decodedInstance)
                 } catch {
                     NSLog("\(#function) - \(error.localizedDescription)")
