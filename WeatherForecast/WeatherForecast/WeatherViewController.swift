@@ -69,10 +69,6 @@ class WeatherViewController: UIViewController {
             weatherTableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
         ])
     }
-    //MARK: - Method: related to CoreLocation
-    private func requestAuthorization() {
-        locationManager.requestLocation()
-    }
     //MARK: - Method: related to UIRefreshControl
     private func configureRefreshControl() {
         let refreshControl = UIRefreshControl()
