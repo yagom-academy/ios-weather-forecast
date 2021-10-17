@@ -63,7 +63,7 @@ class HourlyWeatherInfoCell: UITableViewCell {
     
     func setUpUI(forcast: FiveDayForecast?, forecastItem: List) {
         let dateFormat = forecastItem.dt
-        dateLabel.text = changeStringFormat(to: dateFormat)
+        dateLabel.text = dateFormat.toString()
         let averageTemperature = changeToCelcius(to: forecastItem.main.temp)
         temperatureLabel.text = String(format: "%.1f°", averageTemperature)
         if let icon = forecastItem.weather.first?.icon {
@@ -74,14 +74,16 @@ class HourlyWeatherInfoCell: UITableViewCell {
 }
 
 extension HourlyWeatherInfoCell {
-    func changeStringFormat(to dateFormat: Date) -> String {
+    func changeToCelcius(to kelvin: Double) -> Double {
+        return kelvin - 273.15
+    }
+}
+
+extension Date {
+    func toString() -> String {
         let dateformatter = DateFormatter()
         dateformatter.dateFormat = "MM/dd(E) HH시"
         dateformatter.locale = Locale(identifier: "ko")
-        return dateformatter.string(from: dateFormat)
-    }
-    
-    func changeToCelcius(to kelvin: Double) -> Double {
-        return kelvin - 273.15
+        return dateformatter.string(from: self)
     }
 }
