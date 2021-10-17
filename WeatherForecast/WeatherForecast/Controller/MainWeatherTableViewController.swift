@@ -89,9 +89,12 @@ extension MainWeatherTableViewController {
         }
         let intervalData = weatherDataViewModel.intervalWeatherInfos[indexPath.row]
         let formattedDate = dateFormatter.string(from: Date(timeIntervalSince1970: intervalData.date))
-        let iconName = intervalData.conditions[0].iconName
         cell.configureTexts(date: formattedDate, temperature: "\(intervalData.mainInformation.temperature)º")
         
+        guard let iconName = intervalData.conditions.first?.iconName else {
+            NSLog("IndexPath \(indexPath) cell - 날씨 아이콘 이름정보 없음 ")
+            return cell
+        }
         if let cachedImage = imageLoader.fetchCachedData(key: iconName) {
             cell.configureIcon(image: cachedImage)
         } else {
