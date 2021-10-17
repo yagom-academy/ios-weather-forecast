@@ -26,9 +26,9 @@ class MainWeatherTableViewController: UITableViewController {
         tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.className)
         tableView.tableHeaderView = headerView
     }
-    
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        NSLog("init(coder:) has not been implemented")
+        return nil
     }
     
     override func viewDidLoad() {

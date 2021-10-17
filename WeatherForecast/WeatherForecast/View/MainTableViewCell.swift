@@ -44,7 +44,8 @@ final class MainTableViewCell: UITableViewCell {
         setUpConstraints()
     }
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        NSLog("init(coder:) has not been implemented")
+        return nil
     }
 }
 
