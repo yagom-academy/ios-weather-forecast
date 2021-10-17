@@ -93,7 +93,7 @@ class WeatherForecastTests: XCTestCase {
         XCTAssertEqual(expectedValue, outputValue)
     }
     
-    func test_NetworkManager를통해_실제네트워크통신을했을때_name은Banpobondong이다() {
+    func test_좌표가입력된_네트워크통신을했을때_좌표와맞는_위치가_출력된다() {
         // given
         var outputValue: String?
         let expectedValue = "Banpobondong"
