@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit.UIImage
 
 struct CurrentWeather: Decodable {
     let coordinate: Coordinate
@@ -19,7 +20,7 @@ struct CurrentWeather: Decodable {
     let dataReceivingTime: TimeInterval
     let timezone: TimeInterval
     let name: String
-    var imageData: Data?
+    var iconImage: UIImage?
     
     enum CodingKeys: String, CodingKey {
         case weather, base, main, wind, clouds, rain, snow, timezone, name
@@ -47,16 +48,6 @@ struct CurrentWeather: Decodable {
         let pressure: Int
         let humidity: Int
         
-        var tempMinText: String {
-            return String(tempMin)
-        }
-        var tempMaxText: String {
-            return String(tempMax)
-        }
-        var tempText: String {
-            return String(temp)
-        }
-
         enum CodingKeys: String, CodingKey {
             case temp, pressure, humidity
             case feelsLike = "feels_like"

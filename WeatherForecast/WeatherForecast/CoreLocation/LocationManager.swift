@@ -16,9 +16,10 @@ enum LocationManagerError: Error {
     case invalidLocation
 }
 
-class LocationManager: NSObject {
+final class LocationManager: NSObject {
     private var manager: CLLocationManager?
     private var currentLocation: CLLocation?
+    
     weak var delegate: LocationManagerDelegate?
     
     init(manager: CLLocationManager = CLLocationManager()) {
@@ -78,14 +79,14 @@ extension LocationManager: CLLocationManagerDelegate {
         let networkManager = WeatherNetworkManager()
         var currentWeather: CurrentWeather?
         var fiveDaysWeather: FiveDaysWeather?
-        
         let weatherTaskGroup = DispatchGroup()
         
-        DispatchQueue.global().async {
+        DispatchQueue.global().async(group: weatherTaskGroup) {
             weatherTaskGroup.enter()
             networkManager.fetchingWeatherData(api: WeatherAPI.current,
                                                type: CurrentWeather.self,
-                                               coordinate: (lat: location.coordinate.latitude, lon: location.coordinate.longitude)) { weather, error in
+                                               coordinate: (lat: location.coordinate.latitude,
+                                                            lon: location.coordinate.longitude)) { weather, error in
                 
                 guard let weather = weather,
                       let icon = weather.weather.first?.icon,
@@ -94,15 +95,10 @@ extension LocationManager: CLLocationManagerDelegate {
                     return
                 }
                 
-                NetworkManager().dataTask(url: iconURL) { result in
-                    switch result {
-                    case .success(let data):
-                        currentWeather = weather
-                        currentWeather?.imageData = data
-                        weatherTaskGroup.leave()
-                    case .failure(_):
-                        return
-                    }
+                networkManager.weatherIconImageDataTask(url: iconURL) { image in
+                    currentWeather = weather
+                    currentWeather?.iconImage = image
+                    weatherTaskGroup.leave()
                 }
             }
             
@@ -121,7 +117,7 @@ extension LocationManager: CLLocationManagerDelegate {
             }
         }
         
-        weatherTaskGroup.notify(queue: DispatchQueue.main) {
+        weatherTaskGroup.notify(queue: DispatchQueue.global()) {
             self.delegate?.didUpdateLocation(currentWeather, fiveDaysWeather)
         }
     }

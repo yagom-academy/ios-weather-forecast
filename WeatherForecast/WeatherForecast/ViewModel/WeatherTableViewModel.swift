@@ -7,15 +7,6 @@
 
 import Foundation
 
-protocol ViewModel {
-    associatedtype Input
-    associatedtype Output
-    
-    var delegate: Output? { get set }
-
-    func action(_ action: Input)
-}
-
 enum WeatherViewModelAction {
     case refresh
 }
@@ -74,10 +65,11 @@ extension WeatherTableViewModel: WeatherServiceDelegate {
                                                 minTempature: minTempature ?? "",
                                                 maxTempature: maxTempature ?? "",
                                                 currentTempature: currentTempature ?? "",
-                                                iconData: current?.imageData ?? Data())
+                                                iconImage: current?.iconImage)
         }
         
         var cellViewModel =  [WeatherCellModel]()
+        
         forecast?.list.forEach { weather in
             let dateText = String.convertFormatteText(weather.forecastTime)
             let tempature = String.formattingTempature(weather.main.temp)

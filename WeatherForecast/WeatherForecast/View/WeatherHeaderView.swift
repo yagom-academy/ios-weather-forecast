@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WeatherHeaderView: UIView {
+final class WeatherHeaderView: UIView {
     // MARK: NameSpace
     enum NameSpace {
         static let minTempatureDescription = "최저"
@@ -152,20 +152,15 @@ extension WeatherHeaderView {
                            minTempature: String?,
                            maxTempature: String?,
                            currentTempature: String?,
-                           iconData: Data?) {
+                           iconImage: UIImage?) {
         self.addressLabel.text = address
         self.minTempatureLabel.text = minTempature
         self.maxTempatureLabel.text = maxTempature
         self.currentTempatureLabel.text = currentTempature
+        self.weatherImageView.image = iconImage
         
         self.minTempatureDescriptionLabel.isHidden = false
         self.maxTempatureDescriptionLabel.isHidden = false
         
-        guard let iconData = iconData,
-              let iconImage = UIImage(data: iconData) else {
-            return
-        }
-        
-        self.weatherImageView.image = iconImage
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 struct FiveDaysWeather: Decodable {
     var list: [List]
 
-    struct List: Decodable, Equatable {
+    struct List: Decodable {
     
         let forecastTime: TimeInterval
         let main: Main
@@ -24,13 +24,6 @@ struct FiveDaysWeather: Decodable {
             case forecastTime = "dt"
             case probabilityOfPrecipitation = "pop"
             case dataReceivingTimeText = "dt_txt"
-        }
-        
-        static func == (lhs: FiveDaysWeather.List, rhs: FiveDaysWeather.List) -> Bool {
-            guard let lhs = lhs.weather.first?.id,
-                  let rhs = rhs.weather.first?.id else { return false }
-            
-            return lhs == rhs
         }
     }
 

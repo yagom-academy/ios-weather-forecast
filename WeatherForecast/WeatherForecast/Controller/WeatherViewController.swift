@@ -6,7 +6,7 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController {
+final class WeatherViewController: UIViewController {
     
     enum NameSpace {
         enum TableView {
@@ -34,7 +34,7 @@ class WeatherViewController: UIViewController {
                            forCellReuseIdentifier: WeatherTableViewCell.identifier)
         tableView.rowHeight = NameSpace.TableView.rowheight
         tableView.backgroundView = UIImageView(image: UIImage(named: NameSpace.TableView.backGroundImage))
-        
+        tableView.separatorColor = .white
         return tableView
     }()
     
@@ -89,7 +89,7 @@ extension WeatherViewController: WeatherViewModelDelegete {
                                             minTempature: viewModel?.minTempature,
                                             maxTempature: viewModel?.maxTempature,
                                             currentTempature: viewModel?.currentTempature,
-                                            iconData: viewModel?.iconData)
+                                            iconImage: viewModel?.iconImage)
     }
     
     func setTableViewRows(_ count: Int) {
@@ -114,11 +114,18 @@ extension WeatherViewController: UITableViewDataSource {
         guard let url = URL(string: WeatherAPI.icon.url + cellViewModel.iconPath) else {
             return UITableViewCell()
         }
-        
-        WeatherNetworkManager().weatherIconImageDataTask(url: url) { data in
-            <#code#>
+        cell.cellId = url.lastPathComponent
+        WeatherNetworkManager().weatherIconImageDataTask(url: url) { [cell] image in
+            guard cell.cellId == url.lastPathComponent else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                cell.configureContents(date: cellViewModel.date,
+                                       tempature: cellViewModel.tempature,
+                                       weatherImage: image)
+            }
         }
-        
         return cell
     }
 }

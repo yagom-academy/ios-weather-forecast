@@ -6,13 +6,24 @@
 //
 
 import Foundation
+import UIKit.UIImage
 
 final class WeatherNetworkManager: NetworkManager {
-    func weatherIconImageDataTask(url: URL, completion: @escaping (Data) -> Void) {
+    func weatherIconImageDataTask(url: URL, completion: @escaping (UIImage) -> Void) {
+        
+        if let cacheImage = WeatherImageChche.shared.getObject(forKey: NSString(string: url.absoluteString)) {
+            completion(cacheImage)
+            return
+        }
+        
         dataTask(url: url) { result in
             switch result {
             case .success(let data):
-                completion(data)
+                UIImage(data: data).flatMap {
+                    WeatherImageChche.shared.setObject(forKey: NSString(string: url.absoluteString),
+                                                                      object: $0)
+                    completion($0)
+                }
             case .failure(_):
                 break
             }

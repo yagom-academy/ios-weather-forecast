@@ -30,7 +30,6 @@ final class WeatherService {
     
 }
 
-
 // MARK: - Method
 extension WeatherService {
     
@@ -50,10 +49,6 @@ extension WeatherService {
 
     }
 
-    func getCellViewModel(at indexPath: IndexPath) -> FiveDaysWeather.List? {
-        return fiveDaysData?.list[indexPath.row]
-    }
-    
     func refreshData() {
         locationManager.requestLocation()
     }
