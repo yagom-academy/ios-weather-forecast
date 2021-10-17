@@ -42,7 +42,7 @@ final class Router<EndPointType: EndPoint>: NetworkRouter {
             insert(pathComponents: path, to: &request)
             insert(queryItems: query, to: &request)
         }
-
+        
         return request
     }
     

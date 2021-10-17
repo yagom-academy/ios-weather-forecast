@@ -13,11 +13,14 @@ final class OpenWeatherMainViewController: UIViewController {
     
     private let tableViewDataSource = WeatherTableviewDataSource()
     private let tableView = UITableView()
+    let headerDelegate = WeatherTableViewDelegate()
     
     //MARK: - View's Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         drawTableView()
+        self.tableView.dataSource = self.tableViewDataSource
+        self.tableView.delegate = headerDelegate
         locationManager.delegate = self
         locationManager.askUserLocation()
         
@@ -29,14 +32,9 @@ final class OpenWeatherMainViewController: UIViewController {
     }
     
     @objc func reloadTableView() {
-        DispatchQueue.main.async { [weak self] in
-            guard let `self` = self else {
-                return
-            }
-            self.tableView.dataSource = self.tableViewDataSource
+        DispatchQueue.main.async { [self] in
             self.tableView.reloadData()
         }
-        
     }
     
     deinit {
@@ -56,7 +54,6 @@ extension OpenWeatherMainViewController: CLLocationManagerDelegate {
         let sessionDelegate = OpenWeatherSessionDelegate()
         let networkManager = WeatherNetworkManager()
         
-        
         networkManager.fetchOpenWeatherData(latitudeAndLongitude: location,
                                             requestPurpose: .currentWeather,
                                             sessionDelegate.session)
@@ -64,7 +61,6 @@ extension OpenWeatherMainViewController: CLLocationManagerDelegate {
         networkManager.fetchOpenWeatherData(latitudeAndLongitude: location,
                                             requestPurpose: .forecast,
                                             sessionDelegate.session)
-        
     }
     
     func locationManager(_ manager: CLLocationManager,
@@ -106,6 +102,9 @@ extension OpenWeatherMainViewController {
                                 forHeaderFooterViewReuseIdentifier: "weatherHeaderView")
         let iconSize = 40
         self.tableView.rowHeight = CGFloat(iconSize)
+        
+        let headerViewSize: CGFloat = 150
+        self.tableView.sectionHeaderHeight = headerViewSize
     }
     
     private func showAlert(title: String, message: String) {

@@ -109,7 +109,7 @@ extension FiveDaysForecastCell {
         self.dateLabel.setPosition(top: self.contentView.topAnchor,
                                    bottom:  self.contentView.bottomAnchor,
                                    leading: self.contentView.leadingAnchor,
-                                   leadingConstant: 10,
+                                   leadingConstant: 20,
                                    trailing: nil)
         
         self.contentView.addSubview(self.temperatureLabel)
@@ -125,6 +125,6 @@ extension FiveDaysForecastCell {
                                               bottom:  self.contentView.bottomAnchor,
                                               leading: nil,
                                               trailing: self.contentView.trailingAnchor,
-                                              trailingConstant: -10)
+                                              trailingConstant: -20)
     }
 }

@@ -28,7 +28,7 @@ enum PathOptions {
         case .forecast:
             return ["\(Paths.data)", "\(Paths.twoPointFive.rawValue)", "\(Paths.forecast)"]
         case .current:
-            return ["\(Paths.data)", "\(Paths.twoPointFive)", "\(Paths.current)"]
+            return ["\(Paths.data)", "\(Paths.twoPointFive.rawValue)", "\(Paths.current.rawValue)"]
         }
     }
 }
