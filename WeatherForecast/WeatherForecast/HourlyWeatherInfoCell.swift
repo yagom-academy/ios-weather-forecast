@@ -64,18 +64,12 @@ class HourlyWeatherInfoCell: UITableViewCell {
     func setUpUI(forcast: FiveDayForecast?, forecastItem: List) {
         let dateFormat = forecastItem.dt
         dateLabel.text = dateFormat.toString()
-        let averageTemperature = changeToCelcius(to: forecastItem.main.temp)
+        let averageTemperature = forecastItem.main.temp.celcius
         temperatureLabel.text = String(format: "%.1f°", averageTemperature)
         if let icon = forecastItem.weather.first?.icon {
             let imageURL = String(format: "https://openweathermap.org/img/w/%@.png", icon)
             weatherImage.setImage(from: imageURL)
         }
-    }
-}
-
-extension HourlyWeatherInfoCell {
-    func changeToCelcius(to kelvin: Double) -> Double {
-        return kelvin - 273.15
     }
 }
 

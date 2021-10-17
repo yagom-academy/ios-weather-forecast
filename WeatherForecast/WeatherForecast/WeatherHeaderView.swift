@@ -76,9 +76,10 @@ class WeatherHeaderView: UITableViewHeaderFooterView {
             return
         }
         locationLabel.text = location
-        minMaxTemperatureLabel.text = changeToCelcius(minimum: currentWeather.main.tempMin,
-                                                      maximum: currentWeather.main.tempMax)
-        currentTemperatureLabel.text = changeToCelcius(to: currentWeather.main.temp)
+        minMaxTemperatureLabel.text = String(format: "최저 %.1f° 최고 %.1f°",
+                                             currentWeather.main.tempMin.celcius,
+                                             currentWeather.main.tempMax.celcius)
+        currentTemperatureLabel.text = String(format: "%.1f°", currentWeather.main.temp.celcius)
     }
 }
 
@@ -97,14 +98,10 @@ extension UIImageView {
     }
 }
 
-extension WeatherHeaderView {
-    func changeToCelcius(to kelvin: Double) -> String {
-        return String(format: "%.1f°", kelvin - 273.15)
-    }
-    
-    func changeToCelcius(minimum: Double, maximum: Double) -> String {
-        let minimumCelcius = minimum - 273.15
-        let maximumCelcius = maximum - 273.15
-        return String(format: "최저 %.1f° 최고 %.1f°", minimumCelcius, maximumCelcius)
+extension Double {
+    var celcius: Double {
+        get {
+            return self - 273.15
+        }
     }
 }
