@@ -89,7 +89,8 @@ extension MainWeatherTableViewController {
         }
         let intervalWeatherData = weatherDataViewModel.intervalWeatherInfos[indexPath.row]
         let formattedDate = dateFormatter.string(from: Date(timeIntervalSince1970: intervalWeatherData.date))
-        cell.configureTexts(date: formattedDate, temperature: "\(intervalWeatherData.mainInformation.temperature)º")
+        cell.configureTexts(date: formattedDate,
+                            temperature: "\(intervalWeatherData.mainInformation.temperature.tenths)º")
         
         guard let iconName = intervalWeatherData.conditions.first?.iconName else {
             NSLog("IndexPath \(indexPath) cell - 날씨 아이콘 이름정보 없음 ")
@@ -133,8 +134,8 @@ extension MainWeatherTableViewController {
         let temperatureRange = (min: weatherDataViewModel.currentMinimumTemperature,
                                 max: weatherDataViewModel.currentMaximumTemperature)
         headerView.configureTexts(address: weatherDataViewModel.currentAddress,
-                                  temperatureRange: "최소 \(temperatureRange.min)º 최대 \(temperatureRange.max)º",
-                                  temperature: "\(weatherDataViewModel.currentTemperature)º")
+                                  temperatureRange: "최소 \(temperatureRange.min.tenths)º 최대 \(temperatureRange.max.tenths)º",
+                                  temperature: "\(weatherDataViewModel.currentTemperature.tenths)º")
         
         let iconName = weatherDataViewModel.currentWeatherIconName
         if let cachedImage = imageLoader.fetchCachedData(key: iconName) {
