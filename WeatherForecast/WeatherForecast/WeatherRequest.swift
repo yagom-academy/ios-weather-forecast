@@ -7,6 +7,8 @@
 
 import Foundation
 
+let apiKey = "1af72e89e05d364984fe32463122135f"
+
 enum HTTPMethod: String {
     case get = "GET"
 }
@@ -42,7 +44,6 @@ enum WeatherRequest: TargetType {
     }
     
     func configure() -> URLRequest? {
-        let apiKey = "1af72e89e05d364984fe32463122135f"
         var urlComponents = URLComponents(string: self.baseURL)
         urlComponents?.path = self.path
         let lat = URLQueryItem(name: "lat", value: self.query.0.description)
