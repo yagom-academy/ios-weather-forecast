@@ -55,6 +55,12 @@ class HourlyWeatherInfoCell: UITableViewCell {
                                      temperatureLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)])
     }
     
+    override func prepareForReuse() {
+        dateLabel.text = ""
+        temperatureLabel.text = ""
+        weatherImage.image = nil
+    }
+    
     func setUpUI(forcast: FiveDayForecast?, forecastItem: List) {
         let dateFormat = forecastItem.dt
         dateLabel.text = changeStringFormat(to: dateFormat)
