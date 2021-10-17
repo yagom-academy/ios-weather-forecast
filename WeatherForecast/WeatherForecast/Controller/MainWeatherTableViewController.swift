@@ -19,46 +19,48 @@ class MainWeatherTableViewController: UITableViewController {
         
     init(weatherDataViewModel: WeatherDataViewModel) {
         self.weatherDataViewModel = weatherDataViewModel
-        super.init(nibName: nil, bundle: nil)
+        
+        super.init(style: .plain)
+        tableView.backgroundView = makeTableViewBackgroundView()
+        tableView.separatorColor = selectTableViewSeparatorColor()
+        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.className)
+        tableView.tableHeaderView = headerView
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let backgroundImageView = UIImageView(image: UIImage(named: "BackGroundImage"))
-        backgroundImageView.contentMode = .scaleAspectFill
-        
-        tableView.backgroundView = backgroundImageView
-        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.className)
-        tableView.tableHeaderView = headerView
-        tableView.tableHeaderView?.frame = CGRect(x: 0,
-                                                  y: 0,
-                                                  width: view.bounds.width,
-                                                  height: headerView.calculateHeaderHeight())
-        switch self.traitCollection.userInterfaceStyle {
-        case .light, .unspecified:
-            tableView.separatorColor = .black
-        case .dark:
-            tableView.separatorColor = .white
-        @unknown default:
-            fatalError("\(#function) - 기본 설정 값 읽어오기 에러")
-        }
         tableView.initRefresh(targetView: self, action: #selector(reloadWeatherData(_:)))
+        tableView.tableHeaderView?.frame = makeHeaderViewFrame()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         reloadWeatherData()
     }
 }
 
 // MARK: - TableView 설정
 extension MainWeatherTableViewController {
+    private func makeTableViewBackgroundView() -> UIImageView {
+        let backgroundImage = UIImage(named: "BackGroundImage")
+        let backgroundImageView = UIImageView(image: backgroundImage)
+        backgroundImageView.contentMode = .scaleAspectFill
+        return backgroundImageView
     }
+    
+    private func selectTableViewSeparatorColor() -> UIColor {
+        switch self.traitCollection.userInterfaceStyle {
+        case .light, .unspecified:
+            return .black
+        case .dark:
+            return .white
+        @unknown default:
+            NSLog("\(#function) - 기본 설정 값 읽어오기 에러")
+            return .clear
         }
     }
 }
