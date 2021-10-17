@@ -33,7 +33,7 @@ class MainWeatherTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.initRefresh(targetView: self, action: #selector(reloadWeatherData(_:)))
+        tableView.refreshControl = makeRefreshControl(targetView: self, action: #selector(reloadWeatherData(_:)))
         tableView.tableHeaderView?.frame = makeHeaderViewFrame()
     }
     
@@ -62,6 +62,13 @@ extension MainWeatherTableViewController {
             NSLog("\(#function) - 기본 설정 값 읽어오기 에러")
             return .clear
         }
+    }
+    
+    private func makeRefreshControl(targetView: NSObject, action: Selector) -> UIRefreshControl {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(targetView, action: action, for: .valueChanged)
+        refreshControl.tintColor = .orange
+        return refreshControl
     }
 }
 
