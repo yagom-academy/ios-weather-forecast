@@ -30,28 +30,18 @@ extension WeatherDataViewModel {
                 let preparingGroup = DispatchGroup()
 
                 preparingGroup.enter()
-                self.fetchAddressInfomation(location) { address in
-                    self.currentAddress = address
+                self.fetchAddressInfomation(location) {
                     preparingGroup.leave()
                 }
-
                 preparingGroup.enter()
-                let currentWeatherAPI = WeatherAPI.current(.geographic(location.coordinate))
-                self.requestWeatherData(type: CurrentWeatherData.self, of: currentWeatherAPI) { currentweather in
-                    self.currentWeatherIconName = currentweather.conditions[0].iconName
-                    self.currentTemperature = currentweather.mainInformation.temperature
-                    self.currentMinimumTemperature = currentweather.mainInformation.minimumTemperature
-                    self.currentMaximumTemperature = currentweather.mainInformation.maximumTemperature
+                self.fetchCurrentWeatherData(location) {
                     preparingGroup.leave()
                 }
-
                 preparingGroup.enter()
-                let fivedayWeatherAPI = WeatherAPI.fiveday(.geographic(location.coordinate))
-                self.requestWeatherData(type: FiveDayWeatherData.self, of: fivedayWeatherAPI) { fivedayWeather in
-                    self.intervalWeatherInfos = fivedayWeather.intervalWeathers
+                self.fetchFiveDayWeatherData(location) {
                     preparingGroup.leave()
                 }
-
+    
                 preparingGroup.wait()
                 completion()
             }
@@ -61,7 +51,13 @@ extension WeatherDataViewModel {
 
 // MARK: - 주소 불러오기
 extension WeatherDataViewModel {
-    private func fetchAddressInfomation(_ location: CLLocation, completion: @escaping (String) -> Void) {
+    private func fetchAddressInfomation(_ location: CLLocation, completion: @escaping () -> Void) {
+        self.requestAddressInfomation(location) { address in
+            self.currentAddress = address
+        }
+    }
+    
+    private func requestAddressInfomation(_ location: CLLocation, completion: @escaping (String) -> Void) {
         let koreaLocale = Locale(identifier: "ko-kr")
         CLGeocoder().reverseGeocodeLocation(location, preferredLocale: koreaLocale) { placemarks, error in
             guard error == nil else {
@@ -86,6 +82,23 @@ extension WeatherDataViewModel {
 
 // MARK: - 날씨 정보 불러오기
 extension WeatherDataViewModel {
+    private func fetchCurrentWeatherData(_ location: CLLocation, completion: @escaping () -> Void) {
+        let currentWeatherAPI = WeatherAPI.current(.geographic(location.coordinate))
+        self.requestWeatherData(type: CurrentWeatherData.self, of: currentWeatherAPI) { currentweather in
+            self.currentWeatherIconName = currentweather.conditions[0].iconName
+            self.currentTemperature = currentweather.mainInformation.temperature
+            self.currentMinimumTemperature = currentweather.mainInformation.minimumTemperature
+            self.currentMaximumTemperature = currentweather.mainInformation.maximumTemperature
+        }
+    }
+    
+    private func fetchFiveDayWeatherData(_ location: CLLocation, completion: @escaping () -> Void) {
+        let fivedayWeatherAPI = WeatherAPI.fiveday(.geographic(location.coordinate))
+        self.requestWeatherData(type: FiveDayWeatherData.self, of: fivedayWeatherAPI) { fivedayWeather in
+            self.intervalWeatherInfos = fivedayWeather.intervalWeathers
+        }
+    }
+    
     private func requestWeatherData<T: Decodable>(type: T.Type = T.self, of api: WeatherAPI,
                                                   completion: @escaping (T) -> Void) {
         guard let url = api.makeURL() else {
