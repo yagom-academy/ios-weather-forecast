@@ -56,37 +56,9 @@ class MainWeatherTableViewController: UITableViewController {
     }
 }
 
+// MARK: - TableView 설정
 extension MainWeatherTableViewController {
-    @objc private func reloadWeatherData(_ refreshControl: UIRefreshControl? = nil) {
-        weatherDataViewModel.setUpWeatherData {
-            DispatchQueue.main.async {
-                if let control = refreshControl {
-                    control.endRefreshing()
-                }
-                self.reloadHeaderView()
-                self.tableView.reloadData()
-            }
-        }
     }
-    private func reloadHeaderView() {
-        let range = (min: weatherDataViewModel.currentMinimumTemperature,
-                     max: weatherDataViewModel.currentMaximumTemperature)
-        headerView.configureTexts(address: weatherDataViewModel.currentAddress,
-                                  temperatureRange: "최소 \(range.min)º 최대 \(range.max)º",
-                                  temperature: "\(weatherDataViewModel.currentTemperature)º")
-        
-        let iconName = weatherDataViewModel.currentWeatherIconName
-        if let cachedImage = imageLoader.fetchCachedData(key: iconName) {
-            headerView.configureIcon(image: cachedImage)
-        } else {
-            if let imageUrl = WeatherAPI.makeImageURL(iconName) {
-                imageLoader.imageFetch(url: imageUrl) { image in
-                    DispatchQueue.main.async {
-                        self.headerView.configureIcon(image: image)
-                        self.imageLoader.cacheData(key: iconName, data: image)
-                    }
-                }
-            }
         }
     }
 }
@@ -124,5 +96,46 @@ extension MainWeatherTableViewController {
             }
         }
         return cell
+    }
+}
+
+// MARK: - HeaderView
+extension MainWeatherTableViewController {
+    private func makeHeaderViewFrame() -> CGRect {
+        return  CGRect(x: 0, y: 0, width: view.bounds.width, height: headerView.calculateHeaderHeight())
+    }
+    
+    @objc private func reloadWeatherData(_ refreshControl: UIRefreshControl? = nil) {
+        weatherDataViewModel.setUpWeatherData {
+            DispatchQueue.main.async {
+                if let control = refreshControl {
+                    control.endRefreshing()
+                }
+                self.reloadHeaderView()
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func reloadHeaderView() {
+        let range = (min: weatherDataViewModel.currentMinimumTemperature,
+                     max: weatherDataViewModel.currentMaximumTemperature)
+        headerView.configureTexts(address: weatherDataViewModel.currentAddress,
+                                  temperatureRange: "최소 \(range.min)º 최대 \(range.max)º",
+                                  temperature: "\(weatherDataViewModel.currentTemperature)º")
+        
+        let iconName = weatherDataViewModel.currentWeatherIconName
+        if let cachedImage = imageLoader.fetchCachedData(key: iconName) {
+            headerView.configureIcon(image: cachedImage)
+        } else {
+            if let imageUrl = WeatherAPI.makeImageURL(iconName) {
+                imageLoader.imageFetch(url: imageUrl) { image in
+                    DispatchQueue.main.async {
+                        self.headerView.configureIcon(image: image)
+                        self.imageLoader.cacheData(key: iconName, data: image)
+                    }
+                }
+            }
+        }
     }
 }
