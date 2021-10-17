@@ -87,11 +87,11 @@ extension MainWeatherTableViewController {
                                                        for: indexPath) as? MainTableViewCell else {
             return UITableViewCell()
         }
-        let intervalData = weatherDataViewModel.intervalWeatherInfos[indexPath.row]
-        let formattedDate = dateFormatter.string(from: Date(timeIntervalSince1970: intervalData.date))
-        cell.configureTexts(date: formattedDate, temperature: "\(intervalData.mainInformation.temperature)º")
+        let intervalWeatherData = weatherDataViewModel.intervalWeatherInfos[indexPath.row]
+        let formattedDate = dateFormatter.string(from: Date(timeIntervalSince1970: intervalWeatherData.date))
+        cell.configureTexts(date: formattedDate, temperature: "\(intervalWeatherData.mainInformation.temperature)º")
         
-        guard let iconName = intervalData.conditions.first?.iconName else {
+        guard let iconName = intervalWeatherData.conditions.first?.iconName else {
             NSLog("IndexPath \(indexPath) cell - 날씨 아이콘 이름정보 없음 ")
             return cell
         }
@@ -130,10 +130,10 @@ extension MainWeatherTableViewController {
     }
     
     private func reloadHeaderView() {
-        let range = (min: weatherDataViewModel.currentMinimumTemperature,
-                     max: weatherDataViewModel.currentMaximumTemperature)
+        let temperatureRange = (min: weatherDataViewModel.currentMinimumTemperature,
+                                max: weatherDataViewModel.currentMaximumTemperature)
         headerView.configureTexts(address: weatherDataViewModel.currentAddress,
-                                  temperatureRange: "최소 \(range.min)º 최대 \(range.max)º",
+                                  temperatureRange: "최소 \(temperatureRange.min)º 최대 \(temperatureRange.max)º",
                                   temperature: "\(weatherDataViewModel.currentTemperature)º")
         
         let iconName = weatherDataViewModel.currentWeatherIconName
