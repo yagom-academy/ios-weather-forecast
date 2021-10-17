@@ -54,6 +54,7 @@ extension WeatherDataViewModel {
     private func fetchAddressInfomation(_ location: CLLocation, completion: @escaping () -> Void) {
         self.requestAddressInfomation(location) { address in
             self.currentAddress = address
+            completion()
         }
     }
     
@@ -89,6 +90,7 @@ extension WeatherDataViewModel {
             self.currentTemperature = currentweather.mainInformation.temperature
             self.currentMinimumTemperature = currentweather.mainInformation.minimumTemperature
             self.currentMaximumTemperature = currentweather.mainInformation.maximumTemperature
+            completion()
         }
     }
     
@@ -96,6 +98,7 @@ extension WeatherDataViewModel {
         let fivedayWeatherAPI = WeatherAPI.fiveday(.geographic(location.coordinate))
         self.requestWeatherData(type: FiveDayWeatherData.self, of: fivedayWeatherAPI) { fivedayWeather in
             self.intervalWeatherInfos = fivedayWeather.intervalWeathers
+            completion()
         }
     }
     
