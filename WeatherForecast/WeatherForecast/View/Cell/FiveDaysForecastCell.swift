@@ -42,9 +42,8 @@ class CellHolder {
         let celsiusUnit = UnitTemperature.celsius
         let convertedTemperature = celsiusUnit.converter.value(fromBaseUnitValue: forcastInformation.main.temperature)
         let formattedTemperature = NumberFormatter.customTemperatureFormatter().string(for: convertedTemperature)!
-        self.temperatureText = "\(formattedTemperature)℃"
-        }
-
+        self.temperatureText = "\(formattedTemperature)°"
+    }
     
     var date: String {
         return self.dateLabelText
@@ -67,67 +66,65 @@ class FiveDaysForecastCell: UITableViewCell {
         self.weatherIconImageView.image = iconImgae
     }
     
-    private lazy var dateLabel: UILabel = {
+    private let dateLabel: UILabel = {
         let dateLabel = UILabel()
-        self.contentView.addSubview(dateLabel)
-        dateLabel.setPosition(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: nil)
         dateLabel.textColor = .black
-        dateLabel.textAlignment = .center
-        
         return dateLabel
     }()
     
-    private var temperatureLabel: UILabel = {
-        let tempLabel = UILabel()
-        tempLabel.textColor = .black
-        tempLabel.textAlignment = .center
-        
-        return tempLabel
+    private let temperatureLabel: UILabel = {
+        let temLabel = UILabel()
+        temLabel.textColor = .black
+        return temLabel
     }()
     
-    private lazy var weatherIconImageView: UIImageView = {
-        let weatherIcon = UIImageView()
-        weatherIcon.translatesAutoresizingMaskIntoConstraints = false
-        weatherIcon.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        weatherIcon.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        return UIImageView()
-    }()
-    
-    private var stackView = UIStackView()
+    private let weatherIconImageView = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        drawStackView()
+        positionUIElements()
+        setLabelStyle()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
-    private func drawStackView() {
-        stackView = UIStackView(arrangedSubviews: [temperatureLabel, weatherIconImageView])
-        self.contentView.addSubview(stackView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-
-        stackView.axis = .horizontal
-        stackView.setPosition(top: self.contentView.topAnchor, bottom: self.contentView.bottomAnchor, leading: self.contentView.leadingAnchor, leadingConstant: 250, trailing: self.contentView.trailingAnchor)
-        
-        stackView.distribution = .equalCentering
-        stackView.alignment = .center
-        stackView.spacing = 5
-        
-        setLabelStyle()
-    }
-    
+extension FiveDaysForecastCell {
     private func setLabelStyle() {
-        self.setDynamicType(dateLabel, .body)
-        self.setDynamicType(temperatureLabel, .body)
+        self.setDynamicType(to: dateLabel, .body)
+        self.setDynamicType(to: temperatureLabel, .body)
         self.dateLabel.textAlignment = .center
         self.temperatureLabel.textAlignment = .center
     }
     
-    private func setDynamicType(_ label: UILabel, _ font: UIFont.TextStyle) {
+    private func setDynamicType(to label: UILabel, _ font: UIFont.TextStyle) {
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: font)
+    }
+    
+    private func positionUIElements() {
+        self.contentView.addSubview(self.dateLabel)
+        self.dateLabel.setPosition(top: self.contentView.topAnchor,
+                                   bottom:  self.contentView.bottomAnchor,
+                                   leading: self.contentView.leadingAnchor,
+                                   leadingConstant: 10,
+                                   trailing: nil)
+        
+        self.contentView.addSubview(self.temperatureLabel)
+        self.temperatureLabel.setPosition(top: self.contentView.topAnchor,
+                                          bottom:  self.contentView.bottomAnchor,
+                                          leading: self.dateLabel.leadingAnchor,
+                                          leadingConstant: 300,
+                                          trailing: nil)
+        
+        self.contentView.addSubview(self.weatherIconImageView)
+        
+        self.weatherIconImageView.setPosition(top: self.contentView.topAnchor,
+                                              bottom:  self.contentView.bottomAnchor,
+                                              leading: nil,
+                                              trailing: self.contentView.trailingAnchor,
+                                              trailingConstant: -10)
     }
 }
