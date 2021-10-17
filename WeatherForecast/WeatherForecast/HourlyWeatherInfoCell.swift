@@ -68,7 +68,7 @@ class HourlyWeatherInfoCell: UITableViewCell {
         temperatureLabel.text = String(format: "%.1f°", averageTemperature)
         if let icon = forecastItem.weather.first?.icon {
             let imageURL = String(format: "https://openweathermap.org/img/w/%@.png", icon)
-            weatherImage.downloadImage(from: imageURL)
+            weatherImage.setImage(from: imageURL)
         }
     }
 }

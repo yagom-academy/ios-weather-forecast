@@ -70,7 +70,7 @@ class WeatherHeaderView: UITableViewHeaderFooterView {
     func setUpUI(currentWeather: CurrentWeather?, location: String) {
         if let icon = currentWeather?.weather.first?.icon {
             let imageURL = String(format: "https://openweathermap.org/img/w/%@.png", icon)
-            weatherImage.downloadImage(from: imageURL)
+            weatherImage.setImage(from: imageURL)
         }
         guard let currentWeather = currentWeather else {
             return
@@ -83,7 +83,7 @@ class WeatherHeaderView: UITableViewHeaderFooterView {
 }
 
 extension UIImageView {
-    func downloadImage(from link: String) {
+    func setImage(from link: String) {
         guard let url = URL(string: link) else {
             return
         }
