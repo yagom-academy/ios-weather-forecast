@@ -39,7 +39,7 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     private let maxTemperatureLabel = UILabel()
     private let minTemperatureLabel = UILabel()
     private let nowTemperatureLabel = UILabel()
-    private var iconImage = UIImageView()
+    private let iconImageView = UIImageView()
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -48,12 +48,6 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension OpenWeatherHeaderView {
-    private func positionContents() {
-        
     }
     
     func configure() {
@@ -66,10 +60,21 @@ extension OpenWeatherHeaderView {
         self.addressLabel.text = address
         self.maxTemperatureLabel.text = "\(maxTem)"
         
-      
     }
     
     func configureIcon(_ image: UIImage) {
-        self.iconImage.image = image
+        self.iconImageView.image = image
+        self.iconImageView.contentMode = .scaleAspectFit
+    }
+}
+
+extension OpenWeatherHeaderView {
+    private func positionContents() {
+        self.contentView.addSubview(self.iconImageView)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.iconImageView.setPosition(top: self.contentView.topAnchor,
+                                       bottom: self.contentView.bottomAnchor,
+                                       leading: self.contentView.leadingAnchor,
+                                       trailing: self.contentView.trailingAnchor)
     }
 }

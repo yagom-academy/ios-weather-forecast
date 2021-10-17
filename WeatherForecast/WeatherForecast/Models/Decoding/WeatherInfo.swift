@@ -57,10 +57,12 @@ struct CurrentWeather: Decodable {
     var coordination: Coordinate
     var weather: [Weather]
     var main: Temperature
+    var date: Int
     
     enum CodingKeys: String, CodingKey {
         case coordination = "coord"
         case weather, main
+        case date = "dt"
     }
     
     struct Weather: Decodable {

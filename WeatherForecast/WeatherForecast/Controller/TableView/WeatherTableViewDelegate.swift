@@ -14,11 +14,21 @@ class WeatherTableViewDelegate: NSObject, UITableViewDelegate {
             return UIView()
         }
         
-              
-        view.configure()
+        guard let weatherData = WeatherDataHolder.shared.current else {
+            return UIView()
+        }
+ 
+        let iconID = weatherData.weather.first?.icon
+        let date = weatherData.date
         
-      
+        let urlString = "https://openweathermap.org/img/w/\(iconID ?? "").png"
+
+        ImageLoader.downloadImage(reqeustURL: urlString, imageCachingKey: date) { requestedIcon in
+            DispatchQueue.main.async {
+                view.configureIcon(requestedIcon)
+            }
+        }
+        
         return view
     }
-    
 }

@@ -44,7 +44,9 @@ extension ImageLoader {
         }
         
         let task = URLSession.shared.dataTask(with: url) { data, _, _ in
-            guard let data = data else { return }
+            guard let data = data else {
+                return
+            }
             
             guard let downloadImage = UIImage(data: data) else { return }
             

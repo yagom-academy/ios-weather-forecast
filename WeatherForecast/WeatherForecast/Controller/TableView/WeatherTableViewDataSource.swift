@@ -21,13 +21,11 @@ class WeatherTableviewDataSource: NSObject, UITableViewDataSource {
             return UITableViewCell()
         }
 
-        var image = UIImage()
         let urlString = "https://openweathermap.org/img/w/\(list.weather.first?.icon ?? "").png"
       
         ImageLoader.downloadImage(reqeustURL: urlString, imageCachingKey: list.date) { requestedIcon in
-            image = requestedIcon
             DispatchQueue.main.async {
-                cell.configure(image)
+                cell.configure(requestedIcon)
             }
         }
         
@@ -36,5 +34,5 @@ class WeatherTableviewDataSource: NSObject, UITableViewDataSource {
         cell.configure(cellHolder)
         
         return cell
-    }
+    }    
 }
