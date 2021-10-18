@@ -32,7 +32,7 @@ class WeatherTableviewDataSource: NSObject, UITableViewDataSource {
         let cellHolder = CellHolder(forcastInformation: list)
         
         cell.configure(cellHolder)
-        
+
         return cell
     }    
 }

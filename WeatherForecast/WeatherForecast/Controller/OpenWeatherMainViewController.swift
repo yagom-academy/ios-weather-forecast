@@ -9,16 +9,17 @@ import CoreLocation
 
 final class OpenWeatherMainViewController: UIViewController {
     private let locationManager = LocationManager()
-    private var location = (longitude: CLLocationDegrees() , latitude: CLLocationDegrees())
-    
-    private let tableViewDataSource = WeatherTableviewDataSource()
+ 
     private let tableView = UITableView()
-    let headerDelegate = WeatherTableViewDelegate()
+    private let tableViewDataSource = WeatherTableviewDataSource()
+    private let headerDelegate = WeatherTableViewDelegate()
     
     //MARK: - View's Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         drawTableView()
+        setRefreshControl()
+
         self.tableView.dataSource = self.tableViewDataSource
         self.tableView.delegate = headerDelegate
         locationManager.delegate = self
@@ -28,6 +29,11 @@ final class OpenWeatherMainViewController: UIViewController {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(reloadTableView),
                                                name: .reloadTableView,
+                                               object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(stopRefesh),
+                                               name: .stopRefresh,
                                                object: nil)
     }
     
@@ -40,6 +46,8 @@ final class OpenWeatherMainViewController: UIViewController {
     deinit {
         print(#function)
     }
+    
+    private let refreshControl = UIRefreshControl()
 }
 
 extension OpenWeatherMainViewController: CLLocationManagerDelegate {
@@ -93,6 +101,27 @@ extension OpenWeatherMainViewController: CLLocationManagerDelegate {
 }
 
 extension OpenWeatherMainViewController {
+    private func setRefreshControl() {
+        if #available(iOS 10.0, *) {
+            self.tableView.refreshControl = self.refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
+        
+        self.refreshControl.addTarget(self, action: #selector(reloadView), for: .valueChanged)
+    }
+    
+    @objc func reloadView() {
+        self.locationManager.requestLocation()
+    }
+    
+    @objc func stopRefesh() {
+        DispatchQueue.main.async {
+            self.tableView.refreshControl?.endRefreshing()
+
+        }
+    }
+    
     private func drawTableView() {
         self.view.addSubview(tableView)
         self.tableView.frame = self.view.bounds

@@ -10,6 +10,7 @@ import UIKit.UIImage
 
 extension Notification.Name {
     static let reloadTableView = Notification.Name("reload TableView")
+    static let stopRefresh = Notification.Name("stopRefresh")
 }
 
 final class OpenWeatherSessionDelegate: NSObject, URLSessionDataDelegate {
@@ -70,5 +71,11 @@ class WeatherDataHolder {
         default:
             print("\(#function) 에서 default로 처리됨")
         }
+        
+        
+        defer {
+            NotificationCenter.default.post(name: .stopRefresh, object: nil)
+        }
+        
     }
 }
