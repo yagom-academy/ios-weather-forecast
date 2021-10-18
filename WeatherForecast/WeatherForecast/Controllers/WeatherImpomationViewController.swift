@@ -29,7 +29,6 @@ class WeatherImpormationViewController: UIViewController {
         processCollectionView()
         registeredIdetifier()
         decidedCollectionViewLayout()
-       
     }
     
     private func getUserLocation() {
@@ -55,6 +54,8 @@ class WeatherImpormationViewController: UIViewController {
         collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        
+        collectionViewDataSource.decidedLayout(collectionView)
     }
     
     private func processWeatherImpormation() {
@@ -64,19 +65,26 @@ class WeatherImpormationViewController: UIViewController {
                                       longitude: location.coordinate.longitude)
         let fiveDaysWeatherURL =
         WeatherURL.forecastCoordinates(latitude: location.coordinate.latitude,
-                                      longitude: location.coordinate.longitude)
+                                       longitude: location.coordinate.longitude)
         
-        self.getWeatherImpormation(request: currentWeatherURL,
-                                   type: CurrentWeather.self) { result in
+        getWeatherImpormation(request: currentWeatherURL,
+                              type: CurrentWeather.self) { result in
             if let result = result {
-                debugPrint(result)
+                self.collectionViewDataSource.currentWeather = result
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             }
+            
         }
         
-        self.getWeatherImpormation(request: fiveDaysWeatherURL,
-                                   type: FiveDaysWeather.self) { result in
+        getWeatherImpormation(request: fiveDaysWeatherURL,
+                              type: FiveDaysWeather.self) { result in
             if let result = result {
-                debugPrint(result)
+                self.collectionViewDataSource.fiveDaysWeather = result
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             }
         }
     }
