@@ -9,6 +9,7 @@ import CoreLocation
 
 class WeatherDataViewModel {
     private var locationService: LocationService
+    private weak var delegate: Requirable?
     
     private(set) var currentAddress: String = ""
     private(set) var currentTemperature: Double = 0

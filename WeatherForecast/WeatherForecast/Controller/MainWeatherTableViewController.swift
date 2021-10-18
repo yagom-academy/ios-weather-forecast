@@ -35,6 +35,7 @@ class MainWeatherTableViewController: UITableViewController {
         super.viewDidLoad()
         tableView.refreshControl = makeRefreshControl(targetView: self, action: #selector(reloadWeatherData(_:)))
         tableView.tableHeaderView?.frame = makeHeaderViewFrame()
+        self.weatherDataViewModel.setDelegate(from: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -112,13 +113,9 @@ extension MainWeatherTableViewController {
     }
 }
 
-// MARK: - HeaderView
-extension MainWeatherTableViewController {
-    private func makeHeaderViewFrame() -> CGRect {
-        return  CGRect(x: 0, y: 0, width: view.bounds.width, height: headerView.calculateHeaderHeight())
-    }
-    
-    @objc private func reloadWeatherData(_ refreshControl: UIRefreshControl? = nil) {
+// MARK: - Required Current Location
+extension MainWeatherTableViewController: Requirable {
+    @objc internal func reloadWeatherData(_ refreshControl: UIRefreshControl? = nil) {
         weatherDataViewModel.setUpWeatherData {
             DispatchQueue.main.async {
                 if let control = refreshControl {
@@ -128,6 +125,12 @@ extension MainWeatherTableViewController {
                 self.tableView.reloadData()
             }
         }
+    }
+    
+// MARK: - HeaderView
+extension MainWeatherTableViewController {
+    private func makeHeaderViewFrame() -> CGRect {
+        return  CGRect(x: 0, y: 0, width: view.bounds.width, height: headerView.calculateHeaderHeight())
     }
     
     private func reloadHeaderView() {
