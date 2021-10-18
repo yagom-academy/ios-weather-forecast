@@ -112,10 +112,9 @@
 			isa = PBXGroup;
 			children = (
 				A818BB2627199BAD007C4350 /* OpenWeatherHeaderView.swift */,
-				A818BB25271983FE007C4350 /* Cell */,
+				A86E0D0827145B5400822E96 /* FiveDaysForecastCell.swift */,
 				A818BB24271983EB007C4350 /* StoryBoard */,
 				A8570E772719187300C2EF01 /* Extension */,
-				A8FB2DE6271D08D0009967E2 /* TemperatureConverter.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -143,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				A84D4759270315A9002C1324 /* WeatherNetworkManager.swift */,
+				435D6425270C151F008BE703 /* LocationManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -151,17 +151,8 @@
 			isa = PBXGroup;
 			children = (
 				A86E0D0C2714723100822E96 /* WeatherTableViewDataSource.swift */,
-				A818BB282719A339007C4350 /* WeatherTableViewDelegate.swift */,
 			);
 			path = TableView;
-			sourceTree = "<group>";
-		};
-		A818BB23271983D9007C4350 /* Location */ = {
-			isa = PBXGroup;
-			children = (
-				435D6425270C151F008BE703 /* LocationManager.swift */,
-			);
-			path = Location;
 			sourceTree = "<group>";
 		};
 		A818BB24271983EB007C4350 /* StoryBoard */ = {
@@ -171,14 +162,6 @@
 				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
 			);
 			path = StoryBoard;
-			sourceTree = "<group>";
-		};
-		A818BB25271983FE007C4350 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				A86E0D0827145B5400822E96 /* FiveDaysForecastCell.swift */,
-			);
-			path = Cell;
 			sourceTree = "<group>";
 		};
 		A824B894270452DE009F9193 /* Decoding */ = {
@@ -229,9 +212,8 @@
 			isa = PBXGroup;
 			children = (
 				C79C8CF725ADDDF200EEE3F1 /* OpenWeatherMainViewController.swift */,
-				A8570E6D2716887C00C2EF01 /* OpenWeatherSessionDelegate.swift */,
+				A8FB2DEC271D9D28009967E2 /* Delegate */,
 				A818BB22271983C3007C4350 /* TableView */,
-				A818BB23271983D9007C4350 /* Location */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -240,8 +222,18 @@
 			isa = PBXGroup;
 			children = (
 				A824B894270452DE009F9193 /* Decoding */,
+				A8FB2DE6271D08D0009967E2 /* TemperatureConverter.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		A8FB2DEC271D9D28009967E2 /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				A818BB282719A339007C4350 /* WeatherTableViewDelegate.swift */,
+				A8570E6D2716887C00C2EF01 /* OpenWeatherSessionDelegate.swift */,
+			);
+			path = Delegate;
 			sourceTree = "<group>";
 		};
 		C79C8CE725ADDDF200EEE3F1 = {
