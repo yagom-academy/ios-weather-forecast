@@ -63,7 +63,7 @@ extension MainWeatherTableViewController {
     private func makeRefreshControl(targetView: NSObject, action: Selector) -> UIRefreshControl {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(targetView, action: action, for: .valueChanged)
-        refreshControl.tintColor = .orange
+        refreshControl.tintColor = .green
         return refreshControl
     }
 }
@@ -135,11 +135,11 @@ extension MainWeatherTableViewController: Requirable {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addTextField { latitudeTextField in
             latitudeTextField.placeholder = "위도"
-            latitudeTextField.keyboardType = .numberPad
+            latitudeTextField.keyboardType = .decimalPad
         }
         alert.addTextField { longitudeTextField in
             longitudeTextField.placeholder = "경도"
-            longitudeTextField.keyboardType = .numberPad
+            longitudeTextField.keyboardType = .decimalPad
         }
         alert.addAction(UIAlertAction(title: "변경", style: .default) { _ in
             guard let latitudeInput = alert.textFields?[0].text,
@@ -175,8 +175,8 @@ extension MainWeatherTableViewController {
         let temperatureRange = (min: weatherDataViewModel.currentMinimumTemperature,
                                 max: weatherDataViewModel.currentMaximumTemperature)
         headerView.configureTexts(address: weatherDataViewModel.currentAddress,
-                                  temperatureRange: "최소 \(temperatureRange.min.tenths)º 최대 \(temperatureRange.max.tenths)º",
-                                  temperature: "\(weatherDataViewModel.currentTemperature.tenths)º")
+                         temperatureRange: "최소 \(temperatureRange.min.tenths)º 최대 \(temperatureRange.max.tenths)º",
+                              temperature: "\(weatherDataViewModel.currentTemperature.tenths)º")
         
         let iconName = weatherDataViewModel.currentWeatherIconName
         if let cachedImage = imageLoader.fetchCachedData(key: iconName) {
