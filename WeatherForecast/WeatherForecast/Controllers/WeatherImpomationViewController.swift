@@ -11,6 +11,10 @@ class WeatherImpormationViewController: UIViewController {
     private let locationManager = LocationManager()
     private let apiManager = APIManager()
     private let decodingManager = DecodingManager()
+    private let collectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: UICollectionViewLayout())
+    private let collectionViewDataSource = WeatherCollectionViewDataSource()
     private var currentLocation: CLLocation? = nil {
         didSet {
             processWeatherImpormation()
@@ -22,6 +26,9 @@ class WeatherImpormationViewController: UIViewController {
         super.viewDidLoad()
         
         getUserLocation()
+        processCollectionView()
+        registeredIdetifier()
+        decidedCollectionViewLayout()
        
     }
     
@@ -29,6 +36,25 @@ class WeatherImpormationViewController: UIViewController {
         locationManager.getUserLocation { location in
             self.currentLocation = location
         }
+    }
+    
+    private func processCollectionView() {
+        collectionView.dataSource = collectionViewDataSource
+        
+    }
+    
+    private func registeredIdetifier() {
+        collectionView.register(WeatherCell.self,
+                                forCellWithReuseIdentifier: WeatherCell.identifier)
+    }
+    
+    private func decidedCollectionViewLayout() {
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(collectionView)
+        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
     
     private func processWeatherImpormation() {
