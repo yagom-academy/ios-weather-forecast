@@ -25,6 +25,8 @@ final class ViewController: UIViewController {
         tableView.register(WeatherInfoCell.self, forCellReuseIdentifier: WeatherInfoCell.cellIdentifier)
         locationManager.askUserLocation()
         setUpTableViewData()
+        self.view.addBackground(imageName: "sky")
+        self.tableView.backgroundColor = .clear
     }
     
     func setUpTableViewData() {
@@ -68,13 +70,28 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
               let item = locationManager.data else {
                   return UITableViewCell()
               }
+        cell.backgroundColor = .clear
+        cell.selectionStyle = .none
         cell.dateLabel.text = "\(item.list[indexPath.row].date)"
         cell.temperatureLabel.text = "\(item.list[indexPath.row].main.temperature)"
-        //        cell.weatherImageLabel.
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return locationManager.data?.list.count ?? 0
+    }
+}
+
+extension UIView {
+    func addBackground(imageName:String) {
+          
+        let imageViewBackground = UIImageView(frame: UIScreen.main.bounds)
+           imageViewBackground.image = UIImage(named: imageName)
+          
+           
+        imageViewBackground.contentMode = .scaleToFill
+          
+           self.addSubview(imageViewBackground)
+           self.sendSubviewToBack(imageViewBackground)
     }
 }
