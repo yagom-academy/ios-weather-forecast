@@ -11,7 +11,7 @@ import CoreLocation
 
 class MockLocationManager: LocationManagerProtocol {
     weak var delegate: CLLocationManagerDelegate?
-    var locationManagerDelegate: CLLocationManagerDelegate? {
+    weak var locationManagerDelegate: CLLocationManagerDelegate? {
         get {
             return self.delegate
         }

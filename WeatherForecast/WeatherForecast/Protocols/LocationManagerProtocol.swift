@@ -16,7 +16,7 @@ protocol LocationManagerProtocol {
 }
 
 extension CLLocationManager: LocationManagerProtocol {
-    var locationManagerDelegate: CLLocationManagerDelegate? {
+    weak var locationManagerDelegate: CLLocationManagerDelegate? {
         get {
             return self.delegate
         }
