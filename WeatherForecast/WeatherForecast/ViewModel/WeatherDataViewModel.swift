@@ -25,26 +25,35 @@ class WeatherDataViewModel {
 // MARK: - 데이터 Set-Up
 extension WeatherDataViewModel {
     func setUpWeatherData(completion: @escaping () -> Void) {
-        locationService.requestLocation { location in
-            DispatchQueue.global().async {
-                let preparingGroup = DispatchGroup()
-
-                preparingGroup.enter()
-                self.fetchAddressInfomation(location) {
-                    preparingGroup.leave()
+            locationService.requestLocation { result in
+                if let location = result {
+                    self.requestWeatherData(location) {
+                        completion()
+                    }
+                } else {
                 }
-                preparingGroup.enter()
-                self.fetchCurrentWeatherData(location) {
-                    preparingGroup.leave()
-                }
-                preparingGroup.enter()
-                self.fetchFiveDayWeatherData(location) {
-                    preparingGroup.leave()
-                }
-    
-                preparingGroup.wait()
-                completion()
             }
+    }
+    
+    private func requestWeatherData(_ location: CLLocation, completion: @escaping () -> Void) {
+        DispatchQueue.global().async {
+            let preparingGroup = DispatchGroup()
+
+            preparingGroup.enter()
+            self.fetchAddressInfomation(location) {
+                preparingGroup.leave()
+            }
+            preparingGroup.enter()
+            self.fetchCurrentWeatherData(location) {
+                preparingGroup.leave()
+            }
+            preparingGroup.enter()
+            self.fetchFiveDayWeatherData(location) {
+                preparingGroup.leave()
+            }
+
+            preparingGroup.wait()
+            completion()
         }
     }
 }

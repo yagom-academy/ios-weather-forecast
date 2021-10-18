@@ -8,7 +8,7 @@
 import CoreLocation
 
 final class LocationService: NSObject {
-    typealias ReceivedLocationAction = (CLLocation) -> Void
+    typealias ReceivedLocationAction = (CLLocation?) -> Void
     
     private var receivedLocationAction: ReceivedLocationAction?
     private let locationManager: CLLocationManager
@@ -48,6 +48,6 @@ extension LocationService: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         NSLog(error.localizedDescription)
-        locationManager.requestLocation()
+        receivedLocationAction?(nil)
     }
 }
