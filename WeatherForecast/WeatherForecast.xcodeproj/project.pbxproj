@@ -22,6 +22,7 @@
 		A8570E7A2719413100C2EF01 /* RequestPurpose.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8570E792719413100C2EF01 /* RequestPurpose.swift */; };
 		A86E0D0927145B5400822E96 /* FiveDaysForecastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86E0D0827145B5400822E96 /* FiveDaysForecastCell.swift */; };
 		A86E0D0D2714723200822E96 /* WeatherTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86E0D0C2714723100822E96 /* WeatherTableViewDataSource.swift */; };
+		A8FB2DE7271D08D0009967E2 /* TemperatureConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB2DE6271D08D0009967E2 /* TemperatureConverter.swift */; };
 		C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */; };
 		C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */; };
 		C79C8CF825ADDDF200EEE3F1 /* OpenWeatherMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF725ADDDF200EEE3F1 /* OpenWeatherMainViewController.swift */; };
@@ -65,6 +66,7 @@
 		A8570E792719413100C2EF01 /* RequestPurpose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPurpose.swift; sourceTree = "<group>"; };
 		A86E0D0827145B5400822E96 /* FiveDaysForecastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDaysForecastCell.swift; sourceTree = "<group>"; };
 		A86E0D0C2714723100822E96 /* WeatherTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTableViewDataSource.swift; sourceTree = "<group>"; };
+		A8FB2DE6271D08D0009967E2 /* TemperatureConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureConverter.swift; sourceTree = "<group>"; };
 		C79C8CF025ADDDF200EEE3F1 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				A818BB25271983FE007C4350 /* Cell */,
 				A818BB24271983EB007C4350 /* StoryBoard */,
 				A8570E772719187300C2EF01 /* Extension */,
+				A8FB2DE6271D08D0009967E2 /* TemperatureConverter.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 				A84D475E27031F09002C1324 /* HTTPMethod.swift in Sources */,
 				A8570E762717C0E300C2EF01 /* ImageLoader.swift in Sources */,
 				A8570E742717ABC300C2EF01 /* UIView.swift in Sources */,
+				A8FB2DE7271D08D0009967E2 /* TemperatureConverter.swift in Sources */,
 				A818BB2727199BAD007C4350 /* OpenWeatherHeaderView.swift in Sources */,
 				435D6426270C151F008BE703 /* LocationManager.swift in Sources */,
 				A8570E7A2719413100C2EF01 /* RequestPurpose.swift in Sources */,

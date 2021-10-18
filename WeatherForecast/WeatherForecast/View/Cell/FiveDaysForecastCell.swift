@@ -38,10 +38,8 @@ class CellHolder {
         let date = Date(timeIntervalSince1970: TimeInterval(forcastInformation.date))
         let formattedDate = dateformatter.string(from: date)
         self.dateLabelText = formattedDate
-        
-        let celsiusUnit = UnitTemperature.celsius
-        let convertedTemperature = celsiusUnit.converter.value(fromBaseUnitValue: forcastInformation.main.temperature)
-        let formattedTemperature = NumberFormatter.customTemperatureFormatter().string(for: convertedTemperature)!
+
+        let formattedTemperature = TemperatureConverter(celciusTemperature: forcastInformation.main.temperature).convertedTemperature
         self.temperatureText = "\(formattedTemperature)°"
     }
     
