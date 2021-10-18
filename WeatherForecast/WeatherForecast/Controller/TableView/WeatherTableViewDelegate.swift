@@ -8,6 +8,7 @@
 import UIKit
 import CoreLocation.CLLocationManager
 
+
 class WeatherTableViewDelegate: NSObject, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: OpenWeatherHeaderView.identifier) as? OpenWeatherHeaderView else {
@@ -25,9 +26,26 @@ class WeatherTableViewDelegate: NSObject, UITableViewDelegate {
 
         ImageLoader.downloadImage(reqeustURL: urlString, imageCachingKey: date) { requestedIcon in
             DispatchQueue.main.async {
-                view.configureIcon(requestedIcon)
+                view.configureIconImage(requestedIcon)
             }
         }
+
+        let currentLocation = CLLocation(latitude: weatherData.coordination.lattitude, longitude: weatherData.coordination.longitude)
+        let locale = Locale(identifier: "ko")
+        
+        CLGeocoder().reverseGeocodeLocation(currentLocation, preferredLocale: locale) { placeMarks, error in
+            guard error == nil else {
+                return
+            }
+            
+            guard let addresses = placeMarks,
+                  let currentAddress = addresses.last?.name else {
+                return
+            }
+            view.confifureAddress(currentAddress)
+        }
+        
+        view.configureDateAndTemperature()
         
         return view
     }

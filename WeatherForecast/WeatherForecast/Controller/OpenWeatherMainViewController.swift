@@ -103,7 +103,7 @@ extension OpenWeatherMainViewController {
         let iconSize = 40
         self.tableView.rowHeight = CGFloat(iconSize)
         
-        let headerViewSize: CGFloat = 150
+        let headerViewSize: CGFloat = 120
         self.tableView.sectionHeaderHeight = headerViewSize
     }
     

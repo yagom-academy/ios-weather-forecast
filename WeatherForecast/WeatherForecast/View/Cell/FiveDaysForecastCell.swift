@@ -12,8 +12,8 @@ extension DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
-        formatter.locale = Locale(identifier: "Ko-kr")
-        formatter.setLocalizedDateFormatFromTemplate("MM.dd E hh시")
+        formatter.locale = Locale(identifier: "ko")
+        formatter.setLocalizedDateFormatFromTemplate("MM/dd(E) HH시")
         
         return formatter
     }
@@ -114,7 +114,7 @@ extension FiveDaysForecastCell {
         self.temperatureLabel.setPosition(top: self.contentView.topAnchor,
                                           bottom:  self.contentView.bottomAnchor,
                                           leading: self.dateLabel.leadingAnchor,
-                                          leadingConstant: 300,
+                                          leadingConstant: 290,
                                           trailing: nil)
         
         self.contentView.addSubview(self.weatherIconImageView)
