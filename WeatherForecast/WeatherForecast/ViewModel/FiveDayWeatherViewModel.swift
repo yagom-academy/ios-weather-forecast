@@ -21,7 +21,7 @@ class FiveDayWeatherViewModel {
             }
             
             if let date = fiveDayWeather.intervalWeathers?.first?.date {
-                print("5일치 날씨 중 첫번째 날짜: \(date.format(locale: Locale.current))")
+                print("5일치 날씨 중 첫번째 날짜: \(date.format())")
             }
         }
     }
