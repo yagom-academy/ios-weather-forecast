@@ -5,6 +5,7 @@
 // 
 
 import UIKit
+import CoreLocation
 
 class WeatherForecastViewController: UIViewController {
     private var tableView = UITableView(frame: .zero, style: .grouped)
@@ -13,6 +14,16 @@ class WeatherForecastViewController: UIViewController {
     private var networkManager = NetworkManager()
     private var currentData: CurrentWeather?
     private var forecastData: ForecastWeather?
+    private var alert: UIAlertController!
+    private let locationSetter: UIButton = {
+        let button = UIButton()
+        button.setTitle("위치설정", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .clear
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(touchup), for: .touchUpInside)
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +38,7 @@ class WeatherForecastViewController: UIViewController {
         view.addSubview(tableView)
         tableHeaderView = WeatherForecastHeaderView(frame:
                             CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height * 0.15))
+        tableHeaderView.addSubview(locationSetter)
         tableView.tableHeaderView = tableHeaderView
         tableView.backgroundView = UIImageView(image: UIImage(named: "tokyo_tower.jpeg"))
         tableView.backgroundView?.alpha = 0.8
@@ -38,14 +50,55 @@ class WeatherForecastViewController: UIViewController {
         NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalTo: view.topAnchor),
                                      tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                                      tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                                     tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
+                                     tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                                     locationSetter.topAnchor.constraint(equalTo: tableHeaderView.topAnchor, constant: 8),
+                                     locationSetter.trailingAnchor.constraint(equalTo: tableHeaderView.trailingAnchor, constant: -16)
+                                    ])
+        configureAlertControl()
         configureRefreshControl()
+    }
+
+    
+    private func configureAlertControl() {
+        alert = UIAlertController(title: "위치변경", message: "변경할 좌표를 선택해주세요", preferredStyle: .alert)
+        alert.addTextField { latitudeTextField in
+            latitudeTextField.placeholder = "위도"
+            latitudeTextField.keyboardType = .decimalPad
+        }
+
+        alert.addTextField { longitudeTextField in
+            longitudeTextField.placeholder = "경도"
+            longitudeTextField.keyboardType = .decimalPad
+        }
+
+        alert.addAction(UIAlertAction(title: "변경", style: .default, handler: { _ in
+            guard let textFields = self.alert.textFields else {
+                return
+            }
+            guard let lat = CLLocationDegrees(textFields.first?.text ?? ""), let lon = CLLocationDegrees(textFields.last?.text ?? "") else {
+                return
+            }
+            let givenCoordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            self.fetchingWeatherData(coordinate: givenCoordinate, api: WeatherAPI.current, type: CurrentWeather.self)
+            self.fetchingWeatherData(coordinate: givenCoordinate, api: WeatherAPI.forecast, type: ForecastWeather.self)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "현재 위치로 재설정", style: .default, handler: { _ in
+            self.locationManager.requestLocation()
+        }))
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
     }
 
     private func configureRefreshControl() {
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl?.tintColor = .orange
         tableView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+
+    @objc func touchup() {
+        self.present(alert, animated: true, completion: nil)
     }
 
     @objc func handleRefreshControl() {
@@ -79,21 +132,21 @@ extension WeatherForecastViewController: UITableViewDataSource {
 // MARK: LocationManagerDelegate 구현부
 extension WeatherForecastViewController: LocationManagerDelegate {
     func didUpdateLocation() {
-        fetchingWeatherData(api: WeatherAPI.current, type: CurrentWeather.self)
-        fetchingWeatherData(api: WeatherAPI.forecast, type: ForecastWeather.self)
-    }
-
-    private func fetchingWeatherData<T: Decodable>(api: WeatherAPI, type: T.Type) {
         guard let coordinate = locationManager.getCoordinate() else {
             return
         }
+        fetchingWeatherData(coordinate: coordinate, api: WeatherAPI.current, type: CurrentWeather.self)
+        fetchingWeatherData(coordinate: coordinate, api: WeatherAPI.forecast, type: ForecastWeather.self)
+    }
+
+    private func fetchingWeatherData<T: Decodable>(coordinate: CLLocationCoordinate2D, api: WeatherAPI, type: T.Type) {
 
         let queryItems = [CoordinatesQuery.lat: String(coordinate.latitude),
                           CoordinatesQuery.lon: String(coordinate.longitude),
                           CoordinatesQuery.appid: "e6f23abdc0e7e9080761a3cfbbdafc90"]
 
         guard let url = URL.createURL(API: api, queryItems: queryItems) else { return }
-        networkManager.dataTask(url: url) { [unowned self] result in
+        networkManager.dataTask(url: url) { result in
             if case .success(let data) = result {
                 do {
                     let data = try JSONDecoder().decode(type, from: data)
@@ -114,10 +167,11 @@ extension WeatherForecastViewController: LocationManagerDelegate {
     }
 
     private func configureHeader(data: CurrentWeather) {
-        locationManager.getAddress { [unowned self] result in
+        let targetLocation = CLLocation(coordinate: data.coordinate)
+        locationManager.getAddress(location: targetLocation) { result in
             switch result {
             case .success(let placemark):
-                tableHeaderView.configure(data: data, placemark: placemark)
+                self.tableHeaderView.configure(data: data, placemark: placemark)
             case .failure(let error):
                 debugPrint(error)
             }
