@@ -9,7 +9,7 @@ import UIKit
 
 class WeatherHeaderView: UICollectionReusableView {
     lazy var addressLabel: UILabel = {
-        let adressLabel = makeLabel(font: .caption1)
+        let adressLabel = UILabel.makeLabel(font: .caption1)
         addSubview(adressLabel)
         NSLayoutConstraint.activate([
             adressLabel.leadingAnchor.constraint(equalTo: infoStackView.leadingAnchor),
@@ -17,14 +17,14 @@ class WeatherHeaderView: UICollectionReusableView {
         ])
         return adressLabel
     }()
-    lazy var maxTemperatureLabel = makeLabel(font: .callout)
-    lazy var minTemperatureLabel = makeLabel(font: .callout)
-    lazy var temperatureLabel = makeLabel(font: .title1)
+    lazy var maxTemperatureLabel = UILabel.makeLabel(font: .callout)
+    lazy var minTemperatureLabel = UILabel.makeLabel(font: .callout)
+    lazy var temperatureLabel = UILabel.makeLabel(font: .title1)
     private var presentLocationSelector: (()-> Void)?
     private lazy var locationSelectButton: UIButton = {
         let locationSelectButton = UIButton()
         locationSelectButton.setTitle("", for: .normal)
-        locationSelectButton.setTitleColor(.systemGray, for: .normal)
+        locationSelectButton.setTitleColor(.systemGray6, for: .normal)
         
         locationSelectButton.addAction(UIAction(handler: { [weak self] _ in
             self?.presentLocationSelector?()
@@ -99,17 +99,9 @@ class WeatherHeaderView: UICollectionReusableView {
         ])
     }
     
-    private func makeLabel(font: UIFont.TextStyle) -> UILabel {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .systemGray
-        label.font = UIFont.preferredFont(forTextStyle: font)
-        label.text = "-"
-        return label
-    }
+
     
     func configureContents(from currentWeather: WeatherHeader?) {
-        addressLabel.textColor = .black
         if let address = currentWeather?.address, address != " " {
             addressLabel.text = address
         } else {

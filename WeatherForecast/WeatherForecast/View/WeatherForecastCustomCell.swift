@@ -11,24 +11,8 @@ class WeatherForecastCustomCell: UICollectionViewCell {
     static let identifier = "fiveDay"
     var urlString: String?
     
-    let dateLabel: UILabel = {
-        let dateLabel = UILabel()
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.font = UIFont.preferredFont(forTextStyle: .title2)
-        dateLabel.textColor = .systemGray
-        dateLabel.adjustsFontForContentSizeCategory = true
-        dateLabel.text = Placeholder.date.text
-        return dateLabel
-    }()
-    
-    let temperatureLabel: UILabel = {
-        let temperatureLabel = UILabel()
-        temperatureLabel.translatesAutoresizingMaskIntoConstraints = false
-        temperatureLabel.font = UIFont.preferredFont(forTextStyle: .title2)
-        temperatureLabel.textColor = .systemGray
-        temperatureLabel.adjustsFontForContentSizeCategory = true
-        return temperatureLabel
-    }()
+    let dateLabel = UILabel.makeLabel(font: .body, text: Placeholder.date.text)
+    let temperatureLabel = UILabel.makeLabel(font: .body)
     
     let weatherImage: UIImageView = {
         let weatherImage = UIImageView()
@@ -52,9 +36,6 @@ class WeatherForecastCustomCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = UIColor.clear
-        backgroundView?.backgroundColor = UIColor.clear
-        backgroundColor = UIColor.init(white: 1.0, alpha: 0.5)
         setLayoutForStackView()
     }
     

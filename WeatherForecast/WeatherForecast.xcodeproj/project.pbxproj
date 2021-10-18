@@ -33,6 +33,7 @@
 		D4DDB10727030CB9004996CA /* ParsingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DDB10627030CB9004996CA /* ParsingError.swift */; };
 		D4DDB12727046C93004996CA /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DDB12627046C93004996CA /* NetworkError.swift */; };
 		E62BBF11270C4533008DB6CB /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62BBF10270C4533008DB6CB /* LocationManager.swift */; };
+		E67F14EC271DBA4E00B43C40 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67F14EB271DBA4E00B43C40 /* UILabel+Extension.swift */; };
 		E69376622705E8AD007E00E3 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69376612705E8AD007E00E3 /* Route.swift */; };
 		E69376642705E986007E00E3 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69376632705E986007E00E3 /* HTTPMethod.swift */; };
 		E69376662706040F007E00E3 /* URLRequestTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69376652706040F007E00E3 /* URLRequestTask.swift */; };
@@ -93,6 +94,7 @@
 		D4DDB10627030CB9004996CA /* ParsingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingError.swift; sourceTree = "<group>"; };
 		D4DDB12627046C93004996CA /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		E62BBF10270C4533008DB6CB /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		E67F14EB271DBA4E00B43C40 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		E69376612705E8AD007E00E3 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		E69376632705E986007E00E3 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		E69376652706040F007E00E3 /* URLRequestTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestTask.swift; sourceTree = "<group>"; };
@@ -200,6 +202,8 @@
 			isa = PBXGroup;
 			children = (
 				D4DDB10027030BA2004996CA /* Decodable+Extension.swift */,
+				E67F14EB271DBA4E00B43C40 /* UILabel+Extension.swift */,
+				D4726BEC2719994F008FAB6C /* UIAlertController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -242,7 +246,6 @@
 			children = (
 				E6AF5F7C2702ED08001C4613 /* CommonWeatherForecast.swift */,
 				D4DDB0F12702F8FC004996CA /* CurrentWeather.swift */,
-				D4726BEC2719994F008FAB6C /* UIAlertController+Extension.swift */,
 				D4DDB0F927030203004996CA /* FiveDayWeather.swift */,
 				D4726BC4271856D4008FAB6C /* WeatherHeader.swift */,
 				D4726BD727188D83008FAB6C /* Address.swift */,
@@ -394,6 +397,7 @@
 			files = (
 				E6C277AD27043F1A0033FC67 /* NetworkManager.swift in Sources */,
 				D4726BCA2718588F008FAB6C /* WeatherHeaderView.swift in Sources */,
+				E67F14EC271DBA4E00B43C40 /* UILabel+Extension.swift in Sources */,
 				D4726BD827188D83008FAB6C /* Address.swift in Sources */,
 				E69376642705E986007E00E3 /* HTTPMethod.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,

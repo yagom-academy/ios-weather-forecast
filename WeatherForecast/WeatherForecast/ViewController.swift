@@ -25,8 +25,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
-        collecionView.backgroundColor = .white
+        if let image = UIImage(named: "dark") {
+            view.backgroundColor = UIColor(patternImage: image)
+        }
         setupCollectionView()
         initData()
         configureRefreshControl()
@@ -156,6 +157,7 @@ extension ViewController {
     }
     
     private func setupCollectionView() {
+        collecionView.backgroundColor = .clear
         setCollectionViewLayoutConfiguration()
         setAutoLayoutCollectionView()
         registerCell()
@@ -163,8 +165,9 @@ extension ViewController {
     }
     
     private func setCollectionViewLayoutConfiguration() {
-        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         configuration.headerMode = .supplementary
+        configuration.backgroundColor = .clear
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         collecionView.collectionViewLayout = layout
     }

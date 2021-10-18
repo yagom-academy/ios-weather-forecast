@@ -12,8 +12,13 @@ extension UIAlertController {
         
         let alert = UIAlertController(title: "위치변경", message: "변경할 좌표를 선택해주세요", preferredStyle: .alert)
         
-        alert.addTextField()
-        alert.addTextField()
+        alert.addTextField { textfiled in
+            textfiled.placeholder = Placeholder.latitude.text
+        }
+        alert.addTextField { textfiled in
+            textfiled.placeholder = Placeholder.longitude.text
+        }
+
         let changeAction = UIAlertAction(title: "변경", style: .default) {_ in
             changeHandler(alert)
         }
@@ -34,8 +39,13 @@ extension UIAlertController {
         
         let alert = UIAlertController(title: "위치변경", message: "날씨를 받아올 위치의 위도와 경도를 입력해주세요.", preferredStyle: .alert)
         
-        alert.addTextField()
-        alert.addTextField()
+        alert.addTextField { textfiled in
+            textfiled.placeholder = Placeholder.latitude.text
+        }
+        alert.addTextField { textfiled in
+            textfiled.placeholder = Placeholder.longitude.text
+        }
+        
         let changeAction = UIAlertAction(title: "변경", style: .default) {_ in
             changeHandler(alert)
         }
