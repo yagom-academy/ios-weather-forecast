@@ -71,7 +71,7 @@ enum WeatherAPI {
         return parameters
     }
     
-    func makeURL() throws -> URL {
+    func makeURL() -> URL? {
         var components = URLComponents()
         components.scheme = WeatherAPI.scheme
         components.host = WeatherAPI.host
@@ -82,7 +82,8 @@ enum WeatherAPI {
         
         components.queryItems = queryItems
         guard let url = components.url else {
-            throw WeatherAPIError.invalidUrl
+            print(WeatherAPI.WeatherAPIError.invalidUrl.errorDescription)
+            return nil
         }
         return url
     }
@@ -90,7 +91,14 @@ enum WeatherAPI {
 
 extension WeatherAPI {
     
-    enum WeatherAPIError: Error {
+    enum WeatherAPIError: LocalizedError {
         case invalidUrl
+        
+         var errorDescription: String {
+            switch self {
+            case .invalidUrl:
+                return NSLocalizedString("URL이 올바르지 않습니다", comment: "")
+            }
+        }
     }
 }

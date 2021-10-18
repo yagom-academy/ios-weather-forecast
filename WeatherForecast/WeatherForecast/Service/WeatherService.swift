@@ -47,13 +47,10 @@ extension WeatherService {
             break
         }
         
-        do {
-            let currentWeatherUrl = try currentGeographic?.makeURL() ?? URL(fileURLWithPath: "")
-            return currentWeatherUrl
-        } catch {
-            print(error)
+        guard let currentWeatherUrl = currentGeographic?.makeURL() else {
             return URL(fileURLWithPath: "")
         }
+        return currentWeatherUrl
     }
     
     private func parseFetchedModel<Model: Decodable>(
