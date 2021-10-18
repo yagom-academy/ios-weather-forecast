@@ -8,18 +8,44 @@ import UIKit
 import CoreLocation
 
 class WeatherViewController: UIViewController {
+    private let tableView = UITableView()
+    
     private let locationManager = LocationManager()
     private let geocoderManager = GeocoderManager()
     private let apiManager = APIManager()
     private var coordinate = CLLocationCoordinate2D() {
         didSet {
-            fetchWeatherData(on: coordinate)
+//            fetchWeatherData(on: coordinate)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupTableView()
         requestLocationAuthorization()
+    }
+}
+
+extension WeatherViewController {
+    private func setupTableView() {
+        view.addSubview(tableView)
+        
+        let safeArea = view.safeAreaLayoutGuide
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let layoutConstraintAttribute: [NSLayoutConstraint.Attribute] = [.leading, .trailing, .top, .bottom]
+        let tableVeiwContraints = layoutConstraintAttribute.map { attr in
+            return NSLayoutConstraint(item: tableView,
+                                      attribute: attr,
+                                      relatedBy: .equal,
+                                      toItem: safeArea,
+                                      attribute: attr,
+                                      multiplier: 1,
+                                      constant: 0)
+        }
+        NSLayoutConstraint.activate(tableVeiwContraints)
+
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
 }
 
