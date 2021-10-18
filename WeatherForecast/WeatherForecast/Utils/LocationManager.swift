@@ -22,12 +22,7 @@ class LocationManager: NSObject {
     func getGeographicCoordinates() -> CLLocation? {
         guard let location = manager.location else { return nil }
         var status: CLAuthorizationStatus
-        
-        if #available(iOS 14.0, *) {
-            status = manager.authorizationStatus
-        } else {
-            status = CLLocationManager.authorizationStatus()
-        }
+        status = manager.authorizationStatus
         
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
@@ -38,12 +33,12 @@ class LocationManager: NSObject {
     }
     
     func getAddress(of location: CLLocation?,
-                    completionHandler: @escaping (Result<[Address:String], Error>) -> Void)
+                    completionHandler: @escaping (Result<Address, Error>) -> Void)
     {
         guard let validLocation = location else { return }
         
         let converter = CLGeocoder()
-        converter.reverseGeocodeLocation(validLocation, preferredLocale: .current) { (placemarks, error) in
+        converter.reverseGeocodeLocation(validLocation, preferredLocale: Locale(identifier: "ko_KR")) { (placemarks, error) in
             if let error = error {
                 completionHandler(.failure(error))
             }
@@ -53,15 +48,11 @@ class LocationManager: NSObject {
                   let street1 = placemark.locality,
                   let street2 = placemark.thoroughfare
             else {
-                completionHandler(.success([Address:String]()))
+                completionHandler(.success(Address()))
                 return
             }
-
-            let address: [Address:String] = [
-                .city: city,
-                .street1: street1,
-                .street2: street2
-            ]
+            
+            let address = Address(city: city, stree1: street1, street2: street2)
             
             completionHandler(.success(address))
         }
