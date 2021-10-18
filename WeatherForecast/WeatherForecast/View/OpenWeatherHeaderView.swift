@@ -18,6 +18,7 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     
     private lazy var verticalStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [self.addressLabel, self.minMaxTemperature, self.currentTemperatureLabel])
+        self.addressLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .leading
@@ -28,9 +29,8 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     private lazy var horizontalStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [self.iconImageView, self.verticalStackView])
         stackView.axis = .horizontal
-        stackView.distribution = .fill
+        stackView.distribution = .fillEqually
         stackView.alignment = .leading
-        stackView.spacing = 15
         return stackView
     }()
     
@@ -61,7 +61,7 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
         
         self.addressLabel.text = "-- ----"
         self.minMaxTemperature.text = "최고 \(convertedmaxTem)° 최저 \(convertedminTem)°"
-        self.currentTemperatureLabel.text = "\(convertedCurentTem)"
+        self.currentTemperatureLabel.text = "\(convertedCurentTem)°"
     }
     
     func configureIconImage(_ image: UIImage) {
@@ -81,6 +81,7 @@ extension OpenWeatherHeaderView {
         setDynamicType(to: self.minMaxTemperature, .body)
         setDynamicType(to: self.currentTemperatureLabel, .title1)
         
+        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             horizontalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             horizontalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
@@ -88,7 +89,6 @@ extension OpenWeatherHeaderView {
             horizontalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
         
-        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
     }
 
     private func setImageIconView() {
@@ -102,9 +102,29 @@ extension OpenWeatherHeaderView {
                 .constraint(equalTo: horizontalStackView.heightAnchor),
             iconImageView
                 .leadingAnchor
-                .constraint(equalTo: horizontalStackView.leadingAnchor,
-                            constant: 10),
+                .constraint(equalTo: horizontalStackView.leadingAnchor),
             iconImageView
+                .topAnchor
+                .constraint(equalTo: horizontalStackView.topAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            verticalStackView
+                .widthAnchor
+                .constraint(equalTo: horizontalStackView.widthAnchor,
+                            multiplier: 0.8),
+            verticalStackView
+                .heightAnchor
+                .constraint(equalTo: horizontalStackView.heightAnchor, multiplier: 0.8),
+            verticalStackView
+                .bottomAnchor
+                .constraint(equalTo: self.horizontalStackView.bottomAnchor),
+
+            verticalStackView
+                .leadingAnchor
+                .constraint(equalTo: horizontalStackView.leadingAnchor, constant: 100),
+            
+            verticalStackView
                 .topAnchor
                 .constraint(equalTo: horizontalStackView.topAnchor)
         ])

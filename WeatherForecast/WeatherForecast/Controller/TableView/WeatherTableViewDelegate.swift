@@ -17,18 +17,18 @@ class WeatherTableViewDelegate: NSObject, UITableViewDelegate {
         guard let weatherData = WeatherDataHolder.shared.current else {
             return UIView()
         }
- 
-        let iconID = weatherData.weather.first?.icon
-        let date = weatherData.date
         
-        let urlString = "https://openweathermap.org/img/w/\(iconID ?? "").png"
+        view.configureDateAndTemperature()
 
-        ImageLoader.downloadImage(reqeustURL: urlString, imageCachingKey: date) { requestedIcon in
-            DispatchQueue.main.async {
-                view.configureIconImage(requestedIcon)
-            }
-        }
+        fetchIconImage(weatherData, view)
+        fetchAddressData(weatherData, view)
+        
+        return view
+    }
+}
 
+extension WeatherTableViewDelegate {
+    private func fetchAddressData(_ weatherData: CurrentWeather, _ view: OpenWeatherHeaderView) {
         let currentLocation = CLLocation(latitude: weatherData.coordination.lattitude, longitude: weatherData.coordination.longitude)
         let locale = Locale(identifier: "ko")
         
@@ -38,14 +38,25 @@ class WeatherTableViewDelegate: NSObject, UITableViewDelegate {
             }
             
             guard let addresses = placeMarks,
-                  let currentAddress = addresses.last?.name else {
+                  let city = addresses.last?.locality,
+                  let subCity = addresses.last?.subLocality else {
                 return
             }
-            view.confifureAddress(currentAddress)
+            let spacing = " "
+            view.confifureAddress(city + spacing + subCity)
         }
+    }
+    
+    private func fetchIconImage(_ weatherData: CurrentWeather, _ view: OpenWeatherHeaderView) {
+        let iconID = weatherData.weather.first?.icon
+        let date = weatherData.date
         
-        view.configureDateAndTemperature()
+        let urlString = "https://openweathermap.org/img/w/\(iconID ?? "").png"
         
-        return view
+        ImageLoader.downloadImage(reqeustURL: urlString, imageCachingKey: date) { requestedIcon in
+            DispatchQueue.main.async {
+                view.configureIconImage(requestedIcon)
+            }
+        }
     }
 }

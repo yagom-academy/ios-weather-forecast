@@ -133,6 +133,7 @@ extension OpenWeatherMainViewController {
         self.tableView.rowHeight = CGFloat(iconSize)
         
         let headerViewSize: CGFloat = 140
+        self.tableView.sectionHeaderHeight = headerViewSize
         self.tableView.backgroundColor = .clear
         self.tableView.backgroundView?.addBackground(imageName: "cat")
     }
