@@ -49,19 +49,12 @@ extension LocationManager {
     func locationManager(_ manager: CLLocationManager,
                          didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
-        case .restricted, .denied:
-            // TODOs: 좌표정보 직접 입력받는 알럿 띄우기
-            break
-            
         case .authorizedWhenInUse:
             requestLocation()
             
-        case .authorizedAlways:
-            break
-            
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
-            
+
         @unknown default:
             break
         }
