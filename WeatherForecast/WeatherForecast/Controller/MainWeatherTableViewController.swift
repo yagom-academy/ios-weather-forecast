@@ -10,12 +10,6 @@ class MainWeatherTableViewController: UITableViewController {
     private let weatherDataViewModel: WeatherDataViewModel
     private let headerView: MainTableViewHeaderView = MainTableViewHeaderView(backgroundColor: .clear)
     private let imageLoader: ImageLoader = ImageLoader(imageCacher: NSCache<NSString, UIImage>())
-    private let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko-KR")
-        formatter.dateFormat = "MM/dd(EEE) HH시"
-        return formatter
-    }()
         
     init(weatherDataViewModel: WeatherDataViewModel) {
         self.weatherDataViewModel = weatherDataViewModel
@@ -90,7 +84,7 @@ extension MainWeatherTableViewController {
             return UITableViewCell()
         }
         let intervalWeatherData = weatherDataViewModel.intervalWeatherInfos[indexPath.row]
-        let formattedDate = dateFormatter.string(from: Date(timeIntervalSince1970: intervalWeatherData.date))
+        let formattedDate = intervalWeatherData.date.dateFormatString()
         cell.configureTexts(date: formattedDate,
                             temperature: "\(intervalWeatherData.mainInformation.temperature.tenths)º")
         
