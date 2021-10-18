@@ -128,17 +128,9 @@ final class MainWeatherHeaderView: UIView {
     }
     
     func configure(weatherData: WeatherForOneDay) {
-        let absoluteZero = -273.15
-
-        if let highestKelvinTemperature = weatherData.mainWeatherInfomation?.maximumTemperature {
-            highestTemperatureLabel.text = "최고 " + (((highestKelvinTemperature + absoluteZero) * 10).rounded(.toNearestOrAwayFromZero) / 10).description
-        }
-        if let lowestKelvinTemperature = weatherData.mainWeatherInfomation?.minimumTemperature {
-            lowestTemperatureLabel.text = "최저 " + (((lowestKelvinTemperature + absoluteZero) * 10).rounded(.toNearestOrAwayFromZero) / 10).description
-        }
-        if let currentKelvinTemperature = weatherData.mainWeatherInfomation?.temperature {
-            currentTamperatureLabel.text = (((currentKelvinTemperature + absoluteZero) * 10).rounded(.toNearestOrAwayFromZero) / 10).description
-        }
+        highestTemperatureLabel.text = "최고 " + (weatherData.mainWeatherInfomation?.maximumTemperature?.description ?? "")
+        lowestTemperatureLabel.text = "최저 " + (weatherData.mainWeatherInfomation?.minimumTemperature?.description ?? "")
+        currentTamperatureLabel.text = weatherData.mainWeatherInfomation?.temperature?.description
     }
     
     func configure(image: UIImage) {

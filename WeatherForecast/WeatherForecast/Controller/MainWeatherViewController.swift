@@ -91,7 +91,8 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
 extension MainWeatherViewController {
     private func prepareWeatherInformation(with location: CLLocation, completionHandler: @escaping (String?, WeatherForOneDay?, FiveDayWeatherForecast?) -> Void) {
         let userCoordinate = Coordinate(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        let callType = CallType.geographicCoordinates(coordinate: userCoordinate, parameter: nil)
+        let commonWeatherAPIParameter = CommonWeatherAPIParameter(responseFormat: nil, numberOfTimestamps: nil, unitsOfMeasurement: MeasurementType.getMeasurementType(by: Locale.preferredLanguages.first), language: nil)
+        let callType = CallType.geographicCoordinates(coordinate: userCoordinate, parameter: commonWeatherAPIParameter)
         let weatherForOneDayAPI = WeatherAPI(callType: callType, forecastType: .current)
         let fivedayWeatherForecastAPI = WeatherAPI(callType: callType, forecastType: .fiveDays)
         var userAddress: String?

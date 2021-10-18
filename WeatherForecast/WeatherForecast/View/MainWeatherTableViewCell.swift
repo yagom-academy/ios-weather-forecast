@@ -76,11 +76,7 @@ final class MainWeatherTableViewCell: UITableViewCell {
             dateLabel.text = dateFormatter.string(from: date)
         }
         
-        if let kelvinTemperature = data.mainWeatherInfomation?.temperature {
-            let absoluteZero = -273.15
-            temperatureLabel.text = (((kelvinTemperature + absoluteZero) * 10).rounded(.toNearestOrAwayFromZero) / 10).description
-        }
-        
+        temperatureLabel.text = data.mainWeatherInfomation?.temperature?.description
     }
     
     func configure(image: UIImage) {

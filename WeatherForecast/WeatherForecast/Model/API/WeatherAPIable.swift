@@ -41,22 +41,23 @@ struct CommonWeatherAPIParameter {
     
     func generateURLQueryItems() -> [URLQueryItem] {
         let modeItem = generateURLQueryItem(name: "mode",
-                                            value: responseFormat?.formatValue as Any)
+                                            value: responseFormat?.formatValue)
         let cntItem = generateURLQueryItem(name: "cnt",
-                                           value: numberOfTimestamps?.description as Any)
+                                           value: numberOfTimestamps?.description)
         let unitsItem = generateURLQueryItem(name: "units",
-                                             value: unitsOfMeasurement?.unitValue as Any)
+                                             value: unitsOfMeasurement?.unitValue)
         let langItem = generateURLQueryItem(name: "lang",
-                                            value: language?.languageValue as Any)
+                                            value: language?.languageValue)
         
         return [modeItem, cntItem, unitsItem, langItem].compactMap { $0 }
     }
     
-    private func generateURLQueryItem(name: String, value: Any) -> URLQueryItem? {
-        if NSNull.isEqual(value) {
-            return nil
+    private func generateURLQueryItem(name: String, value: String?) -> URLQueryItem? {
+        
+        if let value = value {
+            return URLQueryItem(name: name, value: value)
         } else {
-            return URLQueryItem(name: name, value: "\(value)")
+            return nil
         }
     }
 }
@@ -78,6 +79,21 @@ enum MeasurementType: String {
     
     var unitValue: String {
         return self.rawValue
+    }
+    
+    static func getMeasurementType(by preferredLanguage: String?) -> MeasurementType {
+        guard let preferredLanguage = preferredLanguage  else {
+            return .standard
+        }
+        let locale = Locale(identifier: preferredLanguage)
+        switch locale.languageCode {
+        case "ko":
+            return .metric
+        case "en":
+            return .imperial
+        default:
+            return .standard
+        }
     }
 }
 
