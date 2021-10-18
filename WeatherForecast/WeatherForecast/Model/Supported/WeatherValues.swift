@@ -43,3 +43,16 @@ struct WeatherNumericalValue: Codable {
         case tempKF = "temp_kf"
     }
 }
+
+extension WeatherNumericalValue {
+    func convertToCelsius(with temperature: Double?) -> String? {
+        let numberFormatter = NumberFormatter()
+        
+        numberFormatter.roundingMode = .floor
+        numberFormatter.minimumIntegerDigits = 1
+        numberFormatter.minimumFractionDigits = 1
+        numberFormatter.maximumFractionDigits = 1
+        
+        return temperature.flatMap { numberFormatter.string(from: NSNumber(value: $0 - 273.15)) }
+    }
+}

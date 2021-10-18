@@ -42,3 +42,17 @@ struct WeeklyWeatherForecast: Codable {
 extension WeeklyWeatherForecast: Requestable {
     static let endpoint = "forecast"
 }
+
+extension WeatherForecast {
+    var localeForecast: String? {
+        forecastedTime.flatMap {
+            let date = Date(timeIntervalSince1970: TimeInterval($0))
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "ko_KR")
+            dateFormatter.dateFormat = "MM/dd(E) HH시"
+            
+            return dateFormatter.string(from: date)
+        }
+    }
+}
