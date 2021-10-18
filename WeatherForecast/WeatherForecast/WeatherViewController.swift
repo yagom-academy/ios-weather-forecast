@@ -45,7 +45,7 @@ extension WeatherViewController {
         }
         NSLayoutConstraint.activate(tableVeiwContraints)
 
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(WeatherTableViewCell.self, forCellReuseIdentifier: "cell")
     }
 }
 
