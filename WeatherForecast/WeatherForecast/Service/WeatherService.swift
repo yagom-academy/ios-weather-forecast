@@ -5,7 +5,6 @@
 //  Created by Dasoll Park on 2021/10/13.
 //
 
-import Foundation
 import CoreLocation
 
 struct WeatherService {
