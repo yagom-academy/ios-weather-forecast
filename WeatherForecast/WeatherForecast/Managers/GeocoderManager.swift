@@ -8,6 +8,17 @@
 import Foundation
 import CoreLocation
 
+enum GeocoderError: LocalizedError {
+    case emptyPlacemarks
+    
+    var errorDescription: String? {
+        switch self {
+        case .emptyPlacemarks:
+            return "Cannot reverse Geocode Location"
+        }
+    }
+}
+
 class GeocoderManager {
     private let geocoder: GeocoderProtocol
     
@@ -28,6 +39,7 @@ class GeocoderManager {
             
             guard let addresses: [CLPlacemark] = placemarks,
                   let address = addresses.last else {
+                completion(.failure(GeocoderError.emptyPlacemarks))
                 return
             }
                                             
