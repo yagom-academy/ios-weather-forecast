@@ -8,13 +8,36 @@
 import UIKit
 
 class WeatherView: UIView {
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    var forecastTableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.backgroundColor = .clear
+        tableView.backgroundView = UIImageView(image: UIImage(named: "mar"))
+        
+        return tableView
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+        setupUI()
     }
-    */
-
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setup()
+        setupUI()
+    }
+    
+    func setup() {
+        self.addSubViews(forecastTableView)
+    }
+    
+    func setupUI() {
+        NSLayoutConstraint.activate([
+            forecastTableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            forecastTableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            forecastTableView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            forecastTableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ])
+    }
 }
