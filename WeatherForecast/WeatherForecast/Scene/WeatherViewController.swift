@@ -32,6 +32,7 @@ class WeatherViewController: UIViewController {
             WeatherTableViewCell.self,
             forCellReuseIdentifier: WeatherTableViewCell.reuseIdentifier
         )
+        configureRefreshControl()
     }
 }
 
@@ -144,6 +145,28 @@ extension WeatherViewController {
             alert.addAction(okAction)
             
             self.present(alert, animated: true, completion: nil)
+        }
+    }
+}
+
+// MARK: - Refresh Control
+extension WeatherViewController {
+    func configureRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "날씨 업데이트 중")
+        weatherView.forecastTableView.refreshControl = refreshControl
+        weatherView.forecastTableView.refreshControl?.addTarget(
+            self,
+            action: #selector(handleRefreshControl),
+            for: .allEvents
+        )
+    }
+    
+    @objc func handleRefreshControl() {
+        self.locationManager.requestLocation()
+        
+        DispatchQueue.main.async {
+            self.weatherView.forecastTableView.refreshControl?.endRefreshing()
         }
     }
 }
