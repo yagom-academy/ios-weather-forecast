@@ -11,7 +11,3 @@ protocol Requirable: NSObject {
     func requireUserLocation()
     func reloadWeatherData(_ refreshControl: UIRefreshControl?)
 }
-
-extension Requirable where Self: UITableViewController {
-    
-}
