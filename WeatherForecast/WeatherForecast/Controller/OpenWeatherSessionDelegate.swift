@@ -72,10 +72,8 @@ class WeatherDataHolder {
             print("\(#function) 에서 default로 처리됨")
         }
         
-        
         defer {
             NotificationCenter.default.post(name: .stopRefresh, object: nil)
         }
-        
     }
 }
