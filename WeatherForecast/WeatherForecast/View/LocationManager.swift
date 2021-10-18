@@ -8,13 +8,14 @@
 import UIKit
 import CoreLocation
 
-class LocationManager: CLLocationManager {
+final class LocationManager: CLLocationManager {
     var address: String?
     var data: FiveDaysForecast?
     private var session = URLSession.shared
     func askUserLocation() {
         self.requestWhenInUseAuthorization()
         self.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+        self.startUpdatingLocation()
     }
 }
 
@@ -49,7 +50,7 @@ extension LocationManager: CLLocationManagerDelegate {
         networkManager.getCurrentWeatherData(weatherAPI: fiveDaysWeatherApi, self.session) { requestedData in
             do {
                 self.data = try JSONDecoder().decode(FiveDaysForecast.self, from: requestedData)
-                print(self.data)
+                print(self.data ?? FiveDaysForecast(list: []))
             } catch {
                 print("Decoding Error")
             }
@@ -57,13 +58,13 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        showAlert(title: "🙋‍♀️", message: "새로고침을 해주세요.")
+        ViewController.showAlert(title: "🙋‍♀️", message: "새로고침을 해주세요.")
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .restricted, .denied:
-            showAlert(title: "❌", message: "날씨 정보를 사용 할 수 없습니다.")
+            ViewController.showAlert(title: "❌", message: "날씨 정보를 사용 할 수 없습니다.")
             break
         case .authorizedWhenInUse, .authorizedAlways, .notDetermined:
             manager.requestLocation()
@@ -71,12 +72,4 @@ extension LocationManager: CLLocationManagerDelegate {
         }
     }
     
-    private func showAlert(title: String, message: String) {
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            let alertAction = UIAlertAction(title: "Test", style: .default, handler: nil)
-            alert.addAction(alertAction)
-            ViewController().present(alert, animated: true, completion: nil)
-        }
-    }
 }
