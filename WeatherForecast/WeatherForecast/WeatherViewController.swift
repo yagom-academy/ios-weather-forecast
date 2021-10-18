@@ -7,7 +7,7 @@
 import UIKit
 import CoreLocation
 
-class ViewController: UIViewController {
+class WeatherViewController: UIViewController {
     private let locationManager = LocationManager()
     private let geocoderManager = GeocoderManager()
     private let apiManager = APIManager()
@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController {
+extension WeatherViewController {
     private func requestCoordinate() {
         locationManager.requestLocation()
     }
