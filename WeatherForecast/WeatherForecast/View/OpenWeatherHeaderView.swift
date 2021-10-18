@@ -8,30 +8,6 @@
 import UIKit
 import CoreLocation.CLLocationManager
 
-extension CLGeocoder {
-    func makeAddress() -> String {
-        guard let coordination = WeatherDataHolder.shared.current?.coordination else {
-            return "야곰시 야곰동"
-        }
-        let currentLocation = CLLocation(latitude: coordination.lattitude, longitude: coordination.longitude)
-        
-        let locale = Locale(identifier: "ko")
-        var address = ""
-        self.reverseGeocodeLocation(currentLocation, preferredLocale: locale) { placeMarks, error in
-            guard error == nil else {
-                return
-            }
-            
-            guard let addresses = placeMarks,
-                  let currentAddress = addresses.last?.name else {
-                return
-            }
-            address = currentAddress
-        }
-        return address
-    }
-}
-
 class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     static let identifier = "weatherHeaderView"
     
@@ -60,6 +36,7 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
+        self.contentView.backgroundColor = UIColor.clear
         setHorizontalStackView()
         setImageIconView()
     }
@@ -82,6 +59,7 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
         let convertedmaxTem = TemperatureConverter(celciusTemperature: maxTem).convertedTemperature
         let convertedminTem = TemperatureConverter(celciusTemperature: minTem).convertedTemperature
         
+        self.addressLabel.text = "-- ----"
         self.minMaxTemperature.text = "최고 \(convertedmaxTem)° 최저 \(convertedminTem)°"
         self.currentTemperatureLabel.text = "\(convertedCurentTem)"
     }
@@ -118,7 +96,7 @@ extension OpenWeatherHeaderView {
             iconImageView
                 .widthAnchor
                 .constraint(equalTo: horizontalStackView.widthAnchor,
-                                                 multiplier: 0.2),
+                            multiplier: 0.2),
             iconImageView
                 .heightAnchor
                 .constraint(equalTo: horizontalStackView.heightAnchor),
@@ -126,7 +104,9 @@ extension OpenWeatherHeaderView {
                 .leadingAnchor
                 .constraint(equalTo: horizontalStackView.leadingAnchor,
                             constant: 10),
-            iconImageView.topAnchor.constraint(equalTo: horizontalStackView.topAnchor)
+            iconImageView
+                .topAnchor
+                .constraint(equalTo: horizontalStackView.topAnchor)
         ])
     }
     
