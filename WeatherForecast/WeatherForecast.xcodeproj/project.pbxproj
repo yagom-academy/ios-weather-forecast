@@ -94,6 +94,8 @@
 		C96F2EDB2714632800004338 /* MainWeatherTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWeatherTableViewDataSource.swift; sourceTree = "<group>"; };
 		C9D4DB90270C460300EAF3A5 /* AddressManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressManager.swift; sourceTree = "<group>"; };
 		C9D9305127195C8300BDBCF7 /* ChangeLocationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeLocationDelegate.swift; sourceTree = "<group>"; };
+		C9D93093271DC89C00BDBCF7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C9D93095271DC8CB00BDBCF7 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 		C79C8CE725ADDDF200EEE3F1 = {
 			isa = PBXGroup;
 			children = (
+				C9D93094271DC89C00BDBCF7 /* Localizable.strings */,
 				C91EF6B22706D9700013E3D6 /* Secret.xcconfig */,
 				C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */,
 				C79C8D0925ADDDF400EEE3F1 /* WeatherForecastTests */,
@@ -329,6 +332,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = C79C8CE725ADDDF200EEE3F1;
 			productRefGroup = C79C8CF125ADDDF200EEE3F1 /* Products */;
@@ -450,6 +454,15 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		C9D93094271DC89C00BDBCF7 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C9D93093271DC89C00BDBCF7 /* en */,
+				C9D93095271DC8CB00BDBCF7 /* ko */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -458,6 +471,7 @@
 			baseConfigurationReference = C91EF6B22706D9700013E3D6 /* Secret.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -520,6 +534,7 @@
 			baseConfigurationReference = C91EF6B22706D9700013E3D6 /* Secret.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
