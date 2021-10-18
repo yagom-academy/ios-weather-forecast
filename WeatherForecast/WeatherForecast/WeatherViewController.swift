@@ -19,13 +19,17 @@ class WeatherViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.requestAuthorization { [weak self] coordinate in
-            self?.coordinate = coordinate
-        }
+        requestLocationAuthorization()
     }
 }
 
 extension WeatherViewController {
+    private func requestLocationAuthorization() {
+        locationManager.requestAuthorization { [weak self] coordinate in
+            self?.coordinate = coordinate
+        }
+    }
+    
     private func requestCoordinate() {
         locationManager.requestLocation()
     }
