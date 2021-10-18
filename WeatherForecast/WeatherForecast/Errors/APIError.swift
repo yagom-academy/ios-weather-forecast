@@ -14,6 +14,7 @@ enum APIError: Error, LocalizedError {
     case unknown(description: String)
     case outOfRange(statusCode: Int)
     case serverMessage(message: String)
+    case convertImageFailed
     
     var errorDescription: String? {
         switch self {
@@ -29,29 +30,8 @@ enum APIError: Error, LocalizedError {
             return "status: \(statusCode)"
         case .serverMessage(let message):
             return message
+        case .convertImageFailed:
+            return "Convert Image Failed"
         }
-    }
-}
-
-extension APIError {
-    init?(data: Data?, response: URLResponse?, error: Error?) {
-        let successRange = 200...299
-        if let error = error {
-            self = .unknown(description: error.localizedDescription)
-            return
-        }
-        
-        guard let httpResponse = response as? HTTPURLResponse else {
-            self = .invalidResponse
-            return
-        }
-//        print(httpResponse)
-        
-        guard successRange.contains(httpResponse.statusCode) else {
-            self = .outOfRange(statusCode: httpResponse.statusCode)
-            return
-        }
-        
-        return nil
     }
 }

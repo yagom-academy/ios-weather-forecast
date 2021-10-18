@@ -7,7 +7,7 @@
 
 import Foundation
 
-class APIManager {
+struct APIManager {
     private let session: URLSessionProtocol
     
     init(session: URLSessionProtocol = URLSession.shared) {
@@ -23,17 +23,15 @@ class APIManager {
         }
         
         session.dataTask(with: request) { (data, response, error) in
-            if let networkError = APIError(data: data, response: response, error: error) {
-                completion(.failure(networkError))
+            let result = session.obtainResponseData(
+                data: data, response: response, error: error)
+            switch result {
+            case .failure(let error):
+                completion(.failure(error))
                 return
+            case .success(let data):
+                completion(.success(data))
             }
-            
-            guard let data = data else {
-                completion(.failure(APIError.invalideData))
-                return
-            }
-            
-            completion(.success(data))
         }.resume()
     }
 }
