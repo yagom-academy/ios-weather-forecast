@@ -116,13 +116,19 @@ class WeatherHeaderView: UICollectionReusableView {
             addressLabel.text = "-"
         }
         if let maxTemperature = currentWeather?.maxTemperature {
-            maxTemperatureLabel.text = "최고 " + maxTemperature + "°"
+            maxTemperatureLabel.text = "최고 " + TemperatureManager.convert(kelvinValue: maxTemperature,
+                                                                           to: .celsius,
+                                                                           fractionalCount: 1)
         }
         if let minTemperature = currentWeather?.minTemperature {
-            minTemperatureLabel.text = "최저 " + minTemperature + "°"
+            minTemperatureLabel.text = "최저 " + TemperatureManager.convert(kelvinValue: minTemperature,
+                                                                           to: .celsius,
+                                                                           fractionalCount: 1)
         }
         if let temperature = currentWeather?.temperature {
-            temperatureLabel.text = temperature + "°"
+            temperatureLabel.text = TemperatureManager.convert(kelvinValue: temperature,
+                                                               to: .celsius,
+                                                               fractionalCount: 1)
         }
         
         weatherIcon.image = currentWeather?.image

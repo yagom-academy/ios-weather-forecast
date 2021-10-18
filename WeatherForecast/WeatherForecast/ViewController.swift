@@ -122,9 +122,9 @@ class ViewController: UIViewController {
                     case .success(let image):
                         self.currentWeatherHeader = WeatherHeader(
                             address: self.address.combined,
-                            minTemperature: currentWeatherData.main.minTemperature.description,
-                            maxTemperature: currentWeatherData.main.maxTemperature.description,
-                            temperature: currentWeatherData.main.temperature.description,
+                            minTemperature: currentWeatherData.main.minTemperature,
+                            maxTemperature: currentWeatherData.main.maxTemperature,
+                            temperature: currentWeatherData.main.temperature,
                             weatherIcon: image
                         )
                     case .failure(let error):

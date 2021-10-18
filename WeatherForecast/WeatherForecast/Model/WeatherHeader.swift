@@ -10,15 +10,15 @@ import UIKit.UIImage
 
 struct WeatherHeader: Hashable {
     let address: String
-    let maxTemperature: String
-    let minTemperature: String
-    let temperature: String
+    let maxTemperature: Double
+    let minTemperature: Double
+    let temperature: Double
     let image: UIImage?
     
     init(address: String,
-         minTemperature: String,
-         maxTemperature: String,
-         temperature: String,
+         minTemperature: Double,
+         maxTemperature: Double,
+         temperature: Double,
          weatherIcon: UIImage)
     {
         self.address = address
@@ -30,9 +30,9 @@ struct WeatherHeader: Hashable {
     
     init() {
         self.address = ""
-        self.maxTemperature = ""
-        self.minTemperature = ""
-        self.temperature = ""
+        self.maxTemperature = .zero
+        self.minTemperature = .zero
+        self.temperature = .zero
         self.image = UIImage(systemName: "photo")
     }
 }
