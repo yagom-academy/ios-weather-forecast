@@ -18,7 +18,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         self.locationManager = locationManager
         super.init()
         
-        self.locationManager.customDelegate = self
+        self.locationManager.locationManagerDelegate = self
     }
     
     func requestAuthorization(completion: @escaping RequestLocationAction) {

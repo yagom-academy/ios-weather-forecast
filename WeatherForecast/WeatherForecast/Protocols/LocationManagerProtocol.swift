@@ -12,11 +12,11 @@ protocol LocationManagerProtocol {
     func requestWhenInUseAuthorization()
     func startUpdatingLocation()
     func stopUpdatingLocation()
-    var customDelegate: CLLocationManagerDelegate? { get set }
+    var locationManagerDelegate: CLLocationManagerDelegate? { get set }
 }
 
 extension CLLocationManager: LocationManagerProtocol {
-    var customDelegate: CLLocationManagerDelegate? {
+    var locationManagerDelegate: CLLocationManagerDelegate? {
         get {
             return self.delegate
         }

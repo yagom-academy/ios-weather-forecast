@@ -11,7 +11,7 @@ import CoreLocation
 
 class MockLocationManager: LocationManagerProtocol {
     weak var delegate: CLLocationManagerDelegate?
-    var customDelegate: CLLocationManagerDelegate? {
+    var locationManagerDelegate: CLLocationManagerDelegate? {
         get {
             return self.delegate
         }
@@ -31,7 +31,7 @@ class MockLocationManager: LocationManagerProtocol {
     
     func startUpdatingLocation() {
         let locations = [location]
-        customDelegate?.locationManager?(CLLocationManager(), didUpdateLocations: locations)
+        locationManagerDelegate?.locationManager?(CLLocationManager(), didUpdateLocations: locations)
     }
     
     func stopUpdatingLocation() {
