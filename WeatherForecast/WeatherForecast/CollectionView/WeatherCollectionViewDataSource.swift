@@ -15,6 +15,19 @@ class WeatherCollectionViewDataSource: NSObject {
 
 extension WeatherCollectionViewDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header =
+                collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: WeatherHeaderView.identifier,
+                    for: indexPath) as? WeatherHeaderView else {
+                        return UICollectionReusableView()
+                    }
+        return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         return fiveDaysWeather?.list?.count ?? .zero
     }
