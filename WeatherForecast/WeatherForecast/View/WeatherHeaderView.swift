@@ -7,8 +7,8 @@
 
 import UIKit
 
-class WeatherHeaderView: UICollectionReusableView {
-    lazy var addressLabel: UILabel = {
+final class WeatherHeaderView: UICollectionReusableView {
+    private lazy var addressLabel: UILabel = {
         let adressLabel = UILabel.makeLabel(font: .caption1)
         addSubview(adressLabel)
         NSLayoutConstraint.activate([
@@ -17,9 +17,9 @@ class WeatherHeaderView: UICollectionReusableView {
         ])
         return adressLabel
     }()
-    lazy var maxTemperatureLabel = UILabel.makeLabel(font: .callout)
-    lazy var minTemperatureLabel = UILabel.makeLabel(font: .callout)
-    lazy var temperatureLabel = UILabel.makeLabel(font: .title1)
+    private lazy var maxTemperatureLabel = UILabel.makeLabel(font: .callout)
+    private lazy var minTemperatureLabel = UILabel.makeLabel(font: .callout)
+    private lazy var temperatureLabel = UILabel.makeLabel(font: .title1)
     private var presentLocationSelector: (()-> Void)?
     private lazy var locationSelectButton: UIButton = {
         let locationSelectButton = UIButton()
@@ -41,13 +41,13 @@ class WeatherHeaderView: UICollectionReusableView {
         return locationSelectButton
     }()
     
-    lazy var weatherIcon: UIImageView = {
+    private lazy var weatherIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
         return imageView
     }()
     
-    lazy var maxMinStackView: UIStackView = {
+    private lazy var maxMinStackView: UIStackView = {
         var maxMinStackView = UIStackView(arrangedSubviews: [minTemperatureLabel, maxTemperatureLabel])
         maxMinStackView.translatesAutoresizingMaskIntoConstraints = false
         maxMinStackView.alignment = .fill
@@ -57,7 +57,7 @@ class WeatherHeaderView: UICollectionReusableView {
         return maxMinStackView
     }()
     
-    lazy var infoStackView: UIStackView = {
+    private lazy var infoStackView: UIStackView = {
         var infoStackView = UIStackView(arrangedSubviews: [maxMinStackView, temperatureLabel])
         infoStackView.translatesAutoresizingMaskIntoConstraints = false
         infoStackView.alignment = .leading
@@ -67,7 +67,7 @@ class WeatherHeaderView: UICollectionReusableView {
         return infoStackView
     }()
     
-    lazy var currentWeatherStackView: UIStackView = {
+    private lazy var currentWeatherStackView: UIStackView = {
         var currentWeatherStackView = UIStackView(arrangedSubviews: [weatherIcon, infoStackView])
         currentWeatherStackView.translatesAutoresizingMaskIntoConstraints = false
         currentWeatherStackView.alignment = .center
@@ -98,8 +98,6 @@ class WeatherHeaderView: UICollectionReusableView {
             currentWeatherStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
         ])
     }
-    
-
     
     func configureContents(from currentWeather: WeatherHeader?) {
         if let address = currentWeather?.address, address != " " {

@@ -7,14 +7,14 @@
 
 import UIKit
 
-class WeatherForecastCustomCell: UICollectionViewCell {
+final class WeatherForecastCustomCell: UICollectionViewCell {
     static let identifier = "fiveDay"
     var urlString: String?
     
-    let dateLabel = UILabel.makeLabel(font: .body, text: Placeholder.date.text)
-    let temperatureLabel = UILabel.makeLabel(font: .body)
+    private let dateLabel = UILabel.makeLabel(font: .body, text: Placeholder.date.text)
+    private let temperatureLabel = UILabel.makeLabel(font: .body)
     
-    let weatherImage: UIImageView = {
+    private let weatherImage: UIImageView = {
         let weatherImage = UIImageView()
         weatherImage.translatesAutoresizingMaskIntoConstraints = false
         weatherImage.widthAnchor.constraint(equalTo: weatherImage.heightAnchor).isActive = true
@@ -22,7 +22,7 @@ class WeatherForecastCustomCell: UICollectionViewCell {
         return weatherImage
     }()
     
-    lazy var horizontalStackView: UIStackView = {
+    private lazy var horizontalStackView: UIStackView = {
         var horizontalStackView = UIStackView(arrangedSubviews: [dateLabel, temperatureLabel, weatherImage])
         horizontalStackView.alignment = .fill
         horizontalStackView.distribution = .fill
@@ -43,7 +43,7 @@ class WeatherForecastCustomCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setLayoutForStackView() {
+    private func setLayoutForStackView() {
         NSLayoutConstraint.activate([
             horizontalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             horizontalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
@@ -67,13 +67,13 @@ class WeatherForecastCustomCell: UICollectionViewCell {
                                                            fractionalCount: 1)
     }
     
-    func resetContents() {
+    private func resetContents() {
         dateLabel.text = nil
         temperatureLabel.text = nil
         weatherImage.image = nil
     }
     
-    func format(date: Int) -> String? {
+    private func format(date: Int) -> String? {
         let dateFormatter = DateFormatter()
         let date = Date(timeIntervalSince1970: TimeInterval(date))
         dateFormatter.locale = Locale(identifier: "ko_KR")

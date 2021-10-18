@@ -8,7 +8,7 @@
 import Foundation
 import CoreLocation
 
-class LocationManager: NSObject {
+final class LocationManager: NSObject {
     private let manager = CLLocationManager()
     
     override init() {
@@ -38,7 +38,9 @@ class LocationManager: NSObject {
         guard let validLocation = location else { return }
         
         let converter = CLGeocoder()
-        converter.reverseGeocodeLocation(validLocation, preferredLocale: Locale(identifier: "ko_KR")) { (placemarks, error) in
+        converter.reverseGeocodeLocation(validLocation, preferredLocale: Locale(identifier: "ko_KR"))
+        { (placemarks, error) in
+            
             if let error = error {
                 completionHandler(.failure(error))
             }

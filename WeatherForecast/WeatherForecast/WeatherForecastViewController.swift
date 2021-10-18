@@ -9,7 +9,7 @@ import CoreLocation
 
 typealias DataSource = UICollectionViewDiffableDataSource<WeatherHeader, FiveDayWeather.List>
 
-class ViewController: UIViewController {
+final class WeatherForecastViewController: UIViewController {
     private var networkManager = NetworkManager()
     private let locationManager = LocationManager()
     private var imageManager = ImageManager()
@@ -114,7 +114,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func filter<T: WeatherModel>(parsedData: Result<T, ParsingError>) {
+    private func filter<T: WeatherModel>(parsedData: Result<T, ParsingError>) {
         switch parsedData {
         case .success(let data):
             if let currentWeatherData = data as? CurrentWeather {
@@ -146,7 +146,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController {
+extension WeatherForecastViewController {
     
     private func makeSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<WeatherHeader, FiveDayWeather.List>()
@@ -216,7 +216,7 @@ extension ViewController {
         { headerView, elementKind, indexPath in
             let headerItem = self.dataSource?.snapshot().sectionIdentifiers[indexPath.section]
             
-    
+            
             let buttonType: LocationSelectButtonType = self.address.combined == " " ? .invalid : .valid
             headerView.configureLocationSelectButton(button: buttonType) {
                 self.present(self.alert, animated: true, completion: nil)
@@ -226,12 +226,12 @@ extension ViewController {
         
         dataSource?.supplementaryViewProvider = { (collecionView, elementKind, indexpath) in
             return collecionView.dequeueConfiguredReusableSupplementary(using: headerRegistration,
-                                                                              for: indexpath)
+                                                                        for: indexpath)
         }
     }
 }
 
-extension ViewController {
+extension WeatherForecastViewController {
     private func configureRefreshControl() {
         collecionView.refreshControl = UIRefreshControl()
         collecionView.refreshControl?.tintColor = .systemRed
@@ -240,7 +240,7 @@ extension ViewController {
                                                 for: .valueChanged)
     }
     
-    @objc func handleRefreshControl() {
+    @objc private func handleRefreshControl() {
         initData()
         self.collecionView.refreshControl?.endRefreshing()
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class TemperatureManager: Dimension {
+final class TemperatureManager: Dimension {
     
     enum TemperatureType {
         case celsius

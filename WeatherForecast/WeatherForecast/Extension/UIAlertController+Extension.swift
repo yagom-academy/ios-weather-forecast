@@ -8,7 +8,9 @@
 import UIKit
 
 extension UIAlertController {
-    static func makeValidLocationAlert(changeHandler: @escaping (UIAlertController) -> Void, resetToCurrentLocationHandler: @escaping () -> Void) -> UIAlertController {
+    static func makeValidLocationAlert(
+        changeHandler: @escaping (UIAlertController) -> Void,
+        resetToCurrentLocationHandler: @escaping () -> Void) -> UIAlertController {
         
         let alert = UIAlertController(title: "위치변경", message: "변경할 좌표를 선택해주세요", preferredStyle: .alert)
         
@@ -35,9 +37,12 @@ extension UIAlertController {
         return alert
     }
     
-    static func makeInvalidLocationAlert(changeHandler: @escaping (UIAlertController) -> Void) -> UIAlertController {
+    static func makeInvalidLocationAlert(
+        changeHandler: @escaping (UIAlertController) -> Void) -> UIAlertController {
         
-        let alert = UIAlertController(title: "위치변경", message: "날씨를 받아올 위치의 위도와 경도를 입력해주세요.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "위치변경",
+                                      message: "날씨를 받아올 위치의 위도와 경도를 입력해주세요.",
+                                      preferredStyle: .alert)
         
         alert.addTextField { textfiled in
             textfiled.placeholder = Placeholder.latitude.text
