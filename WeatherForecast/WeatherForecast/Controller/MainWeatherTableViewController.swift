@@ -127,6 +127,14 @@ extension MainWeatherTableViewController: Requirable {
         }
     }
     
+    // MARK: - Alerts
+    @objc private func pressChangeButton() {
+    }
+    
+    func requireUserLocation() {
+    }
+}
+
 // MARK: - HeaderView
 extension MainWeatherTableViewController {
     private func makeHeaderViewFrame() -> CGRect {
