@@ -35,6 +35,7 @@ class MainWeatherTableViewController: UITableViewController {
         super.viewDidLoad()
         tableView.refreshControl = makeRefreshControl(targetView: self, action: #selector(reloadWeatherData(_:)))
         tableView.tableHeaderView?.frame = makeHeaderViewFrame()
+        headerView.addButtonTarget(target: self, action: #selector(pressChangeButton))
         self.weatherDataViewModel.setDelegate(from: self)
     }
     

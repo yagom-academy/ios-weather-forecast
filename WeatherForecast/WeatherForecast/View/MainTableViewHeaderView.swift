@@ -11,7 +11,7 @@ final class MainTableViewHeaderView: UIView {
     private let containView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .fill
+        stackView.alignment = .top
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -50,6 +50,14 @@ final class MainTableViewHeaderView: UIView {
         label.text = " - "
         return label
     }()
+    private let changeLocationButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = .preferredFont(forTextStyle: .body)
+        button.titleLabel?.textColor = .label
+        button.setTitle("위치변경", for: .normal)
+        return button
+    }()
     
     convenience init(backgroundColor: UIColor) {
         self.init(frame: .zero)
@@ -70,6 +78,7 @@ extension MainTableViewHeaderView {
     
         containView.addArrangedSubview(weatherIconImage)
         containView.addArrangedSubview(currentDataStackView)
+        containView.addArrangedSubview(changeLocationButton)
         
         self.addSubview(containView)
     }
@@ -89,6 +98,10 @@ extension MainTableViewHeaderView {
 
 // MARK: - Internal 메서드
 extension MainTableViewHeaderView {
+    func addButtonTarget(target: NSObject, action: Selector) {
+        changeLocationButton.addTarget(target, action: action, for: .touchUpInside)
+    }
+    
     func configureTexts(address: String, temperatureRange: String, temperature: String) {
         addressLabel.text = address
         temperatureRangeLabel.text = temperatureRange
