@@ -5,11 +5,9 @@
 //  Created by Yongwoo Marco on 2021/10/04.
 //
 
-import Foundation
-import CoreLocation
+import CoreLocation.CLLocation
 
 enum WeatherAPI {
-    
     private static var apiKey: String {
         guard let filePath = Bundle.main.path(forResource: "WeatherInfo", ofType: "plist"),
               let plist = NSDictionary(contentsOfFile: filePath),
@@ -24,6 +22,16 @@ enum WeatherAPI {
     private static let scheme = "https"
     private static let host = "api.openweathermap.org"
     private static let appID = WeatherAPI.apiKey
+    private static let unit = "metric"
+    
+    static func makeImageURL(_ iconName: String) -> URL? {
+        var components = URLComponents()
+        components.scheme = WeatherAPI.scheme
+        components.host = WeatherAPI.host
+        components.path = "/img/w/\(iconName).png"
+        
+        return components.url
+    }
     
     case current(CurrentData)
     case fiveday(FiveDayData)
@@ -49,9 +57,9 @@ enum WeatherAPI {
     private var keys: [String] {
         switch self {
         case .current(.geographic):
-            return ["lat", "lon", "appid"]
+            return ["lat", "lon", "units", "appid"]
         case .fiveday(.geographic):
-            return ["lat", "lon", "appid"]
+            return ["lat", "lon", "units", "appid"]
         case .fiveday(.cityName):
             return ["q", "appid"]
         }
@@ -67,6 +75,7 @@ enum WeatherAPI {
         case .fiveday(.cityName(name: let name)):
             parameters = [name]
         }
+        parameters.append(WeatherAPI.unit)
         parameters.append(WeatherAPI.appID)
         return parameters
     }

@@ -15,7 +15,7 @@ class WeatherDecoderTests: XCTestCase {
     override func setUpWithError() throws {
         super.setUp()
         let decoder = JSONDecoder(keyDecodingStrategy: .convertFromSnakeCase)
-        let currentData = try getData(fromJSON: "MockCurrentData")
+        let currentData = try getData(fromJSON: "MockCurrentWeatherData")
         self.currentSut = try decoder.decode(CurrentWeatherData.self, from: currentData)
     }
 
@@ -29,7 +29,7 @@ class WeatherDecoderTests: XCTestCase {
         // give
         let comparedProperty = "01d"
         // when
-        let decodedProperty = currentSut.conditions?.first?.iconName
+        let decodedProperty = currentSut.conditions[0].iconName
         // then
         XCTAssertEqual(comparedProperty, decodedProperty)
     }

@@ -5,7 +5,7 @@
 //  Created by Yongwoo Marco on 2021/10/12.
 //
 
-import CoreLocation
+import CoreLocation.CLLocationManager
 
 extension CLLocationManager {
     convenience init(desiredAccuracy: CLLocationAccuracy) {

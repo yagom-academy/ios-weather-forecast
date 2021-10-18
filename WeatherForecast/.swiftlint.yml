@@ -2,7 +2,10 @@ disabled_rules:
  - trailing_whitespace
  - identifier_name
  - force_try
+ - nesting
  
 excluded:
 - Pods
+- WeatherForecast/SceneDelegate.swift
+- WeatherForecast/AppDelegate.swift
 - WeatherForecastTests/*/

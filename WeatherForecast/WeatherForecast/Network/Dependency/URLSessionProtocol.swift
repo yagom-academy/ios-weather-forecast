@@ -5,7 +5,7 @@
 //  Created by Dasoll Park on 2021/10/01.
 //
 
-import Foundation
+import Foundation.NSURLSession
 
 protocol URLSessionProtocol {
     func makeCustomDataTask(with url: URL,
