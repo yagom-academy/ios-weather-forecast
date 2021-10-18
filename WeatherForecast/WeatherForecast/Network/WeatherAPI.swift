@@ -23,6 +23,7 @@ enum WeatherAPI {
     private static let scheme = "https"
     private static let host = "api.openweathermap.org"
     private static let appID = WeatherAPI.apiKey
+    private static let unitsOfMeasurement = "metric"
     
     case current(CurrentData)
     case fiveday(FiveDayData)
@@ -48,11 +49,11 @@ enum WeatherAPI {
     private var keys: [String] {
         switch self {
         case .current(.geographic):
-            return ["lat", "lon", "appid"]
+            return ["lat", "lon", "units", "appid"]
         case .fiveday(.geographic):
-            return ["lat", "lon", "appid"]
+            return ["lat", "lon", "units", "appid"]
         case .fiveday(.cityName):
-            return ["q", "appid"]
+            return ["q", "units", "appid"]
         }
     }
     
@@ -60,11 +61,11 @@ enum WeatherAPI {
         var parameters: [String]
         switch self {
         case .current(.geographic(let latitude, let longitude)):
-            parameters = ["\(latitude)", "\(longitude)"]
+            parameters = ["\(latitude)", "\(longitude)", WeatherAPI.unitsOfMeasurement]
         case .fiveday(.geographic(let latitude, let longitude)):
-            parameters = ["\(latitude)", "\(longitude)"]
+            parameters = ["\(latitude)", "\(longitude)", WeatherAPI.unitsOfMeasurement]
         case .fiveday(.cityName(name: let name)):
-            parameters = [name]
+            parameters = [name, WeatherAPI.unitsOfMeasurement]
         }
         parameters.append(WeatherAPI.appID)
         return parameters
@@ -80,6 +81,24 @@ enum WeatherAPI {
         let queryItems = queryDictionary.map({ URLQueryItem(name: $0.key, value: $0.value) })
         
         components.queryItems = queryItems
-        return components.url
+        guard let url = components.url else {
+            print(WeatherAPI.WeatherAPIError.invalidUrl.errorDescription)
+            return nil
+        }
+        return url
+    }
+}
+
+extension WeatherAPI {
+    
+    enum WeatherAPIError: LocalizedError {
+        case invalidUrl
+        
+         var errorDescription: String {
+            switch self {
+            case .invalidUrl:
+                return NSLocalizedString("URL이 올바르지 않습니다", comment: "")
+            }
+        }
     }
 }
