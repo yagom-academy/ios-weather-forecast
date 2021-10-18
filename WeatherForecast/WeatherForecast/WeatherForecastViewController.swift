@@ -18,6 +18,7 @@ final class WeatherForecastViewController: UIViewController {
     private var fiveDayWeathers: [FiveDayWeather.List] = []
     private var collecionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     private lazy var alert = initAlert()
+    private let downloadDataGroup = DispatchGroup()
     
     private var dataSource: DataSource?
     private var snapshot: NSDiffableDataSourceSnapshot<WeatherHeader, FiveDayWeather.List>?
@@ -72,6 +73,9 @@ final class WeatherForecastViewController: UIViewController {
             self.alert = self.initAlert()
             self.getWeatherData(of: location, route: .current)
             self.getWeatherData(of: location, route: .fiveDay)
+            self.downloadDataGroup.notify(queue: DispatchQueue.main) {
+                self.makeSnapshot()
+            }
         }
     }
     
@@ -86,19 +90,24 @@ final class WeatherForecastViewController: UIViewController {
         }
     }
     
+    
+    
     private func getWeatherData(of location: CLLocation, route: WeatherForecastRoute) {
         let queryItems = WeatherForecastRoute.createParameters(latitude: location.coordinate.latitude,
                                                                longitude: location.coordinate.longitude)
-        
-        networkManager.request(with: route,
-                               queryItems: queryItems,
-                               httpMethod: .get,
-                               requestType: .requestWithQueryItems) { result in
-            switch result {
-            case .success(let data):
-                self.extract(data: data, period: route)
-            case .failure(let networkError):
-                assertionFailure(networkError.localizedDescription)
+
+        DispatchQueue.global().async {
+            self.downloadDataGroup.enter()
+            self.networkManager.request(with: route,
+                                   queryItems: queryItems,
+                                   httpMethod: .get,
+                                   requestType: .requestWithQueryItems) { result in
+                switch result {
+                case .success(let data):
+                    self.extract(data: data, period: route)
+                case .failure(let networkError):
+                    assertionFailure(networkError.localizedDescription)
+                }
             }
         }
     }
@@ -131,10 +140,11 @@ final class WeatherForecastViewController: UIViewController {
                     case .failure(let error):
                         assertionFailure(error.localizedDescription)
                     }
+                    self.downloadDataGroup.leave()
                 }
             } else if let fiveDayWeatherData = data as? FiveDayWeather {
                 self.fiveDayWeathers = fiveDayWeatherData.list
-                makeSnapshot()
+                downloadDataGroup.leave()
             }
         case .failure(let parsingError):
             assertionFailure(parsingError.localizedDescription)
