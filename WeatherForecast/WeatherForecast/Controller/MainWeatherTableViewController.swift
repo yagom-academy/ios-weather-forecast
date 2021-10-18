@@ -130,9 +130,44 @@ extension MainWeatherTableViewController: Requirable {
     
     // MARK: - Alerts
     @objc private func pressChangeButton() {
+        presentChangedLocation(title: "위치 변경", message: "변경할 좌표를 선택해주세요", optional: "현재 위치로 재설정")
     }
     
     func requireUserLocation() {
+        presentChangedLocation(title: "위치변경", message: "날씨를 받아올 위치의 위도와 경도를 입력해주세요", optional: nil)
+    }
+    
+    private func presentChangedLocation(title: String, message: String, optional: String?) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addTextField { latitudeTextField in
+            latitudeTextField.placeholder = "위도"
+            latitudeTextField.keyboardType = .numberPad
+        }
+        alert.addTextField { longitudeTextField in
+            longitudeTextField.placeholder = "경도"
+            longitudeTextField.keyboardType = .numberPad
+        }
+        alert.addAction(UIAlertAction(title: "변경", style: .default) { _ in
+            guard let latitudeInput = alert.textFields?[0].text,
+                  let latitude = Double(latitudeInput),
+                  let longitudeInput = alert.textFields?[1].text,
+                  let longitude = Double(longitudeInput) else {
+                NSLog("올바른 입력이 아님 - 에러 처리 필요.")
+                return
+            }
+            self.weatherDataViewModel.updateUserInputLocation(latitude, longitude)
+        })
+        if let buttonTitle = optional {
+            alert.addAction(UIAlertAction(title: buttonTitle, style: .default) { _ in
+                self.reloadWeatherData()
+            })
+            alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        } else {
+            alert.addAction(UIAlertAction(title: "취소", style: .cancel) { _ in
+                self.reloadWeatherData()
+            })
+        }
+        present(alert, animated: true)
     }
 }
 
