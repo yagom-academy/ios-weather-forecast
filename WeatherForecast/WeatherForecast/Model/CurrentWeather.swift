@@ -27,19 +27,19 @@ struct CurrentWeather: Decodable {
         case coordinate = "coord"
         case dataReceivingTime = "dt"
     }
-
+    
     struct Coordinate: Decodable {
         let lon: Double
         let lat: Double
     }
-
+    
     struct Weather: Decodable {
         let id: Int
         let main: String
         let description: String
         let icon: String
     }
-
+    
     struct Main: Decodable {
         let temp: Double
         let feelsLike: Double
@@ -55,31 +55,31 @@ struct CurrentWeather: Decodable {
             case tempMax = "temp_max"
         }
     }
-
+    
     struct Wind: Decodable {
         let speed: Double
         let deg: Double
         let gust: Double?
     }
-
+    
     struct Clouds: Decodable {
         let all: Int
     }
-
+    
     struct Rain: Decodable {
         let oneHour: Double?
         let threeHour: Double?
-
+        
         enum CodingKeys: String, CodingKey {
             case oneHour = "1h"
             case threeHour = "3h"
         }
     }
-
+    
     struct Snow: Decodable {
         let oneHour: Double?
         let threeHour: Double?
-
+        
         enum CodingKeys: String, CodingKey {
             case oneHour = "1h"
             case threeHour = "3h"

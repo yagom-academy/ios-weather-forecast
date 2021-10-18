@@ -13,7 +13,7 @@ protocol WeatherServiceDelegate: AnyObject {
 
 final class WeatherService {
     static let shared = WeatherService()
- 
+    
     weak var delegate: WeatherServiceDelegate?
     
     private var locationManager = LocationManager()
@@ -46,9 +46,9 @@ extension WeatherService {
                 return
             }
         }
-
+        
     }
-
+    
     func refreshData() {
         locationManager.requestLocation()
     }

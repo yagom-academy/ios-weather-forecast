@@ -9,9 +9,9 @@ import Foundation
 
 struct FiveDaysWeather: Decodable {
     var list: [List]
-
-    struct List: Decodable {
     
+    struct List: Decodable {
+        
         let forecastTime: TimeInterval
         let main: Main
         let weather: [Weather]
@@ -26,7 +26,7 @@ struct FiveDaysWeather: Decodable {
             case dataReceivingTimeText = "dt_txt"
         }
     }
-
+    
     struct Main: Decodable {
         let temp: Double
         let feelsLike: Double
@@ -37,7 +37,7 @@ struct FiveDaysWeather: Decodable {
         let grndLevel: Int
         let humidity: Int
         let tempKF: Double
-       
+        
         enum CodingKeys: String, CodingKey {
             case temp, pressure, humidity
             case feelsLike = "feels_like"
@@ -48,12 +48,12 @@ struct FiveDaysWeather: Decodable {
             case tempKF = "temp_kf"
         }
     }
-
+    
     struct Weather: Decodable {
         let id: Int
         let main: String
         let description: String
         let icon: String
     }
-
+    
 }

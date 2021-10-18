@@ -31,7 +31,7 @@ final class WeatherTableViewCell: UITableViewCell {
     private let weatherImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-    
+        
         return imageView
     }()
     
@@ -76,7 +76,7 @@ extension WeatherTableViewCell {
             
             dateLabel.centerYAnchor.constraint(equalTo: contentView.layoutMarginsGuide.centerYAnchor),
             dateLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: dateLabelLedingConstant),
-           
+            
             stackView.centerYAnchor.constraint(equalTo: contentView.layoutMarginsGuide.centerYAnchor),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: stackViewTrailingConstant)
         ])

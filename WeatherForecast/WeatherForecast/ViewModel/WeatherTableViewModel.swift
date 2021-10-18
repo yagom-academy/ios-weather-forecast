@@ -56,16 +56,16 @@ extension WeatherTableViewModel {
 // MARK: - WeatherServiceDelegate
 extension WeatherTableViewModel: WeatherServiceDelegate {
     func didUpdatedWeatherDatas(current: CurrentWeather?, forecast: FiveDaysWeather?) {
-  
+        
         let currentTempature = String.formattingTempature(current?.main.temp)
         let maxTempature = String.formattingTempature(current?.main.tempMax)
         let minTempature = String.formattingTempature(current?.main.tempMin)
         service.getAddress { adress in
             self.weatherCurrent = WeatherHeaderModel(address: adress,
-                                                minTempature: minTempature ?? "",
-                                                maxTempature: maxTempature ?? "",
-                                                currentTempature: currentTempature ?? "",
-                                                iconImage: current?.iconImage)
+                                                     minTempature: minTempature ?? "",
+                                                     maxTempature: maxTempature ?? "",
+                                                     currentTempature: currentTempature ?? "",
+                                                     iconImage: current?.iconImage)
         }
         
         var cellViewModel =  [WeatherCellModel]()

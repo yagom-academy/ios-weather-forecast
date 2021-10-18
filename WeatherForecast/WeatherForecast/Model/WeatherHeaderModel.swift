@@ -14,7 +14,7 @@ final class WeatherHeaderModel {
     var maxTempature: String
     var currentTempature: String
     var iconImage: UIImage?
-   
+    
     init(address: String,
          minTempature: String,
          maxTempature: String,

@@ -18,7 +18,7 @@ final class WeatherImageChche: NSCache<NSString, UIImage> {
         return object(forKey: key)
     }
     
-   private override init() {
+    private override init() {
         super.init()
     }
 }

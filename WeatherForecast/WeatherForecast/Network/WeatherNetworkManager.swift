@@ -21,7 +21,7 @@ final class WeatherNetworkManager: NetworkManager {
             case .success(let data):
                 UIImage(data: data).flatMap {
                     WeatherImageChche.shared.setObject(forKey: NSString(string: url.absoluteString),
-                                                                      object: $0)
+                                                       object: $0)
                     completion($0)
                 }
             case .failure(_):
