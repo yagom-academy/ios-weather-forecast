@@ -45,6 +45,9 @@ class WeatherImpormationViewController: UIViewController {
     private func registeredIdetifier() {
         collectionView.register(WeatherCell.self,
                                 forCellWithReuseIdentifier: WeatherCell.identifier)
+        collectionView.register(WeatherHeaderView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: WeatherHeaderView.identifier)
     }
     
     private func decidedCollectionViewLayout() {

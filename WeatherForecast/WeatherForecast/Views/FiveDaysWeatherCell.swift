@@ -7,22 +7,37 @@
 
 import UIKit
 
+enum ImageURL {
+    case weather(String)
+    
+    var path: String {
+        switch self {
+        case .weather(let id):
+            return "https://openweathermap.org/img/w/\(id).png"
+        }
+    }
+}
+
 class WeatherCell: UICollectionViewCell {
+    let imageManager = ImageManager()
     static let identifier = String(describing: WeatherCell.self)
     
     private let dateLabel: UILabel = {
         let label = UILabel()
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return label
     }()
     
     private let temperatureLabel: UILabel = {
         let label = UILabel()
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return label
     }()
     
     private let weatherImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
+        imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return imageView
     }()
     
@@ -31,6 +46,7 @@ class WeatherCell: UICollectionViewCell {
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution = .fill
+        stackView.spacing = 5
         return stackView
     }()
     
@@ -72,13 +88,32 @@ class WeatherCell: UICollectionViewCell {
             .isActive = true
     }
     
-    func configure(list: List) {
-        if let date = list.dt,
-           let temperature = list.main?.temp {
-            dateLabel.text =
-            DateFormatter().convertDate(intDate: date)
-            temperatureLabel.text =
-            MeasurementFormatter().convertTemperature(temp: temperature)
+    func configure(list: List?) {
+            textConfigure(list: list)
+            imageConfigure(list: list)
         }
-    }
+        
+        private func textConfigure(list: List?) {
+            if let date = list?.dt,
+               let temperature = list?.main?.temp {
+                dateLabel.text =
+                DateFormatter().convertDate(intDate: date)
+                temperatureLabel.text =
+                MeasurementFormatter().convertTemperature(temp: temperature)
+            }
+        }
+        
+        private func imageConfigure(list: List?) {
+            guard let icon = list?.weather?.first?.icon else { return }
+            imageManager.fetchImage(url: ImageURL.weather(icon).path) { image in
+                DispatchQueue.main.async {
+                    switch image {
+                    case .success(let image):
+                        self.weatherImage.image = image
+                    case .failure:
+                        self.weatherImage.image = UIImage(systemName: "questionmark.circle")
+                    }
+                }
+            }
+        }
 }

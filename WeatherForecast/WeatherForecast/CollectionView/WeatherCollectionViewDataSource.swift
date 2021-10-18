@@ -40,10 +40,8 @@ extension WeatherCollectionViewDataSource: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
         
-        guard let fiveDayData = fiveDaysWeather?.list?[indexPath.item] else {
-            return UICollectionViewCell()
-        }
-        cell.configure(list: fiveDayData)
+        let fiveDayList = fiveDaysWeather?.list?[indexPath.item]
+                cell.configure(list: fiveDayList)
         return cell
     }
     
