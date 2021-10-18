@@ -6,7 +6,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MainWeatherViewController: UIViewController {
     
     var currentWeatherViewModel = CurrentWeatherViewModel()
     var fiveDayWeatherViewModel = FiveDayWeatherViewModel()
