@@ -82,6 +82,7 @@ class FiveDaysForecastCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         positionUIElements()
         setLabelStyle()
+        self.backgroundView?.backgroundColor = .clear
     }
     
     required init?(coder: NSCoder) {
