@@ -17,6 +17,7 @@ final class LocationManager: CLLocationManager {
         self.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         self.startUpdatingLocation()
     }
+
 }
 
 extension LocationManager: CLLocationManagerDelegate {
@@ -47,7 +48,8 @@ extension LocationManager: CLLocationManagerDelegate {
 
         let requestInfo: Parameters = ["lat": latitude, "lon": longitude, "appid": networkManager.apiKey]
         let fiveDaysWeatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: fiveDaysUrl)
-        networkManager.getCurrentWeatherData(weatherAPI: fiveDaysWeatherApi, self.session) { requestedData in
+        print(fiveDaysWeatherApi)
+        networkManager.getWeatherData(weatherAPI: fiveDaysWeatherApi, self.session) { requestedData in
             do {
                 self.data = try JSONDecoder().decode(FiveDaysForecast.self, from: requestedData)
                 print(self.data ?? FiveDaysForecast(list: []))

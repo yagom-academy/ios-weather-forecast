@@ -9,18 +9,20 @@ import CoreLocation
 
 final class ViewController: UIViewController {
     private let locationManager = LocationManager()
-    private let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
-    
+    private let tableView = UITableView()
+    private let tableViewHeaderView = UIView()
+    private let currentWeatherImageView = UIImageView()
+    private let addressLabel = UILabel()
+    private let temperatureRangeLabel = UILabel()
+    private let currentTemperatureLabel = UILabel()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSubviews()
-        configureLayout()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.tableHeaderView = tableViewHeaderView
+        addSubviews()
+        configureLayout()
         locationManager.delegate = locationManager
         tableView.register(WeatherInfoCell.self, forCellReuseIdentifier: WeatherInfoCell.cellIdentifier)
         locationManager.askUserLocation()
@@ -50,16 +52,50 @@ final class ViewController: UIViewController {
     
     private func addSubviews() {
         view.addSubview(tableView)
+        tableViewHeaderView.addSubview(currentWeatherImageView)
+        tableViewHeaderView.addSubview(addressLabel)
+        tableViewHeaderView.addSubview(temperatureRangeLabel)
+        tableViewHeaderView.addSubview(currentTemperatureLabel)
     }
     
     private func configureLayout() {
         let safeArea = view.safeAreaLayoutGuide
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableViewHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        currentWeatherImageView.translatesAutoresizingMaskIntoConstraints = false
+        addressLabel.translatesAutoresizingMaskIntoConstraints = false
+        temperatureRangeLabel.translatesAutoresizingMaskIntoConstraints = false
+        currentTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            tableViewHeaderView.heightAnchor.constraint(equalToConstant: 100)
+        ])
+        
+        NSLayoutConstraint.activate([
+            currentWeatherImageView.leadingAnchor.constraint(equalTo: tableViewHeaderView.leadingAnchor, constant: 10),
+            currentWeatherImageView.topAnchor.constraint(equalTo: tableViewHeaderView.topAnchor, constant: 10)
+        ])
+        
+        NSLayoutConstraint.activate([
+            addressLabel.leadingAnchor.constraint(equalTo: currentWeatherImageView.trailingAnchor, constant: 10),
+            addressLabel.topAnchor.constraint(equalTo: tableViewHeaderView.topAnchor, constant: 10)
+        ])
+        
+        NSLayoutConstraint.activate([
+            temperatureRangeLabel.leadingAnchor.constraint(equalTo: currentWeatherImageView.trailingAnchor, constant: 10),
+            temperatureRangeLabel.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 10)
+        ])
+        
+        NSLayoutConstraint.activate([
+            currentTemperatureLabel.leadingAnchor.constraint(equalTo: currentWeatherImageView.trailingAnchor, constant: 10),
+            currentTemperatureLabel.topAnchor.constraint(equalTo: temperatureRangeLabel.bottomAnchor, constant: 10)
         ])
     }
 }
@@ -70,10 +106,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
               let item = locationManager.data else {
                   return UITableViewCell()
               }
+        let networkManager = NetworkManager()
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
         cell.dateLabel.text = "\(item.list[indexPath.row].date)"
         cell.temperatureLabel.text = "\(item.list[indexPath.row].main.temperature)"
+//        let id = item.list[indexPath.row].weather.icon
+//        cell.weatherImageView.image = networkManager.getWeatherImage(weatherApi: FiveDaysForecast, T##session: URLSession##URLSession, T##completion: (Data) -> ()##(Data) -> ())
+        
         return cell
     }
     
