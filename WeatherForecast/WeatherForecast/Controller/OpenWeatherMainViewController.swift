@@ -13,13 +13,14 @@ final class OpenWeatherMainViewController: UIViewController {
     private let tableView = UITableView()
     private let tableViewDataSource = WeatherTableviewDataSource()
     private let headerDelegate = WeatherTableViewDelegate()
+    
+    private let refreshControl = UIRefreshControl()
 
     //MARK: - View's Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         drawTableView()
         setRefreshControl()
-        
         
         self.tableView.dataSource = self.tableViewDataSource
         self.tableView.delegate = headerDelegate
@@ -48,8 +49,6 @@ final class OpenWeatherMainViewController: UIViewController {
     deinit {
         print(#function)
     }
-    
-    private let refreshControl = UIRefreshControl()
 }
 
 extension OpenWeatherMainViewController {
@@ -60,7 +59,9 @@ extension OpenWeatherMainViewController {
             tableView.addSubview(refreshControl)
         }
         
-        self.refreshControl.addTarget(self, action: #selector(reloadView), for: .valueChanged)
+        self.refreshControl.addTarget(self,
+                                      action: #selector(reloadView),
+                                      for: .valueChanged)
     }
     
     @objc func reloadView() {
