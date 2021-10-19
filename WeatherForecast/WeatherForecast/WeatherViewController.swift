@@ -13,6 +13,7 @@ class WeatherViewController: UIViewController {
     private let headerAddrressLabel = UILabel()
     private let headerMinMaxTemperatureLabel = UILabel()
     private let headerCurrentTemperatureLabel = UILabel()
+    private let refreshControl = UIRefreshControl()
     
     private let locationManager = LocationManager()
     private let geocoderManager = GeocoderManager()
@@ -27,6 +28,7 @@ class WeatherViewController: UIViewController {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.refreshControl.endRefreshing()
             }
         }
     }
@@ -35,7 +37,17 @@ class WeatherViewController: UIViewController {
         super.viewDidLoad()
         setupTableView()
         updateTableViewHeaderViewLayout()
+        setupRefreshControl()
         requestLocationAuthorization()
+    }
+    
+    private func setupRefreshControl() {
+        tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+    }
+    
+    @objc func refresh() {
+        requestCoordinate()
     }
 }
 
