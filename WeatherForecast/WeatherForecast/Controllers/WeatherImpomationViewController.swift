@@ -17,17 +17,23 @@ class WeatherImpormationViewController: UIViewController {
     private let collectionViewDataSource = WeatherCollectionViewDataSource()
     private var currentLocation: CLLocation? = nil {
         didSet {
-            processWeatherImpormation()
-            getUserAddress()
+            processWeatherImpormation {
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                    self.collectionView.refreshControl?.endRefreshing()
+                }
+            }
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setUpRefreshControl()
         getUserLocation()
         processCollectionView()
         registeredIdetifier()
+        decidedBackGroundImage()
         decidedCollectionViewLayout()
     }
     
@@ -39,7 +45,12 @@ class WeatherImpormationViewController: UIViewController {
     
     private func processCollectionView() {
         collectionView.dataSource = collectionViewDataSource
-        
+    }
+    
+    private func decidedBackGroundImage() {
+        let backgroundImageView = UIImageView(image: UIImage(named: "BackGroundImage"))
+        backgroundImageView.contentMode = .scaleAspectFill
+        collectionView.backgroundView = backgroundImageView
     }
     
     private func registeredIdetifier() {
@@ -65,34 +76,51 @@ class WeatherImpormationViewController: UIViewController {
         collectionViewDataSource.decidedLayout(collectionView)
     }
     
-    private func processWeatherImpormation() {
-        guard let location = currentLocation else { return }
-        let currentWeatherURL =
-        WeatherURL.weatherCoordinates(latitude: location.coordinate.latitude,
-                                      longitude: location.coordinate.longitude)
-        let fiveDaysWeatherURL =
-        WeatherURL.forecastCoordinates(latitude: location.coordinate.latitude,
-                                       longitude: location.coordinate.longitude)
+    private func processWeatherImpormation(completion: @escaping () -> Void) {
+       
+            guard let location = currentLocation else { return }
+            let currentWeatherURL =
+            WeatherURL.weatherCoordinates(latitude: location.coordinate.latitude,
+                                          longitude: location.coordinate.longitude)
+            let fiveDaysWeatherURL =
+            WeatherURL.forecastCoordinates(latitude: location.coordinate.latitude,
+                                           longitude: location.coordinate.longitude)
         
-        getWeatherImpormation(request: currentWeatherURL,
-                              type: CurrentWeather.self) { result in
-            if let result = result {
-                self.collectionViewDataSource.currentWeather = result
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+        DispatchQueue.global().async {
+            let group = DispatchGroup()
+            group.enter()
+            self.getWeatherImpormation(request: fiveDaysWeatherURL,
+                                  type: FiveDaysWeather.self) { result in
+               
+                if let result = result {
+                    self.collectionViewDataSource.fiveDaysWeather = result
                 }
+                group.leave()
             }
             
-        }
-        
-        getWeatherImpormation(request: fiveDaysWeatherURL,
-                              type: FiveDaysWeather.self) { result in
-            if let result = result {
-                self.collectionViewDataSource.fiveDaysWeather = result
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+            group.enter()
+            self.getWeatherImpormation(request: currentWeatherURL,
+                                  type: CurrentWeather.self) { result in
+                
+                if let result = result {
+                    self.collectionViewDataSource.currentWeather = result
                 }
+                group.leave()
             }
+            
+            group.enter()
+            self.locationManager.getUserAddress(location: location) { address in
+                switch address {
+                case .success(let data):
+                    self.collectionViewDataSource.currentAddress = data
+                case .failure(let error):
+                    self.handlerError(error)
+                }
+                group.leave()
+            }
+            
+            group.wait()
+            completion()
         }
     }
     
@@ -125,5 +153,17 @@ class WeatherImpormationViewController: UIViewController {
                     self.handlerError(error)
                 }
             }
+    }
+}
+
+extension WeatherImpormationViewController {
+    private func setUpRefreshControl() {
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.tintColor = .systemGray
+        collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+    
+    @objc func handleRefreshControl() {
+        locationManager.refreshLocation()
     }
 }

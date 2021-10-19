@@ -20,6 +20,10 @@ class LocationManager: NSObject {
     
     func getUserLocation(completion: @escaping ((CLLocation) -> Void)) {
         self.locationCompletion = completion
+        
+    }
+    
+    func refreshLocation() {
         locationManager.requestLocation()
     }
     

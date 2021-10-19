@@ -20,24 +20,28 @@ class CurrentWeatherHeaderView: UICollectionReusableView {
     
     private let addressLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         return label
     }()
     
     private let maxTemperatureLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         return label
     }()
     
     private let minTemperatureLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         return label
     }()
     
     private let currentTemperatureLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
         label.font = UIFont.preferredFont(forTextStyle: .title1)
         return label
     }()

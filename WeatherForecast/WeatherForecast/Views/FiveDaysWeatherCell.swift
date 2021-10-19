@@ -24,12 +24,14 @@ class FiveDaysWeatherCell: UICollectionViewCell {
     
     private let dateLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return label
     }()
     
     private let temperatureLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return label
     }()
@@ -71,7 +73,7 @@ class FiveDaysWeatherCell: UICollectionViewCell {
     }
     
     private func setUpStyle() {
-        self.layer.addBorder(edge: .bottom, color: .gray, thickness: 1)
+        self.layer.addBorder(edge: .bottom, color: .white, thickness: 1)
     }
     
     private func setUpConstraint() {
