@@ -51,7 +51,7 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
             break
         }
     }
- 
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let lastLocation = locations.last else {
             return
@@ -68,7 +68,7 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
                 }
                 if self?.weatherForOneDay != weatherForOneDay {
                     self?.weatherForOneDay = weatherForOneDay
-                    self?.updateHeadView(to: weatherForOneDay)
+                    self?.updateHeaderView(to: weatherForOneDay)
                 }
                 if self?.fiveDayWeatherForecast != weatherForFiveDay {
                     self?.fiveDayWeatherForecast = weatherForFiveDay
@@ -80,6 +80,10 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
         if let updateWorkItem = updateWorkItem {
             DispatchQueue.main.async(execute: updateWorkItem)
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
     }
 }
 
@@ -93,7 +97,7 @@ extension MainWeatherViewController {
         var userAddress: String?
         var weatherForOneDay: WeatherForOneDay?
         var weatherForFiveDay: FiveDayWeatherForecast?
-    
+        
         prepareInformationDispatchGroup.enter()
         AddressManager.generateAddress(from: location) { [self] in
             switch $0 {
@@ -141,7 +145,7 @@ extension MainWeatherViewController {
 extension MainWeatherViewController {
     private func setUpTableView() {
         view.addSubview(tableView)
-        tableView.register(MainWeatherTableViewCell.self, forCellReuseIdentifier: MainWeatherTableViewCell.identifier)
+        tableView.register(MainWeatherTableViewCell.self, forCellReuseIdentifier: String(describing: MainWeatherTableViewCell.self))
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         let safeArea = view.safeAreaLayoutGuide
@@ -152,6 +156,9 @@ extension MainWeatherViewController {
         
         tableView.dataSource = tableViewDataSource
         tableView.tableHeaderView = headerView
+        sizeHeaderViewHeightToFit()
+        
+        headerView.changeLocationDelegate = self
     }
     
     private func setUpRefreshControl() {
@@ -164,15 +171,16 @@ extension MainWeatherViewController {
             return
         }
         headerView.configure(addressData: newInformation)
-        sizeHeaderViewHeightToFit()
     }
     
-    private func updateHeadView(to newInformation: WeatherForOneDay?) {
+    private func updateHeaderView(to newInformation: WeatherForOneDay?) {
         guard let newInformation = newInformation else {
             return
         }
         if let imageId = newInformation.weatherConditionCodes?.last?.iconId {
-            NetworkManager.imageRequest(using: imageId) { [self] result in
+            let imageAPI = ImageAPI(imageId: imageId)
+            
+            NetworkManager.imageRequest(using: imageAPI) { [self] result in
                 DispatchQueue.main.async {
                     switch result {
                     case .failure(_):
@@ -184,7 +192,6 @@ extension MainWeatherViewController {
             }
         }
         headerView.configure(weatherData: newInformation)
-        sizeHeaderViewHeightToFit()
     }
     
     private func sizeHeaderViewHeightToFit() {
@@ -206,10 +213,45 @@ extension MainWeatherViewController {
     }
     
     @objc private func loadNewData() {
-        guard let lastLocation = locationManager.location else {
-            tableView.refreshControl?.endRefreshing()
-            return
+        locationManager.requestLocation()
+    }
+}
+
+extension MainWeatherViewController: ChangeLocationDelegate {
+    func locationChangeRequested() {
+        showLocationChangeAlert()
+    }
+    
+    private func showLocationChangeAlert() {
+        let alert = UIAlertController(title: "위치변경", message: "변경할 좌표를 선택해주세요", preferredStyle: .alert)
+        alert.addTextField { latitudeTextField in
+            latitudeTextField.placeholder = "위도"
+            latitudeTextField.keyboardType = .decimalPad
         }
-        locationManager(locationManager, didUpdateLocations: [lastLocation])
+        alert.addTextField { longitudeTextField in
+            longitudeTextField.placeholder = "경도"
+            longitudeTextField.keyboardType = .decimalPad
+        }
+        let changeAction = UIAlertAction(title: "변경", style: .default) { [weak self, weak alert] _ in
+            guard let self = self, let alert = alert else {
+                return
+            }
+            if let latitudeText = alert.textFields?.first?.text, let longitudeText = alert.textFields?.last?.text,
+               let latitude = Double(latitudeText), let longitude = Double(longitudeText) {
+                self.locationManager(self.locationManager, didUpdateLocations: [CLLocation(latitude: latitude, longitude: longitude)])
+            }
+        }
+        let setCurrentLocationAction = UIAlertAction(title: "현재 위치로 재설정", style: .default) { [weak self] _ in
+            self?.locationManager.requestLocation()
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(changeAction)
+        if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            alert.addAction(setCurrentLocationAction)
+        }
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
     }
 }

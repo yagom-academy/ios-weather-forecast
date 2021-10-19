@@ -12,7 +12,6 @@ enum NetworkError: Error, LocalizedError {
     case invaildURL
     case failedResponse
     case notAvailableData
-    case failedToCreateURL
     case failedToConvertImage
     
     var errorDescription: String {
@@ -23,8 +22,6 @@ enum NetworkError: Error, LocalizedError {
             return "통신에 실패하였습니다."
         case .notAvailableData:
             return "데이터를 얻지 못했습니다."
-        case .failedToCreateURL:
-            return "URL 생성에 실패하였습니다."
         case .failedToConvertImage:
             return "이미지 변환에 실패하였습니다."
         }
@@ -57,20 +54,17 @@ struct NetworkManager {
         }.resume()
     }
     
-    static func imageRequest(using id: String,
+    static func imageRequest(using api: ImageAPI,
                              completionHandler: @escaping (Result<UIImage, Error>) -> Void) {
+        guard let imageUrl = api.url else {
+            return completionHandler(.failure(NetworkError.invaildURL))
+        }
+        
         let configuration = URLSessionConfiguration.default
         configuration.requestCachePolicy = .returnCacheDataElseLoad
         URLCache.shared.memoryCapacity = 1024 * 1024 * 64
         
         let urlSession = URLSession(configuration: configuration)
-        
-        let urlValue = "https://openweathermap.org/img/w/\(id).png"
-        let url = URL(string: urlValue)
-        
-        guard let imageUrl = url else {
-            return completionHandler(.failure(NetworkError.failedToCreateURL))
-        }
         
         urlSession.dataTask(with: imageUrl) { (data, response, error) in
             if let error = error {

@@ -8,15 +8,7 @@
 import UIKit
 
 final class MainWeatherTableViewDataSource: NSObject {
-    private var _fiveDayWeatherList: [WeatherForOneDay] = []
-    var fiveDayWeatherList: [WeatherForOneDay] {
-        set {
-            _fiveDayWeatherList = newValue
-        }
-        get {
-            return _fiveDayWeatherList
-        }
-    }
+    var fiveDayWeatherList: [WeatherForOneDay] = []
 }
 
 extension MainWeatherTableViewDataSource: UITableViewDataSource {
@@ -25,7 +17,7 @@ extension MainWeatherTableViewDataSource: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MainWeatherTableViewCell.identifier, for: indexPath) as? MainWeatherTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MainWeatherTableViewCell.self), for: indexPath) as? MainWeatherTableViewCell else {
             return UITableViewCell()
         }
         cell.resetAllContents()
@@ -33,7 +25,9 @@ extension MainWeatherTableViewDataSource: UITableViewDataSource {
         cell.configure(data: weather)
         cell.iconId = weather.weatherConditionCodes?.last?.iconId
         if let imageId = cell.iconId {
-            NetworkManager.imageRequest(using: imageId) { result in
+            let imageAPI = ImageAPI(imageId: imageId)
+            
+            NetworkManager.imageRequest(using: imageAPI) { result in
                 guard cell.iconId == imageId else {
                     return
                 }

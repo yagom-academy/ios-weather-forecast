@@ -8,10 +8,9 @@
 import UIKit
 
 final class MainWeatherTableViewCell: UITableViewCell {
-    static let identifier = "MainWeatherTableViewCell"
     var iconId: String?
     
-    private let stackView: UIStackView = {
+    private let weatherInformationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
@@ -52,16 +51,16 @@ final class MainWeatherTableViewCell: UITableViewCell {
     }
     
     private func setUpUI() {
-        stackView.addArrangedSubview(dateLabel)
-        stackView.addArrangedSubview(temperatureLabel)
-        stackView.addArrangedSubview(weatherIconImageView)
-        contentView.addSubview(stackView)
+        weatherInformationStackView.addArrangedSubview(dateLabel)
+        weatherInformationStackView.addArrangedSubview(temperatureLabel)
+        weatherInformationStackView.addArrangedSubview(weatherIconImageView)
+        contentView.addSubview(weatherInformationStackView)
         
         let margin = CGFloat(8)
-        stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: margin).isActive = true
-        stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: margin).isActive = true
-        stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -margin).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin).isActive = true
+        weatherInformationStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: margin).isActive = true
+        weatherInformationStackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: margin).isActive = true
+        weatherInformationStackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -margin).isActive = true
+        weatherInformationStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin).isActive = true
         
         weatherIconImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.1).isActive = true
         weatherIconImageView.heightAnchor.constraint(equalTo: weatherIconImageView.widthAnchor).isActive = true
