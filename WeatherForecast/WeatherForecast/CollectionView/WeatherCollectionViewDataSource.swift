@@ -42,7 +42,7 @@ extension WeatherCollectionViewDataSource: UICollectionViewDataSource {
             for: indexPath) as? FiveDaysWeatherCell else {
                 return UICollectionViewCell()
             }
-        
+        cell.resetContents()
         let fiveDayList = fiveDaysWeather?.list?[indexPath.item]
         cell.configure(list: fiveDayList)
         return cell

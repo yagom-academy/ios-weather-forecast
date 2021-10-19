@@ -90,6 +90,12 @@ class FiveDaysWeatherCell: UICollectionViewCell {
             .isActive = true
     }
     
+    func resetContents() {
+        weatherImage.image = nil
+        dateLabel.text = nil
+        temperatureLabel.text = nil
+    }
+    
     func configure(list: List?) {
             textConfigure(list: list)
             imageConfigure(list: list)
