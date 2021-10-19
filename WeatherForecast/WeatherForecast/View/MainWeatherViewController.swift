@@ -70,4 +70,21 @@ extension MainWeatherViewController: UITableViewDataSource, UITableViewDelegate 
         cell.weatherImageView.image = viewModel.imageThreeHour
         return cell
     }
+    
+    func tableView(_ tableView: UITableView,
+                   viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = CurrentWeatherTableViewHeaderFooterView()
+        
+        headerView.configureLabels(
+            image: currentWeatherViewModel.weatherImage,
+            address: currentWeatherViewModel.address,
+            minMaxTemperature: currentWeatherViewModel.minMaxTamperature,
+            temperature: currentWeatherViewModel.currentTemperature
+        )
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 100
+    }
 }
