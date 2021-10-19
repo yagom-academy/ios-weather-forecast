@@ -11,14 +11,14 @@ class WeatherTableViewCell: UITableViewCell {
     
     var dateLabel: UILabel = {
         var label = UILabel()
-        label.textColor = .black
+        label.textColor = .white
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textAlignment = .left
         return label
     }()
     var temperatureLabel: UILabel = {
         var label = UILabel()
-        label.textColor = .black
+        label.textColor = .white
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textAlignment = .right
         return label
@@ -41,7 +41,6 @@ class WeatherTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
     }
     
     private func setUpAutoLayout() {
