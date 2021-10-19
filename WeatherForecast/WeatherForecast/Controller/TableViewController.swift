@@ -35,8 +35,8 @@ class TableViewController: UIViewController {
     }
     
     private func addButtonController() {
-        if let t = tableView.tableHeaderView as? OpenWeatherHeaderView {
-            self.add(t.buttonvc)
+        if let headerView = tableView.tableHeaderView as? OpenWeatherHeaderView {
+            self.add(headerView.buttonvc)
         }
     }
     

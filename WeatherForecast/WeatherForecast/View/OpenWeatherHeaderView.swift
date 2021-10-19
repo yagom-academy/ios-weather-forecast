@@ -41,10 +41,6 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
         return stackView
     }()
     
-    @objc func noti() {
-        NotificationCenter.default.post(name: .showAlert, object: nil)
-    }
-    
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         self.contentView.backgroundColor = UIColor.clear
@@ -52,15 +48,14 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
         setVerticalStackView()
         setImageIconView()
         convertToDynamicType()
-      
-        let buttonWidth = (self.contentView.frame.size.width / 5) * 4
-        let buttonHeight = buttonWidth / 10
-        buttonvc.view.frame = CGRect(x: 320, y: 50, width: buttonWidth, height: buttonHeight)
+        drawButtonView()
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
     
     func configureDateAndTemperature() {
         guard let currentWeatherData = WeatherDataHolder.shared.current else {
@@ -153,5 +148,11 @@ extension OpenWeatherHeaderView {
     private func setDynamicType(to label: UILabel, _ font: UIFont.TextStyle) {
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: font)
+    }
+    
+    private func drawButtonView() {
+        let buttonWidth = (self.contentView.frame.size.width / 5) * 4
+        let buttonHeight = buttonWidth / 10
+        buttonvc.view.frame = CGRect(x: 320, y: 50, width: buttonWidth, height: buttonHeight)
     }
 }
