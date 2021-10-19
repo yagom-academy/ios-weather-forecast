@@ -15,6 +15,10 @@ enum WeatherRequest: TargetType {
     case getCurrentWeather(latitude: Double, longitude: Double)
     case getFiveDayForecast(latitude: Double, longitude: Double)
     
+    private var apiKey: String {
+        return "1af72e89e05d364984fe32463122135f"
+    }
+    
     var baseURL: String {
         return "https://api.openweathermap.org"
     }
@@ -42,12 +46,11 @@ enum WeatherRequest: TargetType {
     }
     
     func configure() -> URLRequest? {
-        let apiKey = "1af72e89e05d364984fe32463122135f"
         var urlComponents = URLComponents(string: self.baseURL)
         urlComponents?.path = self.path
         let lat = URLQueryItem(name: "lat", value: self.query.0.description)
         let lon = URLQueryItem(name: "lon", value: self.query.1.description)
-        let appId = URLQueryItem(name: "appid", value: apiKey)
+        let appId = URLQueryItem(name: "appid", value: self.apiKey)
         urlComponents?.queryItems = [lat, lon, appId]
         guard let url = urlComponents?.url else {
             return nil
