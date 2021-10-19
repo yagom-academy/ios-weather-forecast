@@ -38,9 +38,20 @@ class FiveDayWeatherListViewModel {
             self.reloadTableView?()
         }
     }
+    
+    func getData(at index: Int) -> FiveDayWeatherViewModel {
+        if weathers == [],
+           let sampleImage = UIImage(systemName: "circle") {
+            return FiveDayWeatherViewModel("-", "-", sampleImage)
+        }
+        let data = weathers[index]
+        return FiveDayWeatherViewModel(data.dateThreeHour,
+                                       data.temperatureThreeHour,
+                                       data.imageThreeHour)
+    }
 }
 
-struct FiveDayWeatherViewModel {
+struct FiveDayWeatherViewModel: Equatable {
     
     var dateThreeHour: String
     var temperatureThreeHour: String
