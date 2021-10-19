@@ -59,6 +59,7 @@ class MainWeatherViewController: UIViewController {
             weatherTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             weatherTableView.leftAnchor.constraint(equalTo: view.leftAnchor)
         ])
+        weatherTableView.backgroundColor = nil
     }
 }
 
@@ -73,9 +74,11 @@ extension MainWeatherViewController: UITableViewDataSource, UITableViewDelegate 
             return WeatherTableViewCell()
         }
         let viewModel = fiveDayListViewModel.getData(at: indexPath.row)
+        
         cell.dateLabel.text = viewModel.dateThreeHour
         cell.temperatureLabel.text = viewModel.temperatureThreeHour
         cell.weatherImageView.image = viewModel.imageThreeHour
+        cell.backgroundColor = UIColor.clear
         return cell
     }
     
@@ -89,6 +92,7 @@ extension MainWeatherViewController: UITableViewDataSource, UITableViewDelegate 
             minMaxTemperature: currentWeatherViewModel.minMaxTamperature,
             temperature: currentWeatherViewModel.currentTemperature
         )
+        headerView.backgroundView = UIView()
         return headerView
     }
     
