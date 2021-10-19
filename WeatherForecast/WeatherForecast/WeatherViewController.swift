@@ -184,7 +184,3 @@ extension WeatherViewController: UITableViewDelegate {
         }
     }
 }
-
-extension Notification.Name {
-    static let test = "test"
-}
