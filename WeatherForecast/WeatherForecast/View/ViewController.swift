@@ -8,6 +8,7 @@ import UIKit
 import CoreLocation
 
 final class ViewController: UIViewController {
+    //MARK: - Properties
     private let locationManager = LocationManager()
     private let tableView = UITableView()
     private let tableViewHeaderView = UIView()
@@ -16,6 +17,7 @@ final class ViewController: UIViewController {
     private let temperatureRangeLabel = UILabel()
     private let currentTemperatureLabel = UILabel()
 
+    //MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -31,6 +33,7 @@ final class ViewController: UIViewController {
         self.tableView.backgroundColor = .clear
     }
     
+    //MARK: - Methods
     func setUpTableViewData() {
         Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
             self.tableView.reloadData()
@@ -100,6 +103,7 @@ final class ViewController: UIViewController {
     }
 }
 
+//MARK: - TableView Protocol
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherInfoCell.cellIdentifier, for: indexPath) as? WeatherInfoCell,
