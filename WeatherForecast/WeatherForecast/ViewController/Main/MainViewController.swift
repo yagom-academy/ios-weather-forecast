@@ -11,12 +11,21 @@ final class MainViewController: UIViewController {
     private let locationManager = LocationManager()
     private let networkManager = NetworkManager()
     var weeklyWeatherForecast: [WeatherForecast] = []
-
+    
     var tableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setUpTableView()
+        NotificationCenter.default.addObserver(
+            forName: LocationManager.locationUpdated,
+            object: nil,
+            queue: .main,
+            using: utilizeLocation
+        )
+    }
+    
+   private func setUpTableView() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(
@@ -27,29 +36,17 @@ final class MainViewController: UIViewController {
             MainViewTableViewCell.self,
             forCellReuseIdentifier: MainViewTableViewCell.identifier
         )
-
         layoutTableView()
-        
-        NotificationCenter.default.addObserver(
-            forName: LocationManager.locationUpdated,
-            object: nil,
-            queue: .main,
-            using: utilizeLocation
-        )
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
     }
 }
 
 // MARK: - Draw subviews
 extension MainViewController {
-    func layoutTableView() {
+    private func layoutTableView() {
         let safeArea = view.safeAreaLayoutGuide
-
+        
         view.addSubview(tableView)
-
+        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
@@ -65,14 +62,14 @@ extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return weeklyWeatherForecast.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: MainViewTableViewCell.identifier
         ) as? MainViewTableViewCell else {
             return UITableViewCell()
         }
-
+        // TODO: cell configure
         return cell
     }
 }
@@ -85,7 +82,7 @@ extension MainViewController: UITableViewDelegate {
         ) as? MainViewTableViewHeaderView else {
             return UIView()
         }
-
+        
         return header
     }
 }
@@ -101,7 +98,7 @@ extension MainViewController {
         requestDailyWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
         requestWeeklyWeather(latitude: coordinate.latitude, longitude: coordinate.longitude)
     }
-
+    
     private func requestDailyWeather(latitude: Double, longitude: Double) {
         networkManager.request(
             endpoint: .daily,
@@ -115,7 +112,7 @@ extension MainViewController {
             }
         }
     }
-
+    
     private func requestWeeklyWeather(latitude: Double, longitude: Double) {
         networkManager.request(
             endpoint: .weekly,
@@ -136,20 +133,20 @@ extension MainViewController {
             }
         }
     }
-
+    
     private func convertToAddress(location: CLLocation) {
         locationManager.convertToAddress(from: location) { placemarks, error in
             print(placemarks)
         }
     }
-
+    
     private func requestWeatherIcons(with weeklyWeatherForecast: [WeatherForecast]) {
         DispatchQueue.global().async {
             for (rowIndex, weatherForecast) in weeklyWeatherForecast.enumerated() {
                 guard let iconName = weatherForecast.weather?.first?.icon else {
                     continue
                 }
-
+                
                 self.networkManager.request(endpoint: .png(iconName: iconName)) { result in
                     switch result {
                     case .success(let image):
@@ -158,7 +155,7 @@ extension MainViewController {
                             guard let cell = self.tableView.cellForRow(at: indexPath) as? MainViewTableViewCell else {
                                 return
                             }
-
+                            
                             cell.iconView.image = image
                         }
                     case .failure:
