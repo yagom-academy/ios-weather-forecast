@@ -16,6 +16,28 @@ class FiveDayWeatherListViewModel {
     var numberOfRowInSection: Int {
         return weathers.count
     }
+    
+    func mapFiveDayData() {
+        weatherService.fetchByLocation { (fiveDayWeather: FiveDayWeatherData) in
+            fiveDayWeather.intervalWeathers?.forEach({ data in
+                guard let date = data.date?.format(),
+                      let temperature = data.mainInformation?.temperature?.franctionDisits(),
+                      let iconName = data.conditions?.first?.iconName,
+                      let url: URL = URL(string: "https://openweathermap.org/img/w/\(iconName).png") else {
+                    return
+                }
+                
+                do {
+                    let data = try Data(contentsOf: url)
+                    guard let image = UIImage(data: data) else { return }
+                    self.weathers.append(FiveDayWeatherViewModel(date, temperature, image))
+                } catch {
+                    print(error)
+                }
+            })
+            self.reloadTableView?()
+        }
+    }
 }
 
 struct FiveDayWeatherViewModel {
