@@ -10,7 +10,8 @@ import CoreLocation.CLLocationManager
 
 class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     static let identifier = "weatherHeaderView"
-    
+    private let buttonvc = ButtonController()
+
     private let addressLabel = UILabel()
     private let minMaxTemperature = UILabel()
     private let currentTemperatureLabel = UILabel()
@@ -33,8 +34,7 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     }()
 
     private lazy var horizontalStackView: UIStackView = {
-//        let stackView = UIStackView(arrangedSubviews: [self.iconImageView, self.verticalStackView, self.locationChangeButton])
-        let stackView = UIStackView(arrangedSubviews: [self.iconImageView, self.verticalStackView])
+        let stackView = UIStackView(arrangedSubviews: [self.iconImageView, self.verticalStackView, self.buttonvc.view])
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.alignment = .leading
@@ -52,6 +52,10 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
         setVerticalStackView()
         setImageIconView()
         convertToDynamicType()
+      
+        let buttonWidth = (self.contentView.frame.size.width / 5) * 4
+        let buttonHeight = buttonWidth / 10
+        buttonvc.view.frame = CGRect(x: 320, y: 50, width: buttonWidth, height: buttonHeight)
     }
     
     required init?(coder: NSCoder) {

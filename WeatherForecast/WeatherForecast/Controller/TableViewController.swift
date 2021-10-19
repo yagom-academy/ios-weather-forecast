@@ -8,7 +8,6 @@
 import UIKit
 
 class TableViewController: UIViewController {
-    private let buttonvc = ButtonController()
 
     private let tableView = UITableView()
     private let tableViewDataSource = WeatherTableviewDataSource()
@@ -23,11 +22,7 @@ class TableViewController: UIViewController {
         self.tableView.dataSource = self.tableViewDataSource
         self.tableView.delegate = tableViewDelegate
         
-        self.add(buttonvc)
-        let buttonWidth = (self.view.frame.size.width / 5) * 4
-        let buttonHeight = buttonWidth / 10
-        buttonvc.view.frame = CGRect(x: 320, y: 50, width: buttonWidth, height: buttonHeight)
-        self.tableView.tableHeaderView?.addSubview(buttonvc.view)
+        
         
         //MARK: Notified after OpenWeatherAPI response delivered successfully
         NotificationCenter.default.addObserver(self,
