@@ -10,14 +10,15 @@ import CoreLocation
 
 final class LocationManager: CLLocationManager {
     var address: String?
-    var data: FiveDaysForecast?
+    var fiveDaysData: FiveDaysForecast?
+    var currentData: CurrentWeather?
     private var session = URLSession.shared
+    
     func askUserLocation() {
         self.requestWhenInUseAuthorization()
         self.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         self.startUpdatingLocation()
     }
-
 }
 
 extension LocationManager: CLLocationManagerDelegate {
@@ -26,7 +27,9 @@ extension LocationManager: CLLocationManagerDelegate {
         
         guard let longitude = manager.location?.coordinate.longitude,
               let latitude = manager.location?.coordinate.latitude,
-              let fiveDaysUrl = URL(string: "https://api.openweathermap.org/data/2.5/forecast") else  {
+              let fiveDaysUrl = URL(string: "https://api.openweathermap.org/data/2.5/forecast"),
+        let currentWeather = URL(string: "https://api.openweathermap.org/data/2.5/weather")
+        else  {
             return
         }
         
@@ -48,11 +51,35 @@ extension LocationManager: CLLocationManagerDelegate {
 
         let requestInfo: Parameters = ["lat": latitude, "lon": longitude, "appid": networkManager.apiKey]
         let fiveDaysWeatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: fiveDaysUrl)
-        print(fiveDaysWeatherApi)
-        networkManager.getWeatherData(weatherAPI: fiveDaysWeatherApi, self.session) { requestedData in
+        let currentWeatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: currentWeather)
+        parseCurrent(weatherApi: currentWeatherApi, session: self.session) {
+            NotificationCenter.default.post(name: Notification.Name.dataIsNotNil, object: nil, userInfo: nil)
+            print("fiveDays")
+        }
+        
+        parseFiveDays(weatherApi: fiveDaysWeatherApi, session: self.session) {
+            NotificationCenter.default.post(name: Notification.Name.dataIsNotNil, object: nil, userInfo: nil)
+        }
+    }
+    
+    func parseCurrent(weatherApi: WeatherApi, session: URLSession, completion: @escaping () -> Void) {
+        let networkManager = NetworkManager()
+        networkManager.getWeatherData(weatherAPI: weatherApi, session) { requestedData
+            in
             do {
-                self.data = try JSONDecoder().decode(FiveDaysForecast.self, from: requestedData)
-                print(self.data ?? FiveDaysForecast(list: []))
+                self.currentData = try JSONDecoder().decode(CurrentWeather.self, from: requestedData)
+            } catch {
+                print("Decode Error")
+            }
+        }
+    }
+    
+    func parseFiveDays(weatherApi: WeatherApi, session: URLSession, completion: @escaping () -> Void) {
+        let networkManager = NetworkManager()
+        networkManager.getWeatherData(weatherAPI: weatherApi, session) { requestedData in
+            do {
+                self.fiveDaysData = try JSONDecoder().decode(FiveDaysForecast.self, from: requestedData)
+                completion()
             } catch {
                 print("Decoding Error")
             }
@@ -74,4 +101,8 @@ extension LocationManager: CLLocationManagerDelegate {
         }
     }
     
+}
+
+extension Notification.Name {
+    static let dataIsNotNil = Notification.Name("dataIsNotNil")
 }

@@ -20,27 +20,28 @@ final class ViewController: UIViewController {
     //MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.tableHeaderView = tableViewHeaderView
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView(_:)), name: Notification.Name.dataIsNotNil, object: nil)
+        setUpTableView()
         addSubviews()
         configureLayout()
         locationManager.delegate = locationManager
-        tableView.register(WeatherInfoCell.self, forCellReuseIdentifier: WeatherInfoCell.cellIdentifier)
         locationManager.askUserLocation()
-        setUpTableViewData()
         self.view.addBackground(imageName: "sky")
         self.tableView.backgroundColor = .clear
     }
     
     //MARK: - Methods
-    func setUpTableViewData() {
-        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
+    
+    private func setUpTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.tableHeaderView = tableViewHeaderView
+        tableView.register(WeatherInfoCell.self, forCellReuseIdentifier: WeatherInfoCell.cellIdentifier)
+    }
+    
+    @objc func refreshTableView(_ notification: Notification) {
+        DispatchQueue.main.async {
             self.tableView.reloadData()
-            print("갱신")
-            if self.locationManager.data != nil {
-                timer.invalidate()
-            }
         }
     }
     
@@ -107,7 +108,7 @@ final class ViewController: UIViewController {
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherInfoCell.cellIdentifier, for: indexPath) as? WeatherInfoCell,
-              let item = locationManager.data else {
+              let item = locationManager.fiveDaysData else {
                   return UITableViewCell()
               }
         let networkManager = NetworkManager()
@@ -122,7 +123,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return locationManager.data?.list.count ?? 0
+        return locationManager.fiveDaysData?.list.count ?? 0
     }
 }
 
