@@ -90,7 +90,7 @@ extension WeatherTableViewCell {
             return
         }
         
-        self.cellId = url.lastPathComponent
+        cellId = url.lastPathComponent
         WeatherNetworkManager().weatherIconImageDataTask(url: url) { image in
             guard self.cellId == url.lastPathComponent else {
                 return

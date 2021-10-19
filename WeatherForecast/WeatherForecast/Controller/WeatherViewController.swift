@@ -70,7 +70,7 @@ extension WeatherViewController {
 
 // MARK: - ViewModel Delegate
 extension WeatherViewController: WeatherViewModelDelegete {
-    func setViewContents(_ current: CurrentWeather?, fiveDays: FiveDaysWeather?) {
+    func setViewContents(_ current: CurrentWeather?, _ fiveDays: FiveDaysWeather?) {
         DispatchQueue.main.async {
             self.weatherHeaderView.configure(current)
             self.model = fiveDays

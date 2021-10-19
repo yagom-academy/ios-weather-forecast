@@ -12,7 +12,7 @@ enum WeatherViewModelAction {
 }
 
 protocol WeatherViewModelDelegete: AnyObject {
-    func setViewContents(_ current: CurrentWeather?, fiveDays: FiveDaysWeather?)
+    func setViewContents(_ current: CurrentWeather?, _ fiveDays: FiveDaysWeather?)
 }
 
 final class WeatherTableViewModel: ViewModel {
@@ -41,6 +41,6 @@ extension WeatherTableViewModel {
 // MARK: - WeatherServiceDelegate
 extension WeatherTableViewModel: WeatherServiceDelegate {
     func didUpdatedWeatherDatas(current: CurrentWeather?, fiveDays: FiveDaysWeather?) {
-        delegate?.setViewContents(current, fiveDays: fiveDays)
+        delegate?.setViewContents(current, fiveDays)
     }
 }

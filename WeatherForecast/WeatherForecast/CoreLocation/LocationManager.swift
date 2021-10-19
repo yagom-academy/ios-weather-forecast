@@ -47,21 +47,18 @@ extension LocationManager {
         
         CLGeocoder().reverseGeocodeLocation(currentLocation,
                                             preferredLocale: Locale(identifier: preferredLanguage)) { placemark, error in
-            guard error == nil else {
-                return
-            }
-            
             guard let placemark = placemark?.last,
                   let country = placemark.name,
-                  let locality = placemark.locality else {
+                  let locality = placemark.locality,
+                  error == nil else {
                 return
             }
-            
             completion(locality + " " + country)
         }
     }
 }
 
+// MARK: - CLLocationManagerDelegate
 extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {

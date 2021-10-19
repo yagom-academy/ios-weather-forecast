@@ -20,7 +20,8 @@ final class WeatherService {
     private var currentData: CurrentWeather?
     private var fiveDaysData: FiveDaysWeather? {
         didSet {
-            delegate?.didUpdatedWeatherDatas(current: self.currentData, fiveDays: self.fiveDaysData)
+            delegate?.didUpdatedWeatherDatas(current: self.currentData,
+                                             fiveDays: self.fiveDaysData)
         }
     }
     
