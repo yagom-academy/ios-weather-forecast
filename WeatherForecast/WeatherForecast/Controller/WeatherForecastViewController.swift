@@ -65,10 +65,8 @@ extension WeatherForecastViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherForecastViewCell.identifier, for: indexPath) as? WeatherForecastViewCell else {
-            return UITableViewCell()
-        }
-        guard let forecastData = forecastData else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherForecastViewCell.identifier, for: indexPath) as? WeatherForecastViewCell,
+              let forecastData = forecastData else {
             return UITableViewCell()
         }
         cell.configureCell(data: forecastData.list[indexPath.row])
@@ -93,7 +91,8 @@ extension WeatherForecastViewController: LocationManagerDelegate {
                           CoordinatesQuery.appid: "e6f23abdc0e7e9080761a3cfbbdafc90"]
 
         guard let url = URL.createURL(API: api, queryItems: queryItems) else { return }
-        networkManager.dataTask(url: url) { [unowned self] result in
+        networkManager.dataTask(url: url) { [weak self] result in
+            guard let self = self else { return }
             if case .success(let data) = result {
                 do {
                     let data = try JSONDecoder().decode(type, from: data)
