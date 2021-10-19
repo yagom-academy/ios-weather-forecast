@@ -65,7 +65,11 @@ class WeatherForecastHeaderView: UIView {
         guard let data = data else { return }
         if let iconID = data.weather.first?.icon {
             let iconURL = WeatherAPI.imagebaseURL + iconID + ".png"
-            iconImageView.setImageURL(iconURL)
+            iconImageView.setImageURL(iconURL) { cacheKey, image in
+                if cacheKey as String == iconURL {
+                    self.iconImageView.image = image
+                }
+            }
         }
 
         var address: String = ""
