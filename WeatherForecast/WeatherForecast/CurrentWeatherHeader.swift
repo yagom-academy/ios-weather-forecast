@@ -11,8 +11,8 @@ import CoreLocation
 class CurrentWeatherHeader: UITableViewHeaderFooterView {
     static let headerIdentifier = "\(self)"
     
-    private let weatherImageView: CustomImageView = {
-        let imageView = CustomImageView()
+    private let weatherImageView: UIImageView = {
+        let imageView = UIImageView()
         imageView.image = UIImage(named: "defaultIcon")
         imageView.contentMode = .scaleAspectFill
         return imageView

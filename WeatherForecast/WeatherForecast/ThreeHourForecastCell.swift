@@ -22,8 +22,8 @@ class ThreeHourForecastCell: UITableViewCell {
         return label
     }()
     
-    private let weatherImageView: CustomImageView = {
-        let imageView = CustomImageView()
+    private let weatherImageView: UIImageView = {
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()

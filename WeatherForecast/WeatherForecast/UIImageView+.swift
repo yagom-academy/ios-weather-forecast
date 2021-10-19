@@ -1,17 +1,15 @@
 //
-//  CustomImageVieew.swift
+//  UIImageView+.swift
 //  WeatherForecast
 //
-//  Created by 이윤주 on 2021/10/15.
+//  Created by 이윤주 on 2021/10/19.
 //
 
 import UIKit
 
-final class CustomImageView: UIImageView {
-    var task: URLSessionDataTask!
-    
+extension UIImageView {
     func loadImage(from url: URL) {
-        image = nil
+        var task: URLSessionDataTask?
         
         if let task = task {
             task.cancel()
@@ -26,6 +24,9 @@ final class CustomImageView: UIImageView {
                 self.image = loadedImage
             }
         }
-        task.resume()
+        
+        if let task = task {
+            task.resume()
+        }
     }
 }
