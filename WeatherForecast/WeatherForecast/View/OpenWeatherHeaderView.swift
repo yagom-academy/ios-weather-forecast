@@ -15,6 +15,12 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     private let minMaxTemperature = UILabel()
     private let currentTemperatureLabel = UILabel()
     private let iconImageView = UIImageView()
+    private let locationChangeButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("위치변경", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        return button
+    }()
 
     private lazy var verticalStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [self.addressLabel, self.minMaxTemperature, self.currentTemperatureLabel])
@@ -27,12 +33,17 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     }()
 
     private lazy var horizontalStackView: UIStackView = {
+//        let stackView = UIStackView(arrangedSubviews: [self.iconImageView, self.verticalStackView, self.locationChangeButton])
         let stackView = UIStackView(arrangedSubviews: [self.iconImageView, self.verticalStackView])
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.alignment = .leading
         return stackView
     }()
+    
+    @objc func noti() {
+        NotificationCenter.default.post(name: .showAlert, object: nil)
+    }
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -84,7 +95,7 @@ extension OpenWeatherHeaderView {
             horizontalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             horizontalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             horizontalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            horizontalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -80)
+            horizontalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
 

@@ -22,6 +22,7 @@ class LocationManager: CLLocationManager {
 }
 
 class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
+
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
         guard let latitude = locations.last?.coordinate.latitude,
