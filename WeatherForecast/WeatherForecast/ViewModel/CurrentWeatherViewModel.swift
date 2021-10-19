@@ -11,9 +11,20 @@ class CurrentWeatherViewModel {
     
     var administrativeArea: String = "서울특별시"
     var locality: String = "세종로"
+    var address: String {
+        return "\(administrativeArea) \(locality)"
+    }
+    
     var temperature: String = "-"
+    var currentTemperature: String {
+       return "\(temperature)°"
+    }
+    
     var minTemperature: String = "-"
     var maxTemperature: String = "-"
+    var minMaxTamperature: String {
+        return "최저 \(minTemperature)° 최고 \(maxTemperature)°"
+    }
     
     var weatherImage = UIImage()
     let weatherService = WeatherService()
