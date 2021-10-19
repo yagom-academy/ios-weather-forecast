@@ -14,8 +14,8 @@ class CurrentWeatherViewModel {
     var temperature: String = "-"
     var minTemperature: String = "-"
     var maxTemperature: String = "-"
-    var weatherImage: UIImage = UIImage()
     
+    var weatherImage = UIImage()
     let weatherService = WeatherService()
     
     func reload() {
@@ -41,6 +41,18 @@ class CurrentWeatherViewModel {
             if let maxTemperature = currentWeather.mainInformation?.maximumTemperature {
                 self.maxTemperature = maxTemperature.franctionDisits()
             }
+            
+            if let iconName = currentWeather.conditions?.first?.iconName,
+               let url: URL = URL(string: "https://openweathermap.org/img/w/\(iconName).png") {
+                do {
+                    let data = try Data(contentsOf: url)
+                    guard let image = UIImage(data: data) else { return }
+                    self.weatherImage = image
+                } catch {
+                    print(error)
+                }
+            }
+            self.reloadTableView?()
         }
     }
 }
