@@ -13,12 +13,14 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
     
     private let weatherImageView: CustomImageView = {
         let imageView = CustomImageView()
+        imageView.image = UIImage(named: "defaultIcon")
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
     private let locationLabel: UILabel = {
         let label = UILabel()
+        label.text = "😢위치 정보 없음"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 15)
         return label
@@ -26,6 +28,7 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
     
     private let minMaxTemperatureLabel: UILabel = {
         let label = UILabel()
+        label.text = "😢최저최고기온 정보 없음"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 15)
         return label
@@ -33,6 +36,7 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
     
     private let currentTemperatureLabel: UILabel = {
         let label = UILabel()
+        label.text = "😢현재기온 정보 없음"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 30)
         return label
@@ -80,16 +84,15 @@ extension CurrentWeatherHeader {
         let maximumTemperature = convertToCelsius(from: tempMax)
         let currentTemperature = convertToCelsius(from: currentWeather.main.temp)
         let iconURL = "https://openweathermap.org/img/w/\(iconName).png"
-        
-        if let url = URL(string: iconURL) {
-            weatherImageView.loadImage(from: url)
+        guard let url = URL(string: iconURL),
+              let city = address.administrativeArea,
+              let district = address.locality else{
+                  return
         }
-        if let city = address.administrativeArea,
-           let district = address.locality {
-            locationLabel.text = "\(city) \(district)"
-        }
+        locationLabel.text = "\(city) \(district)"
         minMaxTemperatureLabel.text = "최저 \(minimumTemperature)° 최고 \(maximumTemperature)°"
         currentTemperatureLabel.text = currentTemperature.description
+        weatherImageView.loadImage(from: url)
     }
     
     private func configureContents() {
