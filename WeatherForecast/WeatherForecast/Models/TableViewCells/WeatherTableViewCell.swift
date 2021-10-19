@@ -22,4 +22,8 @@ class WeatherTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func configure(on fiveDaysWeatherItem: List) {
+        
+    }
 }

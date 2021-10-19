@@ -19,10 +19,34 @@ class WeatherViewController: UIViewController {
         }
     }
     
+    private var fiveDaysWeatherList: [List] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         requestLocationAuthorization()
+    }
+}
+
+extension WeatherViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return fiveDaysWeatherList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherTableViewCell.identifier, for: indexPath) as? WeatherTableViewCell else {
+            return UITableViewCell()
+        }
+        
+        cell.configure(on: fiveDaysWeatherList[indexPath.row])
+        
+        return cell
     }
 }
 
@@ -45,7 +69,8 @@ extension WeatherViewController {
         }
         NSLayoutConstraint.activate(tableVeiwContraints)
 
-        tableView.register(WeatherTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(WeatherTableViewCell.self, forCellReuseIdentifier: WeatherTableViewCell.identifier)
+        tableView.dataSource = self
     }
 }
 
@@ -71,7 +96,10 @@ extension WeatherViewController {
                         weatherURL: .forecastCoordinates(latitude: coordinate.latitude,
                                                          longitude: coordinate.longitude),
                         completion: { data in
-                            dump(data)
+                            guard let list = data.list else {
+                                return
+                            }
+                            self.fiveDaysWeatherList = list
                         })
         fetchAddress(on: coordinate)
     }
