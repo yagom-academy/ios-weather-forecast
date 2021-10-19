@@ -12,7 +12,7 @@ class WeatherForecastViewController: UIViewController {
     private var locationManager = LocationManager()
     private var networkManager = NetworkManager()
     private var currentData: CurrentWeather?
-    private var forecastData: ForecastWeather?
+    private var forecastData: [ForecastWeather.List] = []
     private let dispatchGroup = DispatchGroup.init()
 
     override func viewDidLoad() {
@@ -63,15 +63,14 @@ class WeatherForecastViewController: UIViewController {
 // MARK: UITableViewDataSource 구현부
 extension WeatherForecastViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return forecastData?.list.count ?? 0
+        return forecastData.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherForecastViewCell.identifier, for: indexPath) as? WeatherForecastViewCell,
-              let forecastData = forecastData else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherForecastViewCell.identifier, for: indexPath) as? WeatherForecastViewCell else {
             return UITableViewCell()
         }
-        cell.configureCell(data: forecastData.list[indexPath.row])
+        cell.configureCell(data: forecastData[indexPath.row])
         return cell
     }
 }
@@ -108,7 +107,7 @@ extension WeatherForecastViewController: LocationManagerDelegate {
                         self.currentData = data
                         self.configureHeader(data: data)
                     } else if let data = data as? ForecastWeather {
-                        self.forecastData = data
+                        self.forecastData = data.list
                     }
                 } catch {
                     debugPrint(error)
@@ -119,10 +118,11 @@ extension WeatherForecastViewController: LocationManagerDelegate {
     }
 
     private func configureHeader(data: CurrentWeather) {
-        locationManager.getAddress { [unowned self] result in
+        locationManager.getAddress { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let placemark):
-                tableHeaderView.configure(data: data, placemark: placemark)
+                self.tableHeaderView.configure(data: data, placemark: placemark)
             case .failure(let error):
                 debugPrint(error)
             }
