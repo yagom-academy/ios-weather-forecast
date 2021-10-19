@@ -50,8 +50,15 @@ class ThreeHourForecastCell: UITableViewCell {
 }
 
 extension ThreeHourForecastCell {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        dateLabel.text = nil
+        temperatureLabel.text = nil
+        weatherImageView.image = nil
+    }
+    
     func setUp(with forecastInfo: List) {
-        resetContents()
         guard let iconName = forecastInfo.weather[0].icon else {
             return
         }
@@ -65,12 +72,6 @@ extension ThreeHourForecastCell {
         dateLabel.text = date
         temperatureLabel.text = temperature + "°"
         weatherImageView.loadImage(from: url)
-    }
-    
-    private func resetContents() {
-        dateLabel.text = nil
-        temperatureLabel.text = nil
-        weatherImageView.image = nil
     }
     
     private func configureContents() {
