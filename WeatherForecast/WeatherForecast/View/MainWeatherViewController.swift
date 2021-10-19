@@ -21,7 +21,7 @@ class MainWeatherViewController: UIViewController {
         
     }
     
-    func initBackgroundView() {
+    private func initBackgroundView() {
         let width = view.bounds.size.width
         let height = view.bounds.size.height
         
