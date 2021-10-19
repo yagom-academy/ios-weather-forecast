@@ -14,8 +14,15 @@ class ViewController: UIViewController {
     private var fiveDayForecast: FiveDayForecast?
     private var address: [CLPlacemark]? = []
     private var locationManager = CLLocationManager()
-    private var weatherTableView = UITableView(frame: .zero, style: .grouped)
     private let refreshControl = UIRefreshControl()
+    private var weatherTableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.rowHeight = 100
+        tableView.sectionFooterHeight = .zero
+        tableView.backgroundColor = UIColor.clear
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,8 +88,6 @@ extension ViewController: CLLocationManagerDelegate {
 extension ViewController {
     private func setUpTableView() {
         view.addSubview(weatherTableView)
-        weatherTableView.sectionFooterHeight = .zero
-        weatherTableView.backgroundColor = UIColor.clear
         weatherTableView.dataSource = self
         weatherTableView.delegate = self
         weatherTableView.register(ThreeHourForecastCell.self, forCellReuseIdentifier: ThreeHourForecastCell.cellIdentifier)
@@ -91,8 +96,6 @@ extension ViewController {
     }
     
     private func setUpLayouts() {
-        weatherTableView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             weatherTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             weatherTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
