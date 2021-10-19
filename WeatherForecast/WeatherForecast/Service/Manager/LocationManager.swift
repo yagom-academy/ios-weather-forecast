@@ -9,6 +9,8 @@ import Foundation
 import CoreLocation.CLLocationManager
 
 class LocationManager: CLLocationManager {
+    var userState = UserState.able
+    
     func askUserLocation() {
         self.requestWhenInUseAuthorization()
     }
@@ -51,23 +53,29 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
             }
         }
     }
-    
-    func locationManager(_ manager: CLLocationManager,
-                         didChangeAuthorization status: CLAuthorizationStatus) {
-        switch status {
-        case .restricted, .denied:
-            //뷰컨에서 알림을 띄우도록 해야함...
-            
-            
-//            showAlert(title: "❌",
-//                      message: "날씨 정보를 사용 할 수 없습니다.")
-            break
-        case .authorizedWhenInUse, .authorizedAlways, .notDetermined:
-            manager.requestLocation()
-            break
-        @unknown default: break
-//            showAlert(title: "🌟",
-//                      message: "애플이 새로운 정보를 추가했군요! 확인 해 봅시다😄")
+
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        if #available(iOS 14.0, *) {
+            switch manager.authorizationStatus {
+            case .restricted, .denied:
+                toggleUserState(manager, .disable)
+                break
+            case .authorizedWhenInUse, .authorizedAlways, .notDetermined:
+                toggleUserState(manager, .able)
+                manager.requestLocation()
+                break
+            @unknown default: break
+            }
         }
     }
+    
+    private func toggleUserState(_ manager: CLLocationManager, _ state: UserState) {
+        guard let locationManager = manager as? LocationManager else {
+            print("메니저가 locaionManager가 아니래유")
+            return
+        }
+       
+        locationManager.userState = state
+    }
 }
+
