@@ -14,6 +14,18 @@ protocol APIable {
     var contentType: ContentType? { get }
 }
 
+extension APIable {
+    var requestType: RequestType {
+        return .get
+    }
+    var parameter: [String: Any]? {
+        return nil
+    }
+    var contentType: ContentType? {
+        return nil
+    }
+}
+
 enum RequestType: String {
     case get = "GET"
     case post = "POST"
