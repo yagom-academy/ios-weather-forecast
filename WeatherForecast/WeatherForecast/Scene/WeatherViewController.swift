@@ -7,6 +7,10 @@
 import UIKit
 import CoreLocation
 
+extension Notification.Name {
+    static let refreshLocation = Notification.Name("refreshLocation")
+}
+
 class WeatherViewController: UIViewController {
     private var currentCoordinate: Coordinate?
     private var currentWeather: TodayWeatherInfo?
@@ -33,6 +37,7 @@ class WeatherViewController: UIViewController {
             forCellReuseIdentifier: WeatherTableViewCell.reuseIdentifier
         )
         configureRefreshControl()
+        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveRefreshFinish), name: .refreshLocation, object: nil)
     }
 }
 
@@ -124,7 +129,11 @@ extension WeatherViewController: CLLocationManagerDelegate {
                 }
         }
         group.wait()
-        weatherView.forecastTableView.reloadData()
+        DispatchQueue.main.async {
+            self.weatherView.forecastTableView.reloadData()
+        }
+        NotificationCenter.default.post(name: NSNotification.Name.refreshLocation, object: nil)
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { }
@@ -158,13 +167,15 @@ extension WeatherViewController {
         weatherView.forecastTableView.refreshControl?.addTarget(
             self,
             action: #selector(handleRefreshControl),
-            for: .allEvents
+            for: .valueChanged
         )
     }
     
     @objc func handleRefreshControl() {
         self.locationManager.requestLocation()
-        
+    }
+    
+    @objc func didReceiveRefreshFinish() {
         DispatchQueue.main.async {
             self.weatherView.forecastTableView.refreshControl?.endRefreshing()
         }
