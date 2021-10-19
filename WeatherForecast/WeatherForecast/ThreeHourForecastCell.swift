@@ -63,7 +63,7 @@ extension ThreeHourForecastCell {
             return
         }
         let date = formatDate(of: forecastInfo.date)
-        let temperature = convertToCelsius(from: forecastInfo.main.temp).description
+        let temperature = forecastInfo.main.temp.convertToCelsius().description
         let iconURL = "https://openweathermap.org/img/w/\(iconName).png"
         guard let url = URL(string: iconURL) else {
             return
@@ -108,10 +108,5 @@ extension ThreeHourForecastCell {
         let formattedDate = formatter.string(from: date)
         
         return formattedDate
-    }
-    
-    private func convertToCelsius(from kelvin: Double) -> Double {
-        let celsius = round(kelvin - 273.15)
-        return celsius
     }
 }

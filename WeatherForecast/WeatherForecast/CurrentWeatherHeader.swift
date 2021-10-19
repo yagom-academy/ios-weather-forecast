@@ -80,9 +80,9 @@ extension CurrentWeatherHeader {
               let tempMax = currentWeather.main.tempMax else {
                   return
         }
-        let minimumTemperature = convertToCelsius(from: tempMin)
-        let maximumTemperature = convertToCelsius(from: tempMax)
-        let currentTemperature = convertToCelsius(from: currentWeather.main.temp)
+        let minimumTemperature = tempMin.convertToCelsius()
+        let maximumTemperature = tempMax.convertToCelsius()
+        let currentTemperature = currentWeather.main.temp.convertToCelsius()
         let iconURL = "https://openweathermap.org/img/w/\(iconName).png"
         guard let url = URL(string: iconURL),
               let city = address.administrativeArea,
@@ -131,10 +131,5 @@ extension CurrentWeatherHeader {
             weatherImageView.leadingAnchor.constraint(equalTo: horizontalStackView.leadingAnchor,
                                                       constant: 10)
         ])
-    }
-    
-    private func convertToCelsius(from kelvin: Double) -> Double {
-        let celsius = round(kelvin - 273.15)
-        return celsius
     }
 }
