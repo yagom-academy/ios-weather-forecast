@@ -17,15 +17,14 @@ enum LocationManagerError: Error {
 }
 
 class LocationManager: NSObject {
-    private var manager: CLLocationManager?
+    private var manager = CLLocationManager()
     private var currentLocation: CLLocation?
     weak var delegate: LocationManagerDelegate?
 
-    init(manager: CLLocationManager = CLLocationManager()) {
+    override init() {
         super.init()
-        self.manager = manager
-        self.manager?.delegate = self
-        self.manager?.desiredAccuracy = kCLLocationAccuracyBest
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
     }
 
     func getCoordinate() -> CLLocationCoordinate2D? {
@@ -52,7 +51,15 @@ class LocationManager: NSObject {
     }
 
     func requestLocation() {
-        manager?.requestLocation()
+        manager.requestLocation()
+    }
+
+    func currentAuthorization() -> CLAuthorizationStatus {
+        if #available(iOS 14.0, *) {
+            return manager.authorizationStatus
+        } else {
+            return CLLocationManager.authorizationStatus()
+        }
     }
 }
 

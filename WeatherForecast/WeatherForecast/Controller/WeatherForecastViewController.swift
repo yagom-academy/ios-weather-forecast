@@ -8,13 +8,16 @@ import UIKit
 import CoreLocation
 
 class WeatherForecastViewController: UIViewController {
-    private var tableView = UITableView(frame: .zero, style: .grouped)
-    private var tableHeaderView: WeatherForecastHeaderView!
-    private var locationManager = LocationManager()
-    private var networkManager = NetworkManager()
-    private var currentData: CurrentWeather?
-    private var forecastData: ForecastWeather?
-    private var alert: UIAlertController!
+    private var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.backgroundView = UIImageView(image: UIImage(named: "tokyo_tower.jpeg"))
+        tableView.backgroundView?.alpha = 0.8
+        tableView.separatorColor = .white
+        tableView.register(WeatherForecastViewCell.self, forCellReuseIdentifier: WeatherForecastViewCell.identifier)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+
     private let locationSetter: UIButton = {
         let button = UIButton()
         button.setTitle("위치설정", for: .normal)
@@ -25,40 +28,42 @@ class WeatherForecastViewController: UIViewController {
         return button
     }()
 
+    private var tableHeaderView: WeatherForecastHeaderView!
+    private var locationManager = LocationManager()
+    private var networkManager = NetworkManager()
+    private var currentData: CurrentWeather?
+    private var forecastData: ForecastWeather?
+    private var alert: UIAlertController!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        locationManager.delegate = self
         tableView.dataSource = self
         tableView.delegate = self
-        locationManager.delegate = self
-        setUpTableView()
+        setUpTableViewLayout()
+        setUpConstraints()
+        configureAlertControl()
+        configureRefreshControl()
         // Do any additional setup after loading the view.
     }
 
-    private func setUpTableView() {
-        view.addSubview(tableView)
+    private func setUpTableViewLayout() {
         tableHeaderView = WeatherForecastHeaderView(frame:
                             CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height * 0.15))
         tableHeaderView.addSubview(locationSetter)
         tableView.tableHeaderView = tableHeaderView
-        tableView.backgroundView = UIImageView(image: UIImage(named: "tokyo_tower.jpeg"))
-        tableView.backgroundView?.alpha = 0.8
-        tableView.separatorColor = .white
+        view.addSubview(tableView)
+    }
 
-        tableView.register(WeatherForecastViewCell.self, forCellReuseIdentifier: WeatherForecastViewCell.identifier)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-
+    private func setUpConstraints() {
         NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalTo: view.topAnchor),
                                      tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                                      tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                                      tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                                      locationSetter.topAnchor.constraint(equalTo: tableHeaderView.topAnchor, constant: 8),
-                                     locationSetter.trailingAnchor.constraint(equalTo: tableHeaderView.trailingAnchor, constant: -16)
-                                    ])
-        configureAlertControl()
-        configureRefreshControl()
+                                     locationSetter.trailingAnchor.constraint(equalTo: tableHeaderView.trailingAnchor, constant: -16)])
     }
 
-    
     private func configureAlertControl() {
         alert = UIAlertController(title: "위치변경", message: "변경할 좌표를 선택해주세요", preferredStyle: .alert)
         alert.addTextField { latitudeTextField in
@@ -71,20 +76,16 @@ class WeatherForecastViewController: UIViewController {
             longitudeTextField.keyboardType = .decimalPad
         }
 
-        alert.addAction(UIAlertAction(title: "변경", style: .default, handler: { _ in
-            guard let textFields = self.alert.textFields else {
-                return
-            }
-            guard let lat = CLLocationDegrees(textFields.first?.text ?? ""), let lon = CLLocationDegrees(textFields.last?.text ?? "") else {
-                return
-            }
+        alert.addAction(UIAlertAction(title: "변경", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            guard let textFields = self.alert.textFields else { return }
+            guard let lat = CLLocationDegrees(textFields.first?.text ?? ""), let lon = CLLocationDegrees(textFields.last?.text ?? "") else { return }
+
             let givenCoordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
             self.fetchingWeatherData(coordinate: givenCoordinate, api: WeatherAPI.current, type: CurrentWeather.self)
             self.fetchingWeatherData(coordinate: givenCoordinate, api: WeatherAPI.forecast, type: ForecastWeather.self)
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
         }))
+
         alert.addAction(UIAlertAction(title: "현재 위치로 재설정", style: .default, handler: { _ in
             self.locationManager.requestLocation()
         }))
@@ -103,10 +104,8 @@ class WeatherForecastViewController: UIViewController {
 
     @objc func handleRefreshControl() {
         locationManager.requestLocation()
-
         DispatchQueue.main.async {
             self.tableView.refreshControl?.endRefreshing()
-            self.tableView.reloadData()
         }
     }
 }
