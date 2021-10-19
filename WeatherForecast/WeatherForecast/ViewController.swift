@@ -72,6 +72,7 @@ extension ViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let latitude = locations.first?.coordinate.latitude,
               let longitude = locations.first?.coordinate.longitude else { return }
+        refreshControl.endRefreshing()
         fetchCurrentWeather(latitude: latitude, longitude: longitude)
         fetchFiveDayForecast(latitude: latitude, longitude: longitude)
         
@@ -82,7 +83,7 @@ extension ViewController: CLLocationManagerDelegate {
             self.address = placemarks
         }
         
-        locationManager.stopUpdatingLocation()
+        locationManager.stopMonitoringSignificantLocationChanges()
     }
 }
 
@@ -125,8 +126,7 @@ extension ViewController {
     }
     
     @objc private func refreshWeatherData(_ sender: UIRefreshControl) {
-        locationManager.startUpdatingLocation()
-        sender.endRefreshing()
+        locationManager.startMonitoringSignificantLocationChanges()
     }
     
     private func fetchCurrentWeather(latitude: Double, longitude: Double) {
