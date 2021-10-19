@@ -46,7 +46,8 @@ extension ViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         if let fiveDayForercast = fiveDayForecast {
-            cell.setUp(with: fiveDayForercast, of: indexPath)
+            let forecastInfo = fiveDayForercast.list[indexPath.row]
+            cell.setUp(with: forecastInfo)
         }
         cell.selectionStyle = .none
         
