@@ -16,13 +16,7 @@ final class WeatherViewController: UIViewController {
         }
     }
     
-    private var tableViewRows: Int = .zero {
-        didSet {
-            DispatchQueue.main.async {
-                self.weatherTableView.reloadData()
-            }
-        }
-    }
+    private var model: FiveDaysWeather?
     
     private let WeatherViewModel = WeatherTableViewModel()
     private let weatherHeaderView = WeatherHeaderView()
@@ -72,28 +66,16 @@ extension WeatherViewController {
         WeatherViewModel.action(.refresh)
         weatherTableView.refreshControl?.endRefreshing()
     }
-    
-    private func failureFetchingWeather(error: Error?) {
-        let alert = UIAlertController.generateErrorAlertController(message: error?.localizedDescription)
-        DispatchQueue.main.async {
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
 }
 
 // MARK: - ViewModel Delegate
 extension WeatherViewController: WeatherViewModelDelegete {
-    
-    func setHederViewContents(_ viewModel: WeatherHeaderModel?) {
-        weatherHeaderView.configureContents(address: viewModel?.address,
-                                            minTempature: viewModel?.minTempature,
-                                            maxTempature: viewModel?.maxTempature,
-                                            currentTempature: viewModel?.currentTempature,
-                                            iconImage: viewModel?.iconImage)
-    }
-    
-    func setTableViewRows(_ count: Int) {
-        self.tableViewRows = count
+    func setViewContents(_ current: CurrentWeather?, fiveDays: FiveDaysWeather?) {
+        DispatchQueue.main.async {
+            self.weatherHeaderView.configure(current)
+            self.model = fiveDays
+            self.weatherTableView.reloadData()
+        }
     }
 }
 
@@ -101,7 +83,7 @@ extension WeatherViewController: WeatherViewModelDelegete {
 extension WeatherViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableViewRows
+        return model?.list.count ?? .zero
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -109,23 +91,12 @@ extension WeatherViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let cellViewModel = WeatherViewModel.getCellViewModel(at: indexPath)
-        
-        guard let url = URL(string: WeatherAPI.icon.url + cellViewModel.iconPath) else {
+        guard let currentModel = model?.list[indexPath.row] else {
             return UITableViewCell()
         }
-        cell.cellId = url.lastPathComponent
-        WeatherNetworkManager().weatherIconImageDataTask(url: url) { [cell] image in
-            guard cell.cellId == url.lastPathComponent else {
-                return
-            }
-            
-            DispatchQueue.main.async {
-                cell.configureContents(date: cellViewModel.date,
-                                       tempature: cellViewModel.tempature,
-                                       weatherImage: image)
-            }
-        }
+        
+        cell.configure(currentModel)
+        
         return cell
     }
 }

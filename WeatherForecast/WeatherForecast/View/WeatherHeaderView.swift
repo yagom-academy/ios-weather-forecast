@@ -148,19 +148,14 @@ extension WeatherHeaderView {
         ])
     }
     
-    func configureContents(address: String?,
-                           minTempature: String?,
-                           maxTempature: String?,
-                           currentTempature: String?,
-                           iconImage: UIImage?) {
-        self.addressLabel.text = address
-        self.minTempatureLabel.text = minTempature
-        self.maxTempatureLabel.text = maxTempature
-        self.currentTempatureLabel.text = currentTempature
-        self.weatherImageView.image = iconImage
+    func configure(_ viewModel: CurrentWeather?) {
+        self.addressLabel.text = viewModel?.main.address
+        self.minTempatureLabel.text = viewModel?.main.tempMinText
+        self.maxTempatureLabel.text = viewModel?.main.tempMaxText
+        self.currentTempatureLabel.text = viewModel?.main.tempText
+        self.weatherImageView.image = viewModel?.iconImage
         
         self.minTempatureDescriptionLabel.isHidden = false
         self.maxTempatureDescriptionLabel.isHidden = false
-        
     }
 }

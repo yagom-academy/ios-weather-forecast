@@ -8,11 +8,8 @@
 import Foundation
 
 extension String {
-    static func formattingTempature(_ tempature: Double?) -> String? {
-        guard let tempature = tempature else {
-            return nil
-        }
-        
+    static func convertTempature(_ tempature: Double) -> String {
+       
         let numberFormat = NumberFormatter()
         let minInterDigits = 1
         let minFractionDigits = 1
@@ -23,12 +20,14 @@ extension String {
         numberFormat.minimumFractionDigits = minFractionDigits
         numberFormat.maximumFractionDigits = maxFractionDigits
         
-        let formattingText = numberFormat.string(from: NSNumber(value: tempature))
+        guard let text = numberFormat.string(from: NSNumber(value: tempature)) else {
+            return ""
+        }
         
-        return formattingText?.appending("°")
+        return text.appending("°")
     }
     
-    static func convertFormatteText(_ timeInterval: TimeInterval?) -> String {
+    static func convertTimeInvervalForLocalizedText(_ timeInterval: TimeInterval?) -> String {
         guard let timeInterval = timeInterval else {
             return ""
         }

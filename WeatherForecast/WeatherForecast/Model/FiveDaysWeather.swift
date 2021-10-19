@@ -6,46 +6,58 @@
 //
 
 import Foundation
+import UIKit.UIImage
 
 struct FiveDaysWeather: Decodable {
     var list: [List]
     
     struct List: Decodable {
-        
         let forecastTime: TimeInterval
+        let forecastTimeText: String
         let main: Main
         let weather: [Weather]
-        let probabilityOfPrecipitation: Double
-        let dataReceivingTimeText: String?
-        var iconData: Data?
+        var iconImage: UIImage?
+        var iconURL: String
         
         enum CodingKeys: String, CodingKey {
             case main, weather
             case forecastTime = "dt"
-            case probabilityOfPrecipitation = "pop"
-            case dataReceivingTimeText = "dt_txt"
+        }
+        
+        init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: CodingKeys.self)
+            
+            main = try values.decode(Main.self,
+                                 forKey: .main)
+            weather = try values.decode([Weather].self,
+                                      forKey: .weather)
+            forecastTime = try values.decode(TimeInterval.self,
+                                             forKey: .forecastTime)
+            forecastTimeText = String.convertTimeInvervalForLocalizedText(forecastTime)
+            
+            if let iconPath = self.weather.first?.icon {
+                iconURL = WeatherAPI.icon.url + iconPath
+            } else {
+                iconURL = ""
+            }
         }
     }
     
     struct Main: Decodable {
         let temp: Double
-        let feelsLike: Double
-        let tempMin: Double
-        let tempMax: Double
-        let pressure: Int
-        let seaLevel: Int
-        let grndLevel: Int
-        let humidity: Int
-        let tempKF: Double
+        let tempText: String
         
         enum CodingKeys: String, CodingKey {
-            case temp, pressure, humidity
-            case feelsLike = "feels_like"
-            case tempMin = "temp_min"
-            case tempMax = "temp_max"
-            case seaLevel = "sea_level"
-            case grndLevel = "grnd_level"
-            case tempKF = "temp_kf"
+            case temp
+        }
+        
+        init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: CodingKeys.self)
+            
+            temp = try values.decode(Double.self,
+                                 forKey: .temp)
+            tempText = String.convertTempature(temp)
+            
         }
     }
     

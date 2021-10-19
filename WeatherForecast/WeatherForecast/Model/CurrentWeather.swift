@@ -9,28 +9,12 @@ import Foundation
 import UIKit.UIImage
 
 struct CurrentWeather: Decodable {
-    let coordinate: Coordinate
     let weather: [Weather]
-    let base: String
-    let main: Main
-    let wind: Wind
-    let clouds: Clouds
-    let rain: Rain?
-    let snow: Snow?
-    let dataReceivingTime: TimeInterval
-    let timezone: TimeInterval
-    let name: String
+    var main: Main
     var iconImage: UIImage?
     
     enum CodingKeys: String, CodingKey {
-        case weather, base, main, wind, clouds, rain, snow, timezone, name
-        case coordinate = "coord"
-        case dataReceivingTime = "dt"
-    }
-    
-    struct Coordinate: Decodable {
-        let lon: Double
-        let lat: Double
+        case weather, main
     }
     
     struct Weather: Decodable {
@@ -41,48 +25,33 @@ struct CurrentWeather: Decodable {
     }
     
     struct Main: Decodable {
+        var address: String?
         let temp: Double
-        let feelsLike: Double
         let tempMin: Double
         let tempMax: Double
-        let pressure: Int
-        let humidity: Int
+        let tempText: String
+        let tempMinText: String
+        let tempMaxText: String
         
         enum CodingKeys: String, CodingKey {
-            case temp, pressure, humidity
-            case feelsLike = "feels_like"
+            case temp
             case tempMin = "temp_min"
             case tempMax = "temp_max"
         }
-    }
-    
-    struct Wind: Decodable {
-        let speed: Double
-        let deg: Double
-        let gust: Double?
-    }
-    
-    struct Clouds: Decodable {
-        let all: Int
-    }
-    
-    struct Rain: Decodable {
-        let oneHour: Double?
-        let threeHour: Double?
         
-        enum CodingKeys: String, CodingKey {
-            case oneHour = "1h"
-            case threeHour = "3h"
-        }
-    }
-    
-    struct Snow: Decodable {
-        let oneHour: Double?
-        let threeHour: Double?
-        
-        enum CodingKeys: String, CodingKey {
-            case oneHour = "1h"
-            case threeHour = "3h"
+        init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: CodingKeys.self)
+            
+            temp = try values.decode(Double.self,
+                                 forKey: .temp)
+            tempMin = try values.decode(Double.self,
+                                        forKey: .tempMin)
+            tempMax = try values.decode(Double.self,
+                                        forKey: .tempMax)
+            
+            tempText = String.convertTempature(temp)
+            tempMinText = String.convertTempature(tempMin)
+            tempMaxText = String.convertTempature(tempMax)
         }
     }
 }

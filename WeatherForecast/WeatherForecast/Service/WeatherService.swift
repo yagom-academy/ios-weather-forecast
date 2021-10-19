@@ -8,7 +8,7 @@
 import CoreLocation
 
 protocol WeatherServiceDelegate: AnyObject {
-    func didUpdatedWeatherDatas(current: CurrentWeather?, forecast: FiveDaysWeather?)
+    func didUpdatedWeatherDatas(current: CurrentWeather?, fiveDays: FiveDaysWeather?)
 }
 
 final class WeatherService {
@@ -20,7 +20,7 @@ final class WeatherService {
     private var currentData: CurrentWeather?
     private var fiveDaysData: FiveDaysWeather? {
         didSet {
-            delegate?.didUpdatedWeatherDatas(current: self.currentData, forecast: self.fiveDaysData)
+            delegate?.didUpdatedWeatherDatas(current: self.currentData, fiveDays: self.fiveDaysData)
         }
     }
     
@@ -32,22 +32,6 @@ final class WeatherService {
 
 // MARK: - Method
 extension WeatherService {
-    
-    func getAddress(comletion: @escaping (String) -> Void) {
-        locationManager.getAddress { result  in
-            switch result {
-            case .success(let placeMark):
-                guard let country = placeMark.name,
-                      let locality = placeMark.locality else {
-                    return
-                }
-                comletion(locality + " " + country)
-            case .failure(_):
-                return
-            }
-        }
-        
-    }
     
     func refreshData() {
         locationManager.requestLocation()

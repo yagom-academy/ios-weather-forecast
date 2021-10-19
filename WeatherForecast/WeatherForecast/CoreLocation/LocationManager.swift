@@ -28,31 +28,36 @@ final class LocationManager: NSObject {
         self.manager?.delegate = self
         self.manager?.desiredAccuracy = kCLLocationAccuracyBest
     }
-    
-    func getCoordinate() -> CLLocationCoordinate2D? {
-        return currentLocation?.coordinate
-    }
-    
+}
+
+// MARK: - Method
+extension LocationManager {
     func requestLocation() {
         manager?.requestLocation()
     }
-    
-    func getAddress(completion: @escaping (Result<CLPlacemark, Error>) -> Void) {
-        guard let currentLocation = currentLocation else {
+}
+
+// MARK: - Private Method
+extension LocationManager {
+    private func getCurrentAddress(completion: @escaping (String) -> Void) {
+        guard let currentLocation = currentLocation,
+              let preferredLanguage = Locale.preferredLanguages.first else {
             return
         }
         
-        guard let preferredLanguage = Locale.preferredLanguages.first else {
-            return
-        }
-        CLGeocoder().reverseGeocodeLocation(currentLocation, preferredLocale: Locale(identifier: preferredLanguage)) { placemark, error in
+        CLGeocoder().reverseGeocodeLocation(currentLocation,
+                                            preferredLocale: Locale(identifier: preferredLanguage)) { placemark, error in
             guard error == nil else {
-                return completion(.failure(LocationManagerError.invalidLocation))
+                return
             }
-            guard let placemark = placemark?.last else {
-                return completion(.failure(LocationManagerError.emptyPlacemark))
+            
+            guard let placemark = placemark?.last,
+                  let country = placemark.name,
+                  let locality = placemark.locality else {
+                return
             }
-            completion(.success(placemark))
+            
+            completion(locality + " " + country)
         }
     }
 }
@@ -75,6 +80,7 @@ extension LocationManager: CLLocationManagerDelegate {
         guard let location = locations.last else {
             return
         }
+        
         self.currentLocation = location
         let networkManager = WeatherNetworkManager()
         var currentWeather: CurrentWeather?
@@ -100,6 +106,12 @@ extension LocationManager: CLLocationManagerDelegate {
                     currentWeather?.iconImage = image
                     weatherTaskGroup.leave()
                 }
+                
+                weatherTaskGroup.enter()
+                self.getCurrentAddress {
+                    currentWeather?.main.address = $0
+                    weatherTaskGroup.leave()
+                }
             }
             
             weatherTaskGroup.enter()
@@ -112,6 +124,7 @@ extension LocationManager: CLLocationManagerDelegate {
                       error == nil else {
                     return
                 }
+                
                 fiveDaysWeather = forecastWeather
                 weatherTaskGroup.leave()
             }

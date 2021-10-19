@@ -82,10 +82,23 @@ extension WeatherTableViewCell {
         ])
     }
     
-    func configureContents(date: String?, tempature: String?, weatherImage: UIImage?) {
-        self.dateLabel.text = date
-        self.temperatureLabel.text = tempature
-        self.weatherImageView.image = weatherImage
+    func configure(_ viewModel: FiveDaysWeather.List) {
+        self.dateLabel.text = viewModel.forecastTimeText
+        self.temperatureLabel.text = viewModel.main.tempText
+        
+        guard let url = URL(string: viewModel.iconURL) else {
+            return
+        }
+        
+        self.cellId = url.lastPathComponent
+        WeatherNetworkManager().weatherIconImageDataTask(url: url) { image in
+            guard self.cellId == url.lastPathComponent else {
+                return
+            }
+            DispatchQueue.main.async {
+                self.weatherImageView.image = image
+            }
+        }
     }
     
     override func prepareForReuse() {
