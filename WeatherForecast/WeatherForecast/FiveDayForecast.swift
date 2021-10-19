@@ -11,12 +11,12 @@ struct FiveDayForecast: Decodable {
     let cod: String?
     let message: Int?
     let cnt: Int?
-    let list: [List]?
+    let list: [List]
     let city: City
 }
 
 struct List: Decodable {
-    let dt: Int
+    let date: Int
     let main: Main
     let weather: [Weather]
     let cloud: Cloud?
@@ -26,21 +26,27 @@ struct List: Decodable {
     let rain: Rain?
     let snow: Snow?
     let sys: Sys?
-    let dtText: String?
+    let dateText: String?
     
     struct Sys: Decodable {
-        let pod: String?
+        let dayOrNight: String?
+        
+        enum CodingKeys: String, CodingKey {
+            case dayOrNight = "pod"
+        
+        }
     }
     
     enum CodingKeys: String, CodingKey {
-        case dt, main, weather, wind, visibility, pop, rain, snow, sys
+        case main, weather, wind, visibility, pop, rain, snow, sys
+        case date = "dt"
         case cloud = "clouds"
-        case dtText = "dt_txt"
+        case dateText = "dt_txt"
     }
 }
 
 struct City: Decodable {
-    let id: Int?
+    let id: Int
     let name: String?
     let coordinate: Coordinate?
     let country: String?

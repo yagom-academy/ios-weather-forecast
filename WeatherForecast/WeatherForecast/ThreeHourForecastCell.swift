@@ -52,12 +52,11 @@ class ThreeHourForecastCell: UITableViewCell {
 extension ThreeHourForecastCell {
     func setUp(with fiveDayForecast: FiveDayForecast, of indexPath: IndexPath) {
         resetContents()
-        
-        guard let forecastInfo = fiveDayForecast.list,
-              let iconName = forecastInfo[indexPath.row].weather[0].icon else {
+        let forecastInfo = fiveDayForecast.list
+        guard let iconName = forecastInfo[indexPath.row].weather[0].icon else {
             return
         }
-        let date = formatDate(of: forecastInfo[indexPath.row].dt)
+        let date = formatDate(of: forecastInfo[indexPath.row].date)
         let temperature = convertToCelsius(from: forecastInfo[indexPath.row].main.temp).description
         let iconURL = "https://openweathermap.org/img/w/\(iconName).png"
         
