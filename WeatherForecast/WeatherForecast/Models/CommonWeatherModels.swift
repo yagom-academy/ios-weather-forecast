@@ -9,9 +9,9 @@ import Foundation
 
 // MARK: - For CurrentWeather, FiveDaysWeather
 struct Weather: Decodable {
-    let id: Int?
-    let main: String?
-    let description: String?
+//    let id: Int?
+//    let main: String?
+//    let description: String?
     let icon: String?
 }
 
@@ -53,21 +53,22 @@ struct Snow: Decodable {
 // MARK: - For CurrentWeather
 struct MainWeatherInfo: Decodable {
     let temp: Double?
-    let feelsLike: Double?
+//    let feelsLike: Double?
     let tempMin: Double?
     let tempMax: Double?
-    let pressure: Int?
-    let humidity: Int?
-    let seaLevel: Int?
-    let grndLevel: Int?
+//    let pressure: Int?
+//    let humidity: Int?
+//    let seaLevel: Int?
+//    let grndLevel: Int?
     
     enum CodingKeys: String, CodingKey {
-        case temp, pressure, humidity
-        case feelsLike = "feels_like"
+        case temp
+//        case pressure, humidity
+//        case feelsLike = "feels_like"
         case tempMin = "temp_min"
         case tempMax = "temp_max"
-        case seaLevel = "sea_level"
-        case grndLevel = "grnd_level"
+//        case seaLevel = "sea_level"
+//        case grndLevel = "grnd_level"
     }
 }
 
@@ -83,23 +84,24 @@ struct Sys: Decodable {
 // MARK: - For FiveDaysWeather
 struct ListMainWeatherInfo: Decodable {
     let temp: Double?
-    let feelsLike: Double?
-    let tempMin: Double?
-    let tempMax: Double?
-    let pressure: Int?
-    let humidity: Int?
-    let seaLevel: Int?
-    let grndLevel: Int?
-    let tempKf: Double?
+//    let feelsLike: Double?
+//    let tempMin: Double?
+//    let tempMax: Double?
+//    let pressure: Int?
+//    let humidity: Int?
+//    let seaLevel: Int?
+//    let grndLevel: Int?
+//    let tempKf: Double?
     
     enum CodingKeys: String, CodingKey {
-        case temp, pressure, humidity
-        case feelsLike = "feels_like"
-        case tempMin = "temp_min"
-        case tempMax = "temp_max"
-        case seaLevel = "sea_level"
-        case grndLevel = "grnd_level"
-        case tempKf = "temp_kf"
+        case temp
+//        case pressure, humidity
+//        case feelsLike = "feels_like"
+//        case tempMin = "temp_min"
+//        case tempMax = "temp_max"
+//        case seaLevel = "sea_level"
+//        case grndLevel = "grnd_level"
+//        case tempKf = "temp_kf"
     }
 }
 
@@ -108,21 +110,22 @@ struct ListSys: Decodable {
 }
 
 struct List: Decodable {
-    let dt: Int?
+//    let dt: Int?
     let main: ListMainWeatherInfo?
     let weather: [Weather]?
-    let clouds: Clouds?
-    let wind: Wind?
-    let visibility: Int?
-    let rain: Rain?
-    let snow: Snow?
-    let pop: Double?
-    let sys: ListSys?
+//    let clouds: Clouds?
+//    let wind: Wind?
+//    let visibility: Int?
+//    let rain: Rain?
+//    let snow: Snow?
+//    let pop: Double?
+//    let sys: ListSys?
     let dtTxt: String?
 
     enum CodingKeys: String, CodingKey {
-        case dt, main, weather, rain, snow,
-             clouds, wind, visibility, pop, sys
+        case main, weather
+//             dt, rain, snow,
+//             clouds, wind, visibility, pop, sys
         case dtTxt = "dt_txt"
     }
 }

@@ -15,7 +15,7 @@ class WeatherViewController: UIViewController {
     private let apiManager = APIManager()
     private var coordinate = CLLocationCoordinate2D() {
         didSet {
-//            fetchWeatherData(on: coordinate)
+            fetchWeatherData(on: coordinate)
         }
     }
     
