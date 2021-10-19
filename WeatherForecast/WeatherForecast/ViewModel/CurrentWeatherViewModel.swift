@@ -9,6 +9,8 @@ import UIKit
 
 class CurrentWeatherViewModel {
     
+    var reloadTableView: (() -> Void)?
+    
     var administrativeArea: String = "서울특별시"
     var locality: String = "세종로"
     var address: String {
@@ -29,7 +31,7 @@ class CurrentWeatherViewModel {
     var weatherImage = UIImage()
     let weatherService = WeatherService()
     
-    func reload() {
+    func mapCurrentData() {
         weatherService.obtainPlacemark { [weak self] placemark in
             guard let self = self else { return }
             
@@ -38,6 +40,7 @@ class CurrentWeatherViewModel {
                 self.administrativeArea = administrativeArea
                 self.locality = locality
             }
+            self.reloadTableView?()
         }
         
         weatherService.fetchByLocation { [weak self] (currentWeather: CurrentWeatherData) in

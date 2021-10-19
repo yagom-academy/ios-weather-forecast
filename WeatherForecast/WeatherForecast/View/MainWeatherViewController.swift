@@ -15,16 +15,9 @@ class MainWeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        currentWeatherViewModel.reload()
         initBackgroundView()
+        initViewModels()
         setUpTableView()
-        
-        fiveDayListViewModel.mapFiveDayData()
-        fiveDayListViewModel.reloadTableView = {
-            DispatchQueue.main.async {
-                self.weatherTableView.reloadData()
-            }
-        }
     }
     
     private func initBackgroundView() {
@@ -36,6 +29,21 @@ class MainWeatherViewController: UIViewController {
         imageView.contentMode = UIView.ContentMode.scaleAspectFill
         
         view.addSubview(imageView)
+    }
+    
+    private func initViewModels() {
+        currentWeatherViewModel.mapCurrentData()
+        currentWeatherViewModel.reloadTableView = {
+            DispatchQueue.main.async {
+                self.weatherTableView.reloadData()
+            }
+        }
+        fiveDayListViewModel.mapFiveDayData()
+        fiveDayListViewModel.reloadTableView = {
+            DispatchQueue.main.async {
+                self.weatherTableView.reloadData()
+            }
+        }
     }
     
     private func setUpTableView() {
