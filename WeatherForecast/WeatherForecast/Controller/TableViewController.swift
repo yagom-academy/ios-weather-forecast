@@ -5,10 +5,9 @@
 //  Created by Do Yi Lee on 2021/10/19.
 //
 
-import UIKit
+import UIKit.UITableViewController
 
 class TableViewController: UIViewController {
-
     private let tableView = UITableView()
     private let tableViewDataSource = WeatherTableviewDataSource()
     private let tableViewDelegate = WeatherTableViewDelegate()
@@ -18,10 +17,10 @@ class TableViewController: UIViewController {
         super.viewDidLoad()
         drawTableView()
         setRefreshControl()
-        
         self.tableView.dataSource = self.tableViewDataSource
         self.tableView.delegate = tableViewDelegate
         addButtonController()
+        
         //MARK: Notified after OpenWeatherAPI response delivered successfully
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(reloadTableView),
@@ -33,40 +32,12 @@ class TableViewController: UIViewController {
                                                name: .stopRefresh,
                                                object: nil)
     }
-    
-    private func addButtonController() {
-        if let headerView = tableView.tableHeaderView as? OpenWeatherHeaderView {
-            self.add(headerView.buttonvc)
-        }
-    }
-    
-    @objc func reloadTableView() {
-        DispatchQueue.main.async { [self] in
-            self.tableView.reloadData()
-        }
-    }
 }
 
 extension TableViewController {
-    private func setRefreshControl() {
-        if #available(iOS 10.0, *) {
-            self.tableView.refreshControl = self.refreshControl
-        } else {
-            tableView.addSubview(refreshControl)
-        }
-        
-        self.refreshControl.addTarget(self,
-                                      action: #selector(reloadView),
-                                      for: .valueChanged)
-    }
-    
-    @objc private func reloadView() {
-        NotificationCenter.default.post(name: .requestLocationAgain, object: nil)
-    }
-
-    @objc private func stopRefesh() {
-        DispatchQueue.main.async {
-            self.tableView.refreshControl?.endRefreshing()
+    private func addButtonController() {
+        if let headerView = tableView.tableHeaderView as? OpenWeatherHeaderView {
+            self.add(headerView.buttonvc)
         }
     }
     
@@ -84,16 +55,33 @@ extension TableViewController {
         self.tableView.sectionHeaderHeight = headerViewSize
     }
     
-    private func showAlert(title: String, message: String) {
+    private func setRefreshControl() {
+        if #available(iOS 10.0, *) {
+            self.tableView.refreshControl = self.refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
+        
+        self.refreshControl.addTarget(self,
+                                      action: #selector(requestLocationAgain),
+                                      for: .valueChanged)
+    }
+}
+
+extension TableViewController {
+    @objc private func stopRefesh() {
         DispatchQueue.main.async {
-            let alert = UIAlertController(title: title,
-                                          message: message,
-                                          preferredStyle: .alert)
-            let alertAction = UIAlertAction(title: "확인",
-                                            style: .default,
-                                            handler: nil)
-            alert.addAction(alertAction)
-            self.present(alert, animated: true, completion: nil)
+            self.tableView.refreshControl?.endRefreshing()
+        }
+    }
+    
+    @objc private func requestLocationAgain() {
+        NotificationCenter.default.post(name: .requestLocationAgain, object: nil)
+    }
+    
+    @objc private func reloadTableView() {
+        DispatchQueue.main.async { [self] in
+            self.tableView.reloadData()
         }
     }
 }

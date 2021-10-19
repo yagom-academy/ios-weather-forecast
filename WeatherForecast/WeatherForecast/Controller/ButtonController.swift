@@ -18,22 +18,57 @@ class ButtonController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         drawButton()
+        decideButtonAction(.able)
     }
     
     private lazy var userLocationDeniedAlert: UIAlertController = {
-      let alert = UIAlertController(title: "위치변경", message: "날씨를 받아올 위치의 위도와 경도를 입력해주세요", preferredStyle: .alert)
+        let alert = UIAlertController(title: "위치변경", message: "날씨를 받아올 위치의 위도와 경도를 입력해주세요", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
         alert.addAction(UIAlertAction(title: "변경", style: .default))
+        alert.addTextField { field in
+            field.placeholder = "위도"
+        }
+        alert.addTextField { field in
+            field.placeholder = "경도"
+        }
         return alert
     }()
     
     private lazy var userLocationAcceptAlert: UIAlertController = {
-        let alert2 = UIAlertController(title: "위치변경", message: "변경할 좌표를 선택해주세요", preferredStyle: .alert)
-        alert2.addAction(UIAlertAction(title: "변경", style: .default))
-        alert2.addAction(UIAlertAction(title: "현재 위치로 재설정", style: .default))
-        alert2.addAction(UIAlertAction(title: "취소", style: .cancel))
-        return alert2
-      }()
+        let alert = UIAlertController(title: "위치변경", message: "변경할 좌표를 선택해주세요", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "변경", style: .default){_ in
+            if let latText = alert.textFields?[0].text,
+               let longText = alert.textFields?[1].text,
+               let lat = Double(latText),
+               let long = Double(longText) {
+                
+                let location: Location = (lat, long)
+                let sessionDelegate = OpenWeatherSessionDelegate()
+                let networkManager = WeatherNetworkManager()
+                
+                networkManager.fetchOpenWeatherData(latitudeAndLongitude: location,
+                                                    requestPurpose: .currentWeather,
+                                                    sessionDelegate.session)
+                
+                networkManager.fetchOpenWeatherData(latitudeAndLongitude: location,
+                                                    requestPurpose: .forecast,
+                                                    sessionDelegate.session)
+            }
+        })
+        
+        alert.addAction(UIAlertAction(title: "현재 위치로 재설정", style: .default) { _ in
+            NotificationCenter.default.post(name: .requestLocationAgain, object: nil)
+        })
+        
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        alert.addTextField { field in
+            field.placeholder = "위도"
+        }
+        alert.addTextField { field in
+            field.placeholder = "경도"
+        }
+        return alert
+    }()
 }
 
 extension ButtonController {
@@ -48,9 +83,12 @@ extension ButtonController {
     
     private func drawButton() {
         self.view.addSubview(button)
-        self.button.setPosition(top: self.view.topAnchor, bottom: self.view.bottomAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
+        self.button.setPosition(top: self.view.topAnchor,
+                                bottom: self.view.bottomAnchor,
+                                leading: self.view.leadingAnchor,
+                                trailing: self.view.trailingAnchor)
     }
- 
+    
     private func chaneToAbleButton() {
         button.setTitle(UserState.able.buttonTitle, for: .normal)
         button.addTarget(self,

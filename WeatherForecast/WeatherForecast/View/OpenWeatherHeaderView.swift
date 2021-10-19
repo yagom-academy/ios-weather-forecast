@@ -25,7 +25,6 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
 
     private lazy var verticalStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [self.addressLabel, self.minMaxTemperature, self.currentTemperatureLabel])
-        self.addressLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .leading
@@ -49,7 +48,6 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
         setImageIconView()
         convertToDynamicType()
         drawButtonView()
-        
     }
     
     required init?(coder: NSCoder) {
