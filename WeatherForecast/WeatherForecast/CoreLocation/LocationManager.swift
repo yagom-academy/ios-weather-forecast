@@ -89,7 +89,7 @@ extension LocationManager: CLLocationManagerDelegate {
             networkManager.fetchingWeatherData(api: WeatherAPI.current,
                                                type: CurrentWeather.self,
                                                coordinate: (lat: location.coordinate.latitude,
-                                                            lon: location.coordinate.longitude)) { weather, error in
+                                                            lon: location.coordinate.longitude)) { [weak self] weather, error in
                 
                 guard let weather = weather,
                       let icon = weather.weather.first?.icon,
@@ -105,7 +105,7 @@ extension LocationManager: CLLocationManagerDelegate {
                 }
                 
                 weatherTaskGroup.enter()
-                self.getCurrentAddress {
+                self?.getCurrentAddress {
                     currentWeather?.main.address = $0
                     weatherTaskGroup.leave()
                 }
@@ -127,8 +127,8 @@ extension LocationManager: CLLocationManagerDelegate {
             }
         }
         
-        weatherTaskGroup.notify(queue: DispatchQueue.global()) {
-            self.delegate?.didUpdateLocation(currentWeather, fiveDaysWeather)
+        weatherTaskGroup.notify(queue: DispatchQueue.global()) { [weak self] in
+            self?.delegate?.didUpdateLocation(currentWeather, fiveDaysWeather)
         }
     }
     

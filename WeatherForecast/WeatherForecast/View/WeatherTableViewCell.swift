@@ -91,12 +91,12 @@ extension WeatherTableViewCell {
         }
         
         cellId = url.lastPathComponent
-        WeatherNetworkManager().weatherIconImageDataTask(url: url) { image in
-            guard self.cellId == url.lastPathComponent else {
+        WeatherNetworkManager().weatherIconImageDataTask(url: url) { [weak self] image in
+            guard self?.cellId == url.lastPathComponent else {
                 return
             }
             DispatchQueue.main.async {
-                self.weatherImageView.image = image
+                self?.weatherImageView.image = image
             }
         }
     }
