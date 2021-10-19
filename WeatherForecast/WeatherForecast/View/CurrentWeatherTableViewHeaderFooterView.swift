@@ -10,9 +10,28 @@ import UIKit
 class CurrentWeatherTableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     let weatherImageView = UIImageView()
-    let addressLabel = UILabel()
-    let minMaxLabel = UILabel()
-    let temperatureLabel = UILabel()
+    let addressLabel: UILabel = {
+        var label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.textAlignment = .left
+        return label
+    }()
+    let minMaxLabel: UILabel = {
+        var label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.textAlignment = .left
+        return label
+    }()
+    let temperatureLabel: UILabel = {
+        var label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.textAlignment = .left
+        return label
+    }()
+    
     lazy var labelStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [addressLabel, minMaxLabel, temperatureLabel])
         stackView.axis = .vertical
