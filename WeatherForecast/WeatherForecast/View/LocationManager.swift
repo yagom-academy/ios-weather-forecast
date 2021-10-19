@@ -52,18 +52,19 @@ extension LocationManager: CLLocationManagerDelegate {
         let requestInfo: Parameters = ["lat": latitude, "lon": longitude, "appid": networkManager.apiKey]
         let fiveDaysWeatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: fiveDaysUrl)
         let currentWeatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: currentWeather)
-        parseCurrent(weatherApi: currentWeatherApi, session: self.session) {
-            NotificationCenter.default.post(name: Notification.Name.dataIsNotNil, object: nil, userInfo: nil)
+        parseCurrent(networkManager: networkManager, weatherApi: currentWeatherApi, session: self.session) {
+            NotificationCenter.default.post(name: Notification.Name.completion, object: nil, userInfo: nil)
+//            NotificationCenter.default.post(name: Notification.Name.dataIsNotNil, object: nil, userInfo: nil)
             print("fiveDays")
+            //파싱이 완료된 시점에 해당메소드를 실행해서 값을전달
         }
         
-        parseFiveDays(weatherApi: fiveDaysWeatherApi, session: self.session) {
+        parseFiveDays(networkManager: networkManager, weatherApi: fiveDaysWeatherApi, session: self.session) {
             NotificationCenter.default.post(name: Notification.Name.dataIsNotNil, object: nil, userInfo: nil)
         }
     }
     
-    func parseCurrent(weatherApi: WeatherApi, session: URLSession, completion: @escaping () -> Void) {
-        let networkManager = NetworkManager()
+    private func parseCurrent(networkManager: NetworkManager, weatherApi: WeatherApi, session: URLSession, completion: @escaping () -> Void) {
         networkManager.getWeatherData(weatherAPI: weatherApi, session) { requestedData
             in
             do {
@@ -74,8 +75,7 @@ extension LocationManager: CLLocationManagerDelegate {
         }
     }
     
-    func parseFiveDays(weatherApi: WeatherApi, session: URLSession, completion: @escaping () -> Void) {
-        let networkManager = NetworkManager()
+    private func parseFiveDays(networkManager: NetworkManager, weatherApi: WeatherApi, session: URLSession, completion: @escaping () -> Void) {
         networkManager.getWeatherData(weatherAPI: weatherApi, session) { requestedData in
             do {
                 self.fiveDaysData = try JSONDecoder().decode(FiveDaysForecast.self, from: requestedData)
@@ -101,8 +101,4 @@ extension LocationManager: CLLocationManagerDelegate {
         }
     }
     
-}
-
-extension Notification.Name {
-    static let dataIsNotNil = Notification.Name("dataIsNotNil")
 }

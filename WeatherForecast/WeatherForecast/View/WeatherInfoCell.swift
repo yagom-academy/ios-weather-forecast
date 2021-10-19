@@ -35,15 +35,20 @@ final class WeatherInfoCell: UITableViewCell {
     
     private func configureLayout() {
         NSLayoutConstraint.activate([
-            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)
+            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            dateLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            weatherImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+            weatherImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            weatherImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            weatherImageView.widthAnchor.constraint(equalToConstant: 30),
+            weatherImageView.heightAnchor.constraint(equalToConstant: 30)
         ])
         
         NSLayoutConstraint.activate([
-            temperatureLabel.trailingAnchor.constraint(equalTo: weatherImageView.leadingAnchor, constant: -10)
+            temperatureLabel.trailingAnchor.constraint(equalTo: weatherImageView.leadingAnchor, constant: -10),
+            temperatureLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
     

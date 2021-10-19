@@ -16,11 +16,12 @@ final class ViewController: UIViewController {
     private let addressLabel = UILabel()
     private let temperatureRangeLabel = UILabel()
     private let currentTemperatureLabel = UILabel()
-
+    
     //MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView(_:)), name: Notification.Name.dataIsNotNil, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setupTableViewHeaderView), name: Notification.Name.completion, object: nil)
         setUpTableView()
         addSubviews()
         configureLayout()
@@ -44,6 +45,15 @@ final class ViewController: UIViewController {
             self.tableView.reloadData()
         }
     }
+    
+    @objc func setupTableViewHeaderView(_ notification: Notification) {
+        self.addressLabel.text = self.locationManager.address
+        print("test")
+        //        tableViewHeaderView.becomeFirstResponder()
+        //        tableViewHeaderView.reloadInputViews()
+        
+    }
+    //고민중
     
     static func showAlert(title: String, message: String) {
         DispatchQueue.main.async {
@@ -84,6 +94,8 @@ final class ViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             currentWeatherImageView.leadingAnchor.constraint(equalTo: tableViewHeaderView.leadingAnchor, constant: 10),
+            currentWeatherImageView.widthAnchor.constraint(equalToConstant: 80),
+            currentWeatherImageView.heightAnchor.constraint(equalToConstant: 80),
             currentWeatherImageView.topAnchor.constraint(equalTo: tableViewHeaderView.topAnchor, constant: 10)
         ])
         
@@ -110,15 +122,15 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherInfoCell.cellIdentifier, for: indexPath) as? WeatherInfoCell,
               let item = locationManager.fiveDaysData else {
                   return UITableViewCell()
-              }
-        let networkManager = NetworkManager()
+        }
+        let celsius = UnitTemperature.celsius.converter.value(fromBaseUnitValue: item.list[indexPath.row].main.temperature)
+        let roundedNumber = round(celsius * 10) / 10
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd HH시"
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
-        cell.dateLabel.text = "\(item.list[indexPath.row].date)"
-        cell.temperatureLabel.text = "\(item.list[indexPath.row].main.temperature)"
-//        let id = item.list[indexPath.row].weather.icon
-//        cell.weatherImageView.image = networkManager.getWeatherImage(weatherApi: FiveDaysForecast, T##session: URLSession##URLSession, T##completion: (Data) -> ()##(Data) -> ())
-        
+        cell.dateLabel.text = "\(dateFormatter.string(from: item.list[indexPath.row].date))"
+        cell.temperatureLabel.text = "\(roundedNumber)°"
         return cell
     }
     
@@ -129,14 +141,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension UIView {
     func addBackground(imageName:String) {
-          
         let imageViewBackground = UIImageView(frame: UIScreen.main.bounds)
-           imageViewBackground.image = UIImage(named: imageName)
-          
-           
+        imageViewBackground.image = UIImage(named: imageName)
         imageViewBackground.contentMode = .scaleToFill
-          
-           self.addSubview(imageViewBackground)
-           self.sendSubviewToBack(imageViewBackground)
+        self.addSubview(imageViewBackground)
+        self.sendSubviewToBack(imageViewBackground)
     }
 }

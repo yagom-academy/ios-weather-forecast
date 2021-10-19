@@ -47,7 +47,7 @@ struct FiveDaysForecast: Decodable {
 }
 
 struct ListDetail: Decodable {
-    var date: Int
+    var date: Date
     var main: MainDetail
     var weather: [WeatherDetail]
 
