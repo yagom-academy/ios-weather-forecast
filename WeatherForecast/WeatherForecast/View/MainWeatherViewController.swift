@@ -19,6 +19,12 @@ class MainWeatherViewController: UIViewController {
         initBackgroundView()
         setUpTableView()
         
+        fiveDayListViewModel.mapFiveDayData()
+        fiveDayListViewModel.reloadTableView = {
+            DispatchQueue.main.async {
+                self.weatherTableView.reloadData()
+            }
+        }
     }
     
     private func initBackgroundView() {
