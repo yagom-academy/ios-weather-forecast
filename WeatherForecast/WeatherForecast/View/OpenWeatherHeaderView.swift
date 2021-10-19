@@ -40,7 +40,6 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
         setHorizontalStackView()
         setVerticalStackView()
         setImageIconView()
-        //setButton()
         convertToDynamicType()
     }
     
