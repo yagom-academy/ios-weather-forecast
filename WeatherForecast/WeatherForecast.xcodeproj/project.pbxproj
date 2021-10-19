@@ -28,6 +28,7 @@
 		DFB4AE872704416500183B25 /* WeatherRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB4AE862704416500183B25 /* WeatherRequest.swift */; };
 		DFB4BE8B271E7D7D00113CC9 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB4BE8A271E7D7D00113CC9 /* UIImageView+.swift */; };
 		DFB4BE8D271EB1AA00113CC9 /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB4BE8C271EB1AA00113CC9 /* Double+.swift */; };
+		DFB4BE8F271EC18C00113CC9 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB4BE8E271EC18C00113CC9 /* Int+.swift */; };
 		DFC0F31127111D3900A4BD7C /* TargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC0F31027111D3900A4BD7C /* TargetType.swift */; };
 		DFC0F31327111D4E00A4BD7C /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC0F31227111D4E00A4BD7C /* URLSessionProtocol.swift */; };
 		DFC0F31627111EB500A4BD7C /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC0F31527111EB500A4BD7C /* NetworkError.swift */; };
@@ -79,6 +80,7 @@
 		DFB4AE862704416500183B25 /* WeatherRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRequest.swift; sourceTree = "<group>"; };
 		DFB4BE8A271E7D7D00113CC9 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		DFB4BE8C271EB1AA00113CC9 /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
+		DFB4BE8E271EC18C00113CC9 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		DFC0F31027111D3900A4BD7C /* TargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetType.swift; sourceTree = "<group>"; };
 		DFC0F31227111D4E00A4BD7C /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		DFC0F31527111EB500A4BD7C /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 			children = (
 				DFB4BE8A271E7D7D00113CC9 /* UIImageView+.swift */,
 				DFB4BE8C271EB1AA00113CC9 /* Double+.swift */,
+				DFB4BE8E271EC18C00113CC9 /* Int+.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				DFA9C75A271912AC00B91111 /* ThreeHourForecastCell.swift in Sources */,
 				753E66A32705CDC000B0ED8E /* NetworkManager.swift in Sources */,
 				DFB4BE8B271E7D7D00113CC9 /* UIImageView+.swift in Sources */,
+				DFB4BE8F271EC18C00113CC9 /* Int+.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* ViewController.swift in Sources */,
 				75207D742703047E00CFA323 /* CurrentWeather.swift in Sources */,
 				DFB4BE8D271EB1AA00113CC9 /* Double+.swift in Sources */,

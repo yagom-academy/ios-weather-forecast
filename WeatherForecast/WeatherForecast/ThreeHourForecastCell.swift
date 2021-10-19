@@ -62,7 +62,7 @@ extension ThreeHourForecastCell {
         guard let iconName = forecastInfo.weather[0].icon else {
             return
         }
-        let date = formatDate(of: forecastInfo.date)
+        let date = forecastInfo.date.converToDateFormat()
         let temperature = forecastInfo.main.temp.convertToCelsius().description
         let iconURL = "https://openweathermap.org/img/w/\(iconName).png"
         guard let url = URL(string: iconURL) else {
@@ -98,15 +98,5 @@ extension ThreeHourForecastCell {
         stackView.addArrangedSubview(weatherImageView)
         
         weatherImageView.heightAnchor.constraint(equalToConstant: 10).isActive = true
-    }
-    
-    private func formatDate(of date: Int) -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko")
-        formatter.dateFormat = "MM/dd(E) HH시"
-        let date = Date(timeIntervalSince1970: TimeInterval(date))
-        let formattedDate = formatter.string(from: date)
-        
-        return formattedDate
     }
 }
