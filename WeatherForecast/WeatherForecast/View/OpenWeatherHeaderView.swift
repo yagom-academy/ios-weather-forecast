@@ -10,8 +10,8 @@ import CoreLocation.CLLocationManager
 
 class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     static let identifier = "weatherHeaderView"
-    private let buttonvc = ButtonController()
-
+    let buttonvc = ButtonController()
+    
     private let addressLabel = UILabel()
     private let minMaxTemperature = UILabel()
     private let currentTemperatureLabel = UILabel()
@@ -155,5 +155,3 @@ extension OpenWeatherHeaderView {
         label.font = UIFont.preferredFont(forTextStyle: font)
     }
 }
-
-

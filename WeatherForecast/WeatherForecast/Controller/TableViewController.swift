@@ -21,9 +21,7 @@ class TableViewController: UIViewController {
         
         self.tableView.dataSource = self.tableViewDataSource
         self.tableView.delegate = tableViewDelegate
-        
-        
-        
+        addButtonController()
         //MARK: Notified after OpenWeatherAPI response delivered successfully
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(reloadTableView),
@@ -34,6 +32,12 @@ class TableViewController: UIViewController {
                                                selector: #selector(stopRefesh),
                                                name: .stopRefresh,
                                                object: nil)
+    }
+    
+    private func addButtonController() {
+        if let t = tableView.tableHeaderView as? OpenWeatherHeaderView {
+            self.add(t.buttonvc)
+        }
     }
     
     @objc func reloadTableView() {
