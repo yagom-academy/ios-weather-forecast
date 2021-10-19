@@ -11,6 +11,7 @@ class MainWeatherViewController: UIViewController {
     var currentWeatherViewModel = CurrentWeatherViewModel()
     var fiveDayListViewModel = FiveDayWeatherListViewModel()
     var weatherTableView = UITableView()
+    let headerView = CurrentWeatherTableViewHeaderFooterView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +19,7 @@ class MainWeatherViewController: UIViewController {
         initBackgroundView()
         initViewModels()
         setUpTableView()
+        initTableHeaderView()
     }
     
     private func initBackgroundView() {
@@ -35,7 +37,7 @@ class MainWeatherViewController: UIViewController {
         currentWeatherViewModel.mapCurrentData()
         currentWeatherViewModel.reloadTableView = {
             DispatchQueue.main.async {
-                self.weatherTableView.reloadData()
+                self.updateTableHeaderView()
             }
         }
         fiveDayListViewModel.mapFiveDayData()
@@ -61,6 +63,22 @@ class MainWeatherViewController: UIViewController {
         ])
         weatherTableView.backgroundColor = nil
     }
+    
+    private func initTableHeaderView() {
+        headerView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 100)
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        weatherTableView.tableHeaderView = headerView
+        headerView.layoutIfNeeded()
+    }
+    
+    private func updateTableHeaderView() {
+        headerView.configureLabels(
+            image: currentWeatherViewModel.weatherImage,
+            address: currentWeatherViewModel.address,
+            minMaxTemperature: currentWeatherViewModel.minMaxTamperature,
+            temperature: currentWeatherViewModel.currentTemperature
+        )
+    }
 }
 
 extension MainWeatherViewController: UITableViewDataSource, UITableViewDelegate {
@@ -80,23 +98,5 @@ extension MainWeatherViewController: UITableViewDataSource, UITableViewDelegate 
         cell.weatherImageView.image = viewModel.imageThreeHour
         cell.backgroundColor = UIColor.clear
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView,
-                   viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = CurrentWeatherTableViewHeaderFooterView()
-        
-        headerView.configureLabels(
-            image: currentWeatherViewModel.weatherImage,
-            address: currentWeatherViewModel.address,
-            minMaxTemperature: currentWeatherViewModel.minMaxTamperature,
-            temperature: currentWeatherViewModel.currentTemperature
-        )
-        headerView.backgroundView = UIView()
-        return headerView
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 100
     }
 }

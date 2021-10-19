@@ -9,7 +9,11 @@ import UIKit
 
 class CurrentWeatherTableViewHeaderFooterView: UITableViewHeaderFooterView {
 
-    let weatherImageView = UIImageView()
+    let weatherImageView: UIImageView = {
+        var imageView = UIImageView()
+        imageView.contentMode = UIView.ContentMode.scaleAspectFill
+        return imageView
+    }()
     let addressLabel: UILabel = {
         var label = UILabel()
         label.textColor = .white
