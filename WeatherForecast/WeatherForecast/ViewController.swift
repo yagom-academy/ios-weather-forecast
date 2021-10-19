@@ -88,7 +88,6 @@ extension ViewController: CLLocationManagerDelegate {
 
 extension ViewController {
     private func setUpTableView() {
-        view.addSubview(weatherTableView)
         weatherTableView.dataSource = self
         weatherTableView.delegate = self
         weatherTableView.register(ThreeHourForecastCell.self, forCellReuseIdentifier: ThreeHourForecastCell.cellIdentifier)
@@ -97,6 +96,7 @@ extension ViewController {
     }
     
     private func setUpLayouts() {
+        view.addSubview(weatherTableView)
         NSLayoutConstraint.activate([
             weatherTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             weatherTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -109,8 +109,7 @@ extension ViewController {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "weatherAppBg")
         imageView.contentMode = .scaleAspectFill
-        view.addSubview(imageView)
-
+        view.insertSubview(imageView, at: 0)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
           imageView.topAnchor.constraint(equalTo: view.topAnchor),
