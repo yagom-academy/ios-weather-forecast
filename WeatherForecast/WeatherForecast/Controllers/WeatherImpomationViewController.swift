@@ -43,20 +43,24 @@ class WeatherImpormationViewController: UIViewController {
     }
     
     private func registeredIdetifier() {
-        collectionView.register(WeatherCell.self,
-                                forCellWithReuseIdentifier: WeatherCell.identifier)
-        collectionView.register(WeatherHeaderView.self,
+        collectionView.register(FiveDaysWeatherCell.self,
+                                forCellWithReuseIdentifier: FiveDaysWeatherCell.identifier)
+        collectionView.register(CurrentWeatherHeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: WeatherHeaderView.identifier)
+                                withReuseIdentifier: CurrentWeatherHeaderView.identifier)
     }
     
     private func decidedCollectionViewLayout() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
-        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        collectionView.topAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        collectionView.leadingAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
         collectionViewDataSource.decidedLayout(collectionView)
     }
@@ -97,7 +101,7 @@ class WeatherImpormationViewController: UIViewController {
         locationManager.getUserAddress(location: location) { address in
             switch address {
             case .success(let data):
-                debugPrint(data)
+                self.collectionViewDataSource.currentAddress = data
             case .failure(let error):
                 self.handlerError(error)
             }

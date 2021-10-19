@@ -11,6 +11,7 @@ class WeatherCollectionViewDataSource: NSObject {
     private let compositionalLayout = CompositionalLayout()
     var currentWeather: CurrentWeather?
     var fiveDaysWeather: FiveDaysWeather?
+    var currentAddress: String?
 }
 
 extension WeatherCollectionViewDataSource: UICollectionViewDataSource {
@@ -19,11 +20,13 @@ extension WeatherCollectionViewDataSource: UICollectionViewDataSource {
                         at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header =
                 collectionView.dequeueReusableSupplementaryView(
-                    ofKind: kind,
-                    withReuseIdentifier: WeatherHeaderView.identifier,
-                    for: indexPath) as? WeatherHeaderView else {
+                    ofKind: UICollectionView.elementKindSectionHeader,
+                    withReuseIdentifier: CurrentWeatherHeaderView.identifier,
+                    for: indexPath) as? CurrentWeatherHeaderView else {
                         return UICollectionReusableView()
                     }
+        
+        header.configure(weather: currentWeather, address: currentAddress)
         return header
     }
     
@@ -35,13 +38,13 @@ extension WeatherCollectionViewDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: WeatherCell.identifier,
-            for: indexPath) as? WeatherCell else {
+            withReuseIdentifier: FiveDaysWeatherCell.identifier,
+            for: indexPath) as? FiveDaysWeatherCell else {
                 return UICollectionViewCell()
             }
         
         let fiveDayList = fiveDaysWeather?.list?[indexPath.item]
-                cell.configure(list: fiveDayList)
+        cell.configure(list: fiveDayList)
         return cell
     }
     

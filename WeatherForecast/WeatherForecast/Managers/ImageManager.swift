@@ -38,6 +38,8 @@ struct ImageManager {
                 case .success(let data):
                     guard let imageData = UIImage(data: data) else {
                         completion(.failure(APIError.convertImageFailed))
+                        ErrorHandler(
+                            error: APIError.convertImageFailed).printErrorDescription()
                         return
                     }
                     completion(.success(imageData))

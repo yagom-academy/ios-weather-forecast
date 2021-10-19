@@ -18,9 +18,9 @@ enum ImageURL {
     }
 }
 
-class WeatherCell: UICollectionViewCell {
+class FiveDaysWeatherCell: UICollectionViewCell {
     let imageManager = ImageManager()
-    static let identifier = String(describing: WeatherCell.self)
+    static let identifier = String(describing: FiveDaysWeatherCell.self)
     
     private let dateLabel: UILabel = {
         let label = UILabel()
@@ -110,8 +110,9 @@ class WeatherCell: UICollectionViewCell {
                     switch image {
                     case .success(let image):
                         self.weatherImage.image = image
-                    case .failure:
+                    case .failure(let error):
                         self.weatherImage.image = UIImage(systemName: "questionmark.circle")
+                        ErrorHandler(error: error).printErrorDescription()
                     }
                 }
             }
