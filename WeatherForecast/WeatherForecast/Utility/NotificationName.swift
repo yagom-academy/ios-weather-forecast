@@ -9,5 +9,6 @@ import Foundation
 
 extension Notification.Name {
     static let dataIsNotNil = Notification.Name("dataIsNotNil")
-    static let completion = Notification.Name("parseCompletion")
+    static let completion = Notification.Name("parsingComplete")
+    static let alert = Notification.Name("showAlert")
 }

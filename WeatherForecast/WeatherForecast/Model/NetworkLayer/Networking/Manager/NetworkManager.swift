@@ -48,10 +48,4 @@ final class NetworkManager {
             completion(data)
         }
     }
-    
-    func getWeatherImage(weatherApi: WeatherApi, _ session: URLSession, _ completion: @escaping (Data) -> ()) {
-        router.request(weatherApi, session) { data in
-            completion(data)
-        }
-    }
 }

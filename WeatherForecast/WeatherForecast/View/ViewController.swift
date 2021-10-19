@@ -27,8 +27,7 @@ final class ViewController: UIViewController {
         configureLayout()
         locationManager.delegate = locationManager
         locationManager.askUserLocation()
-        self.view.addBackground(imageName: "sky")
-        self.tableView.backgroundColor = .clear
+        setupBackgroundImage()
     }
     
     //MARK: - Methods
@@ -49,11 +48,15 @@ final class ViewController: UIViewController {
     @objc func setupTableViewHeaderView(_ notification: Notification) {
         self.addressLabel.text = self.locationManager.address
         print("test")
-        //        tableViewHeaderView.becomeFirstResponder()
-        //        tableViewHeaderView.reloadInputViews()
-        
+        tableViewHeaderView.becomeFirstResponder()
+        tableViewHeaderView.reloadInputViews()
+        //고민중..
     }
-    //고민중
+    
+    private func setupBackgroundImage() {
+        self.view.addBackground(imageName: "sky")
+        self.tableView.backgroundColor = .clear
+    }
     
     static func showAlert(title: String, message: String) {
         DispatchQueue.main.async {
@@ -123,15 +126,26 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
               let item = locationManager.fiveDaysData else {
                   return UITableViewCell()
         }
+        
         let celsius = UnitTemperature.celsius.converter.value(fromBaseUnitValue: item.list[indexPath.row].main.temperature)
         let roundedNumber = round(celsius * 10) / 10
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd HH시"
-        cell.backgroundColor = .clear
-        cell.selectionStyle = .none
-        cell.dateLabel.text = "\(dateFormatter.string(from: item.list[indexPath.row].date))"
-        cell.temperatureLabel.text = "\(roundedNumber)°"
-        return cell
+        guard let weatherImageURL = URL(string: "https://openweathermap.org/img/w/\(item.list[indexPath.row].weather[0].icon).png") else {
+            return UITableViewCell()
+        }
+        
+        do {
+            let data = try Data(contentsOf: weatherImageURL)
+            cell.weatherImageView.image = UIImage(data: data)
+            cell.backgroundColor = .clear
+            cell.selectionStyle = .none
+            cell.dateLabel.text = "\(dateFormatter.string(from: item.list[indexPath.row].date))"
+            cell.temperatureLabel.text = "\(roundedNumber)°"
+            return cell
+        } catch {
+            return UITableViewCell()
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

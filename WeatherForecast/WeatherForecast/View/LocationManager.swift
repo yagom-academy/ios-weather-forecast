@@ -55,8 +55,6 @@ extension LocationManager: CLLocationManagerDelegate {
         parseCurrent(networkManager: networkManager, weatherApi: currentWeatherApi, session: self.session) {
             NotificationCenter.default.post(name: Notification.Name.completion, object: nil, userInfo: nil)
 //            NotificationCenter.default.post(name: Notification.Name.dataIsNotNil, object: nil, userInfo: nil)
-            print("fiveDays")
-            //파싱이 완료된 시점에 해당메소드를 실행해서 값을전달
         }
         
         parseFiveDays(networkManager: networkManager, weatherApi: fiveDaysWeatherApi, session: self.session) {
