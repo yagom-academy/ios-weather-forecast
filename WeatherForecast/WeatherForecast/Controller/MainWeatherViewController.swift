@@ -239,7 +239,8 @@ extension MainWeatherViewController: ChangeLocationDelegate {
             }
             if let latitudeText = alert.textFields?.first?.text, let longitudeText = alert.textFields?.last?.text,
                let latitude = Double(latitudeText), let longitude = Double(longitudeText) {
-                self.locationManager(self.locationManager, didUpdateLocations: [CLLocation(latitude: latitude, longitude: longitude)])
+                let desiredLocation = CLLocation(latitude: latitude, longitude: longitude)
+                self.locationManager(self.locationManager, didUpdateLocations: [desiredLocation])
             }
         }
         let setCurrentLocationAction = UIAlertAction(title: "현재 위치로 재설정".localized(), style: .default) { [weak self] _ in
