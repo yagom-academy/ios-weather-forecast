@@ -8,11 +8,6 @@
 import Foundation
 import UIKit.UIImage
 
-extension Notification.Name {
-    static let reloadTableView = Notification.Name("reload TableView")
-    static let stopRefresh = Notification.Name("stopRefresh")
-}
-
 final class OpenWeatherSessionDelegate: NSObject, URLSessionDataDelegate {
     lazy var session: URLSession = {
         let session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)

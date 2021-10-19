@@ -71,7 +71,7 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
     
     private func toggleUserState(_ manager: CLLocationManager, _ state: UserState) {
         guard let locationManager = manager as? LocationManager else {
-            print("메니저가 locaionManager가 아니래유")
+            print("매니저가 locaionManager가 아니래유")
             return
         }
        
