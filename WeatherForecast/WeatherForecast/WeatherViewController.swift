@@ -9,6 +9,10 @@ import CoreLocation
 
 class WeatherViewController: UIViewController {
     private let tableView = UITableView()
+    private let tableViewHeaderView = UIView()
+    private let headerAddrressLabel = UILabel()
+    private let headerMinMaxTemperatureLabel = UILabel()
+    private let headerCurrentTemperatureLabel = UILabel()
     
     private let locationManager = LocationManager()
     private let geocoderManager = GeocoderManager()
@@ -30,6 +34,7 @@ class WeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        updateTableViewHeaderViewLayout()
         requestLocationAuthorization()
     }
 }
@@ -51,6 +56,47 @@ extension WeatherViewController: UITableViewDataSource {
 }
 
 extension WeatherViewController {
+    private func updateTableViewHeaderViewLayout() {
+        tableViewHeaderView.addSubview(headerAddrressLabel)
+        tableViewHeaderView.addSubview(headerMinMaxTemperatureLabel)
+        tableViewHeaderView.addSubview(headerCurrentTemperatureLabel)
+        
+        tableView.tableHeaderView = tableViewHeaderView
+        tableView.tableHeaderView?.frame.size.height = 150
+        
+        headerAddrressLabel.translatesAutoresizingMaskIntoConstraints = false
+        headerAddrressLabel.leadingAnchor.constraint(
+            equalTo: tableViewHeaderView.leadingAnchor,
+            constant: 20
+        ).isActive = true
+        headerAddrressLabel.topAnchor.constraint(
+            equalTo: tableViewHeaderView.topAnchor,
+            constant: 20
+        ).isActive = true
+        
+        headerMinMaxTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
+        headerMinMaxTemperatureLabel.leadingAnchor.constraint(
+            equalTo: tableViewHeaderView.leadingAnchor,
+            constant: 20
+        ).isActive = true
+        headerMinMaxTemperatureLabel.topAnchor.constraint(
+            equalTo: headerAddrressLabel.bottomAnchor,
+            constant: 10
+        ).isActive = true
+
+        headerCurrentTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
+        headerCurrentTemperatureLabel.leadingAnchor.constraint(
+            equalTo: tableViewHeaderView.leadingAnchor,
+            constant: 20
+        ).isActive = true
+        headerCurrentTemperatureLabel.topAnchor.constraint(
+            equalTo: headerMinMaxTemperatureLabel.bottomAnchor,
+            constant: 10
+        ).isActive = true
+        
+        headerCurrentTemperatureLabel.font = UIFont.boldSystemFont(ofSize: CGFloat(40))
+    }
+    
     private func setupTableView() {
         view.addSubview(tableView)
         
@@ -85,12 +131,28 @@ extension WeatherViewController {
         locationManager.requestLocation()
     }
     
+    private func convertToCelsius(on fahrenheit: Double?) -> String {
+        guard let fahrenheit = fahrenheit else {
+            return " "
+        }
+        return "\(String(format: "%.2f", fahrenheit - 273.15)) ℃"
+    }
+    
     private func fetchWeatherData(on coordinate: CLLocationCoordinate2D) {
         fetchWeatherAPI(CurrentWeather.self,
                         weatherURL: .weatherCoordinates(latitude: coordinate.latitude,
                                                         longitude: coordinate.longitude),
                         completion: { data in
-                            dump(data)
+                            guard let currentMainData = data.main,
+                                  let temp = currentMainData.temp,
+                                  let minTemp = currentMainData.tempMin,
+                                  let maxTemp = currentMainData.tempMax else {
+                                return
+                            }
+                            DispatchQueue.main.async {
+                                self.headerMinMaxTemperatureLabel.text = "최저 \(self.convertToCelsius(on: minTemp)) 최고 \(self.convertToCelsius(on: maxTemp))"
+                                self.headerCurrentTemperatureLabel.text = "\(self.convertToCelsius(on: temp))"
+                            }
                         })
         fetchWeatherAPI(FiveDaysWeather.self,
                         weatherURL: .forecastCoordinates(latitude: coordinate.latitude,
@@ -119,7 +181,13 @@ extension WeatherViewController {
         geocoderManager.requestAddress(on: coordinate) { result in
             switch result {
             case .success(let address):
-                dump(address)
+                guard let administrativeArea = address.administrativeArea,
+                      let locality = address.locality else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    self.headerAddrressLabel.text = "\(administrativeArea) \(locality)"
+                }
             case .failure(let error):
                 self.handlerError(error)
             }
