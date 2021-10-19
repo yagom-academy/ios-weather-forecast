@@ -55,7 +55,7 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
-        stackView.alignment = .leading
+        stackView.alignment = .center
         stackView.spacing = 15
         return stackView
     }()
@@ -127,9 +127,7 @@ extension CurrentWeatherHeader {
         NSLayoutConstraint.activate([
             weatherImageView.widthAnchor.constraint(equalTo: horizontalStackView.widthAnchor,
                                                     multiplier: 0.25),
-            weatherImageView.heightAnchor.constraint(equalTo: horizontalStackView.heightAnchor),
-            weatherImageView.leadingAnchor.constraint(equalTo: horizontalStackView.leadingAnchor,
-                                                      constant: 10)
+            weatherImageView.heightAnchor.constraint(equalTo: weatherImageView.widthAnchor)
         ])
     }
 }

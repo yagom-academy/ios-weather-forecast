@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     private var weatherTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.rowHeight = 100
+        tableView.rowHeight = 50
         tableView.sectionFooterHeight = .zero
         tableView.backgroundColor = UIColor.clear
         tableView.translatesAutoresizingMaskIntoConstraints = false

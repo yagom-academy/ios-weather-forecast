@@ -32,7 +32,7 @@ class ThreeHourForecastCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
-        stackView.alignment = .trailing
+        stackView.alignment = .center
         stackView.spacing = 5
         return stackView
     }()
