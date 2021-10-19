@@ -11,7 +11,7 @@ class WeatherForecastTests: XCTestCase {
     
     let parsingManager = ParsingManager()
     
-    func test_JSON파일인CurrentWeather를_디코딩했을때_id는420006353이다() {
+    func test_json파일인CurrentWeather를_디코딩했을때_디코딩에성공한다() {
         //given
         var outputValue: Int?
         let expectedValue = 420006353
@@ -29,7 +29,7 @@ class WeatherForecastTests: XCTestCase {
         XCTAssertEqual(expectedValue, outputValue)
     }
     
-    func test_JSON파일인FiveDayWeather를_디코딩했을때_id는2643743이다() {
+    func test_json파일인FiveDayForecast를_디코딩했을때_디코딩에성공한다() {
         //given
         var outputValue: Int?
         let expectedValue = 2643743
@@ -47,11 +47,11 @@ class WeatherForecastTests: XCTestCase {
         XCTAssertEqual(expectedValue, outputValue)
     }
     
-    func test_mock통신이_성공한다() {
+    func test_mockURLSession에성공조건을주고_실제통신없이request했을때_request메서드성공한다() {
         //given
         let path = Bundle(for: type(of: self)).path(forResource: "CurrentWeather", ofType: "json")
         let jsonFile = try! String(contentsOfFile: path!).data(using: .utf8)
-        let session = MockURLSession(isSuccess: true, data: jsonFile)
+        let session = MockURLSession(isSuccess: true)
         let networkManager = NetworkManager<WeatherRequest>(session: session)
         var outputValue: Data?
         let expectedValue = jsonFile
@@ -70,11 +70,9 @@ class WeatherForecastTests: XCTestCase {
         XCTAssertEqual(expectedValue, outputValue)
     }
     
-    func test_mock통신이_실패한다() {
+    func test_mockURLSession에실패조건을주고_실제통신없이request했을때_에러가발생한다() {
         //given
-        let path = Bundle(for: type(of: self)).path(forResource: "CurrentWeather", ofType: "json")
-        let jsonFile = try! String(contentsOfFile: path!).data(using: .utf8)
-        let session = MockURLSession(isSuccess: false, data: jsonFile)
+        let session = MockURLSession(isSuccess: false)
         let networkManager = NetworkManager<WeatherRequest>(session: session)
         var outputValue: NetworkError?
         let expectedValue = NetworkError.failedStatusCode
@@ -93,7 +91,7 @@ class WeatherForecastTests: XCTestCase {
         XCTAssertEqual(expectedValue, outputValue)
     }
     
-    func test_NetworkManager를통해_실제네트워크통신을했을때_name은Banpobondong이다() {
+    func test_실제네트워크통신조건에서_request했을때_서버에서데이터를받아온다() {
         // given
         var outputValue: String?
         let expectedValue = "Banpobondong"
@@ -120,7 +118,7 @@ class WeatherForecastTests: XCTestCase {
         XCTAssertEqual(outputValue, expectedValue)
     }
     
-    func test_잘못된Request를하면_실제네트워크통신을했을때_네트워크에러가발생한다() {
+    func test_실제네트워크통신에서_잘못된request를했을때_에러가발생한다() {
         // given
         var outputValue: NetworkError?
         let expectedValue = NetworkError.failedStatusCode
