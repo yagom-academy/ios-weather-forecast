@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>위치정보가 필요합니다</string>
+	<string>날씨정보를 얻기 위해선 위치정보가 필요합니다🌤</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>위치정보가 필요합니다</string>
+	<string>날씨정보를 얻기 위해선 위치정보가 필요합니다🌤</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
