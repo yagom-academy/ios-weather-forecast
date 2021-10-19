@@ -9,15 +9,14 @@ import UIKit
 class MainWeatherViewController: UIViewController {
     
     var currentWeatherViewModel = CurrentWeatherViewModel()
-    var fiveDayWeatherViewModel = FiveDayWeatherViewModel()
+    var fiveDayListViewModel = FiveDayWeatherListViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        currentWeatherViewModel.reload()
         initBackgroundView()
         
-        currentWeatherViewModel.reload()
-        fiveDayWeatherViewModel.reload()
     }
     
     func initBackgroundView() {
