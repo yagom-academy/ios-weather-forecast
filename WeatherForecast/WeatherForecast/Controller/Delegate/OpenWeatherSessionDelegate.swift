@@ -34,7 +34,7 @@ final class OpenWeatherSessionDelegate: NSObject, URLSessionDataDelegate {
     }
 }
 
-class WeatherDataHolder {
+final class WeatherDataHolder {
     static let shared = WeatherDataHolder()
     
     var forcast: FiveDaysForecastData?
@@ -43,32 +43,32 @@ class WeatherDataHolder {
     private init() { }
     
     func generate(_ path: String, _ data: Data) {
+        guard let path = PathOptions.Paths(rawValue: path) else {
+            return
+        }
         
         switch path {
-        case PathOptions.Paths.forecast.rawValue:
+        case .forecast :
             do {
                 let decodedData = try  Parser().decode(data, to: FiveDaysForecastData.self)
                 self.forcast = decodedData
-                
                 NotificationCenter.default.post(name: .reloadTableView, object: nil)
+
             } catch {
                 print(error)
             }
-        case "weather":
+        case .current :
             do {
                 let decodedData = try Parser().decode(data, to: CurrentWeather.self)
                 self.current = decodedData
-                
             } catch {
                 print(error)
             }
             
         default:
-            print("\(#function) 에서 default로 처리됨")
+            break
         }
         
-        defer {
-            NotificationCenter.default.post(name: .stopRefresh, object: nil)
-        }
+        NotificationCenter.default.post(name: .stopRefresh, object: nil)
     }
 }

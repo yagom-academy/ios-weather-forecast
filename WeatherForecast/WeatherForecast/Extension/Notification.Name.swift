@@ -11,5 +11,7 @@ extension Notification.Name {
     static let reloadTableView = Notification.Name("reload TableView")
     static let stopRefresh = Notification.Name("stopRefresh")
     static let requestLocationAgain = Notification.Name("reloadView")
-    static let showAlert = Notification.Name("showAlert")
+    static let showValidLocationAlert = Notification.Name("showAlert")
+    static let cleanTalbeView = Notification.Name("deleteTableViewCell")
+    static let inValidLocationNotify = Notification.Name("inValidLocationNotify")
 }

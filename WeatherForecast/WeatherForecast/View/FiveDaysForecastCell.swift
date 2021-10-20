@@ -76,7 +76,7 @@ class FiveDaysForecastCell: UITableViewCell {
         return temLabel
     }()
     
-    private let weatherIconImageView = UIImageView()
+    private var weatherIconImageView = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -125,5 +125,11 @@ extension FiveDaysForecastCell {
                                               leading: nil,
                                               trailing: self.contentView.trailingAnchor,
                                               trailingConstant: -20)
+    }
+    
+    override func prepareForReuse() {
+        self.dateLabel.text = "--"
+        self.temperatureLabel.text = "--"
+        self.weatherIconImageView.image = nil
     }
 }

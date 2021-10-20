@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import CoreLocation.CLLocationManager
 
-class LocationViewController: UIViewController {
+final class LocationViewController: UIViewController {
 
     private let locationManager = LocationManager()
     private let locationManagerDelegate = LocationManagerDelegate()
@@ -26,5 +27,9 @@ class LocationViewController: UIViewController {
     
     @objc func requestLocationAgain() {
         self.locationManager.requestLocation()
+    }
+    
+    func getLocation() -> CLLocation? {
+       return locationManager.location
     }
 }

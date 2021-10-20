@@ -10,18 +10,31 @@ import CoreLocation.CLLocationManager
 
 class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     static let identifier = "weatherHeaderView"
-    let buttonvc = ButtonController()
     
-    private let addressLabel = UILabel()
-    private let minMaxTemperature = UILabel()
-    private let currentTemperatureLabel = UILabel()
-    private let iconImageView = UIImageView()
-    private let locationChangeButton: UIButton = {
+    private let button: UIButton = {
         let button = UIButton()
         button.setTitle("위치변경", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
+        button.addTarget(nil, action: #selector(validLocationNotify), for: .touchUpInside)
         return button
     }()
+    
+    @objc private func validLocationNotify() {
+        NotificationCenter.default.post(name: .showValidLocationAlert, object: nil)
+    }
+    @objc private func inValidLocationNotify() {
+        NotificationCenter.default.post(name: .inValidLocationNotify, object: nil)
+    }
+    
+    private let addressLabel: UILabel = {
+        let addressLabel = UILabel()
+        addressLabel.text = "-- ----"
+        return addressLabel
+    }()
+    
+    private let minMaxTemperature = UILabel()
+    private let currentTemperatureLabel = UILabel()
+    private let iconImageView = UIImageView()
 
     private lazy var verticalStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [self.addressLabel, self.minMaxTemperature, self.currentTemperatureLabel])
@@ -33,7 +46,7 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     }()
 
     private lazy var horizontalStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [self.iconImageView, self.verticalStackView, self.buttonvc.view])
+        let stackView = UIStackView(arrangedSubviews: [self.iconImageView, self.verticalStackView, self.button])
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.alignment = .leading
@@ -47,14 +60,22 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
         setVerticalStackView()
         setImageIconView()
         convertToDynamicType()
-        drawButtonView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
     
+    func changeButton() {
+        self.button.setTitle("위치설정", for: .normal)
+        self.button.removeTarget(nil,
+                              action: #selector(validLocationNotify),
+                              for: .touchUpInside)
+        self.button.addTarget(nil,
+                              action: #selector(inValidLocationNotify),
+                              for: .touchUpInside)
+    }
+
     func configureDateAndTemperature() {
         guard let currentWeatherData = WeatherDataHolder.shared.current else {
             print("\(#function)에 들어갈 데이터가 없습니다.")
@@ -69,7 +90,6 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
         let convertedmaxTem = TemperatureConverter(celciusTemperature: maxTem).convertedTemperature
         let convertedminTem = TemperatureConverter(celciusTemperature: minTem).convertedTemperature
         
-        self.addressLabel.text = "-- ----"
         self.minMaxTemperature.text = "최고 \(convertedmaxTem)° 최저 \(convertedminTem)°"
         self.currentTemperatureLabel.text = "\(convertedCurentTem)°"
     }
@@ -100,17 +120,9 @@ extension OpenWeatherHeaderView {
         NSLayoutConstraint.activate([
             iconImageView
                 .widthAnchor
-                .constraint(equalTo: horizontalStackView.widthAnchor,
-                            multiplier: 0.2),
-            iconImageView
-                .heightAnchor
-                .constraint(equalTo: horizontalStackView.heightAnchor),
-            iconImageView
-                .leadingAnchor
-                .constraint(equalTo: horizontalStackView.leadingAnchor),
-            iconImageView
-                .topAnchor
-                .constraint(equalTo: horizontalStackView.topAnchor)
+                .constraint(equalTo: self.contentView.widthAnchor,
+                            multiplier: 0.25),
+            iconImageView.widthAnchor.constraint(equalTo: iconImageView.heightAnchor, multiplier: 1)
         ])
     }
     
@@ -148,9 +160,10 @@ extension OpenWeatherHeaderView {
         label.font = UIFont.preferredFont(forTextStyle: font)
     }
     
-    private func drawButtonView() {
-        let buttonWidth = (self.contentView.frame.size.width / 5) * 4
-        let buttonHeight = buttonWidth / 10
-        buttonvc.view.frame = CGRect(x: 320, y: 50, width: buttonWidth, height: buttonHeight)
+    override func prepareForReuse() {
+        self.addressLabel.text = "--"
+        self.minMaxTemperature.text = "--"
+        self.currentTemperatureLabel.text = "--"
+        self.iconImageView.image = nil
     }
 }

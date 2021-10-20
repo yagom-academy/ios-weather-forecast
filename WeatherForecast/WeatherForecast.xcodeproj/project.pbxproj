@@ -27,7 +27,6 @@
 		A8FB2E1E271E904F009967E2 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB2E1D271E904F009967E2 /* TableViewController.swift */; };
 		A8FB2E20271E93D5009967E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB2E1F271E93D5009967E2 /* ViewController.swift */; };
 		A8FB2E22271E940D009967E2 /* Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB2E21271E940D009967E2 /* Notification.Name.swift */; };
-		A8FB2E24271E9515009967E2 /* ButtonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB2E23271E9515009967E2 /* ButtonController.swift */; };
 		A8FB2E26271EA3BC009967E2 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB2E25271EA3BC009967E2 /* LocationViewController.swift */; };
 		A8FB2E28271ED0B6009967E2 /* LocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB2E27271ED0B6009967E2 /* LocationManagerDelegate.swift */; };
 		C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */; };
@@ -78,7 +77,6 @@
 		A8FB2E1D271E904F009967E2 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		A8FB2E1F271E93D5009967E2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A8FB2E21271E940D009967E2 /* Notification.Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.Name.swift; sourceTree = "<group>"; };
-		A8FB2E23271E9515009967E2 /* ButtonController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonController.swift; sourceTree = "<group>"; };
 		A8FB2E25271EA3BC009967E2 /* LocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		A8FB2E27271ED0B6009967E2 /* LocationManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerDelegate.swift; sourceTree = "<group>"; };
 		C79C8CF025ADDDF200EEE3F1 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -228,7 +226,6 @@
 				C79C8CF725ADDDF200EEE3F1 /* MainViewController.swift */,
 				A8FB2E25271EA3BC009967E2 /* LocationViewController.swift */,
 				A8FB2E1D271E904F009967E2 /* TableViewController.swift */,
-				A8FB2E23271E9515009967E2 /* ButtonController.swift */,
 				435D6425270C151F008BE703 /* LocationManager.swift */,
 				A8FB2E27271ED0B6009967E2 /* LocationManagerDelegate.swift */,
 				A8FB2DEC271D9D28009967E2 /* Delegate */,
@@ -440,7 +437,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A8FB2E1C271E836B009967E2 /* UserState.swift in Sources */,
-				A8FB2E24271E9515009967E2 /* ButtonController.swift in Sources */,
 				A8FB2E1E271E904F009967E2 /* TableViewController.swift in Sources */,
 				A84D476027031FBA002C1324 /* EndPoint.swift in Sources */,
 				A818BB292719A339007C4350 /* WeatherTableViewDelegate.swift in Sources */,

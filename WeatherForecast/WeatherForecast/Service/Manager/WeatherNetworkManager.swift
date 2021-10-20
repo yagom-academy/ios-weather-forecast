@@ -18,8 +18,6 @@ enum PathOptions {
         case data = "data"
         case forecast = "forecast"
         case current = "weather"
-        case img = "img"
-        case w = "w"
         case twoPointFive = "2.5"
     }
     

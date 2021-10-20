@@ -5,10 +5,10 @@
 //  Created by Do Yi Lee on 2021/10/19.
 //
 
+import UIKit.UITableViewController
 import CoreLocation.CLLocationManagerDelegate
 
-class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
-
+final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
         guard let latitude = locations.last?.coordinate.latitude,
@@ -45,10 +45,8 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
         if #available(iOS 14.0, *) {
             switch manager.authorizationStatus {
             case .restricted, .denied:
-                toggleUserState(manager, .disable)
                 break
             case .authorizedWhenInUse, .authorizedAlways, .notDetermined:
-                toggleUserState(manager, .able)
                 manager.requestLocation()
                 break
             @unknown default: break
@@ -61,8 +59,5 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
             print("매니저가 locaionManager가 아니래유")
             return
         }
-       
-        locationManager.userState = state
     }
 }
-

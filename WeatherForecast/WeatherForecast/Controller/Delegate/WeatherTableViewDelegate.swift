@@ -8,7 +8,7 @@
 import UIKit
 import CoreLocation.CLLocationManager
 
-class WeatherTableViewDelegate: NSObject, UITableViewDelegate {
+final class WeatherTableViewDelegate: NSObject, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: OpenWeatherHeaderView.identifier) as? OpenWeatherHeaderView else {
             return UIView()
@@ -40,6 +40,7 @@ extension WeatherTableViewDelegate {
             guard let addresses = placeMarks,
                   let city = addresses.last?.locality,
                   let subCity = addresses.last?.subLocality else {
+                NotificationCenter.default.post(name: .cleanTalbeView, object: nil)
                 return
             }
             let spacing = " "
@@ -58,5 +59,16 @@ extension WeatherTableViewDelegate {
                 view.configureIconImage(requestedIcon)
             }
         }
+    }
+}
+
+final class EmptyDelegate: NSObject, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: OpenWeatherHeaderView.identifier) as? OpenWeatherHeaderView else {
+            return UIView()
+        }
+        
+        view.changeButton()
+        return view
     }
 }

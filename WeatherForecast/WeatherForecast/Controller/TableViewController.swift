@@ -7,10 +7,13 @@
 
 import UIKit.UITableViewController
 
-class TableViewController: UIViewController {
-    private let tableView = UITableView()
+final class TableViewController: UIViewController {
+    private let tableView = UITableView(frame: .zero, style: .grouped)
     private let tableViewDataSource = WeatherTableviewDataSource()
     private let tableViewDelegate = WeatherTableViewDelegate()
+    private let emptyDataSource = EmptyDataSource()
+    private let emptyDelegate = EmptyDelegate()
+    
     private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
@@ -19,28 +22,30 @@ class TableViewController: UIViewController {
         setRefreshControl()
         self.tableView.dataSource = self.tableViewDataSource
         self.tableView.delegate = tableViewDelegate
-        addButtonController()
         
         //MARK: Notified after OpenWeatherAPI response delivered successfully
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(reloadTableView),
                                                name: .reloadTableView,
                                                object: nil)
-        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(stopRefesh),
                                                name: .stopRefresh,
                                                object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(cleanTableView),
+                                               name: .cleanTalbeView ,
+                                               object: nil)
+    }
+
+    @objc private func cleanTableView() {
+        self.tableView.dataSource = emptyDataSource
+        self.tableView.delegate = emptyDelegate
+        self.tableView.reloadData()
     }
 }
 
 extension TableViewController {
-    private func addButtonController() {
-        if let headerView = tableView.tableHeaderView as? OpenWeatherHeaderView {
-            self.add(headerView.buttonvc)
-        }
-    }
-    
     private func drawTableView() {
         self.view.addSubview(tableView)
         self.tableView.frame = self.view.bounds
@@ -48,10 +53,10 @@ extension TableViewController {
                                 forCellReuseIdentifier: "weatherCell")
         self.tableView.register(OpenWeatherHeaderView.self,
                                 forHeaderFooterViewReuseIdentifier: "weatherHeaderView")
-        let iconSize = 50
+        let iconSize: CGFloat = 50
         self.tableView.rowHeight = CGFloat(iconSize)
         
-        let headerViewSize: CGFloat = 140
+        let headerViewSize: CGFloat = 120
         self.tableView.sectionHeaderHeight = headerViewSize
     }
     
@@ -81,6 +86,8 @@ extension TableViewController {
     
     @objc private func reloadTableView() {
         DispatchQueue.main.async { [self] in
+            self.tableView.dataSource = self.tableViewDataSource
+            self.tableView.delegate = self.tableViewDelegate
             self.tableView.reloadData()
         }
     }

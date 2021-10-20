@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WeatherTableviewDataSource: NSObject, UITableViewDataSource {
+final class WeatherTableviewDataSource: NSObject, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return WeatherDataHolder.shared.forcast?.list.count ?? .zero
     }
@@ -35,4 +35,15 @@ class WeatherTableviewDataSource: NSObject, UITableViewDataSource {
 
         return cell
     }    
+}
+
+final class EmptyDataSource: NSObject, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        20
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: FiveDaysForecastCell.identifier, for: indexPath)
+        return cell
+    }
 }
