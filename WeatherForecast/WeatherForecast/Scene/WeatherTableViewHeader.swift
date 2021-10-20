@@ -73,7 +73,7 @@ class WeatherTableHeaderView: UITableViewHeaderFooterView {
 
 // MARK: - View Configuration
 extension WeatherTableHeaderView: ViewConfiguration {
-    func buildHerarchy() {
+    func buildHierarchy() {
         contentView.addSubViews(containerStackView)
         containerStackView.addArrangedSubviews(iconImageView,
                                                currentWeatherStackView)

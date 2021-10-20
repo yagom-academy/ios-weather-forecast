@@ -43,7 +43,7 @@ class WeatherTableViewCell: UITableViewCell {
 }
 
 extension WeatherTableViewCell: ViewConfiguration {
-    func buildHerarchy() {
+    func buildHierarchy() {
         contentView.addSubViews(iconImageView, dateLabel, temperatureLabel)
     }
     

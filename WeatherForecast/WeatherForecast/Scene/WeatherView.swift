@@ -27,7 +27,7 @@ class WeatherView: UIView {
 }
 
 extension WeatherView: ViewConfiguration {
-    func buildHerarchy() {
+    func buildHierarchy() {
         self.addSubViews(forecastTableView)
     }
     

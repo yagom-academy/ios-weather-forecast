@@ -37,8 +37,9 @@ class WeatherViewController: UIViewController {
     }
 }
 
+// MARK: View Configuration
 extension WeatherViewController: ViewConfiguration {
-    func buildHerarchy() {
+    func buildHierarchy() {
         view.addSubViews(weatherView)
     }
     
@@ -70,6 +71,7 @@ extension WeatherViewController {
         )
     }
 }
+
 // MARK: - TableViewDataSource, TableViewDelegate
 extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -105,6 +107,7 @@ extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: - CLLocationManagerDelegate
 extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager,
                          didChangeAuthorization status: CLAuthorizationStatus) {
@@ -162,12 +165,12 @@ extension WeatherViewController: CLLocationManagerDelegate {
             self.weatherView.forecastTableView.reloadData()
         }
         NotificationCenter.default.post(name: NSNotification.Name.refreshLocation, object: nil)
-        
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { }
 }
 
+// MARK: - AlertController
 extension WeatherViewController {
     func showAlert(title: String, message: String) {
         DispatchQueue.main.async {
