@@ -22,18 +22,14 @@ class FiveDayWeatherListViewModel {
             fiveDayWeather.intervalWeathers?.forEach({ data in
                 guard let date = data.date?.format(),
                       let temperature = data.mainInformation?.temperature?.franctionDisits(),
-                      let iconName = data.conditions?.first?.iconName,
-                      let url: URL = URL(string: "https://openweathermap.org/img/w/\(iconName).png") else {
+                      let iconName = data.conditions?.first?.iconName else {
                     return
                 }
                 
-                do {
-                    let data = try Data(contentsOf: url)
-                    guard let image = UIImage(data: data) else { return }
+                ImageLoader.shared.obtainImage(cacheKey: iconName, completion: { image in
+                    guard let image = image else { return }
                     self.weathers.append(FiveDayWeatherViewModel(date, temperature, image))
-                } catch {
-                    print(error)
-                }
+                })
             })
             self.reloadTableView?()
         }

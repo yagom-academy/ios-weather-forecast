@@ -28,7 +28,7 @@ class CurrentWeatherViewModel {
         return "최저 \(minTemperature)° 최고 \(maxTemperature)°"
     }
     
-    var weatherImage = UIImage()
+    var weatherImage: UIImage? = UIImage(systemName: "circle")
     let weatherService = WeatherService()
     
     func mapCurrentData() {
@@ -56,17 +56,18 @@ class CurrentWeatherViewModel {
                 self.maxTemperature = maxTemperature.franctionDisits()
             }
             
-            if let iconName = currentWeather.conditions?.first?.iconName,
-               let url: URL = URL(string: "https://openweathermap.org/img/w/\(iconName).png") {
-                do {
-                    let data = try Data(contentsOf: url)
-                    guard let image = UIImage(data: data) else { return }
+            if let iconName = currentWeather.conditions?.first?.iconName {
+                ImageLoader.shared.obtainImage(cacheKey: iconName, completion: { image in
+                    guard let image = image else {
+                        print("Image not found")
+                        return
+                    }
                     self.weatherImage = image
-                } catch {
-                    print(error)
-                }
+                    DispatchQueue.main.async {
+                        self.reloadTableView?()
+                    }
+                })
             }
-            self.reloadTableView?()
         }
     }
 }
