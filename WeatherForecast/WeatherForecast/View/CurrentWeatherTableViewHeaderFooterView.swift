@@ -11,7 +11,7 @@ class CurrentWeatherTableViewHeaderFooterView: UIView {
 
     let weatherImageView: UIImageView = {
         var imageView = UIImageView()
-        imageView.contentMode = UIView.ContentMode.scaleAspectFill
+        imageView.contentMode = UIView.ContentMode.scaleAspectFit
         return imageView
     }()
     let addressLabel: UILabel = {
@@ -61,7 +61,7 @@ class CurrentWeatherTableViewHeaderFooterView: UIView {
     }
     
     func configureLabels(
-        image: UIImage,
+        image: UIImage?,
         address: String,
         minMaxTemperature: String,
         temperature: String
@@ -78,6 +78,7 @@ class CurrentWeatherTableViewHeaderFooterView: UIView {
         self.addSubview(weatherStackView)
         weatherImageView.setContentHuggingPriority(.required, for: .horizontal)
         NSLayoutConstraint.activate([
+            weatherImageView.widthAnchor.constraint(equalToConstant: 60),
             weatherStackView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 16),
             weatherStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
             weatherStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -16)
