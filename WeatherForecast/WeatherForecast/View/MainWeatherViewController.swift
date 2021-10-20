@@ -14,7 +14,7 @@ class MainWeatherViewController: UIViewController {
     let headerView = CurrentWeatherTableViewHeaderFooterView()
     lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
-        control.addTarget(self, action: #selector(initViewModels), for: .valueChanged)
+        control.addTarget(self, action: #selector(updateViewModels), for: .valueChanged)
         return control
     }()
     
@@ -22,7 +22,7 @@ class MainWeatherViewController: UIViewController {
         super.viewDidLoad()
         
         initBackgroundView()
-        initViewModels()
+        updateViewModels()
         setUpTableView()
         initTableHeaderView()
     }
@@ -38,7 +38,7 @@ class MainWeatherViewController: UIViewController {
         view.addSubview(imageView)
     }
     
-    @objc private func initViewModels() {
+    @objc private func updateViewModels() {
         let refreshGroup = DispatchGroup()
         
         currentWeatherViewModel.mapCurrentData()
