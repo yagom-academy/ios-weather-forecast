@@ -35,6 +35,7 @@
 		D4DDB10727030CB9004996CA /* ParsingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DDB10627030CB9004996CA /* ParsingError.swift */; };
 		D4DDB12727046C93004996CA /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DDB12627046C93004996CA /* NetworkError.swift */; };
 		E604DCF627204836000A5210 /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E604DCF527204836000A5210 /* NotificationName+Extension.swift */; };
+		E604DCF827209B80000A5210 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E604DCF727209B80000A5210 /* DateFormatter+Extension.swift */; };
 		E62BBF11270C4533008DB6CB /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62BBF10270C4533008DB6CB /* LocationManager.swift */; };
 		E67F14EC271DBA4E00B43C40 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67F14EB271DBA4E00B43C40 /* UILabel+Extension.swift */; };
 		E69376622705E8AD007E00E3 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69376612705E8AD007E00E3 /* Route.swift */; };
@@ -99,6 +100,7 @@
 		D4DDB10627030CB9004996CA /* ParsingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingError.swift; sourceTree = "<group>"; };
 		D4DDB12627046C93004996CA /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		E604DCF527204836000A5210 /* NotificationName+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extension.swift"; sourceTree = "<group>"; };
+		E604DCF727209B80000A5210 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		E62BBF10270C4533008DB6CB /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		E67F14EB271DBA4E00B43C40 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		E69376612705E8AD007E00E3 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 				D4726BEC2719994F008FAB6C /* UIAlertController+Extension.swift */,
 				E604DCF527204836000A5210 /* NotificationName+Extension.swift */,
 				D4726C592720884F008FAB6C /* String+Extension.swift */,
+				E604DCF727209B80000A5210 /* DateFormatter+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -426,6 +429,7 @@
 				E604DCF627204836000A5210 /* NotificationName+Extension.swift in Sources */,
 				D488668E2705EC870044CEF5 /* WeatherForecastRoute.swift in Sources */,
 				E6AF5F7D2702ED08001C4613 /* CommonWeatherForecast.swift in Sources */,
+				E604DCF827209B80000A5210 /* DateFormatter+Extension.swift in Sources */,
 				D4726C2E271D9A8B008FAB6C /* TemperatureManager.swift in Sources */,
 				D48866A4270608C10044CEF5 /* Networkable.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,

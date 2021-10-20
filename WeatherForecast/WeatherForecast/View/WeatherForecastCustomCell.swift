@@ -60,7 +60,7 @@ final class WeatherForecastCustomCell: UICollectionViewCell {
     func configure(date: Int, temparature: Double) {
         resetContents()
         
-        dateLabel.text = format(date: date)
+        dateLabel.text = DateFormatter.format(date: date)
         temperatureLabel.text = TemperatureManager.convert(kelvinValue: temparature, fractionalCount: 1)
     }
     
@@ -68,14 +68,5 @@ final class WeatherForecastCustomCell: UICollectionViewCell {
         dateLabel.text = nil
         temperatureLabel.text = nil
         weatherImage.image = nil
-    }
-    
-    private func format(date: Int) -> String? {
-        let dateFormatter = DateFormatter()
-        let date = Date(timeIntervalSince1970: TimeInterval(date))
-        dateFormatter.locale = Locale.current
-        dateFormatter.setLocalizedDateFormatFromTemplate(("MM/dd(E) hh"))
-        
-        return dateFormatter.string(from: date)
     }
 }
