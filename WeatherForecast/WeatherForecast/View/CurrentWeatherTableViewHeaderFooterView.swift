@@ -9,26 +9,26 @@ import UIKit
 
 class CurrentWeatherTableViewHeaderFooterView: UIView {
 
-    let weatherImageView: UIImageView = {
+    private let weatherImageView: UIImageView = {
         var imageView = UIImageView()
         imageView.contentMode = UIView.ContentMode.scaleAspectFit
         return imageView
     }()
-    let addressLabel: UILabel = {
+    private let addressLabel: UILabel = {
         var label = UILabel()
         label.textColor = .white
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textAlignment = .left
         return label
     }()
-    let minMaxLabel: UILabel = {
+    private let minMaxLabel: UILabel = {
         var label = UILabel()
         label.textColor = .white
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textAlignment = .left
         return label
     }()
-    let temperatureLabel: UILabel = {
+    private let temperatureLabel: UILabel = {
         var label = UILabel()
         label.textColor = .white
         label.font = UIFont.preferredFont(forTextStyle: .title2)
@@ -36,14 +36,14 @@ class CurrentWeatherTableViewHeaderFooterView: UIView {
         return label
     }()
     
-    lazy var labelStackView: UIStackView = {
+    private lazy var labelStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [addressLabel, minMaxLabel, temperatureLabel])
         stackView.axis = .vertical
         stackView.spacing = 10
         stackView.distribution = .fillEqually
         return stackView
     }()
-    lazy var weatherStackView: UIStackView = {
+    private lazy var weatherStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [weatherImageView, labelStackView])
         stackView.axis = .horizontal
         stackView.spacing = 10

@@ -8,11 +8,11 @@ import UIKit
 
 class MainWeatherViewController: UIViewController {
     
-    var currentWeatherViewModel = CurrentWeatherViewModel()
-    var fiveDayListViewModel = FiveDayWeatherListViewModel()
-    var weatherTableView = UITableView()
-    let headerView = CurrentWeatherTableViewHeaderFooterView()
-    lazy var refreshControl: UIRefreshControl = {
+    private var currentWeatherViewModel = CurrentWeatherViewModel()
+    private var fiveDayListViewModel = FiveDayWeatherListViewModel()
+    private var weatherTableView = UITableView()
+    private let headerView = CurrentWeatherTableViewHeaderFooterView()
+    private lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
         control.addTarget(self, action: #selector(updateViewModels), for: .valueChanged)
         return control
