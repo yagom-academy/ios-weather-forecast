@@ -62,18 +62,18 @@ class WeatherTableHeaderView: UITableViewHeaderFooterView {
         } else {
             self.backgroundColor = .clear
         }
-        setup()
-        setupUI()
+        applyViewSetting()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        applyViewSetting()
     }
 }
 
-// MARK: - Views & AutoLayout
-extension WeatherTableHeaderView {
-    private func setup() {
+// MARK: - View Configuration
+extension WeatherTableHeaderView: ViewConfiguration {
+    func buildHerarchy() {
         contentView.addSubViews(containerStackView)
         containerStackView.addArrangedSubviews(iconImageView,
                                                currentWeatherStackView)
@@ -82,7 +82,7 @@ extension WeatherTableHeaderView {
                                                     currentTemperatureLabel)
     }
     
-    private func setupUI() {
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constraint.inset),
             containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constraint.inset),

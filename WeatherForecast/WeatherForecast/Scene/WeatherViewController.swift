@@ -23,9 +23,41 @@ class WeatherViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view = weatherView
         locationManager.delegate = self
         locationManager.requestLocation()
+        
+        applyViewSetting()
+        configureWeatherTableView()
+        configureRefreshControl()
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didReceiveRefreshFinish),
+                                               name: .refreshLocation,
+                                               object: nil)
+    }
+}
+
+extension WeatherViewController: ViewConfiguration {
+    func buildHerarchy() {
+        view.addSubViews(weatherView)
+    }
+    
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            weatherView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            weatherView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            weatherView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            weatherView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    func configureViews() {
+        view.backgroundColor = .white
+    }
+}
+
+extension WeatherViewController {
+    func configureWeatherTableView() {
         weatherView.forecastTableView.dataSource = self
         weatherView.forecastTableView.delegate = self
         weatherView.forecastTableView.register(
@@ -36,11 +68,8 @@ class WeatherViewController: UIViewController {
             WeatherTableViewCell.self,
             forCellReuseIdentifier: WeatherTableViewCell.reuseIdentifier
         )
-        configureRefreshControl()
-        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveRefreshFinish), name: .refreshLocation, object: nil)
     }
 }
-
 // MARK: - TableViewDataSource, TableViewDelegate
 extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

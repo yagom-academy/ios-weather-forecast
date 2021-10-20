@@ -17,7 +17,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         
         let weatherViewController = WeatherViewController()
-        weatherViewController.view.backgroundColor = .white
         window.rootViewController = weatherViewController
         window.makeKeyAndVisible()
         self.window = window

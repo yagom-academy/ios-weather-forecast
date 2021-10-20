@@ -33,24 +33,21 @@ class WeatherTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .clear
-        setup()
-        setupUI()
+        applyViewSetting()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setup()
-        setupUI()
+        applyViewSetting()
     }
 }
 
-// MARK: View Layout
-extension WeatherTableViewCell {
-    func setup() {
+extension WeatherTableViewCell: ViewConfiguration {
+    func buildHerarchy() {
         contentView.addSubViews(iconImageView, dateLabel, temperatureLabel)
     }
     
-    func setupUI() {
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constraint.inset),
             dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constraint.inset),
