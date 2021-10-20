@@ -7,7 +7,14 @@
 
 import UIKit
 
+protocol LocationSettingDelegate: NSObject {
+    func showAlert()
+}
+
 class WeatherTableHeaderView: UITableViewHeaderFooterView {
+    
+    weak var locationSettingDelegate: LocationSettingDelegate?
+    
     private enum Constraint {
         static let inset: CGFloat = 10
     }
@@ -55,6 +62,15 @@ class WeatherTableHeaderView: UITableViewHeaderFooterView {
         return stackView
     }()
     
+    private let locationSettingButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("위치설정", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
+        button.backgroundColor = .white
+        return button
+    }()
+    
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         if #available(iOS 14.0, *) {
@@ -74,7 +90,7 @@ class WeatherTableHeaderView: UITableViewHeaderFooterView {
 // MARK: - View Configuration
 extension WeatherTableHeaderView: ViewConfiguration {
     func buildHierarchy() {
-        contentView.addSubViews(containerStackView)
+        contentView.addSubViews(containerStackView, locationSettingButton)
         containerStackView.addArrangedSubviews(iconImageView,
                                                currentWeatherStackView)
         currentWeatherStackView.addArrangedSubviews(addressLabel,
@@ -84,14 +100,29 @@ extension WeatherTableHeaderView: ViewConfiguration {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constraint.inset),
-            containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constraint.inset),
+            containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                                    constant: Constraint.inset),
+            containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                       constant: -Constraint.inset),
             containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            containerStackView.trailingAnchor.constraint(equalTo: locationSettingButton.trailingAnchor),
+            
+            locationSettingButton.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                                       constant: Constraint.inset),
+            locationSettingButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                            constant: -Constraint.inset),
             
             iconImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.22),
             iconImageView.heightAnchor.constraint(equalTo: iconImageView.widthAnchor)
         ])
+    }
+        
+    func configureViews() {
+        locationSettingButton.addTarget(self, action: #selector(didTapLocationSettingButton), for: .touchUpInside)
+    }
+    
+    @objc func didTapLocationSettingButton() {
+        locationSettingDelegate?.showAlert()
     }
 }
 

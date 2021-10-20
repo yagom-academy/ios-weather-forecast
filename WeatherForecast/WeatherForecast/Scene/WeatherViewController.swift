@@ -69,6 +69,14 @@ extension WeatherViewController {
             WeatherTableViewCell.self,
             forCellReuseIdentifier: WeatherTableViewCell.reuseIdentifier
         )
+        
+    }
+}
+
+// MARK: - LocationSettingDelegate
+extension WeatherViewController: LocationSettingDelegate {
+    func showAlert() {
+        showAlert(title: "Test", message: "메시지입니다.")
     }
 }
 
@@ -80,6 +88,7 @@ extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
         ) as? WeatherTableHeaderView
         else { fatalError() }
         
+        header.locationSettingDelegate = self
         currentWeather.flatMap { header.configure(with: $0) }
         
         return header
@@ -170,26 +179,6 @@ extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { }
 }
 
-// MARK: - AlertController
-extension WeatherViewController {
-    func showAlert(title: String, message: String) {
-        DispatchQueue.main.async {
-            let alert = UIAlertController(
-                title: title,
-                message: message,
-                preferredStyle: .alert)
-            
-            let okAction = UIAlertAction(
-                title: "OK",
-                style: .default,
-                handler: nil)
-            alert.addAction(okAction)
-            
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-}
-
 // MARK: - Refresh Control
 extension WeatherViewController {
     func configureRefreshControl() {
@@ -210,6 +199,26 @@ extension WeatherViewController {
     @objc func didReceiveRefreshFinish() {
         DispatchQueue.main.async {
             self.weatherView.forecastTableView.refreshControl?.endRefreshing()
+        }
+    }
+}
+
+// MARK: - AlertController
+extension WeatherViewController {
+    func showAlert(title: String, message: String) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(
+                title: title,
+                message: message,
+                preferredStyle: .alert)
+            
+            let okAction = UIAlertAction(
+                title: "OK",
+                style: .default,
+                handler: nil)
+            alert.addAction(okAction)
+            
+            self.present(alert, animated: true, completion: nil)
         }
     }
 }
