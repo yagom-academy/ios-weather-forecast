@@ -8,7 +8,8 @@
 import UIKit
 
 class FiveDaysWeatherCell: UICollectionViewCell {
-    let imageManager = ImageManager()
+    private let imageManager = ImageManager()
+    private var imageDataTask: URLSessionTask?
     static let identifier = String(describing: FiveDaysWeatherCell.self)
     
     private let dateLabel: UILabel = {
@@ -83,6 +84,7 @@ class FiveDaysWeatherCell: UICollectionViewCell {
         super.prepareForReuse()
         
         weatherImage.image = nil
+        imageDataTask?.cancel()
         dateLabel.text = nil
         temperatureLabel.text = nil
     }
@@ -104,7 +106,7 @@ class FiveDaysWeatherCell: UICollectionViewCell {
         
         private func imageConfigure(list: List?) {
             guard let icon = list?.weather?.first?.icon else { return }
-            imageManager.fetchImage(url: ImageURL.weather(icon).path) { result in
+            imageDataTask = imageManager.fetchImage(url: ImageURL.weather(icon).path) { result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let image):
