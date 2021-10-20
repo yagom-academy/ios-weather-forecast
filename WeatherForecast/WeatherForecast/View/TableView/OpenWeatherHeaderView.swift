@@ -13,17 +13,26 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     
     private let button: UIButton = {
         let button = UIButton()
-        button.setTitle("위치변경", for: .normal)
+        button.setTitle("위치설정", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
-        button.addTarget(nil, action: #selector(validLocationNotify), for: .touchUpInside)
+        button.addTarget(nil,
+                         action: #selector(notifyValidLocationAlert),
+                         for: .touchUpInside)
         return button
     }()
     
-    @objc private func validLocationNotify() {
-        NotificationCenter.default.post(name: .showValidLocationAlert, object: nil)
+    @objc private func notifyValidLocationAlert() {
+        NotificationCenter
+            .default
+            .post(name: .showValidLocationAlert,
+                  object: nil)
     }
-    @objc private func inValidLocationNotify() {
-        NotificationCenter.default.post(name: .inValidLocationNotify, object: nil)
+    
+    @objc private func notifyInvalidLocationAlert() {
+        NotificationCenter
+            .default
+            .post(name: .showInValidLocationAlert,
+                  object: nil)
     }
     
     private let addressLabel: UILabel = {
@@ -67,12 +76,12 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     }
     
     func changeButton() {
-        self.button.setTitle("위치설정", for: .normal)
-        self.button.removeTarget(nil,
-                              action: #selector(validLocationNotify),
+        self.button.setTitle("위치변경", for: .normal)
+        self.button.removeTarget(self,
+                              action: #selector(notifyValidLocationAlert),
                               for: .touchUpInside)
         self.button.addTarget(nil,
-                              action: #selector(inValidLocationNotify),
+                              action: #selector(notifyInvalidLocationAlert),
                               for: .touchUpInside)
     }
 

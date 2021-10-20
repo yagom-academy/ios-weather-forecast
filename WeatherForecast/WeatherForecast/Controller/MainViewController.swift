@@ -21,20 +21,20 @@ final class MainViewController: UIViewController {
         NotificationCenter
             .default
             .addObserver(self,
-                         selector: #selector(showLocationChangeAlert),
+                         selector: #selector(showValidLocationAlert),
                          name: .showValidLocationAlert,
                          object: nil)
         
         NotificationCenter
             .default
             .addObserver(self,
-                         selector: #selector(inValidLocationNotify),
-                         name: .inValidLocationNotify,
+                         selector: #selector(showInValidLocation),
+                         name: .showInValidLocationAlert,
                          object: nil)
     }
     
-    @objc private func inValidLocationNotify() {
-        self.present(userLocationDeniedAlert, animated: true)
+    @objc private func showInValidLocation() {
+        self.present(inValidLocationAlert, animated: true)
     }
     
     private func addViewControllers() {
@@ -44,13 +44,17 @@ final class MainViewController: UIViewController {
         tableViewController.view.frame = self.view.bounds
     }
     
-    @objc func showLocationChangeAlert() {
-        self.present(changeLocationAlert, animated: true)
+    @objc func showValidLocationAlert() {
+        self.present(validLocationAlert, animated: true)
     }
     
-    private lazy var changeLocationAlert: UIAlertController = {
-        let alert = UIAlertController(title: "위치설정", message: "변경할 좌표를 선택해주세요", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "변경", style: .default) { _ in
+    private lazy var validLocationAlert: UIAlertController = {
+        let alert = UIAlertController(title: "위치설정",
+                                      message: "변경할 좌표를 선택해주세요",
+                                      preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "변경",
+                                      style: .default) { _ in
             switch self.convertToValidLocation(alert.textFields) {
             case .failure(let error):
                 NotificationCenter
@@ -64,13 +68,15 @@ final class MainViewController: UIViewController {
                 let sessionDelegate = OpenWeatherSessionDelegate()
                 let networkManager = WeatherNetworkManager()
                 
-                networkManager.fetchOpenWeatherData(latitudeAndLongitude: location,
-                                                    requestPurpose: .currentWeather,
-                                                    sessionDelegate.session)
+                networkManager
+                    .fetchOpenWeatherData(latitudeAndLongitude: location,
+                                          requestPurpose: .currentWeather,
+                                          sessionDelegate.session)
                 
-                networkManager.fetchOpenWeatherData(latitudeAndLongitude: location,
-                                                    requestPurpose: .forecast,
-                                                    sessionDelegate.session)
+                networkManager
+                    .fetchOpenWeatherData(latitudeAndLongitude: location,
+                                          requestPurpose: .forecast,
+                                          sessionDelegate.session)
             }
         })
         
@@ -87,6 +93,7 @@ final class MainViewController: UIViewController {
 
             field.placeholder = "위도"
         }
+        
         alert.addTextField { field in
             let longitude = self.locationViewController.getLocation()?.coordinate.longitude
             field.text = String(describing: longitude ?? CLLocationDegrees())
@@ -95,13 +102,14 @@ final class MainViewController: UIViewController {
         return alert
     }()
     
-    private lazy var userLocationDeniedAlert: UIAlertController = {
+    private lazy var inValidLocationAlert: UIAlertController = {
         let alert = UIAlertController(title: "위치변경",
                                       message: "날씨를 받아올 위치의 위도와 경도를 입력해주세요",
                                       preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
-        alert.addAction(UIAlertAction(title: "변경", style: .default) { _ in
+        alert.addAction(UIAlertAction(title: "변경",
+                                      style: .default) { _ in
             switch self.convertToValidLocation(alert.textFields) {
             case .failure(let error):
                 NotificationCenter
@@ -115,27 +123,30 @@ final class MainViewController: UIViewController {
                 let sessionDelegate = OpenWeatherSessionDelegate()
                 let networkManager = WeatherNetworkManager()
                 
-                networkManager.fetchOpenWeatherData(latitudeAndLongitude: location,
-                                                    requestPurpose: .currentWeather,
-                                                    sessionDelegate.session)
+                networkManager
+                    .fetchOpenWeatherData(latitudeAndLongitude: location,
+                                          requestPurpose: .currentWeather,
+                                          sessionDelegate.session)
                 
-                networkManager.fetchOpenWeatherData(latitudeAndLongitude: location,
-                                                    requestPurpose: .forecast,
-                                                    sessionDelegate.session)
+                networkManager
+                    .fetchOpenWeatherData(latitudeAndLongitude: location,
+                                          requestPurpose: .forecast,
+                                          sessionDelegate.session)
             }
         })
         
         alert.addTextField { [self] field in
             let latitude = self.locationViewController.getLocation()?.coordinate.latitude
             field.text = String(describing: latitude ?? CLLocationDegrees())
-
             field.placeholder = "위도"
         }
+        
         alert.addTextField { field in
             let longitude = self.locationViewController.getLocation()?.coordinate.longitude
             field.text = String(describing: longitude ?? CLLocationDegrees())
             field.placeholder = "경도"
         }
+        
         return alert
     }()
 }

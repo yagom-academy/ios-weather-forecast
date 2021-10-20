@@ -23,19 +23,24 @@ final class TableViewController: UIViewController {
         self.tableView.dataSource = self.tableViewDataSource
         self.tableView.delegate = tableViewDelegate
         
-        //MARK: Notified after OpenWeatherAPI response delivered successfully
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(reloadTableView),
-                                               name: .reloadTableView,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(stopRefesh),
-                                               name: .stopRefresh,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(cleanTableView),
-                                               name: .cleanTalbeView ,
-                                               object: nil)
+        NotificationCenter
+            .default
+            .addObserver(self,
+                         selector: #selector(reloadTableView),
+                         name: .reloadTableView,
+                         object: nil)
+        NotificationCenter
+            .default
+            .addObserver(self,
+                         selector: #selector(stopRefesh),
+                         name: .stopRefresh,
+                         object: nil)
+        NotificationCenter
+            .default
+            .addObserver(self,
+                         selector: #selector(cleanTableView),
+                         name: .cleanTalbeView,
+                         object: nil)
     }
 
     @objc private func cleanTableView() {
@@ -81,7 +86,10 @@ extension TableViewController {
     }
     
     @objc private func requestLocationAgain() {
-        NotificationCenter.default.post(name: .requestLocationAgain, object: nil)
+        NotificationCenter
+            .default
+            .post(name: .requestLocationAgain,
+                  object: nil)
     }
     
     @objc private func reloadTableView() {
