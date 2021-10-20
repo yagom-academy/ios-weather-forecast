@@ -18,9 +18,19 @@ class WeatherViewController: UIViewController {
     private let locationManager = LocationManager()
     private let geocoderManager = GeocoderManager()
     private let apiManager = APIManager()
+    
+    var timerForUpdating: Timer?
     private var coordinate = CLLocationCoordinate2D() {
         didSet {
-            fetchWeatherData(on: coordinate)
+            if timerForUpdating != nil {
+                timerForUpdating?.invalidate()
+                timerForUpdating = nil
+            }
+            timerForUpdating = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { [weak self] timer in
+                guard let this = self else { return }
+                guard timer.isValid else { return }
+                this.fetchWeatherData(on: this.coordinate)
+            }
         }
     }
     
