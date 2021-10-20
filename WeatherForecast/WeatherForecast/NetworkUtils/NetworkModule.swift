@@ -7,12 +7,13 @@
 
 import Foundation
 
-struct NetworkModule: Networkable {
+class NetworkModule: Networkable {
     private let rangeOfSuccessState = 200...299
     private var dataTask: [URLSessionDataTask] = []
     
-    mutating func runDataTask(request: URLRequest,
-                              completionHandler: @escaping (Result<Data, Error>) -> Void) {
+    func runDataTask(request: URLRequest,
+                     completionHandler: @escaping (Result<Data, Error>) -> Void) {
+        
         dataTask.enumerated().forEach { (index, task) in
             if let originalRequest = task.originalRequest,
                originalRequest == request {
@@ -22,7 +23,7 @@ struct NetworkModule: Networkable {
         }
         
         let task = URLSession.shared.dataTask(with: request) { [self] (data, response, error) in
-            if let error = error {
+            if let error = error, error.localizedDescription != "cancelled" {
                 DispatchQueue.main.async {
                     completionHandler(.failure(error))
                 }
@@ -44,10 +45,19 @@ struct NetworkModule: Networkable {
                 return
             }
             
+            dataTask.enumerated().forEach { (index, task) in
+                if let originalRequest = task.originalRequest,
+                   originalRequest == request {
+                    dataTask.remove(at: index)
+                }
+            }
+            
             DispatchQueue.main.async {
                 completionHandler(.success(data))
             }
+            
         }
+        
         task.resume()
         dataTask.append(task)
     }
