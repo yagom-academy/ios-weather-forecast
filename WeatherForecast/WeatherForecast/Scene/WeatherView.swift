@@ -8,31 +8,35 @@
 import UIKit
 
 class WeatherView: UIView {
-    var forecastTableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.backgroundColor = .clear
-        tableView.backgroundView = UIImageView(image: UIImage(named: "mar"))
-        
-        return tableView
-    }()
+    private enum PlaceImage {
+        static let backgroundImage = "backgroundImage"
+    }
+    
+    lazy var forecastTableView = UITableView(frame: .zero,
+                                             style: .grouped)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
-        setupUI()
+        applyViewSetting()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setup()
-        setupUI()
+        applyViewSetting()
     }
-    
-    func setup() {
+}
+
+extension WeatherView: ViewConfiguration {
+    func buildHerarchy() {
         self.addSubViews(forecastTableView)
     }
     
-    func setupUI() {
+    func configureViews() {
+        forecastTableView.backgroundColor = .clear
+        forecastTableView.backgroundView = UIImageView(image: UIImage(named: PlaceImage.backgroundImage))
+    }
+    
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             forecastTableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             forecastTableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
