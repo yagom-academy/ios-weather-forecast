@@ -1,5 +1,5 @@
 //
-//  MainViewTableViewCell.swift
+//  MainTableViewCell.swift
 //  WeatherForecast
 //
 //  Created by kjs on 2021/10/15.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-class MainViewTableViewCell: UITableViewCell {
-    static let identifier = "MainViewTableViewCell"
+class MainTableViewCell: UITableViewCell {
+    static let identifier = "MainTableViewCell"
     
     let timeLabel = UILabel()
     let temperatureLabel = UILabel()

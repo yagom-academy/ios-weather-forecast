@@ -1,5 +1,5 @@
 //
-//  MainViewTableViewHeaderView.swift
+//  MainTableViewHeaderView.swift
 //  WeatherForecast
 //
 //  Created by kjs on 2021/10/15.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-class MainViewTableViewHeaderView: UITableViewHeaderFooterView {
-    static let identifier = "MainViewTableViewHeaderView"
+class MainTableViewHeaderView: UITableViewHeaderFooterView {
+    static let identifier = "MainTableViewHeaderView"
 
     let iconView = UIImageView()
     let addressLabel = UILabel()
@@ -23,7 +23,7 @@ class MainViewTableViewHeaderView: UITableViewHeaderFooterView {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("Error: MainViewTableViewHeaderView is created on wrong way, Do not use interface builder")
+        fatalError("Error: MainTableViewHeaderView is created on wrong way, Do not use interface builder")
     }
 
     private func layoutContents() {

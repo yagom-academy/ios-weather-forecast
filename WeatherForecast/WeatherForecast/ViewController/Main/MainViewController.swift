@@ -29,12 +29,12 @@ final class MainViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(
-            MainViewTableViewHeaderView.self,
-            forHeaderFooterViewReuseIdentifier: MainViewTableViewHeaderView.identifier
+            MainTableViewHeaderView.self,
+            forHeaderFooterViewReuseIdentifier: MainTableViewHeaderView.identifier
         )
         tableView.register(
-            MainViewTableViewCell.self,
-            forCellReuseIdentifier: MainViewTableViewCell.identifier
+            MainTableViewCell.self,
+            forCellReuseIdentifier: MainTableViewCell.identifier
         )
         layoutTableView()
     }
@@ -65,8 +65,8 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: MainViewTableViewCell.identifier
-        ) as? MainViewTableViewCell else {
+            withIdentifier: MainTableViewCell.identifier
+        ) as? MainTableViewCell else {
             return UITableViewCell()
         }
         // TODO: cell configure
@@ -78,8 +78,8 @@ extension MainViewController: UITableViewDataSource {
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let header = tableView.dequeueReusableHeaderFooterView(
-            withIdentifier: MainViewTableViewHeaderView.identifier
-        ) as? MainViewTableViewHeaderView else {
+            withIdentifier: MainTableViewHeaderView.identifier
+        ) as? MainTableViewHeaderView else {
             return UIView()
         }
         
@@ -150,7 +150,7 @@ extension MainViewController {
                         let image = UIImage(data: data)
                         DispatchQueue.main.async {
                             let indexPath = IndexPath(row: rowIndex, section: .zero)
-                            guard let cell = self.tableView.cellForRow(at: indexPath) as? MainViewTableViewCell else {
+                            guard let cell = self.tableView.cellForRow(at: indexPath) as? MainTableViewCell else {
                                 return
                             }
 
