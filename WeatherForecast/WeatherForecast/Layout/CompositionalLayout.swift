@@ -7,58 +7,62 @@
 
 import UIKit
 
-enum ScrollDirection {
-    case horizontal
-    case vertical
-}
-
 struct CompositionalLayout {
     func create(
-        portraitHorizontalNumber: Int,
-        landscapeHorizontalNumber: Int,
-        cellVerticalSize: NSCollectionLayoutDimension,
-        headerVerticalSize: NSCollectionLayoutDimension,
-        scrollDirection: ScrollDirection,
-        cellMargin: NSDirectionalEdgeInsets?,
-        viewMargin: NSDirectionalEdgeInsets?) -> UICollectionViewLayout {
-        var horizontalNumber: Int {
-            UIDevice.current.orientation.isLandscape ? landscapeHorizontalNumber : portraitHorizontalNumber
-        }
-        
-        let layout =
+        contents: CompositionalLayoutProtocol) -> UICollectionViewLayout {
+            var horizontalNumber: Int {
+                UIDevice.current.orientation.isLandscape ?
+                contents.landscapeHorizontalNumber.value :
+                contents.portraitHorizontalNumber.value
+            }
+            
+            let layout =
             UICollectionViewCompositionalLayout { (_, _) -> NSCollectionLayoutSection? in
-                let itemSize = NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .fractionalHeight(1.0))
-                let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                item.contentInsets = cellMargin
-                    ?? NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: cellVerticalSize)
-                let group = NSCollectionLayoutGroup.horizontal(
-                    layoutSize: groupSize, subitem: item, count: horizontalNumber)
-                let section = NSCollectionLayoutSection(group: group)
-                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                        heightDimension: headerVerticalSize)
-                let header = NSCollectionLayoutBoundarySupplementaryItem(
-                    layoutSize: headerSize,
-                    elementKind: UICollectionView.elementKindSectionHeader,
-                    alignment: .top)
+                let section = NSCollectionLayoutSection(
+                    group: decidedGroup(contents: contents, horizontalNumber: horizontalNumber))
+                section.boundarySupplementaryItems = [decidedHeader(contents: contents)]
                 
-                section.boundarySupplementaryItems = [header]
-                if scrollDirection == .horizontal {
+                if contents.scrollDirection == .horizontal {
                     section.orthogonalScrollingBehavior = .continuous
                 }
                 
-                section.contentInsets = viewMargin
-                    ?? NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+                section.contentInsets = contents.viewMargin?.value
+                ?? NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
                 return section
             }
-        return layout
+            return layout
+        }
+    
+    private func decidedItem(contents: CompositionalLayoutProtocol) -> NSCollectionLayoutItem {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = contents.cellMargin?.value
+        ?? NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        return item
     }
     
-    func margin(top: CGFloat, leading: CGFloat,
-                bottom: CGFloat, trailing: CGFloat) -> NSDirectionalEdgeInsets {
-        return NSDirectionalEdgeInsets(
-            top: top, leading: leading, bottom: bottom, trailing: trailing)
+    private func decidedGroup(contents: CompositionalLayoutProtocol,
+                              horizontalNumber: Int) -> NSCollectionLayoutGroup {
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: contents.cellVerticalSize.value)
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitem: decidedItem(contents: contents), count: horizontalNumber)
+        return group
+    }
+    
+    private func decidedHeader(contents: CompositionalLayoutProtocol) ->
+    NSCollectionLayoutBoundarySupplementaryItem {
+        let headerSize =
+        NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                               heightDimension: contents.headerVerticalSize.value)
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top)
+        return header
     }
 }

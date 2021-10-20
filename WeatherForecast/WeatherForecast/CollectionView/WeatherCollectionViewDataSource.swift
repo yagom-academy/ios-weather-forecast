@@ -49,15 +49,7 @@ extension WeatherCollectionViewDataSource: UICollectionViewDataSource {
     }
     
     func decidedLayout(_ collectionView: UICollectionView) {
-        let ViewMargin =
-        compositionalLayout.margin(top: 0, leading: 5, bottom: 0, trailing: 0)
         collectionView.collectionViewLayout =
-        compositionalLayout.create(portraitHorizontalNumber: 1,
-                                   landscapeHorizontalNumber: 1,
-                                   cellVerticalSize: .fractionalHeight(1/14),
-                                   headerVerticalSize: .fractionalHeight(2/14),
-                                   scrollDirection: .vertical,
-                                   cellMargin: nil,
-                                   viewMargin: ViewMargin)
+        compositionalLayout.create(contents: WeatherImpormationLayout())
     }
 }
