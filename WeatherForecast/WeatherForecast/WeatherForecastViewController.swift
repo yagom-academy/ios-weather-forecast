@@ -31,10 +31,13 @@ final class WeatherForecastViewController: UIViewController {
         setupCollectionView()
         initData()
         configureRefreshControl()
-        NotificationCenter.default.addObserver(self, selector: #selector(updateLocation), name: .changeLocationNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateLocation),
+                                               name: .changeLocationNotification, object: nil)
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransition(to size: CGSize,
+                                     with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
         view.subviews[0].frame.size = CGSize(width: size.width, height: size.height)
@@ -82,7 +85,8 @@ final class WeatherForecastViewController: UIViewController {
     }
     
     @objc private func updateLocation(notification: Notification) {
-        guard let userInfo = notification.userInfo as? [String:Coordinates], let newLocation = userInfo["newLocation"] else {
+        guard let userInfo = notification.userInfo as? [String:Coordinates],
+              let newLocation = userInfo["newLocation"] else {
             return
         }
         latitude = newLocation.latitude

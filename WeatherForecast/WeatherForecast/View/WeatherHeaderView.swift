@@ -17,9 +17,9 @@ final class WeatherHeaderView: UICollectionReusableView {
         ])
         return adressLabel
     }()
-    private lazy var maxTemperatureLabel = UILabel.makeLabel(font: .callout)
-    private lazy var minTemperatureLabel = UILabel.makeLabel(font: .callout)
-    private lazy var temperatureLabel = UILabel.makeLabel(font: .title1)
+    private var maxTemperatureLabel = UILabel.makeLabel(font: .callout)
+    private var minTemperatureLabel = UILabel.makeLabel(font: .callout)
+    private var temperatureLabel = UILabel.makeLabel(font: .title1)
     private var presentLocationSelector: (()-> Void)?
     private lazy var locationSelectButton: UIButton = {
         let locationSelectButton = UIButton()
@@ -29,7 +29,7 @@ final class WeatherHeaderView: UICollectionReusableView {
         locationSelectButton.addAction(UIAction(handler: { [weak self] _ in
             self?.presentLocationSelector?()
         }), for: .touchUpInside)
-
+        
         addSubview(locationSelectButton)
         locationSelectButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -37,11 +37,11 @@ final class WeatherHeaderView: UICollectionReusableView {
                                                            constant: -5),
             locationSelectButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor)
         ])
-
+        
         return locationSelectButton
     }()
     
-    private lazy var weatherIcon: UIImageView = {
+    private var weatherIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
         imageView.widthAnchor.constraint(lessThanOrEqualToConstant: 60).isActive = true
@@ -109,11 +109,11 @@ final class WeatherHeaderView: UICollectionReusableView {
         }
         if let maxTemperature = currentWeather?.maxTemperature {
             maxTemperatureLabel.text = "Max ".localized() + TemperatureManager.convert(kelvinValue: maxTemperature,
-                                                                              fractionalCount: 1)
+                                                                                       fractionalCount: 1)
         }
         if let minTemperature = currentWeather?.minTemperature {
             minTemperatureLabel.text = "Min ".localized() + TemperatureManager.convert(kelvinValue: minTemperature,
-                                                                           fractionalCount: 1)
+                                                                                       fractionalCount: 1)
         }
         if let temperature = currentWeather?.temperature {
             temperatureLabel.text = TemperatureManager.convert(kelvinValue: temperature, fractionalCount: 1)

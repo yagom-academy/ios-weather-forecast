@@ -9,68 +9,91 @@ import UIKit
 
 extension UIAlertController {
     static func makeValidLocationAlert() -> UIAlertController {
-            
-        let alert = UIAlertController(title: WeatherConstants.changeLocation.text, message: "Please enter the coordinates".localized(), preferredStyle: .alert)
-            
-            alert.addTextField { textfiled in
-                textfiled.keyboardType = .numbersAndPunctuation
-                textfiled.placeholder = WeatherConstants.latitude.text
-            }
-            alert.addTextField { textfiled in
-                textfiled.keyboardType = .numbersAndPunctuation
-                textfiled.placeholder = WeatherConstants.longitude.text
-            }
-            
-        let changeAction = UIAlertAction(title: WeatherConstants.change.text, style: .default) { [weak alert] _ in
-                guard let longitude = alert?.textFields?[1].text, let latitude = alert?.textFields?[0].text else {
-                    return
-                }
-                let newLocation = Coordinates(longitude: Double(longitude), latitude: Double(latitude))
-                NotificationCenter.default.post(name: .changeLocationNotification, object: nil, userInfo: ["newLocation" : newLocation])
-            }
-        let resetToCurrentLocationAction = UIAlertAction(title: "Reset to Current Location".localized(), style: .default) { _ in
-                let newLocation = Coordinates(longitude: nil, latitude: nil)
-                NotificationCenter.default.post(name: .changeLocationNotification, object: nil, userInfo: ["newLocation" : newLocation])
-            }
-        let cancelAction = UIAlertAction(title: WeatherConstants.cancel.text, style: .cancel)
-            
-            let actions = [changeAction, resetToCurrentLocationAction, cancelAction]
-            for action in actions {
-                alert.addAction(action)
-            }
-            
-            return alert
+        
+        let alert = UIAlertController(title: WeatherConstants.changeLocation.text,
+                                      message: "Please enter the coordinates".localized(),
+                                      preferredStyle: .alert)
+        
+        alert.addTextField { textfiled in
+            textfiled.keyboardType = .numbersAndPunctuation
+            textfiled.placeholder = WeatherConstants.latitude.text
         }
+        alert.addTextField { textfiled in
+            textfiled.keyboardType = .numbersAndPunctuation
+            textfiled.placeholder = WeatherConstants.longitude.text
+        }
+        
+        let changeAction = UIAlertAction(title: WeatherConstants.change.text,
+                                         style: .default) { [weak alert] _ in
+            guard let longitude = alert?.textFields?[1].text, let latitude = alert?.textFields?[0].text else {
+                return
+            }
+            
+            let newLocation = Coordinates(longitude: Double(longitude), latitude: Double(latitude))
+            NotificationCenter.default.post(name: .changeLocationNotification,
+                                            object: nil,
+                                            userInfo: ["newLocation" : newLocation])
+        }
+        
+        let resetToCurrentLocationAction = UIAlertAction(title: "Reset to Current Location".localized(),
+                                                         style: .default) { _ in
+            let newLocation = Coordinates(longitude: nil, latitude: nil)
+            NotificationCenter.default.post(name: .changeLocationNotification,
+                                            object: nil,
+                                            userInfo: ["newLocation" : newLocation])
+        }
+        
+        let cancelAction = UIAlertAction(title: WeatherConstants.cancel.text, style: .cancel)
+        
+        let actions = [changeAction, resetToCurrentLocationAction, cancelAction]
+        for action in actions {
+            alert.addAction(action)
+        }
+        
+        return alert
+    }
     
     static func makeInvalidLocationAlert() -> UIAlertController {
-            
-        let alert = UIAlertController(title: WeatherConstants.changeLocation.text,
-                                      message: "Please enter the coordinates of where you would like to get the weather of.".localized(),
-                                          preferredStyle: .alert)
-            
-            alert.addTextField { textfiled in
-                textfiled.keyboardType = .numbersAndPunctuation
-                textfiled.placeholder = WeatherConstants.latitude.text
-            }
-            alert.addTextField { textfiled in
-                textfiled.keyboardType = .numbersAndPunctuation
-                textfiled.placeholder = WeatherConstants.longitude.text
-            }
-            
-            let changeAction = UIAlertAction(title: WeatherConstants.change.text, style: .default) { [weak alert] _ in
-                guard let longitude = alert?.textFields?[1].text, let latitude = alert?.textFields?[0].text, let longitudeNumber = Double(longitude), let latitudeNumber = Double(latitude) else {
-                    return
-                }
-                let newLocation = Coordinates(longitude: longitudeNumber, latitude: latitudeNumber)
-                print(newLocation)
-                NotificationCenter.default.post(name: .changeLocationNotification, object: nil, userInfo: ["newLocation" : newLocation])
-            }
-            
-            let cancelAction = UIAlertAction(title: WeatherConstants.cancel.text, style: .cancel)
-            
-            let actions = [cancelAction, changeAction]
-            actions.forEach { alert.addAction($0) }
-            
-            return alert
+        
+        let alert = UIAlertController(
+            title: WeatherConstants.changeLocation.text,
+            message: "Please enter the coordinates of where you would like to get the weather of."
+                .localized(),
+            preferredStyle: .alert
+        )
+        
+        alert.addTextField { textfiled in
+            textfiled.keyboardType = .numbersAndPunctuation
+            textfiled.placeholder = WeatherConstants.latitude.text
         }
+        
+        alert.addTextField { textfiled in
+            textfiled.keyboardType = .numbersAndPunctuation
+            textfiled.placeholder = WeatherConstants.longitude.text
+        }
+        
+        let changeAction = UIAlertAction(title: WeatherConstants.change.text,
+                                         style: .default) { [weak alert] _ in
+            
+            guard let longitude = alert?.textFields?[1].text,
+                  let latitude = alert?.textFields?[0].text,
+                  let longitudeNumber = Double(longitude),
+                  let latitudeNumber = Double(latitude) else {
+                return
+            }
+            
+            let newLocation = Coordinates(longitude: longitudeNumber, latitude: latitudeNumber)
+    
+            NotificationCenter.default.post(name: .changeLocationNotification,
+                                            object: nil,
+                                            userInfo: ["newLocation" : newLocation])
+        }
+        
+        let cancelAction = UIAlertAction(title: WeatherConstants.cancel.text, style: .cancel)
+        
+        let actions = [cancelAction, changeAction]
+        actions.forEach { alert.addAction($0) }
+        
+        return alert
+    }
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 final class TemperatureManager: Dimension {
-
+    
     /// 온도를 변환 후 fractionalCount 자리까지 반올림해주는 메서드
     static func convert(kelvinValue: Double, fractionalCount: Int) -> String {
         let tempData: Double
