@@ -17,12 +17,7 @@ class WeatherImpormationViewController: UIViewController {
     private let collectionViewDataSource = WeatherCollectionViewDataSource()
     private var currentLocation: CLLocation? = nil {
         didSet {
-            processWeatherImpormation {
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                    self.collectionView.refreshControl?.endRefreshing()
-                }
-            }
+           fetchWeatherImpormation()
         }
     }
     
@@ -74,6 +69,15 @@ class WeatherImpormationViewController: UIViewController {
             equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
         collectionViewDataSource.decidedLayout(collectionView)
+    }
+    
+    private func fetchWeatherImpormation() {
+        processWeatherImpormation {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+                self.collectionView.refreshControl?.endRefreshing()
+            }
+        }
     }
     
     private func processWeatherImpormation(completion: @escaping () -> Void) {
