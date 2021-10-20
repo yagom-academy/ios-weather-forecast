@@ -113,9 +113,7 @@ extension MainWeatherViewController: UITableViewDataSource, UITableViewDelegate 
         }
         let viewModel = fiveDayListViewModel.getData(at: indexPath.row)
         
-        cell.dateLabel.text = viewModel.dateThreeHour
-        cell.temperatureLabel.text = viewModel.temperatureThreeHour
-        cell.weatherImageView.image = viewModel.imageThreeHour
+        cell.configureLabels(with: viewModel)
         cell.backgroundColor = UIColor.clear
         return cell
     }
