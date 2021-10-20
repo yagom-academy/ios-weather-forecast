@@ -89,8 +89,7 @@ class WeatherImpormationViewController: UIViewController {
             let fiveDaysWeatherURL =
             WeatherURL.forecastCoordinates(latitude: location.coordinate.latitude,
                                            longitude: location.coordinate.longitude)
-        
-        DispatchQueue.global().async {
+    
             let group = DispatchGroup()
             group.enter()
             self.getWeatherImpormation(request: fiveDaysWeatherURL,
@@ -123,9 +122,9 @@ class WeatherImpormationViewController: UIViewController {
                 group.leave()
             }
             
-            group.wait()
-            completion()
-        }
+            group.notify(queue: .global()) {
+                completion()
+            }
     }
     
     private func getUserAddress() {
