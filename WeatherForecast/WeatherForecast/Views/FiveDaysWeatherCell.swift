@@ -113,9 +113,9 @@ class FiveDaysWeatherCell: UICollectionViewCell {
         
         private func imageConfigure(list: List?) {
             guard let icon = list?.weather?.first?.icon else { return }
-            imageManager.fetchImage(url: ImageURL.weather(icon).path) { image in
+            imageManager.fetchImage(url: ImageURL.weather(icon).path) { result in
                 DispatchQueue.main.async {
-                    switch image {
+                    switch result {
                     case .success(let image):
                         self.weatherImage.image = image
                     case .failure(let error):
