@@ -38,13 +38,12 @@ class MainWeatherViewController: UIViewController {
         currentWeatherViewModel.reloadTableView = {
             DispatchQueue.main.async {
                 self.updateTableHeaderView()
+                self.reloadTableView()
             }
         }
         fiveDayListViewModel.mapFiveDayData()
         fiveDayListViewModel.reloadTableView = {
-            DispatchQueue.main.async {
-                self.weatherTableView.reloadData()
-            }
+            self.reloadTableView()
         }
     }
     
@@ -78,6 +77,12 @@ class MainWeatherViewController: UIViewController {
             minMaxTemperature: currentWeatherViewModel.minMaxTamperature,
             temperature: currentWeatherViewModel.currentTemperature
         )
+    }
+    
+    private func reloadTableView() {
+        DispatchQueue.main.async {
+            self.weatherTableView.reloadData()
+        }
     }
 }
 

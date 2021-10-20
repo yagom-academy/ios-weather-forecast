@@ -63,9 +63,7 @@ class CurrentWeatherViewModel {
                         return
                     }
                     self.weatherImage = image
-                    DispatchQueue.main.async {
-                        self.reloadTableView?()
-                    }
+                    self.reloadTableView?()
                 })
             }
         }
