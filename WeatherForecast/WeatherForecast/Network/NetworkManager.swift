@@ -18,8 +18,8 @@ protocol URLSessionable {
 extension URLSession: URLSessionable { }
 
 struct NetworkManager {
+    static let shared = NetworkManager()
     private let parser = Parser()
-    private let urlGenerator = URLGenerator()
     private let session: URLSessionable
     
     init(session: URLSessionable = URLSession.shared) {
@@ -27,20 +27,9 @@ struct NetworkManager {
     }
     
     func request<Model: Decodable>(
-        endpoint: APIEndPoint,
-        parameters: [String: Any],
+        with url: URL,
         completionHandler: @escaping (Result<Model, Error>) -> Void
     ) {
-        guard let url = urlGenerator.work(
-            endpoint: endpoint,
-            parameters: parameters
-        ) else {
-            completionHandler(
-                .failure(NetworkError.invalidURL)
-            )
-            return
-        }
-        
         session.dataTask(with: url) { data, response, error in
             if let error = error {
                 let unknownError = NetworkError.unknown(
@@ -68,19 +57,10 @@ struct NetworkManager {
         }.resume()
     }
 
-    func request(
-        endpoint: ImageEndPoint,
-        completionHandler: @escaping (Result<UIImage, Error>) -> Void
+    func requestImage(
+        with url: URL,
+        completionHandler: @escaping (Result<Data, Error>) -> Void
     ) {
-        guard let url = urlGenerator.work(
-            endpoint: endpoint
-        ) else {
-            completionHandler(
-                .failure(NetworkError.invalidURL)
-            )
-            return
-        }
-
         session.dataTask(with: url) { data, response, error in
             if let error = error {
                 let unknownError = NetworkError.unknown(
@@ -107,7 +87,7 @@ struct NetworkManager {
             }
         }.resume()
     }
-    
+
     private func handleSuccessStatusCode<Model: Decodable>(
         data: Data?,
         completionHandler: @escaping (Result<Model, Error>) -> Void
@@ -133,7 +113,7 @@ struct NetworkManager {
 
     private func handleSuccessStatusCode(
         data: Data?,
-        completionHandler: @escaping (Result<UIImage, Error>) -> Void
+        completionHandler: @escaping (Result<Data, Error>) -> Void
     ) {
         guard let data = data else {
             completionHandler(
@@ -142,12 +122,7 @@ struct NetworkManager {
             return
         }
 
-        if let image = UIImage(data: data) {
-            completionHandler(.success(image))
-        } else {
-            completionHandler(.failure(NetworkError.dataIsNil))
-        }
-
+        completionHandler(.success(data))
     }
     
     private func handleFailureStatusCode<Model>(

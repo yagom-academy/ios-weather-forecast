@@ -1,33 +1,21 @@
 //
-//  Responsible.swift
+//  Requestable.swift
 //  WeatherForecast
 //
-//  Created by kjs on 2021/10/12.
+//  Created by kjs on 2021/10/20.
 //
 
 import Foundation
 
+typealias Responsible = Decodable
+
 protocol Requestable {
-    associatedtype Path: RawRepresentable
-    var path: String { get set }
-    var parameters: [String: Any]? { get }
-}
+    associatedtype ResponseType: Responsible
 
-extension Requestable {
-    var parameters: [String: Any]? {
-        let mirror = Mirror(reflecting: self)
-        let selfType = mirror.displayStyle
+    var path: String { get }
+    var parameters: [String: Any] { get }
 
-        guard selfType == .class || selfType == .struct else {
-            return nil
-        }
-
-        var result = [String: Any]()
-        mirror.children.forEach { child in
-            if let label = child.label {
-                result[label] = child.value
-            }
-        }
-        return result
-    }
+    func fetch(
+        completionHandler: @escaping (Result<ResponseType, Error>) -> Void
+    )
 }

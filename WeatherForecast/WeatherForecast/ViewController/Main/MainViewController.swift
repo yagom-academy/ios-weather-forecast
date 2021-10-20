@@ -100,10 +100,7 @@ extension MainViewController {
     }
     
     private func requestDailyWeather(latitude: Double, longitude: Double) {
-        networkManager.request(
-            endpoint: .daily,
-            parameters: ["lat": latitude, "lon": longitude]
-        ) { (result: Result<TodayWeatherInfo, Error>) in
+        TodayWeatherRequester(latitude: latitude, longitude: longitude).fetch { result in
             switch result {
             case .success:
                 print("daily success")
@@ -114,19 +111,19 @@ extension MainViewController {
     }
     
     private func requestWeeklyWeather(latitude: Double, longitude: Double) {
-        networkManager.request(
-            endpoint: .weekly,
-            parameters: ["lat": latitude, "lon": longitude]
-        ) { (result: Result<WeeklyWeatherForecast, Error>) in
+        WeeklyForecastRequester(
+            latitude: latitude,
+            longitude: longitude
+        ).fetch { result in
             switch result {
             case .success(let weeklyWeatherForecast):
                 guard let weeklyWeatherForecast = weeklyWeatherForecast.list else {
-                    return
+                   return
                 }
                 self.weeklyWeatherForecast += weeklyWeatherForecast
                 self.requestWeatherIcons(with: weeklyWeatherForecast)
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                   self.tableView.reloadData()
                 }
             case .failure:
                 print("weekly failure")
@@ -146,20 +143,21 @@ extension MainViewController {
                 guard let iconName = weatherForecast.weather?.first?.icon else {
                     continue
                 }
-                
-                self.networkManager.request(endpoint: .png(iconName: iconName)) { result in
+
+                PNGRequester(iconName: iconName).fetch { result in
                     switch result {
-                    case .success(let image):
+                    case .success(let data):
+                        let image = UIImage(data: data)
                         DispatchQueue.main.async {
                             let indexPath = IndexPath(row: rowIndex, section: .zero)
                             guard let cell = self.tableView.cellForRow(at: indexPath) as? MainViewTableViewCell else {
                                 return
                             }
-                            
+
                             cell.iconView.image = image
                         }
-                    case .failure:
-                        print("image download failure")
+                    case .failure(let error):
+                        print(error)
                     }
                 }
             }
