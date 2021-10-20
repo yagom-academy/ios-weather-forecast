@@ -7,17 +7,6 @@
 
 import UIKit
 
-enum ImageURL {
-    case weather(String)
-    
-    var path: String {
-        switch self {
-        case .weather(let id):
-            return "https://openweathermap.org/img/w/\(id).png"
-        }
-    }
-}
-
 class FiveDaysWeatherCell: UICollectionViewCell {
     let imageManager = ImageManager()
     static let identifier = String(describing: FiveDaysWeatherCell.self)
