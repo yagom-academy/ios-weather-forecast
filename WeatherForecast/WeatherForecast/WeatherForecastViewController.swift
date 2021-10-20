@@ -19,9 +19,10 @@ final class WeatherForecastViewController: UIViewController {
     private var collecionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     private lazy var alert = initAlert()
     private let downloadDataGroup = DispatchGroup()
-    
     private var dataSource: DataSource?
     private var snapshot: NSDiffableDataSourceSnapshot<WeatherHeader, FiveDayWeather.List>?
+    private var longitude: Double?
+    private var latitude: Double?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,7 @@ final class WeatherForecastViewController: UIViewController {
         setupCollectionView()
         initData()
         configureRefreshControl()
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLocation), name: .changeLocationNotification, object: nil)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -49,30 +51,17 @@ final class WeatherForecastViewController: UIViewController {
     
     private func initAlert() -> UIAlertController {
         if address.combined == " " {
-            return UIAlertController.makeInvalidLocationAlert { alert in
-                let latitude = alert?.textFields?[0].text
-                let longitude = alert?.textFields?[1].text
-                self.initData(latitude: latitude, longitude: longitude)
-            }
+            return UIAlertController.makeInvalidLocationAlert()
         } else {
-            return UIAlertController.makeValidLocationAlert{ alert in
-                let latitude = alert?.textFields?[0].text
-                let longitude = alert?.textFields?[1].text
-                self.initData(latitude: latitude, longitude: longitude)
-            } resetToCurrentLocationHandler: {
-                self.initData()
-            }
+            return UIAlertController.makeValidLocationAlert()
         }
     }
     
-    private func initData(latitude: String? = nil, longitude: String? = nil) {
+    @objc private func initData() {
         var currentLocation: CLLocation?
         
-        if let latitude = latitude,
-           let latitudeNumber = Double(latitude),
-           let longitude = longitude,
-           let longitudeNumber = Double(longitude) {
-            currentLocation = CLLocation(latitude: latitudeNumber, longitude: longitudeNumber)
+        if let latitude = latitude, let longitude = longitude {
+            currentLocation = CLLocation(latitude: latitude, longitude: longitude)
         } else {
             currentLocation = locationManager.getGeographicCoordinates()
         }
@@ -90,6 +79,15 @@ final class WeatherForecastViewController: UIViewController {
                 self.makeSnapshot()
             }
         }
+    }
+    
+    @objc private func updateLocation(notification: Notification) {
+        guard let userInfo = notification.userInfo as? [String:Coordinates], let newLocation = userInfo["newLocation"] else {
+            return
+        }
+        latitude = newLocation.latitude
+        longitude = newLocation.longitude
+        initData()
     }
     
     private func getAddress(of location: CLLocation?, completionHandler: @escaping (Address) -> Void) {
@@ -119,7 +117,9 @@ final class WeatherForecastViewController: UIViewController {
                 case .success(let data):
                     self.extract(data: data, period: route)
                 case .failure(let networkError):
-                    assertionFailure(networkError.localizedDescription)
+                    if networkError.localizedDescription != "cancelled" {
+                        assertionFailure(networkError.localizedDescription)
+                    }
                 }
             }
         }

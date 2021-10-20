@@ -18,12 +18,14 @@ class NetworkModule: Networkable {
             if let originalRequest = task.originalRequest,
                originalRequest == request {
                 task.cancel()
-                dataTask.remove(at: index)
+                if dataTask.count > index {
+                    dataTask.remove(at: index)
+                }
             }
         }
         
         let task = URLSession.shared.dataTask(with: request) { [self] (data, response, error) in
-            if let error = error, error.localizedDescription != "cancelled" {
+            if let error = error {
                 DispatchQueue.main.async {
                     completionHandler(.failure(error))
                 }
