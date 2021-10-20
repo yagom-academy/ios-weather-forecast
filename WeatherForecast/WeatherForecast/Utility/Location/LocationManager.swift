@@ -36,13 +36,33 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
     }
+    
+    func locationManager(_ manager: CLLocationManager, status: CLAuthorizationStatus) {
+        switch status {
+        case .denied:
+            print("권한 요청 거부죔")
+            return
+        case .restricted, .notDetermined:
+            print("권한 요청 되지 않음")
+            manager.requestWhenInUseAuthorization()
+            manager.requestLocation()
+            return
+        case .authorizedAlways, .authorizedWhenInUse:
+            print("권한 있음")
+            guard let lastLocation = self.manager.location else {
+                return
+            }
+            completion?(lastLocation)
+        @unknown default:
+            break
+        }
+    }
 }
 
 extension LocationManager {
     
     func lookUpCurrentPlacemark(completionHandler: @escaping (CLPlacemark) -> Void) {
         guard let lastLocation = self.manager.location else {
-            print("LastLocation is nil.")
             return
         }
         
