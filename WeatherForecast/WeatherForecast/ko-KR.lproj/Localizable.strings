@@ -22,3 +22,4 @@
 "Oops! This is not a valid HTTP Response" = "정상적인 HTTP Response가 아닙니다.";
 "Oops! Couldn't get data" = "데이터를 받아오지 못했습니다.";
 "Oops! This is not a valid URL" = "유효하지 않은 URL입니다.";
+"Oops! init(coder:) has not been implemented" = "init(coder:)에 실패하였습니다.";

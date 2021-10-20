@@ -86,7 +86,8 @@ final class WeatherHeaderView: UICollectionReusableView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        assertionFailure(WeatherConstants.initFailure.text)
     }
     
     private func setLayoutForCurrentWeatherStackView() {
