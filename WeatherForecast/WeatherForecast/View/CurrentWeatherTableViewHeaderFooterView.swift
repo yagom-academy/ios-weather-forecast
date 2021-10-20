@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CurrentWeatherTableViewHeaderFooterView: UITableViewHeaderFooterView {
+class CurrentWeatherTableViewHeaderFooterView: UIView {
 
     let weatherImageView: UIImageView = {
         var imageView = UIImageView()
@@ -50,14 +50,14 @@ class CurrentWeatherTableViewHeaderFooterView: UITableViewHeaderFooterView {
         return stackView
     }()
     
-    override init(reuseIdentifier: String?) {
-        super.init(reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
         setUpAutoLayout()
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setUpAutoLayout()
+        fatalError("init(coder:) has not been implemented")
     }
     
     func configureLabels(
@@ -75,7 +75,7 @@ class CurrentWeatherTableViewHeaderFooterView: UITableViewHeaderFooterView {
     private func setUpAutoLayout() {
         weatherStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        contentView.addSubview(weatherStackView)
+        self.addSubview(weatherStackView)
         weatherImageView.setContentHuggingPriority(.required, for: .horizontal)
         NSLayoutConstraint.activate([
             weatherStackView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 16),
