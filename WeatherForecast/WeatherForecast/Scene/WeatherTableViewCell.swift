@@ -76,6 +76,12 @@ extension WeatherTableViewCell: ViewConfiguration {
 }
 
 extension WeatherTableViewCell {
+    override func prepareForReuse() {
+        self.dateLabel.text = nil
+        self.temperatureLabel.text = nil
+        self.iconImageView.image = nil
+    }
+    
     func configure(with forecast: WeatherForecast?) {
         forecast?.localeForecast
             .flatMap { self.dateLabel.text = $0 }

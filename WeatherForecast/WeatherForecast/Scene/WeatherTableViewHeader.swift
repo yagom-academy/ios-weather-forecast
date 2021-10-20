@@ -97,6 +97,13 @@ extension WeatherTableHeaderView: ViewConfiguration {
 
 // MARK: - Configure Cell
 extension WeatherTableHeaderView {
+    override func prepareForReuse() {
+        addressLabel.text = "-"
+        minMaxTemperatureLabel.text = "-"
+        currentTemperatureLabel.text = "-"
+        iconImageView.image = nil
+    }
+    
     func configure(with weather: TodayWeatherInfo) {
         weather.coordinate
             .flatMap { $0.convertToAddress { placemark in
