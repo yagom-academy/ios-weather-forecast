@@ -13,6 +13,10 @@ class WeatherTableViewCell: UITableViewCell {
     private let dateLabel = UILabel()
     private let temperatureLabel = UILabel()
     private let weatherIconImageView = UIImageView()
+    
+    private let apiManager = APIManager()
+    private var urlString: String = ""
+    private var dataTask: URLSessionDataTask?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -21,6 +25,13 @@ class WeatherTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        dataTask?.cancel()
+        weatherIconImageView.image = nil
     }
 }
 
@@ -68,7 +79,20 @@ extension WeatherTableViewCell {
     }
     
     private func updateWeatherIcon(to iconID: String?) {
-        // TODOs : 아이콘에 따른 이미지 처리.
+        guard let iconID = iconID else {
+            return
+        }
+        
+        let apiURL = WeatherURL.weatherIcon(iconID: iconID)
+        let apiResource = APIResource(apiURL: apiURL)
+        
+        let weatherURI = apiURL.weatherURI
+        self.urlString = weatherURI
+        self.dataTask = apiManager.downloadImage(resource: apiResource) { [weak self] image in
+            if self?.urlString == weatherURI {
+                self?.weatherIconImageView.image = image
+            }
+        }
     }
 }
 
@@ -123,8 +147,6 @@ extension WeatherTableViewCell {
         weatherIconImageView.centerYAnchor.constraint(
             equalTo: contentView.centerYAnchor
         ).isActive = true
-        
-        weatherIconImageView.backgroundColor = .orange
     }
     
     private func updateTemperatureLabelLayout() {
