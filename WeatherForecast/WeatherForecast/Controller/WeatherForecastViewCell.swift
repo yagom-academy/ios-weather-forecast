@@ -58,7 +58,12 @@ class WeatherForecastViewCell: UITableViewCell {
 
         if let iconID = data.weather.first?.icon {
             let iconURL = WeatherAPI.imagebaseURL + iconID + ".png"
-            iconImageView.setImageURL(iconURL)
+            iconImageView.setImageURL(iconURL) { [weak self] cacheKey, image in
+                guard let self = self else { return }
+                if cacheKey as String == iconURL {
+                    self.iconImageView.image = image
+                }
+            }
         }
     }
 

@@ -30,9 +30,10 @@ class WeatherForecastViewController: UIViewController {
     private var locationManager = LocationManager()
     private var networkManager = NetworkManager()
     private var currentData: CurrentWeather?
-    private var forecastData: ForecastWeather?
+    private var forecastData: [ForecastWeather.List] = []
     private var settingLocation: CLLocationCoordinate2D?
     private var alert: [UIAlertController] = []
+    private let dispatchGroup = DispatchGroup()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +53,7 @@ class WeatherForecastViewController: UIViewController {
                             CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height * 0.15))
         tableHeaderView.addSubview(locationSetter)
         tableView.tableHeaderView = tableHeaderView
+        tableView.rowHeight = view.frame.height / 15
         view.addSubview(tableView)
     }
 
@@ -139,17 +141,14 @@ class WeatherForecastViewController: UIViewController {
 // MARK: UITableViewDataSource 구현부
 extension WeatherForecastViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return forecastData?.list.count ?? 0
+        return forecastData.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherForecastViewCell.identifier, for: indexPath) as? WeatherForecastViewCell else {
             return UITableViewCell()
         }
-        guard let forecastData = forecastData else {
-            return UITableViewCell()
-        }
-        cell.configureCell(data: forecastData.list[indexPath.row])
+        cell.configureCell(data: forecastData[indexPath.row])
         return cell
     }
 }
@@ -158,6 +157,16 @@ extension WeatherForecastViewController: UITableViewDataSource {
 extension WeatherForecastViewController: LocationManagerDelegate {
     func didUpdateLocation() {
         self.settingLocation = nil
+        fetchingWeatherData(api: WeatherAPI.current, type: CurrentWeather.self)
+        fetchingWeatherData(api: WeatherAPI.forecast, type: ForecastWeather.self)
+        dispatchGroup.notify(queue: DispatchQueue.global()) {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+
+    private func fetchingWeatherData<T: Decodable>(api: WeatherAPI, type: T.Type) {
         guard let coordinate = locationManager.getCoordinate() else {
             return
         }
@@ -185,7 +194,10 @@ extension WeatherForecastViewController: LocationManagerDelegate {
                           CoordinatesQuery.appid: "e6f23abdc0e7e9080761a3cfbbdafc90"]
 
         guard let url = URL.createURL(API: api, queryItems: queryItems) else { return }
-        networkManager.dataTask(url: url) { result in
+        dispatchGroup.enter()
+        networkManager.dataTask(url: url) { [weak self] result in
+            guard let self = self else { return }
+
             if case .success(let data) = result {
                 do {
                     let data = try JSONDecoder().decode(type, from: data)
@@ -193,15 +205,13 @@ extension WeatherForecastViewController: LocationManagerDelegate {
                         self.currentData = data
                         self.configureHeader(data: data)
                     } else if let data = data as? ForecastWeather {
-                        self.forecastData = data
+                        self.forecastData = data.list
                     }
                 } catch {
                     debugPrint(error)
                 }
             }
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+            self.dispatchGroup.leave()
         }
     }
 
@@ -219,8 +229,4 @@ extension WeatherForecastViewController: LocationManagerDelegate {
 }
 
 // MARK: UITableViewDelegate
-extension WeatherForecastViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return view.frame.height / 15
-    }
-}
+extension WeatherForecastViewController: UITableViewDelegate {}
