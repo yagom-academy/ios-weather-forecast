@@ -61,14 +61,3 @@ extension WeatherTableViewDelegate {
         }
     }
 }
-
-final class EmptyDelegate: NSObject, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: OpenWeatherHeaderView.identifier) as? OpenWeatherHeaderView else {
-            return UIView()
-        }
-        
-        view.changeButton()
-        return view
-    }
-}
