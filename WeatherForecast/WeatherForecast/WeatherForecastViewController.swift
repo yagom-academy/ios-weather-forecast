@@ -26,12 +26,25 @@ final class WeatherForecastViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let image = UIImage(named: "dark") {
-            view.backgroundColor = UIColor(patternImage: image)
-        }
+        setBackgroundImage()
         setupCollectionView()
         initData()
         configureRefreshControl()
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        view.subviews[0].frame.size = CGSize(width: size.width, height: size.height)
+    }
+    
+    private func setBackgroundImage() {
+        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+        if let image = UIImage(named: "dark") {
+            backgroundImage.image = image
+        }
+        backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
+        self.view.insertSubview(backgroundImage, at: 0)
     }
     
     private func initAlert() -> UIAlertController {
@@ -95,13 +108,13 @@ final class WeatherForecastViewController: UIViewController {
     private func getWeatherData(of location: CLLocation, route: WeatherForecastRoute) {
         let queryItems = WeatherForecastRoute.createParameters(latitude: location.coordinate.latitude,
                                                                longitude: location.coordinate.longitude)
-
+        
         DispatchQueue.global().async {
             self.downloadDataGroup.enter()
             self.networkManager.request(with: route,
-                                   queryItems: queryItems,
-                                   httpMethod: .get,
-                                   requestType: .requestWithQueryItems) { result in
+                                        queryItems: queryItems,
+                                        httpMethod: .get,
+                                        requestType: .requestWithQueryItems) { result in
                 switch result {
                 case .success(let data):
                     self.extract(data: data, period: route)
