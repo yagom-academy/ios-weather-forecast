@@ -22,7 +22,7 @@ protocol LocationManagerDelegate: CLLocationManagerDelegate {
 }
 
 extension CLLocationManager: LocationManagerProtocol {
-    var locationManagerDelegate: LocationManagerDelegate? {
+    weak var locationManagerDelegate: LocationManagerDelegate? {
         get {
             guard let delegate = delegate as? LocationManagerDelegate else { return nil }
             return delegate
