@@ -27,6 +27,7 @@ struct ImageManager {
         cache.memoryCapacity = 500 * 1024 * 1024
     }
     
+    @discardableResult
     func fetchImage(
         url: String,
         completion: @escaping (Result<UIImage, Error>) -> Void) -> URLSessionTask? {
