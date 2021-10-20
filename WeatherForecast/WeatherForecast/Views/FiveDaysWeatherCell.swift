@@ -90,7 +90,9 @@ class FiveDaysWeatherCell: UICollectionViewCell {
             .isActive = true
     }
     
-    func resetContents() {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
         weatherImage.image = nil
         dateLabel.text = nil
         temperatureLabel.text = nil
