@@ -44,7 +44,7 @@ class FiveDayWeatherListViewModel {
         }
         let data = weathers[index]
         return FiveDayWeatherViewModel(data.dateThreeHour,
-                                       data.temperatureThreeHour,
+                                       data.temperatureForDisplay,
                                        data.imageThreeHour)
     }
 }
@@ -53,6 +53,9 @@ struct FiveDayWeatherViewModel: Equatable {
     
     var dateThreeHour: String
     var temperatureThreeHour: String
+    var temperatureForDisplay: String {
+        return "\(temperatureThreeHour)°"
+    }
     var imageThreeHour: UIImage
     
     init(_ date: String, _ temperature: String, _ image: UIImage) {
