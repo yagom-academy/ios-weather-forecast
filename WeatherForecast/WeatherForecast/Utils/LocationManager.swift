@@ -15,17 +15,16 @@ final class LocationManager: NSObject {
         super.init()
         manager.delegate = self
         manager.requestAlwaysAuthorization()
-        manager.requestLocation()
-        manager.startUpdatingLocation()
     }
     
     func getGeographicCoordinates() -> CLLocation? {
-        guard let location = manager.location else { return nil }
         var status: CLAuthorizationStatus
         status = manager.authorizationStatus
         
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
+            manager.requestLocation()
+            guard let location = manager.location else { return nil }
             return location
         default:
             return nil
@@ -61,12 +60,12 @@ final class LocationManager: NSObject {
 }
 
 extension LocationManager: CLLocationManagerDelegate {
-    
+
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         return
-        
+
     }
-    
+
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error.localizedDescription)
     }
