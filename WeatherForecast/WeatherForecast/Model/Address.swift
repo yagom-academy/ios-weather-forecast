@@ -14,14 +14,11 @@ struct Address {
     var combined: String {
         return [self.city, self.stree1].joined(separator: " ")
     }
-    
+}
+
+extension Address {
     init() {
         self.city = ""
         self.stree1 = ""
-    }
-    
-    init(city: String, stree1: String) {
-        self.city = city
-        self.stree1 = stree1
     }
 }
