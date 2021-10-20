@@ -15,62 +15,28 @@ class WeatherTableHeaderView: UITableViewHeaderFooterView {
     
     weak var locationSettingDelegate: LocationSettingDelegate?
     
+    private enum HeaderInit {
+        static let defaultValue = "-"
+    }
     private enum Constraint {
         static let inset: CGFloat = 10
     }
+    
     static let reuseIdentifier = "\(WeatherTableHeaderView.self)"
     
-    private let iconImageView: UIImageView = {
-        let imageView = UIImageView(frame: .zero)
-        return imageView
-    }()
     
-    private let addressLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.font = UIFont.preferredFont(forTextStyle: .footnote)
-        label.textColor = .black
-        return label
-    }()
+    private let iconImageView: UIImageView = { return UIImageView(frame: .zero) }()
+
+    private let addressLabel: UILabel = { return UILabel(frame: .zero) }()
+    private let minMaxTemperatureLabel: UILabel = { return UILabel(frame: .zero) }()
+    private let currentTemperatureLabel: UILabel = { return UILabel(frame: .zero) }()
     
-    private let minMaxTemperatureLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.font = UIFont.preferredFont(forTextStyle: .footnote)
-        label.textColor = .black
-        return label
-    }()
+    private let locationSettingButton: UIButton = { return UIButton() }()
     
-    private let currentTemperatureLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
-        label.textColor = .black
-        return label
-    }()
+    private let currentWeatherStackView: UIStackView = { return UIStackView() }()
+    private let containerStackView: UIStackView = { return UIStackView() }()
     
-    private let currentWeatherStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
-        return stackView
-    }()
-    
-    private let containerStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .fill
-        stackView.distribution = .fillProportionally
-        return stackView
-    }()
-    
-    private let locationSettingButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("위치설정", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
-        button.backgroundColor = .white
-        return button
-    }()
-    
+    // MARK: Initialize
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         if #available(iOS 14.0, *) {
@@ -116,13 +82,40 @@ extension WeatherTableHeaderView: ViewConfiguration {
             iconImageView.heightAnchor.constraint(equalTo: iconImageView.widthAnchor)
         ])
     }
-        
+    
     func configureViews() {
+        containerStackView.axis = .horizontal
+        containerStackView.alignment = .fill
+        containerStackView.distribution = .fillProportionally
+        
+        currentWeatherStackView.axis = .vertical
+        currentWeatherStackView.alignment = .fill
+        currentWeatherStackView.distribution = .equalSpacing
+        
+        addressLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
+        addressLabel.textColor = .black
+        
+        minMaxTemperatureLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
+        minMaxTemperatureLabel.textColor = .black
+        
+        currentTemperatureLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        currentTemperatureLabel.textColor = .black
+        
+        locationSettingButton.setTitle("위치설정", for: .normal)
+        locationSettingButton.setTitleColor(.black, for: .normal)
+        locationSettingButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
+        locationSettingButton.backgroundColor = .clear
         locationSettingButton.addTarget(self, action: #selector(didTapLocationSettingButton), for: .touchUpInside)
     }
     
     @objc func didTapLocationSettingButton() {
-        locationSettingDelegate?.showAlert()
+        addressLabel.text
+            .flatMap { if $0 == HeaderInit.defaultValue {
+                locationSettingDelegate?.showAlert(hasAddress: false)
+            } else {
+                locationSettingDelegate?.showAlert(hasAddress: true)
+            }
+        }
     }
 }
 
