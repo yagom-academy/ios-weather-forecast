@@ -55,6 +55,7 @@ class WeatherTableViewCell: UITableViewCell {
         weatherImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 44),
             dateLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 16),
             dateLabel.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor),
             weatherImageView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -16),
