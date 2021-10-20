@@ -8,10 +8,10 @@
 import Foundation
 
 enum LocationSelectButtonType: String {
-    case valid = "위치설정"
-    case invalid = "위치변경"
+    case valid = "Set Location"
+    case invalid = "Change Location"
     
     var text: String {
-        return self.rawValue
+        return self.rawValue.localized()
     }
 }

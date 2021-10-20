@@ -8,26 +8,16 @@
 import Foundation
 
 final class TemperatureManager: Dimension {
-    
-    enum TemperatureType {
-        case celsius
-        case kelvin
-        case fahrenheit
-    }
 
     /// 온도를 변환 후 fractionalCount 자리까지 반올림해주는 메서드
-    static func convert(kelvinValue: Double, to type: TemperatureType, fractionalCount: Int) -> String {
+    static func convert(kelvinValue: Double, fractionalCount: Int) -> String {
         let tempData: Double
         let symbol: String
         
-        switch type {
-        case .celsius:
+        if Locale.current.usesMetricSystem == true {
             tempData = UnitTemperature.celsius.converter.value(fromBaseUnitValue: kelvinValue)
             symbol = "°C"
-        case .kelvin:
-            tempData = kelvinValue
-            symbol = "K"
-        case .fahrenheit:
+        } else {
             tempData = UnitTemperature.fahrenheit.converter.value(fromBaseUnitValue: kelvinValue)
             symbol = "°F"
         }

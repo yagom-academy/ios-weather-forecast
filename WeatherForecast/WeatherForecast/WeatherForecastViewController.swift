@@ -101,8 +101,6 @@ final class WeatherForecastViewController: UIViewController {
         }
     }
     
-    
-    
     private func getWeatherData(of location: CLLocation, route: WeatherForecastRoute) {
         let queryItems = WeatherForecastRoute.createParameters(latitude: location.coordinate.latitude,
                                                                longitude: location.coordinate.longitude)

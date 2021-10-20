@@ -25,7 +25,7 @@ final class WeatherHeaderView: UICollectionReusableView {
         let locationSelectButton = UIButton()
         locationSelectButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .subheadline)
         locationSelectButton.setTitleColor(.systemGray6, for: .normal)
-        locationSelectButton.contentEdgeInsets = UIEdgeInsets(top: -3, left: 0, bottom: 0, right: 0)
+        locationSelectButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
         locationSelectButton.addAction(UIAction(handler: { [weak self] _ in
             self?.presentLocationSelector?()
         }), for: .touchUpInside)
@@ -107,19 +107,15 @@ final class WeatherHeaderView: UICollectionReusableView {
             addressLabel.text = "-"
         }
         if let maxTemperature = currentWeather?.maxTemperature {
-            maxTemperatureLabel.text = "최고 " + TemperatureManager.convert(kelvinValue: maxTemperature,
-                                                                           to: .celsius,
-                                                                           fractionalCount: 1)
+            maxTemperatureLabel.text = "Max ".localized() + TemperatureManager.convert(kelvinValue: maxTemperature,
+                                                                              fractionalCount: 1)
         }
         if let minTemperature = currentWeather?.minTemperature {
-            minTemperatureLabel.text = "최저 " + TemperatureManager.convert(kelvinValue: minTemperature,
-                                                                           to: .celsius,
+            minTemperatureLabel.text = "Min ".localized() + TemperatureManager.convert(kelvinValue: minTemperature,
                                                                            fractionalCount: 1)
         }
         if let temperature = currentWeather?.temperature {
-            temperatureLabel.text = TemperatureManager.convert(kelvinValue: temperature,
-                                                               to: .celsius,
-                                                               fractionalCount: 1)
+            temperatureLabel.text = TemperatureManager.convert(kelvinValue: temperature, fractionalCount: 1)
         }
         
         weatherIcon.image = currentWeather?.image

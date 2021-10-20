@@ -15,11 +15,11 @@ enum NetworkError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .badResponse:
-            return "정상적인 HTTP Response가 아닙니다."
+            return "Oops! This is not a valid HTTP Response".localized()
         case .invalidData:
-            return "데이터를 받아오지 못했습니다."
+            return "Oops! Couldn't get data".localized()
         case .invalidURL:
-            return "유효하지 않은 URL입니다."
+            return "Oops! This is not a valid URL".localized()
         }
     }
 }

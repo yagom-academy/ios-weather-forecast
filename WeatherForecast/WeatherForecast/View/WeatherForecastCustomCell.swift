@@ -11,7 +11,7 @@ final class WeatherForecastCustomCell: UICollectionViewCell {
     static let identifier = "fiveDay"
     var urlString: String?
     
-    private let dateLabel = UILabel.makeLabel(font: .body, text: Placeholder.date.text)
+    private let dateLabel = UILabel.makeLabel(font: .body, text: WeatherConstants.date.text)
     private let temperatureLabel = UILabel.makeLabel(font: .body)
     
     private let weatherImage: UIImageView = {
@@ -61,9 +61,7 @@ final class WeatherForecastCustomCell: UICollectionViewCell {
         resetContents()
         
         dateLabel.text = format(date: date)
-        temperatureLabel.text = TemperatureManager.convert(kelvinValue: temparature,
-                                                           to: .celsius,
-                                                           fractionalCount: 1)
+        temperatureLabel.text = TemperatureManager.convert(kelvinValue: temparature, fractionalCount: 1)
     }
     
     private func resetContents() {
@@ -75,8 +73,9 @@ final class WeatherForecastCustomCell: UICollectionViewCell {
     private func format(date: Int) -> String? {
         let dateFormatter = DateFormatter()
         let date = Date(timeIntervalSince1970: TimeInterval(date))
-        dateFormatter.locale = Locale(identifier: "ko_KR")
-        dateFormatter.dateFormat = "MM/dd(E) HH시"
+        dateFormatter.locale = Locale.current
+        dateFormatter.setLocalizedDateFormatFromTemplate(("MM/dd(E) hh"))
+        
         return dateFormatter.string(from: date)
     }
 }
