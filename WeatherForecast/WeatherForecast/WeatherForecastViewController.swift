@@ -50,14 +50,14 @@ final class WeatherForecastViewController: UIViewController {
     private func initAlert() -> UIAlertController {
         if address.combined == " " {
             return UIAlertController.makeInvalidLocationAlert { alert in
-                let latitude = alert.textFields?[0].text
-                let longitude = alert.textFields?[1].text
+                let latitude = alert?.textFields?[0].text
+                let longitude = alert?.textFields?[1].text
                 self.initData(latitude: latitude, longitude: longitude)
             }
         } else {
             return UIAlertController.makeValidLocationAlert{ alert in
-                let latitude = alert.textFields?[0].text
-                let longitude = alert.textFields?[1].text
+                let latitude = alert?.textFields?[0].text
+                let longitude = alert?.textFields?[1].text
                 self.initData(latitude: latitude, longitude: longitude)
             } resetToCurrentLocationHandler: {
                 self.initData()
