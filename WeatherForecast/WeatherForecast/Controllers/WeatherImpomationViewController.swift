@@ -15,9 +15,10 @@ class WeatherImpormationViewController: UIViewController {
         frame: .zero,
         collectionViewLayout: UICollectionViewLayout())
     private let collectionViewDataSource = WeatherCollectionViewDataSource()
+    private var timer: Timer?
     private var currentLocation: CLLocation? = nil {
         didSet {
-           fetchWeatherImpormation()
+            fetchWeatherImpormation()
         }
     }
     
@@ -72,10 +73,16 @@ class WeatherImpormationViewController: UIViewController {
     }
     
     private func fetchWeatherImpormation() {
-        processWeatherImpormation {
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-                self.collectionView.refreshControl?.endRefreshing()
+        if timer != nil {
+            timer?.invalidate()
+        }
+        timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { timer in
+            guard timer.isValid else { return }
+            self.processWeatherImpormation {
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                    self.collectionView.refreshControl?.endRefreshing()
+                }
             }
         }
     }
