@@ -69,14 +69,20 @@ extension WeatherViewController {
             WeatherTableViewCell.self,
             forCellReuseIdentifier: WeatherTableViewCell.reuseIdentifier
         )
-        
     }
 }
 
 // MARK: - LocationSettingDelegate
 extension WeatherViewController: LocationSettingDelegate {
-    func showAlert() {
-        showAlert(title: "Test", message: "메시지입니다.")
+    func showAlert(hasAddress: Bool) {
+        if hasAddress {
+            showLocationChangeAlert(title: "위치 변경",
+                                    message: "변경할 좌표를 선택해주세요.")
+        } else {
+            showLocationChangeAlert(title: "위치 변경",
+                                    message: "날씨를 받아올 위치의 위도와 경도를 입력해주세요.",
+                                    hasAddress: false)
+        }
     }
 }
 
@@ -103,7 +109,6 @@ extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
         weatherForecast?.list.flatMap {
             cell.configure(with: $0[indexPath.row])
         }
-        
         return cell
     }
     
@@ -126,11 +131,11 @@ extension WeatherViewController: CLLocationManagerDelegate {
         case .authorizedAlways, .authorizedWhenInUse:
             break
         case .restricted, .denied:
-            showAlert(title: "위치 서비스 제공이 불가능합니다.",
-                      message: "어플리케이션 설정에서 위치 권한을 허용해주세요.")
+            showCLAuthorizationAlert(title: "위치 서비스 제공이 불가능합니다.",
+                                     message: "어플리케이션 설정에서 위치 권한을 허용해주세요.")
         default:
-            showAlert(title: "위치 서비스 제공이 불가능합니다.",
-                      message: "개발자에게 신고해주세요.")
+            showCLAuthorizationAlert(title: "위치 서비스 제공이 불가능합니다.",
+                                     message: "개발자에게 신고해주세요.")
         }
     }
     
@@ -138,36 +143,44 @@ extension WeatherViewController: CLLocationManagerDelegate {
                          didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last
         else { return }
-        currentCoordinate = Coordinate(longitude: location.coordinate.longitude,
-                                           latitude: location.coordinate.latitude)
+        currentCoordinate = Coordinate(longitude: ceil(location.coordinate.longitude * 1_000) / 1_000,
+                                       latitude: ceil(location.coordinate.latitude * 1_000) / 1_000)
+        requestWeatherAPI(coordinate: currentCoordinate)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { }
+}
+
+private extension WeatherViewController {
+    func requestWeatherAPI(coordinate: Coordinate?) {
         let group = DispatchGroup()
-        currentCoordinate.flatMap { coord in
+        coordinate.flatMap { coord in
             group.enter()
-                networkManager.request(
-                    with: TodayWeatherInfo.self,
-                    parameters: coord.parameters
-                ) { [weak self] result in
-                    switch result {
-                    case .success(let model):
-                        self?.currentWeather = model
-                    case .failure(let error):
-                        print(error)
-                    }
-                    group.leave()
+            networkManager.request(
+                with: TodayWeatherInfo.self,
+                parameters: coord.parameters
+            ) { [weak self] result in
+                switch result {
+                case .success(let model):
+                    self?.currentWeather = model
+                case .failure(let error):
+                    print(error)
                 }
+                group.leave()
+            }
             group.enter()
-                networkManager.request(
-                    with: WeeklyWeatherForecast.self,
-                    parameters: coord.parameters
-                ) { [weak self] result in
-                    switch result {
-                    case .success(let model):
-                        self?.weatherForecast = model
-                    case .failure(let error):
-                        print(error)
-                    }
-                    group.leave()
+            networkManager.request(
+                with: WeeklyWeatherForecast.self,
+                parameters: coord.parameters
+            ) { [weak self] result in
+                switch result {
+                case .success(let model):
+                    self?.weatherForecast = model
+                case .failure(let error):
+                    print(error)
                 }
+                group.leave()
+            }
         }
         group.wait()
         DispatchQueue.main.async {
@@ -175,8 +188,6 @@ extension WeatherViewController: CLLocationManagerDelegate {
         }
         NotificationCenter.default.post(name: NSNotification.Name.refreshLocation, object: nil)
     }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { }
 }
 
 // MARK: - Refresh Control
@@ -205,7 +216,66 @@ extension WeatherViewController {
 
 // MARK: - AlertController
 extension WeatherViewController {
-    func showAlert(title: String, message: String) {
+    func showLocationChangeAlert(title: String, message: String, hasAddress: Bool = true) {
+        guard let coord = currentCoordinate else { return }
+        
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            if hasAddress {
+                alert.addTextField { (latitudeTextField) in
+                    latitudeTextField.placeholder = "위도"
+                    latitudeTextField.text = String(describing: coord.latitude)
+                }
+                alert.addTextField { (longitudeTextField) in
+                    longitudeTextField.placeholder = "경도"
+                    longitudeTextField.text = String(describing: coord.longitude)
+                }
+                
+                let requestSettingLocation = UIAlertAction(title: "변경", style: .default) { _ in
+                    let latitude = alert.textFields?.first?.text
+                        .flatMap { Double($0) }.flatMap { round($0 * 1_000) / 1_000 }
+                    let longitude = alert.textFields?.last?.text
+                        .flatMap { Double($0) }.flatMap { round($0 * 1_000) / 1_000 }
+                    
+                    if let lat = latitude, let lon = longitude {
+                        self.currentCoordinate = Coordinate(longitude: lon, latitude: lat)
+                        self.requestWeatherAPI(coordinate: Coordinate(longitude: lon, latitude: lat))
+                    }
+                }
+                let requestCurrentLocation = UIAlertAction(title: "현재 위치로 재설정", style: .default) { _ in
+                    self.locationManager.requestLocation()
+                }
+                
+                alert.addAction(requestSettingLocation)
+                alert.addAction(requestCurrentLocation)
+            } else {
+                alert.addTextField { (latitudeTextField) in
+                    latitudeTextField.placeholder = "위도"
+                }
+                alert.addTextField { (longitudeTextField) in
+                    longitudeTextField.placeholder = "경도"
+                }
+                
+                let requestSettingLocation = UIAlertAction(title: "변경", style: .default) { _ in
+                    let latitude = alert.textFields?.first?.text
+                        .flatMap { Double($0) }
+                        .flatMap { round($0 * 1_000) / 1_000 }
+                    let longitude = alert.textFields?.last?.text
+                        .flatMap { Double($0) }
+                        .flatMap { round($0 * 1_000) / 1_000 }
+                    if let lat = latitude, let lon = longitude {
+                        self.currentCoordinate = Coordinate(longitude: lon, latitude: lat)
+                        self.requestWeatherAPI(coordinate: Coordinate(longitude: lon, latitude: lat))
+                    }
+                }
+                alert.addAction(requestSettingLocation)
+            }
+            alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func showCLAuthorizationAlert(title: String, message: String) {
         DispatchQueue.main.async {
             let alert = UIAlertController(
                 title: title,
@@ -217,8 +287,6 @@ extension WeatherViewController {
                 style: .default,
                 handler: nil)
             alert.addAction(okAction)
-            
-            self.present(alert, animated: true, completion: nil)
         }
     }
 }

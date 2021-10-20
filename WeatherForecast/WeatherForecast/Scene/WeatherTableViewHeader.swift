@@ -7,14 +7,11 @@
 
 import UIKit
 
-protocol LocationSettingDelegate: NSObject {
-    func showAlert()
+protocol LocationSettingDelegate: AnyObject {
+    func showAlert(hasAddress: Bool)
 }
 
 class WeatherTableHeaderView: UITableViewHeaderFooterView {
-    
-    weak var locationSettingDelegate: LocationSettingDelegate?
-    
     private enum HeaderInit {
         static let defaultValue = "-"
     }
@@ -24,6 +21,7 @@ class WeatherTableHeaderView: UITableViewHeaderFooterView {
     
     static let reuseIdentifier = "\(WeatherTableHeaderView.self)"
     
+    weak open var locationSettingDelegate: LocationSettingDelegate?
     
     private let iconImageView: UIImageView = { return UIImageView(frame: .zero) }()
 
