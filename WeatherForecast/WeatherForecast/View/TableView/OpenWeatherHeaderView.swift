@@ -107,13 +107,10 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
 extension OpenWeatherHeaderView {
     private func setHorizontalStackView() {
         self.contentView.addSubview(horizontalStackView)
-        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            horizontalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            horizontalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            horizontalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            horizontalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
+        horizontalStackView.setPosition(top: self.contentView.topAnchor,
+                                        bottom: self.contentView.bottomAnchor,
+                                        leading: self.contentView.leadingAnchor,
+                                        trailing: self.contentView.trailingAnchor)
     }
 
     private func setImageIconView() {

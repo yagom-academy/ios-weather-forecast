@@ -7,52 +7,7 @@
 
 import UIKit
 
-extension DateFormatter {
-    static func customDateFormatter() -> DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        formatter.locale = Locale(identifier: "ko")
-        formatter.setLocalizedDateFormatFromTemplate("MM/dd(E) HH시")
-        
-        return formatter
-    }
-}
-
-extension NumberFormatter {
-    static func customTemperatureFormatter() -> NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 1
-        formatter.roundingMode = .halfUp
-        formatter.numberStyle = .decimal
-        return formatter
-    }
-}
-
-class CellHolder {
-    private let dateLabelText: String
-    private let temperatureText: String
-    
-    init(forcastInformation: ForcastInfomation) {
-        let dateformatter = DateFormatter.customDateFormatter()
-        let date = Date(timeIntervalSince1970: TimeInterval(forcastInformation.date))
-        let formattedDate = dateformatter.string(from: date)
-        self.dateLabelText = formattedDate
-
-        let formattedTemperature = TemperatureConverter(celciusTemperature: forcastInformation.main.temperature).convertedTemperature
-        self.temperatureText = "\(formattedTemperature)°"
-    }
-    
-    var date: String {
-        return self.dateLabelText
-    }
-    
-    var temperature: String {
-        return self.temperatureText
-    }
-}
-
-class FiveDaysForecastCell: UITableViewCell {
+final class FiveDaysForecastCell: UITableViewCell {
     static let identifier = "weatherCell"
     
     func configure(_ holder: CellHolder) {
