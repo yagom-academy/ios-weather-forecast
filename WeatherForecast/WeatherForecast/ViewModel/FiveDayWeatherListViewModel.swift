@@ -19,6 +19,7 @@ class FiveDayWeatherListViewModel {
     
     func mapFiveDayData() {
         weatherService.fetchByLocation { (fiveDayWeather: FiveDayWeatherData) in
+            var newWeatherData: [FiveDayWeatherViewModel] = []
             fiveDayWeather.intervalWeathers?.forEach({ data in
                 guard let date = data.date?.format(),
                       let temperature = data.mainInformation?.temperature?.franctionDisits(),
@@ -28,9 +29,10 @@ class FiveDayWeatherListViewModel {
                 
                 ImageLoader.shared.obtainImage(cacheKey: iconName, completion: { image in
                     guard let image = image else { return }
-                    self.weathers.append(FiveDayWeatherViewModel(date, temperature, image))
+                    newWeatherData.append(FiveDayWeatherViewModel(date, temperature, image))
                 })
             })
+            self.weathers = newWeatherData
             self.reloadTableView?()
         }
     }

@@ -12,6 +12,11 @@ class MainWeatherViewController: UIViewController {
     var fiveDayListViewModel = FiveDayWeatherListViewModel()
     var weatherTableView = UITableView()
     let headerView = CurrentWeatherTableViewHeaderFooterView()
+    lazy var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(initViewModels), for: .valueChanged)
+        return control
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,17 +38,26 @@ class MainWeatherViewController: UIViewController {
         view.addSubview(imageView)
     }
     
-    private func initViewModels() {
+    @objc private func initViewModels() {
+        let refreshGroup = DispatchGroup()
+        
         currentWeatherViewModel.mapCurrentData()
         currentWeatherViewModel.reloadTableView = {
             DispatchQueue.main.async {
                 self.updateTableHeaderView()
-                self.reloadTableView()
+                DispatchQueue.global().async(group: refreshGroup) {
+                    self.reloadTableView()
+                }
             }
         }
         fiveDayListViewModel.mapFiveDayData()
         fiveDayListViewModel.reloadTableView = {
-            self.reloadTableView()
+            DispatchQueue.global().async(group: refreshGroup) {
+                self.reloadTableView()
+            }
+        }
+        refreshGroup.notify(queue: .main) { [weak self] in
+            self?.refreshControl.endRefreshing()
         }
     }
     
@@ -61,6 +75,7 @@ class MainWeatherViewController: UIViewController {
             weatherTableView.leftAnchor.constraint(equalTo: view.leftAnchor)
         ])
         weatherTableView.backgroundColor = nil
+        weatherTableView.refreshControl = refreshControl
     }
     
     private func initTableHeaderView() {
