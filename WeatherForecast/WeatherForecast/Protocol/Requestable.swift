@@ -13,7 +13,7 @@ protocol Requestable {
     associatedtype ResponseType: Responsible
 
     var path: String { get }
-    var parameters: [String: Any] { get }
+    var parameters: [String: Any]? { get }
 
     func fetch(
         completionHandler: @escaping (Result<ResponseType, Error>) -> Void

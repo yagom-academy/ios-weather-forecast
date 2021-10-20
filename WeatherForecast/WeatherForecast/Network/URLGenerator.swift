@@ -8,27 +8,26 @@
 import Foundation
 
 enum URLGenerator {
-    static func work(with path: String) -> URL? {
-        return URLComponents(string: path)?.url
-    }
 
-    static func work(with path: String, parameters: [String: Any]) -> URL? {
+    static func work(with path: String, parameters: [String: Any]? = nil) -> URL? {
         var components = URLComponents(string: path)
-        var queryItems = [URLQueryItem]()
-
-        for (key, value) in parameters {
-            queryItems.append(URLQueryItem(name: key, value: String(describing: value)))
-        }
-
-        queryItems.append(
-            URLQueryItem(
-                name: EndPoint.apiKey.name,
-                value: EndPoint.apiKey.value
+        
+        if let parameters = parameters {
+            var queryItems = [URLQueryItem]()
+            
+            for (key, value) in parameters {
+                queryItems.append(URLQueryItem(name: key, value: String(describing: value)))
+            }
+            
+            queryItems.append(
+                URLQueryItem(
+                    name: EndPoint.apiKey.name,
+                    value: EndPoint.apiKey.value
+                )
             )
-        )
-
-        components?.queryItems = queryItems
-
+            components?.queryItems = queryItems
+        }
+        
         return components?.url
     }
 }

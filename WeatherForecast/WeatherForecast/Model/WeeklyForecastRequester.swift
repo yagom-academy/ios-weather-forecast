@@ -10,10 +10,10 @@ import Foundation
 struct WeeklyForecastRequester: Requestable {
     typealias ResponseType = WeeklyWeatherForecast
 
-    var path = "forecast"
+    var path = EndPoint.apiBaseURL + "forecast"
     var latitude: Double
     var longitude: Double
-    var parameters: [String: Any] {
+    var parameters: [String: Any]? {
         return [
             "lat": latitude,
             "lon": longitude
@@ -28,7 +28,6 @@ struct WeeklyForecastRequester: Requestable {
     func fetch(
         completionHandler: @escaping (Result<WeeklyWeatherForecast, Error>) -> Void
     ) {
-        let path = EndPoint.apiBaseURL + path
         guard let url = URLGenerator.work(with: path, parameters: parameters) else {
             completionHandler(.failure(NetworkError.invalidURL))
             return

@@ -11,18 +11,15 @@ struct PNGRequester: Requestable {
     typealias ResponseType = Data
 
     var path: String
-    var parameters: [String: Any] {
-        return [:]
-    }
+    var parameters: [String: Any]?
 
     init(iconName: String) {
-        path = iconName + ".png"
+        path = EndPoint.imageBaseURL + iconName + ".png"
     }
 
     func fetch(
         completionHandler: @escaping (Result<Data, Error>) -> Void
     ) {
-        let path = EndPoint.imageBaseURL + path
         guard let url = URLGenerator.work(with: path) else {
             completionHandler(.failure(NetworkError.invalidURL))
             return
