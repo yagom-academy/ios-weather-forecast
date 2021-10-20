@@ -77,16 +77,15 @@ extension WeatherTableViewCell: ViewConfiguration {
 
 extension WeatherTableViewCell {
     func configure(with forecast: WeatherForecast?) {
-        forecast.flatMap {
-            $0.localeForecast.flatMap { date in
-                self.dateLabel.text = date }
-            $0.main?.convertToCelsius(with: $0.main?.temperature).flatMap({ temperature in
-                self.temperatureLabel.text = "\(temperature)°"
-            })
-        }
-        forecast?.weather?.first?.icon.flatMap {
-            configureImage(with: $0)
-        }
+        forecast?.localeForecast
+            .flatMap { self.dateLabel.text = $0 }
+        
+        forecast
+            .flatMap { $0.main?.convertToCelsius(with: $0.main?.temperature) }
+            .flatMap { self.temperatureLabel.text = "\($0)°" }
+        
+        forecast?.weather?.first?.icon
+            .flatMap { configureImage(with: $0) }
     }
     
     func configureImage(with urlString: String) {
@@ -97,8 +96,5 @@ extension WeatherTableViewCell {
                 self.iconImageView.image = image
             }
         }
-    }
-    func configureImage(with url: URL?) {
-        self.iconImageView.image = UIImage(systemName: "xmark.octagon.fill")
     }
 }

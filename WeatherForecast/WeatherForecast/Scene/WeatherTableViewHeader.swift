@@ -98,34 +98,29 @@ extension WeatherTableHeaderView: ViewConfiguration {
 // MARK: - Configure Cell
 extension WeatherTableHeaderView {
     func configure(with weather: TodayWeatherInfo) {
-        weather.coordinate.flatMap {
-            $0.convertToAddress { placemark in
-                if let name = placemark.name,
-                   let local = placemark.locality {
-                    self.addressLabel.text = "\(local) \(name)"
+        weather.coordinate
+            .flatMap { $0.convertToAddress { placemark in
+                    if let name = placemark.name,
+                       let local = placemark.locality {
+                        self.addressLabel.text = "\(local) \(name)"
+                    }
                 }
             }
-        }
-        weather.main.flatMap {
-            $0.convertToCelsius(with: $0.minimumTemperature)
-                .flatMap { min in
-                    self.minMaxTemperatureLabel.text = "최소 \(min)°"
-                }
-            
-            $0.convertToCelsius(with: $0.maximumTemperature)
-                .flatMap { min in
-                    self.minMaxTemperatureLabel.text! += " 최대 \(min)°"
-                }
-            
-            $0.convertToCelsius(with: $0.temperature)
-                .flatMap { temperature in
-                    self.currentTemperatureLabel.text = "\(temperature)°"
-                }
-        }
-        weather.weather?.first?
-            .icon.flatMap {
-                configureImage(with: $0)
-        }
+        
+        weather.main
+            .flatMap { $0.convertToCelsius(with: $0.minimumTemperature) }
+            .flatMap { self.minMaxTemperatureLabel.text = "최소 \($0)°" }
+        
+        weather.main
+            .flatMap { $0.convertToCelsius(with: $0.maximumTemperature) }
+            .flatMap { self.minMaxTemperatureLabel.text! += " 최대 \($0)°" }
+        
+        weather.main
+            .flatMap { $0.convertToCelsius(with: $0.temperature) }
+            .flatMap { self.currentTemperatureLabel.text = "\($0)°" }
+        
+        weather.weather?.first?.icon
+            .flatMap { configureImage(with: $0) }
     }
     
     func configureImage(with iconType: String) {
