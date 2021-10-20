@@ -8,7 +8,7 @@
 import CoreLocation
 
 protocol LocationManagerDelegate: AnyObject {
-    func didUpdateLocation(_ location: CLLocation)
+    func didUpdateLocation()
 }
 
 enum LocationManagerError: Error {
@@ -36,7 +36,14 @@ class LocationManager: NSObject {
         guard let currentLocation = currentLocation else {
             return
         }
-        CLGeocoder().reverseGeocodeLocation(currentLocation, preferredLocale: Locale.current) { placemark, error in
+        var preferredLocale: Locale
+        if let lang = Locale.preferredLanguages.first {
+            preferredLocale = Locale(identifier: lang)
+        } else {
+            preferredLocale = Locale(identifier: "ko_KR")
+        }
+
+        CLGeocoder().reverseGeocodeLocation(currentLocation, preferredLocale: preferredLocale) { placemark, error in
             guard error == nil else {
                 return completion(.failure(LocationManagerError.invalidLocation))
             }
@@ -45,6 +52,10 @@ class LocationManager: NSObject {
             }
             completion(.success(placemark))
         }
+    }
+
+    func requestLocation() {
+        manager?.requestLocation()
     }
 }
 
@@ -67,7 +78,7 @@ extension LocationManager: CLLocationManagerDelegate {
             return
         }
         currentLocation = location
-        delegate?.didUpdateLocation(location)
+        delegate?.didUpdateLocation()
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
