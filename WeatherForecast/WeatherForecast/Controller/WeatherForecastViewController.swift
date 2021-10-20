@@ -20,11 +20,9 @@ class WeatherForecastViewController: UIViewController {
 
     private let locationSetter: UIButton = {
         let button = UIButton()
-        button.setTitle("위치설정", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .clear
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(touchup), for: .touchUpInside)
         return button
     }()
 
@@ -33,10 +31,12 @@ class WeatherForecastViewController: UIViewController {
     private var networkManager = NetworkManager()
     private var currentData: CurrentWeather?
     private var forecastData: ForecastWeather?
-    private var alert: UIAlertController!
+    private var settingLocation: CLLocationCoordinate2D?
+    private var alert: [UIAlertController] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(#function)
         locationManager.delegate = self
         tableView.dataSource = self
         tableView.delegate = self
@@ -65,31 +65,44 @@ class WeatherForecastViewController: UIViewController {
     }
 
     private func configureAlertControl() {
-        alert = UIAlertController(title: "위치변경", message: "변경할 좌표를 선택해주세요", preferredStyle: .alert)
-        alert.addTextField { latitudeTextField in
-            latitudeTextField.placeholder = "위도"
-            latitudeTextField.keyboardType = .decimalPad
+        let alertAllow = AlertController.createAlertToGetCoordinate(title: "위치 변경", message: "변경할 좌표를 선택해주세요")
+        let alertReject = AlertController.createAlertToGetCoordinate(title: "위치변경", message: "날씨를 받아올 위치의 위도와 경도를 입력해주세요")
+
+        let alertAllowChangeAction = UIAlertAction(title: "변경", style: .default) { [weak self] _ in
+                guard let self = self else { return }
+                guard let textFields = alertAllow.textFields else { return }
+                guard let lat = CLLocationDegrees(textFields.first?.text ?? ""), let lon = CLLocationDegrees(textFields.last?.text ?? "") else { return }
+                self.settingLocation = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            if let settingLocation = self.settingLocation {
+                self.fetchingWeatherData(coordinate: settingLocation, api: WeatherAPI.current, type: CurrentWeather.self)
+                self.fetchingWeatherData(coordinate: settingLocation, api: WeatherAPI.forecast, type: ForecastWeather.self)
+            }
         }
 
-        alert.addTextField { longitudeTextField in
-            longitudeTextField.placeholder = "경도"
-            longitudeTextField.keyboardType = .decimalPad
-        }
-
-        alert.addAction(UIAlertAction(title: "변경", style: .default, handler: { [weak self] _ in
+        let alertRejectChangeAction = UIAlertAction(title: "변경", style: .default) { [weak self] _ in
             guard let self = self else { return }
-            guard let textFields = self.alert.textFields else { return }
+            guard let textFields = alertReject.textFields else { return }
             guard let lat = CLLocationDegrees(textFields.first?.text ?? ""), let lon = CLLocationDegrees(textFields.last?.text ?? "") else { return }
+            self.settingLocation = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+        if let settingLocation = self.settingLocation {
+            self.fetchingWeatherData(coordinate: settingLocation, api: WeatherAPI.current, type: CurrentWeather.self)
+            self.fetchingWeatherData(coordinate: settingLocation, api: WeatherAPI.forecast, type: ForecastWeather.self)
+        }
+    }
 
-            let givenCoordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-            self.fetchingWeatherData(coordinate: givenCoordinate, api: WeatherAPI.current, type: CurrentWeather.self)
-            self.fetchingWeatherData(coordinate: givenCoordinate, api: WeatherAPI.forecast, type: ForecastWeather.self)
-        }))
-
-        alert.addAction(UIAlertAction(title: "현재 위치로 재설정", style: .default, handler: { _ in
+        let alertResetAction = UIAlertAction(title: "현재 위치로 재설정", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            self.settingLocation = nil
             self.locationManager.requestLocation()
-        }))
-        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        }
+
+        let alertCancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+
+        alertAllow.addActions(alertAllowChangeAction, alertResetAction, alertCancelAction)
+        alertReject.addActions(alertRejectChangeAction, alertCancelAction)
+
+        alert.append(alertAllow)
+        alert.append(alertReject)
     }
 
     private func configureRefreshControl() {
@@ -98,14 +111,27 @@ class WeatherForecastViewController: UIViewController {
         tableView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
     }
 
-    @objc func touchup() {
-        self.present(alert, animated: true, completion: nil)
+    // MARK: @obcj actions
+    @objc func touchUpAllowAlert() {
+        self.present(alert[0], animated: true, completion: nil)
+    }
+
+    @objc func touchUpRejectAlert() {
+        self.present(alert[1], animated: true, completion: nil)
     }
 
     @objc func handleRefreshControl() {
-        locationManager.requestLocation()
+        if let settingLocation = settingLocation {
+            fetchingWeatherData(coordinate: settingLocation, api: WeatherAPI.current, type: CurrentWeather.self)
+            fetchingWeatherData(coordinate: settingLocation, api: WeatherAPI.forecast, type: ForecastWeather.self)
+        } else if locationManager.isAuthorizationAllowed() {
+            locationManager.requestLocation()
+        } else {
+            self.present(alert[1], animated: true, completion: nil)
+        }
         DispatchQueue.main.async {
             self.tableView.refreshControl?.endRefreshing()
+            self.tableView.reloadData()
         }
     }
 }
@@ -131,15 +157,29 @@ extension WeatherForecastViewController: UITableViewDataSource {
 // MARK: LocationManagerDelegate 구현부
 extension WeatherForecastViewController: LocationManagerDelegate {
     func didUpdateLocation() {
+        self.settingLocation = nil
         guard let coordinate = locationManager.getCoordinate() else {
             return
+        }
+        DispatchQueue.main.async {
+            self.locationSetter.setTitle("위치설정", for: .normal)
+            self.locationSetter.removeTarget(nil, action: nil, for: .allEvents)
+            self.locationSetter.addTarget(self, action: #selector(self.touchUpAllowAlert), for: .touchUpInside)
         }
         fetchingWeatherData(coordinate: coordinate, api: WeatherAPI.current, type: CurrentWeather.self)
         fetchingWeatherData(coordinate: coordinate, api: WeatherAPI.forecast, type: ForecastWeather.self)
     }
 
-    private func fetchingWeatherData<T: Decodable>(coordinate: CLLocationCoordinate2D, api: WeatherAPI, type: T.Type) {
+    func authorizationRejected() {
+        DispatchQueue.main.async {
+            self.locationSetter.setTitle("위치변경", for: .normal)
+            self.locationSetter.removeTarget(nil, action: nil, for: .allEvents)
+            self.locationSetter.addTarget(self, action: #selector(self.touchUpRejectAlert), for: .touchUpInside)
+        }
+        self.present(alert[1], animated: true, completion: nil)
+    }
 
+    private func fetchingWeatherData<T: Decodable>(coordinate: CLLocationCoordinate2D, api: WeatherAPI, type: T.Type) {
         let queryItems = [CoordinatesQuery.lat: String(coordinate.latitude),
                           CoordinatesQuery.lon: String(coordinate.longitude),
                           CoordinatesQuery.appid: "e6f23abdc0e7e9080761a3cfbbdafc90"]

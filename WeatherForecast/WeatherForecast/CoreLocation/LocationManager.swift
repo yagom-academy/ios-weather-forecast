@@ -9,6 +9,7 @@ import CoreLocation
 
 protocol LocationManagerDelegate: AnyObject {
     func didUpdateLocation()
+    func authorizationRejected()
 }
 
 enum LocationManagerError: Error {
@@ -54,11 +55,22 @@ class LocationManager: NSObject {
         manager.requestLocation()
     }
 
-    func currentAuthorization() -> CLAuthorizationStatus {
-        if #available(iOS 14.0, *) {
-            return manager.authorizationStatus
+    func isAuthorizationAllowed() -> Bool {
+        let authorizationStatus: CLAuthorizationStatus
+
+        if #available(iOS 14, *) {
+            authorizationStatus = manager.authorizationStatus
         } else {
-            return CLLocationManager.authorizationStatus()
+            authorizationStatus = CLLocationManager.authorizationStatus()
+        }
+
+        switch authorizationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            return true
+        case .denied, .restricted:
+            return false
+        default:
+            return false
         }
     }
 }
@@ -69,11 +81,13 @@ extension LocationManager: CLLocationManagerDelegate {
         case .notDetermined:
             manager.requestWhenInUseAuthorization()
         case .authorizedWhenInUse, .authorizedAlways:
+            debugPrint("권한받음")
             manager.requestLocation()
         case .denied, .restricted:
-            print("권한없음")
+            debugPrint("권한없음")
+            delegate?.authorizationRejected()
         default:
-            print("알수없음")
+            debugPrint("알수없음")
         }
     }
 
