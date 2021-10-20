@@ -9,7 +9,7 @@ import UIKit
 
 final class WeatherHeaderView: UICollectionReusableView {
     private lazy var addressLabel: UILabel = {
-        let adressLabel = UILabel.makeLabel(font: .caption1)
+        let adressLabel = UILabel.makeLabel(font: .subheadline)
         addSubview(adressLabel)
         NSLayoutConstraint.activate([
             adressLabel.leadingAnchor.constraint(equalTo: infoStackView.leadingAnchor),
@@ -23,9 +23,9 @@ final class WeatherHeaderView: UICollectionReusableView {
     private var presentLocationSelector: (()-> Void)?
     private lazy var locationSelectButton: UIButton = {
         let locationSelectButton = UIButton()
-        locationSelectButton.setTitle("", for: .normal)
+        locationSelectButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .subheadline)
         locationSelectButton.setTitleColor(.systemGray6, for: .normal)
-        
+        locationSelectButton.contentEdgeInsets = UIEdgeInsets(top: -3, left: 0, bottom: 0, right: 0)
         locationSelectButton.addAction(UIAction(handler: { [weak self] _ in
             self?.presentLocationSelector?()
         }), for: .touchUpInside)
@@ -44,6 +44,7 @@ final class WeatherHeaderView: UICollectionReusableView {
     private lazy var weatherIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
+        imageView.widthAnchor.constraint(lessThanOrEqualToConstant: 60).isActive = true
         return imageView
     }()
     

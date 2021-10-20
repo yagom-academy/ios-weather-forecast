@@ -18,16 +18,16 @@ final class WeatherForecastCustomCell: UICollectionViewCell {
         let weatherImage = UIImageView()
         weatherImage.translatesAutoresizingMaskIntoConstraints = false
         weatherImage.widthAnchor.constraint(equalTo: weatherImage.heightAnchor).isActive = true
-        weatherImage.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        weatherImage.widthAnchor.constraint(equalToConstant: 44).isActive = true
         return weatherImage
     }()
     
     private lazy var horizontalStackView: UIStackView = {
         var horizontalStackView = UIStackView(arrangedSubviews: [dateLabel, temperatureLabel, weatherImage])
+        temperatureLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         horizontalStackView.alignment = .fill
         horizontalStackView.distribution = .fill
         horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
-        horizontalStackView.spacing = 10
         horizontalStackView.axis = .horizontal
         contentView.addSubview(horizontalStackView)
         return horizontalStackView
@@ -35,7 +35,6 @@ final class WeatherForecastCustomCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setLayoutForStackView()
     }
     
