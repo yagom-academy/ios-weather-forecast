@@ -13,7 +13,3 @@ var dateFormatter: DateFormatter = {
     formatter.dateFormat = "MM / dd (EEEEE) HH"
     return formatter
 }()
-
-extension Date {
-   
-}

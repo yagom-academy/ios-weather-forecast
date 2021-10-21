@@ -8,6 +8,12 @@
 import Foundation
 
 protocol URLMakable {
+    var urlBuilder: URLBuilder { get }
+    var urlResource: URLResource { get }
+}
+
+protocol URLPathQuries {
     var pathType: URLResource.PathType { get set }
     var queries: [URLResource.QueryParam] { get set }
 }
+

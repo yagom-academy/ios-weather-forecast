@@ -15,11 +15,8 @@ struct URLResource {
         case current = "/data/2.5/weather"
         case fiveDays = "/data/2.5/forecast"
         
-        static func weatherImage(num: Int) -> String {
-            if num < 10 {
-                return "img/w/0\(num)d.png"
-            }
-            return "img/w/\(num)d.png"
+        static func weatherImage(_ iconName: String) -> String {
+            return "/img/w/\(iconName).png"
         }
     }
 

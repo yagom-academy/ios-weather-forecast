@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CustomTableViewCell: UITableViewCell {
+class IntervalWeatherTableViewCell: UITableViewCell {
     static let identifier = "cell"
     
     var weatherImageView: UIImageView = {
@@ -44,14 +44,20 @@ class CustomTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    override func setNeedsLayout() {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .clear
+        self.selectionStyle = .none
         configureLayout()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
 }
 
-extension CustomTableViewCell {
+extension IntervalWeatherTableViewCell {
     private func configureLayout() {
         horizontalStackView.addArrangedSubview(dateLabel)
         horizontalStackView.addArrangedSubview(mininumTemperatureLabel)
@@ -67,10 +73,20 @@ extension CustomTableViewCell {
         ])
     }
     
-    func cellConfiguration(date: String, minTemperature: String, weatherImage: UIImage? = nil) {
-        self.dateLabel.text = date
+    func cellConfiguration(data: FivedaysWeather, indexPath: IndexPath) {
+        let daysWeatherData = data.list[indexPath.row]
+        let formattedDate = dateFormatter.string(from: Date(timeIntervalSince1970: daysWeatherData.timeOfData))
+        let minTemperature = "\(daysWeatherData.mainInfo.temperatureMin)º"
+        
+        guard let iconName = daysWeatherData.weather.first?.iconName else { return }
+        guard let imageUrl = urlBuilder.builderImageURL(resource: urlResource, iconName: iconName) else {
+            return
+        }
+        
+        self.dateLabel.text = formattedDate
         self.mininumTemperatureLabel.text = minTemperature
-        self.weatherImageView.image = weatherImage
+        self.weatherImageView.loadImage(from: imageUrl)
+        
     }
 }
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class URLBuilder: URLMakable {
+class URLBuilder: URLPathQuries {
     var pathType: URLResource.PathType
     var queries = [URLResource.QueryParam]()
     
@@ -48,11 +48,11 @@ class URLBuilder: URLMakable {
         return urlComponents.url
     }
     
-    func builderImageURL(resource: URLResource, index: Int) -> URL? {
+    func builderImageURL(resource: URLResource, iconName: String) -> URL? {
         var urlComponents = URLComponents()
         urlComponents.scheme = resource.scheme
         urlComponents.host = resource.host
-        urlComponents.path = URLResource.PathType.weatherImage(num: index)
+        urlComponents.path = URLResource.PathType.weatherImage(iconName)
         return urlComponents.url
     }
 }

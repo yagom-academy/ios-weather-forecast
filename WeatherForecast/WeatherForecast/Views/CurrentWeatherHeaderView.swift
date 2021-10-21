@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum AlertResource: String {
+enum HeaderViewAlertResource: String {
     case alertTitle = "위치 변경"
     case alertMessage = "변경할 좌표를 선택해 주세요"
     case changeButton = "변경"
@@ -15,7 +15,7 @@ enum AlertResource: String {
     case cancelButton = "취소"
 }
 
-class CustomHeaderView: UITableViewHeaderFooterView {
+class CurrentWeatherHeaderView: UITableViewHeaderFooterView {
     static let identifier = "headerView"
     
     var weatherImageView: UIImageView = {
@@ -61,7 +61,6 @@ class CustomHeaderView: UITableViewHeaderFooterView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("위치 설정", for: .normal)
         button.setTitleColor(.white, for: .normal)
-//        button.isUserInteractionEnabled = true
         button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return button
     }()
@@ -70,7 +69,6 @@ class CustomHeaderView: UITableViewHeaderFooterView {
         super.init(reuseIdentifier: reuseIdentifier)
         setupHeaderView()
         addTargetCoordinateButton()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -79,20 +77,26 @@ class CustomHeaderView: UITableViewHeaderFooterView {
     
 }
 
-extension CustomHeaderView {
+extension CurrentWeatherHeaderView {
     private func addTargetCoordinateButton() {
         coordinateButton.addTarget(self, action: #selector(coordinateButtonAction), for: .touchUpInside)
     }
     
     @objc private func coordinateButtonAction() {
-        NotificationCenter.default.post(name: NSNotification.Name("alert"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name.changeCoordinateAlert, object: nil)
     }
     
-    func configurationHeaderView(address: String, minMaxTemperature: String, currentTemperature: String, image: UIImage? = nil) {
-        self.addressLabel.text = address
-        self.currentTemperatureLabel.text = currentTemperature
-        self.mininumAndMaximumTemperatureLabel.text = minMaxTemperature
-        self.weatherImageView.image = UIImage(named: "background")
+    func configurationHeaderView(data: CurrentWeather, address: String) {
+        guard let iconName = data.weather.first?.iconName, let imageUrl = urlBuilder.builderImageURL(resource: urlResource, iconName: iconName) else { return }
+        
+            let minMaxTemperature = "최저\(String(format: "%.1f", data.mainInfo.temperatureMin))º 최고\(String(format: "%.1f",data.mainInfo.temperatureMax))º"
+            let currentTemperature = "\(data.mainInfo.temperature)º"
+            
+            self.addressLabel.text = address
+            self.currentTemperatureLabel.text = currentTemperature
+            self.mininumAndMaximumTemperatureLabel.text = minMaxTemperature
+            
+            self.weatherImageView.loadImage(from: imageUrl)
     }
     
     func setupHeaderView() {
