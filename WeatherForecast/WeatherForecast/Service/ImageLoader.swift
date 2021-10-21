@@ -38,7 +38,7 @@ final class ImageLoader {
                     self.cache?.setObject(image, forKey: cacheKey as NSString)
                     completion(image)
                 case .failure(let error):
-                    print(error)
+                    print(error.localizedDescription)
                     completion(nil)
                 }
             })
