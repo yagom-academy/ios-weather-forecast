@@ -37,10 +37,12 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
         print(error)
     }
     
-    func locationManager(_ manager: CLLocationManager, status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager,
+                         didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .denied:
-            print("권한 요청 거부죔")
+            print("권한 요청 거부됨")
+            // TODO: - Alert + Error 처리
             return
         case .restricted, .notDetermined:
             print("권한 요청 되지 않음")
