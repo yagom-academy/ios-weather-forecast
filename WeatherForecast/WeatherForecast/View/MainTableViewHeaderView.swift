@@ -98,8 +98,8 @@ extension MainTableViewHeaderView {
 
 // MARK: - Internal 메서드
 extension MainTableViewHeaderView {
-    func addChangeLocationButtonTarget(target: NSObject, action: Selector) {
-        changeLocationButton.addTarget(target, action: action, for: .touchUpInside)
+    func addChangeLocationButtonTarget(target: NSObject, action: Selector, for event: UIControl.Event) {
+        changeLocationButton.addTarget(target, action: action, for: event)
     }
     
     func configureTexts(address: String, temperatureRange: String, temperature: String) {

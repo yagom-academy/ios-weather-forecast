@@ -26,9 +26,13 @@ class MainWeatherTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.refreshControl = makeRefreshControl(targetView: self, action: #selector(reloadWeatherData(_:)))
+        tableView.refreshControl = makeRefreshControl(targetView: self,
+                                                      action: #selector(reloadWeatherData(_:)),
+                                                      for: .valueChanged)
         tableView.tableHeaderView?.frame = makeHeaderViewFrame()
-        headerView.addChangeLocationButtonTarget(target: self, action: #selector(tapChangeLocationButton))
+        headerView.addChangeLocationButtonTarget(target: self,
+                                                 action: #selector(tapChangeLocationButton),
+                                                 for: .touchUpInside)
         self.weatherDataViewModel.setDelegate(from: self)
     }
     
@@ -59,9 +63,11 @@ extension MainWeatherTableViewController {
         }
     }
     
-    private func makeRefreshControl(targetView: NSObject, action: Selector) -> UIRefreshControl {
+    private func makeRefreshControl(targetView: NSObject,
+                                    action: Selector,
+                                    for event: UIControl.Event) -> UIRefreshControl {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(targetView, action: action, for: .valueChanged)
+        refreshControl.addTarget(targetView, action: action, for: event)
         refreshControl.tintColor = .green
         return refreshControl
     }
