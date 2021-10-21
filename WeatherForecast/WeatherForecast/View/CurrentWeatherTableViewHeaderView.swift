@@ -21,7 +21,7 @@ class CurrentWeatherTableViewHeaderView: UIView {
         label.textAlignment = .left
         return label
     }()
-    private let minMaxLabel: UILabel = {
+    private let minMaxTemperatureLabel: UILabel = {
         var label = UILabel()
         label.textColor = .white
         label.font = UIFont.preferredFont(forTextStyle: .body)
@@ -37,7 +37,7 @@ class CurrentWeatherTableViewHeaderView: UIView {
     }()
     
     private lazy var labelStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [addressLabel, minMaxLabel, temperatureLabel])
+        let stackView = UIStackView(arrangedSubviews: [addressLabel, minMaxTemperatureLabel, temperatureLabel])
         stackView.axis = .vertical
         stackView.spacing = 10
         stackView.distribution = .fillEqually
@@ -53,14 +53,14 @@ class CurrentWeatherTableViewHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setUpAutoLayout()
+        configureAutoLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureLabels(
+    func configureContents(
         image: UIImage?,
         address: String,
         minMaxTemperature: String,
@@ -68,11 +68,11 @@ class CurrentWeatherTableViewHeaderView: UIView {
     ) {
         weatherImageView.image = image
         addressLabel.text = address
-        minMaxLabel.text = minMaxTemperature
+        minMaxTemperatureLabel.text = minMaxTemperature
         temperatureLabel.text = temperature
     }
     
-    private func setUpAutoLayout() {
+    private func configureAutoLayout() {
         weatherStackView.translatesAutoresizingMaskIntoConstraints = false
         
         self.addSubview(weatherStackView)

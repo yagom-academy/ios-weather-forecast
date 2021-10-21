@@ -23,7 +23,7 @@ class WeatherViewController: UIViewController {
         
         initBackgroundView()
         updateViewModels()
-        setUpTableView()
+        configureTableView()
         initTableHeaderView()
     }
     
@@ -63,7 +63,7 @@ class WeatherViewController: UIViewController {
         }
     }
     
-    private func setUpTableView() {
+    private func configureTableView() {
         weatherTableView.delegate = self
         weatherTableView.dataSource = self
         view.addSubview(weatherTableView)
@@ -88,7 +88,7 @@ class WeatherViewController: UIViewController {
     }
     
     private func updateTableHeaderView() {
-        headerView.configureLabels(
+        headerView.configureContents(
             image: currentWeatherViewModel.weatherImage,
             address: currentWeatherViewModel.address,
             minMaxTemperature: currentWeatherViewModel.minMaxTamperature,
