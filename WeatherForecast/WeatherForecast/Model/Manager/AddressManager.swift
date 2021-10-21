@@ -38,10 +38,11 @@ struct AddressManager {
             guard let placeMarks = placeMarks, let address = placeMarks.last else {
                 return completionHandler(.failure(AddressTranslationError.failedToGetAddress))
             }
-            guard let adminstrativeArea = address.administrativeArea, let locality = address.locality, let thoroughfare = address.thoroughfare else {
+            guard let adminstrativeArea = address.administrativeArea, let locality = address.locality else {
                 return completionHandler(.failure(AddressTranslationError.invalidAddress))
             }
-            let userAddress = "\(adminstrativeArea) \(locality) \(thoroughfare)"
+            let thoroughfare = address.thoroughfare
+            let userAddress = "\(adminstrativeArea) \(locality) \(thoroughfare ?? "")"
             completionHandler(.success(userAddress))
         }
     }
