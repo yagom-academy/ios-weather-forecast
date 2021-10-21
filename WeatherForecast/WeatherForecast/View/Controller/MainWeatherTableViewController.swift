@@ -118,6 +118,7 @@ extension MainWeatherTableViewController: Requirable {
                 }
                 self.reloadHeaderView()
                 self.tableView.reloadData()
+                print("complete reloaded Data")
             }
         }
     }
