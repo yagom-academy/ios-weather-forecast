@@ -39,3 +39,19 @@ struct City: Codable {
         case coordinate = "coord"
     }
 }
+
+extension Coordinate {
+    func convertToAddress(completion: @escaping (CLPlacemark) -> Void) {
+        let location = CLLocation.init(latitude: self.latitude, longitude: self.longitude)
+        CLGeocoder().reverseGeocodeLocation(
+            location,
+            preferredLocale: Locale(identifier: "ko_KR")
+        ) { (placemarks, error) in
+            guard error == nil,
+                  let placemark = placemarks?.last
+            else { return }
+            
+            completion(placemark)
+        }
+    }
+}

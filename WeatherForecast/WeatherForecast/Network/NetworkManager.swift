@@ -17,6 +17,8 @@ protocol URLSessionable {
         with request: URLRequest,
         completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
     ) -> URLSessionDataTask
+    
+    func invalidateAndCancel()
 }
 
 extension URLSession: URLSessionable { }
