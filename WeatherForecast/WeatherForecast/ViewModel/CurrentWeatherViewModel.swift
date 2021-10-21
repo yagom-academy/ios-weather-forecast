@@ -58,10 +58,6 @@ class CurrentWeatherViewModel {
             
             if let iconName = currentWeather.conditions?.first?.iconName {
                 ImageLoader.shared.obtainImage(cacheKey: iconName, completion: { image in
-                    guard let image = image else {
-                        print("Image not found")
-                        return
-                    }
                     self.weatherImage = image
                     self.reloadTableView?()
                 })
