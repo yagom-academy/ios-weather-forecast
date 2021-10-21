@@ -10,6 +10,7 @@ import CoreLocation
 protocol LocationManagerDelegate: AnyObject {
     func didUpdateLocation()
     func authorizationRejected()
+    func authorizationAllowed()
 }
 
 enum LocationManagerError: Error {
@@ -82,7 +83,7 @@ extension LocationManager: CLLocationManagerDelegate {
             manager.requestWhenInUseAuthorization()
         case .authorizedWhenInUse, .authorizedAlways:
             debugPrint("권한받음")
-            manager.requestLocation()
+            delegate?.authorizationAllowed()
         case .denied, .restricted:
             debugPrint("권한없음")
             delegate?.authorizationRejected()

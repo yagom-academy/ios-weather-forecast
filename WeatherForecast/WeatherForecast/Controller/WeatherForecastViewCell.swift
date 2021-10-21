@@ -9,14 +9,34 @@ import UIKit
 
 class WeatherForecastViewCell: UITableViewCell {
     static let identifier = "CustomTableViewCell"
-    private let timeLabel = UILabel(color: .white)
-    private let temperatureLabel = UILabel(color: .white)
-    private let iconImageView = UIImageView()
-    private let stackView = UIStackView()
+    private let timeLabel: UILabel = {
+        let timeLabel = UILabel(color: .white)
+        timeLabel.translatesAutoresizingMaskIntoConstraints = false
+        return timeLabel
+    }()
+
+    private let temperatureLabel: UILabel = {
+        let temperatureLabel = UILabel(color: .white)
+        temperatureLabel.translatesAutoresizingMaskIntoConstraints = false
+        return temperatureLabel
+    }()
+
+    private let iconImageView: UIImageView = {
+        let iconImageView = UIImageView()
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
+        return iconImageView
+    }()
+
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setUpCellLayout()
+        setUpLayout()
+        setUpConstraint()
         backgroundColor = .clear
     }
 
@@ -24,18 +44,15 @@ class WeatherForecastViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setUpCellLayout() {
+    private func setUpLayout() {
         stackView.axis = .horizontal
         stackView.addArrangedSubview(temperatureLabel)
         stackView.addArrangedSubview(iconImageView)
         contentView.addSubview(timeLabel)
         contentView.addSubview(stackView)
+    }
 
-        timeLabel.translatesAutoresizingMaskIntoConstraints = false
-        temperatureLabel.translatesAutoresizingMaskIntoConstraints = false
-        iconImageView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-
+    private func setUpConstraint() {
         NSLayoutConstraint.activate([
             timeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
             timeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),

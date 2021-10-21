@@ -12,18 +12,18 @@ class WeatherForecastViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundView = UIImageView(image: UIImage(named: "tokyo_tower.jpeg"))
         tableView.backgroundView?.alpha = 0.8
-        tableView.separatorColor = .white
         tableView.register(WeatherForecastViewCell.self, forCellReuseIdentifier: WeatherForecastViewCell.identifier)
+        tableView.separatorColor = .white
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
 
     private let locationSetter: UIButton = {
-        let button = UIButton()
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .clear
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+        let locationSetter = UIButton()
+        locationSetter.setTitleColor(.white, for: .normal)
+        locationSetter.backgroundColor = .clear
+        locationSetter.translatesAutoresizingMaskIntoConstraints = false
+        return locationSetter
     }()
 
     private var tableHeaderView: WeatherForecastHeaderView!
@@ -33,11 +33,10 @@ class WeatherForecastViewController: UIViewController {
     private var forecastData: [ForecastWeather.List] = []
     private var settingLocation: CLLocationCoordinate2D?
     private var alert: [UIAlertController] = []
-    private let dispatchGroup = DispatchGroup()
+    private let groupForFetch = DispatchGroup()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(#function)
         locationManager.delegate = self
         tableView.dataSource = self
         tableView.delegate = self
@@ -50,7 +49,7 @@ class WeatherForecastViewController: UIViewController {
 
     private func setUpTableViewLayout() {
         tableHeaderView = WeatherForecastHeaderView(frame:
-                            CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height * 0.15))
+                                                    CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height * 0.15))
         tableHeaderView.addSubview(locationSetter)
         tableView.tableHeaderView = tableHeaderView
         tableView.rowHeight = view.frame.height / 15
@@ -71,26 +70,36 @@ class WeatherForecastViewController: UIViewController {
         let alertReject = AlertController.createAlertToGetCoordinate(title: "위치변경", message: "날씨를 받아올 위치의 위도와 경도를 입력해주세요")
 
         let alertAllowChangeAction = UIAlertAction(title: "변경", style: .default) { [weak self] _ in
-                guard let self = self else { return }
-                guard let textFields = alertAllow.textFields else { return }
-                guard let lat = CLLocationDegrees(textFields.first?.text ?? ""), let lon = CLLocationDegrees(textFields.last?.text ?? "") else { return }
-                self.settingLocation = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            guard let self = self else { return }
+            guard let textFields = alertAllow.textFields else { return }
+            guard let lat = CLLocationDegrees(textFields.first?.text ?? ""),
+                  let lon = CLLocationDegrees(textFields.last?.text ?? "") else { return }
+
+            self.settingLocation = CLLocationCoordinate2D(latitude: lat, longitude: lon)
             if let settingLocation = self.settingLocation {
                 self.fetchingWeatherData(coordinate: settingLocation, api: WeatherAPI.current, type: CurrentWeather.self)
                 self.fetchingWeatherData(coordinate: settingLocation, api: WeatherAPI.forecast, type: ForecastWeather.self)
+                self.groupForFetch.notify(queue: DispatchQueue.main) {
+                    self.tableView.reloadData()
+                }
             }
         }
 
         let alertRejectChangeAction = UIAlertAction(title: "변경", style: .default) { [weak self] _ in
             guard let self = self else { return }
             guard let textFields = alertReject.textFields else { return }
-            guard let lat = CLLocationDegrees(textFields.first?.text ?? ""), let lon = CLLocationDegrees(textFields.last?.text ?? "") else { return }
+            guard let lat = CLLocationDegrees(textFields.first?.text ?? ""),
+                  let lon = CLLocationDegrees(textFields.last?.text ?? "") else { return }
+
             self.settingLocation = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-        if let settingLocation = self.settingLocation {
-            self.fetchingWeatherData(coordinate: settingLocation, api: WeatherAPI.current, type: CurrentWeather.self)
-            self.fetchingWeatherData(coordinate: settingLocation, api: WeatherAPI.forecast, type: ForecastWeather.self)
+            if let settingLocation = self.settingLocation {
+                self.fetchingWeatherData(coordinate: settingLocation, api: WeatherAPI.current, type: CurrentWeather.self)
+                self.fetchingWeatherData(coordinate: settingLocation, api: WeatherAPI.forecast, type: ForecastWeather.self)
+                self.groupForFetch.notify(queue: DispatchQueue.main) {
+                    self.tableView.reloadData()
+                }
+            }
         }
-    }
 
         let alertResetAction = UIAlertAction(title: "현재 위치로 재설정", style: .default) { [weak self] _ in
             guard let self = self else { return }
@@ -113,7 +122,6 @@ class WeatherForecastViewController: UIViewController {
         tableView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
     }
 
-    // MARK: @obcj actions
     @objc func touchUpAllowAlert() {
         self.present(alert[0], animated: true, completion: nil)
     }
@@ -129,11 +137,16 @@ class WeatherForecastViewController: UIViewController {
         } else if locationManager.isAuthorizationAllowed() {
             locationManager.requestLocation()
         } else {
-            self.present(alert[1], animated: true, completion: nil)
+            self.present(alert[1], animated: true) {
+                DispatchQueue.main.async {
+                    self.tableView.refreshControl?.endRefreshing()
+                }
+            }
         }
+
         DispatchQueue.main.async {
-            self.tableView.refreshControl?.endRefreshing()
             self.tableView.reloadData()
+            self.tableView.refreshControl?.endRefreshing()
         }
     }
 }
@@ -157,26 +170,12 @@ extension WeatherForecastViewController: UITableViewDataSource {
 extension WeatherForecastViewController: LocationManagerDelegate {
     func didUpdateLocation() {
         self.settingLocation = nil
-        fetchingWeatherData(api: WeatherAPI.current, type: CurrentWeather.self)
-        fetchingWeatherData(api: WeatherAPI.forecast, type: ForecastWeather.self)
-        dispatchGroup.notify(queue: DispatchQueue.global()) {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
-
-    private func fetchingWeatherData<T: Decodable>(api: WeatherAPI, type: T.Type) {
-        guard let coordinate = locationManager.getCoordinate() else {
-            return
-        }
-        DispatchQueue.main.async {
-            self.locationSetter.setTitle("위치설정", for: .normal)
-            self.locationSetter.removeTarget(nil, action: nil, for: .allEvents)
-            self.locationSetter.addTarget(self, action: #selector(self.touchUpAllowAlert), for: .touchUpInside)
-        }
+        guard let coordinate = locationManager.getCoordinate() else { return }
         fetchingWeatherData(coordinate: coordinate, api: WeatherAPI.current, type: CurrentWeather.self)
         fetchingWeatherData(coordinate: coordinate, api: WeatherAPI.forecast, type: ForecastWeather.self)
+        groupForFetch.notify(queue: DispatchQueue.main) {
+            self.tableView.reloadData()
+        }
     }
 
     func authorizationRejected() {
@@ -188,16 +187,24 @@ extension WeatherForecastViewController: LocationManagerDelegate {
         self.present(alert[1], animated: true, completion: nil)
     }
 
+    func authorizationAllowed() {
+        DispatchQueue.main.async {
+            self.locationSetter.setTitle("위치설정", for: .normal)
+            self.locationSetter.removeTarget(nil, action: nil, for: .allEvents)
+            self.locationSetter.addTarget(self, action: #selector(self.touchUpAllowAlert), for: .touchUpInside)
+        }
+        locationManager.requestLocation()
+    }
+
     private func fetchingWeatherData<T: Decodable>(coordinate: CLLocationCoordinate2D, api: WeatherAPI, type: T.Type) {
         let queryItems = [CoordinatesQuery.lat: String(coordinate.latitude),
                           CoordinatesQuery.lon: String(coordinate.longitude),
                           CoordinatesQuery.appid: "e6f23abdc0e7e9080761a3cfbbdafc90"]
 
         guard let url = URL.createURL(API: api, queryItems: queryItems) else { return }
-        dispatchGroup.enter()
+        groupForFetch.enter()
         networkManager.dataTask(url: url) { [weak self] result in
             guard let self = self else { return }
-
             if case .success(let data) = result {
                 do {
                     let data = try JSONDecoder().decode(type, from: data)
@@ -211,7 +218,7 @@ extension WeatherForecastViewController: LocationManagerDelegate {
                     debugPrint(error)
                 }
             }
-            self.dispatchGroup.leave()
+            self.groupForFetch.leave()
         }
     }
 
