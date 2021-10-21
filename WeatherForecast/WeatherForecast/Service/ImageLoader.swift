@@ -21,7 +21,7 @@ final class ImageLoader {
     
     func obtainImage(cacheKey: String, completion: @escaping (UIImage?) -> Void) {
         guard let url = URL(string: "https://openweathermap.org/img/w/\(cacheKey).png") else {
-            print("Wrong URL")
+            print(ImageLoaderError.invalidURL.errorDescription)
             return
         }
         if let image = cache?.object(forKey: cacheKey as NSString) {
@@ -31,7 +31,7 @@ final class ImageLoader {
                 switch result {
                 case .success(let data):
                     guard let image = UIImage(data: data) else {
-                        print("Not a image")
+                        print(ImageLoaderError.invaildImage.errorDescription)
                         completion(nil)
                         return
                     }
@@ -42,6 +42,23 @@ final class ImageLoader {
                     completion(nil)
                 }
             })
+        }
+    }
+}
+
+extension ImageLoader {
+    
+    enum ImageLoaderError: LocalizedError {
+        case invalidURL
+        case invaildImage
+        
+        var errorDescription: String {
+            switch self {
+            case .invalidURL:
+                return NSLocalizedString("ImageLoader: URL이 올바르지 않습니다.", comment: "")
+            case .invaildImage:
+                return NSLocalizedString("ImageLoader: 이미지가 올바르지 않습니다.", comment: "")
+            }
         }
     }
 }
