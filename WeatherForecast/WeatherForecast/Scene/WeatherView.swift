@@ -40,7 +40,7 @@ extension WeatherView: ViewConfiguration {
         NSLayoutConstraint.activate([
             forecastTableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             forecastTableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            forecastTableView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            forecastTableView.topAnchor.constraint(equalTo: self.topAnchor),
             forecastTableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }

@@ -47,7 +47,7 @@ extension WeatherViewController: ViewConfiguration {
         NSLayoutConstraint.activate([
             weatherView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             weatherView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            weatherView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            weatherView.topAnchor.constraint(equalTo: view.topAnchor),
             weatherView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
