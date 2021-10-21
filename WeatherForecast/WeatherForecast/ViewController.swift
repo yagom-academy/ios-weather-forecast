@@ -66,6 +66,10 @@ extension ViewController: UITableViewDelegate {
         
         return view
     }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return CurrentWeatherHeader.headerHeight
+    }
 }
 
 extension ViewController: CLLocationManagerDelegate {

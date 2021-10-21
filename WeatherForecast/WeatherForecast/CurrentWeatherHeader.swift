@@ -10,6 +10,7 @@ import CoreLocation
 
 class CurrentWeatherHeader: UITableViewHeaderFooterView {
     static let headerIdentifier = "\(self)"
+    static let headerHeight = CGFloat(100)
     
     private let weatherImageView: UIImageView = {
         let imageView = UIImageView()
@@ -102,7 +103,7 @@ extension CurrentWeatherHeader {
         NSLayoutConstraint.activate([
             horizontalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             horizontalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            horizontalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            horizontalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             horizontalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
         
@@ -125,9 +126,8 @@ extension CurrentWeatherHeader {
         horizontalStackView.addArrangedSubview(verticalStackView)
         
         NSLayoutConstraint.activate([
-            weatherImageView.widthAnchor.constraint(equalTo: horizontalStackView.widthAnchor,
-                                                    multiplier: 0.25),
-            weatherImageView.heightAnchor.constraint(equalTo: weatherImageView.widthAnchor)
+            weatherImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
+            weatherImageView.widthAnchor.constraint(equalTo: weatherImageView.heightAnchor)
         ])
     }
 }
