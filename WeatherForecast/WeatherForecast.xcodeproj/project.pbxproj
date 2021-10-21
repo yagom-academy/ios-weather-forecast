@@ -17,6 +17,7 @@
 		899D45AA271D13920091F395 /* Extension + CLLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899D45A9271D13920091F395 /* Extension + CLLocation.swift */; };
 		899D45AC271D14BE0091F395 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899D45AB271D14BE0091F395 /* Coordinate.swift */; };
 		899D45B4271EF4F00091F395 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899D45B3271EF4F00091F395 /* AlertController.swift */; };
+		899DEB0027219654007A9789 /* Extension + UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899DEAFF27219654007A9789 /* Extension + UIAlertController.swift */; };
 		89B746472715FCAA0098F129 /* WeatherForecastViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B746462715FCAA0098F129 /* WeatherForecastViewCell.swift */; };
 		89B74649271600990098F129 /* Extension + MeasurementFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B74648271600990098F129 /* Extension + MeasurementFormatter.swift */; };
 		89B7464B271600CE0098F129 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B7464A271600CE0098F129 /* ImageCacheManager.swift */; };
@@ -72,6 +73,7 @@
 		899D45AF271D67980091F395 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
 		899D45B0271D67980091F395 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		899D45B3271EF4F00091F395 /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
+		899DEAFF27219654007A9789 /* Extension + UIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIAlertController.swift"; sourceTree = "<group>"; };
 		89B746462715FCAA0098F129 /* WeatherForecastViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecastViewCell.swift; sourceTree = "<group>"; };
 		89B74648271600990098F129 /* Extension + MeasurementFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + MeasurementFormatter.swift"; sourceTree = "<group>"; };
 		89B7464A271600CE0098F129 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				89B7464C271601050098F129 /* Extension + UIImageView.swift */,
 				89B74650271734870098F129 /* Extension + UILabel.swift */,
 				899D45A9271D13920091F395 /* Extension + CLLocation.swift */,
+				899DEAFF27219654007A9789 /* Extension + UIAlertController.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -517,6 +520,7 @@
 				899D45B4271EF4F00091F395 /* AlertController.swift in Sources */,
 				899D45AA271D13920091F395 /* Extension + CLLocation.swift in Sources */,
 				89970798270B18F5006DE539 /* API.swift in Sources */,
+				899DEB0027219654007A9789 /* Extension + UIAlertController.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

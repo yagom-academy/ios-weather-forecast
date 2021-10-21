@@ -5,7 +5,6 @@
 //  Created by 박태현 on 2021/10/19.
 //
 
-import Foundation
 import UIKit
 
 struct AlertController {
@@ -26,13 +25,5 @@ struct AlertController {
             longitudeTextField.clearButtonMode = .always
         }
         return alert
-    }
-}
-
-extension UIAlertController {
-    func addActions(_ actions: UIAlertAction...) {
-        for action in actions {
-            self.addAction(action)
-        }
     }
 }

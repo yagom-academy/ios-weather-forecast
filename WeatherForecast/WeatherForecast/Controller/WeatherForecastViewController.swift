@@ -66,12 +66,12 @@ class WeatherForecastViewController: UIViewController {
     }
 
     private func configureAlertControl() {
-        let alertAllow = AlertController.createAlertToGetCoordinate(title: "위치 변경", message: "변경할 좌표를 선택해주세요")
-        let alertReject = AlertController.createAlertToGetCoordinate(title: "위치변경", message: "날씨를 받아올 위치의 위도와 경도를 입력해주세요")
+        let alertAllowLocation = AlertController.createAlertToGetCoordinate(title: "위치 변경", message: "변경할 좌표를 선택해주세요")
+        let alertRejectLocation = AlertController.createAlertToGetCoordinate(title: "위치변경", message: "날씨를 받아올 위치의 위도와 경도를 입력해주세요")
 
-        let alertAllowChangeAction = UIAlertAction(title: "변경", style: .default) { [weak self] _ in
+        let alertAllowLocationChangeAction = UIAlertAction(title: "변경", style: .default) { [weak self] _ in
             guard let self = self else { return }
-            guard let textFields = alertAllow.textFields else { return }
+            guard let textFields = alertAllowLocation.textFields else { return }
             guard let lat = CLLocationDegrees(textFields.first?.text ?? ""),
                   let lon = CLLocationDegrees(textFields.last?.text ?? "") else { return }
 
@@ -85,9 +85,9 @@ class WeatherForecastViewController: UIViewController {
             }
         }
 
-        let alertRejectChangeAction = UIAlertAction(title: "변경", style: .default) { [weak self] _ in
+        let alertRejectLocationChangeAction = UIAlertAction(title: "변경", style: .default) { [weak self] _ in
             guard let self = self else { return }
-            guard let textFields = alertReject.textFields else { return }
+            guard let textFields = alertRejectLocation.textFields else { return }
             guard let lat = CLLocationDegrees(textFields.first?.text ?? ""),
                   let lon = CLLocationDegrees(textFields.last?.text ?? "") else { return }
 
@@ -109,11 +109,11 @@ class WeatherForecastViewController: UIViewController {
 
         let alertCancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
 
-        alertAllow.addActions(alertAllowChangeAction, alertResetAction, alertCancelAction)
-        alertReject.addActions(alertRejectChangeAction, alertCancelAction)
+        alertAllowLocation.addActions(alertAllowLocationChangeAction, alertResetAction, alertCancelAction)
+        alertRejectLocation.addActions(alertRejectLocationChangeAction, alertCancelAction)
 
-        alert.append(alertAllow)
-        alert.append(alertReject)
+        alert.append(alertAllowLocation)
+        alert.append(alertRejectLocation)
     }
 
     private func configureRefreshControl() {
