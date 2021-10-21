@@ -14,25 +14,19 @@ class WeatherTableViewCell: UITableViewCell {
     static let reuseIdentifier = "\(WeatherTableViewCell.self)"
     
     private let dateLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .darkGray
-        return label
+        return UILabel()
     }()
     
     private let temperatureLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .darkGray
-        return label
+        return UILabel()
     }()
     
     private let iconImageView: UIImageView = {
-        let imageView = UIImageView()
-        return imageView
+        return UIImageView()
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.backgroundColor = .clear
         applyViewSetting()
     }
     
@@ -45,6 +39,14 @@ class WeatherTableViewCell: UITableViewCell {
 extension WeatherTableViewCell: ViewConfiguration {
     func buildHierarchy() {
         contentView.addSubViews(iconImageView, dateLabel, temperatureLabel)
+    }
+    
+    func configureViews() {
+        self.backgroundColor = .clear
+        
+        dateLabel.textColor = .darkGray
+        
+        temperatureLabel.textColor = .darkGray
     }
     
     func setupConstraints() {
