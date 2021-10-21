@@ -150,9 +150,8 @@
 		C79C8CE725ADDDF200EEE3F1 = {
 			isa = PBXGroup;
 			children = (
-				3F7591C6271DD33A00BF3F2E /* InfoPlist.strings */,
-				C9D93094271DC89C00BDBCF7 /* Localizable.strings */,
-				C91EF6B22706D9700013E3D6 /* Secret.xcconfig */,
+				C94AF2D32721A0630070BEEE /* Localization */,
+				C94AF2D42721A0720070BEEE /* Secret */,
 				C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */,
 				C79C8D0925ADDDF400EEE3F1 /* WeatherForecastTests */,
 				C79C8D1425ADDDF400EEE3F1 /* WeatherForecastUITests */,
@@ -234,6 +233,23 @@
 				C9D4DB90270C460300EAF3A5 /* AddressManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		C94AF2D32721A0630070BEEE /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				3F7591C6271DD33A00BF3F2E /* InfoPlist.strings */,
+				C9D93094271DC89C00BDBCF7 /* Localizable.strings */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		C94AF2D42721A0720070BEEE /* Secret */ = {
+			isa = PBXGroup;
+			children = (
+				C91EF6B22706D9700013E3D6 /* Secret.xcconfig */,
+			);
+			path = Secret;
 			sourceTree = "<group>";
 		};
 		C96F2ED827144EF500004338 /* View */ = {
