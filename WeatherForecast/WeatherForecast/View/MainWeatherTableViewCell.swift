@@ -77,7 +77,7 @@ final class MainWeatherTableViewCell: UITableViewCell {
             dateLabel.text = dateFormatter.string(from: date)
         }
         
-        temperatureLabel.text = data.mainWeatherInfomation?.temperature?.description
+        temperatureLabel.text = (data.mainWeatherInfomation?.temperature?.description ?? "") + data.temperatureNotation
     }
     
     func configure(image: UIImage) {

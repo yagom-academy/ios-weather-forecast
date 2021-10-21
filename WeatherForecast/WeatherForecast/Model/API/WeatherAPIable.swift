@@ -81,8 +81,19 @@ enum MeasurementType: String {
         return self.rawValue
     }
     
+    var notation: String {
+        switch self {
+        case .standard:
+            return "K"
+        case .imperial:
+            return "°F"
+        case .metric:
+            return  "°C"
+        }
+    }
+    
     static func getMeasurementType(by preferredLanguage: String?) -> MeasurementType {
-        guard let preferredLanguage = preferredLanguage  else {
+        guard let preferredLanguage = preferredLanguage else {
             return .standard
         }
         let locale = Locale(identifier: preferredLanguage)

@@ -128,9 +128,9 @@ final class MainWeatherHeaderView: UIView {
     }
     
     func configure(weatherData: WeatherForOneDay) {
-        highestTemperatureLabel.text = "최고".localized() + (weatherData.mainWeatherInfomation?.maximumTemperature?.description ?? "")
-        lowestTemperatureLabel.text = "최저".localized() + (weatherData.mainWeatherInfomation?.minimumTemperature?.description ?? "")
-        currentTamperatureLabel.text = weatherData.mainWeatherInfomation?.temperature?.description
+        highestTemperatureLabel.text = "최고".localized() + (weatherData.mainWeatherInfomation?.maximumTemperature?.description ?? "") + weatherData.temperatureNotation
+        lowestTemperatureLabel.text = "최저".localized() + (weatherData.mainWeatherInfomation?.minimumTemperature?.description ?? "") + weatherData.temperatureNotation
+        currentTamperatureLabel.text = (weatherData.mainWeatherInfomation?.temperature?.description ?? "") + weatherData.temperatureNotation
     }
     
     func configure(image: UIImage) {
