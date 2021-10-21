@@ -8,7 +8,7 @@
 import UIKit
 
 class CurrentWeatherTableViewHeaderView: UIView {
-
+    
     private let weatherImageView: UIImageView = {
         var imageView = UIImageView()
         imageView.contentMode = UIView.ContentMode.scaleAspectFit

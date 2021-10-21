@@ -32,6 +32,7 @@ final class ImageLoader {
                 case .success(let data):
                     guard let image = UIImage(data: data) else {
                         print(ImageLoaderError.invaildImage.errorDescription)
+                        // TODO: - Alert 구현
                         completion(nil)
                         return
                     }
