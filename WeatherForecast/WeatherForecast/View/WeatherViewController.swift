@@ -117,6 +117,7 @@ extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
         
         cell.configureLabels(with: viewModel)
         cell.backgroundColor = UIColor.clear
+        cell.selectionStyle = .none
         return cell
     }
 }
