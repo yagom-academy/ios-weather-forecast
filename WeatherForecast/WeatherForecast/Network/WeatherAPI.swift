@@ -94,7 +94,7 @@ extension WeatherAPI {
     enum WeatherAPIError: LocalizedError {
         case invalidUrl
         
-         var errorDescription: String {
+        var errorDescription: String {
             switch self {
             case .invalidUrl:
                 return NSLocalizedString("URL이 올바르지 않습니다", comment: "")
