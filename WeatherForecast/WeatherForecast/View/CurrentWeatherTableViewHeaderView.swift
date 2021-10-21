@@ -1,5 +1,5 @@
 //
-//  CurrentWeatherTableViewHeaderFooterView.swift
+//  CurrentWeatherTableViewHeaderView.swift
 //  WeatherForecast
 //
 //  Created by Dasoll Park on 2021/10/19.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CurrentWeatherTableViewHeaderFooterView: UIView {
+class CurrentWeatherTableViewHeaderView: UIView {
 
     private let weatherImageView: UIImageView = {
         var imageView = UIImageView()

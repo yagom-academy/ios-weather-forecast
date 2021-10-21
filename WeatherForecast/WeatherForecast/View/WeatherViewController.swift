@@ -11,7 +11,7 @@ class WeatherViewController: UIViewController {
     private var currentWeatherViewModel = CurrentWeatherViewModel()
     private var fiveDayListViewModel = FiveDayWeatherListViewModel()
     private var weatherTableView = UITableView()
-    private let headerView = CurrentWeatherTableViewHeaderFooterView()
+    private let headerView = CurrentWeatherTableViewHeaderView()
     private lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
         control.addTarget(self, action: #selector(updateViewModels), for: .valueChanged)
