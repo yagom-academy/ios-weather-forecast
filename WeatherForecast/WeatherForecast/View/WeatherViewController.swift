@@ -1,12 +1,12 @@
 //
-//  WeatherForecast - ViewController.swift
+//  WeatherForecast - WeatherViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
 // 
 
 import UIKit
 
-class MainWeatherViewController: UIViewController {
+class WeatherViewController: UIViewController {
     
     private var currentWeatherViewModel = CurrentWeatherViewModel()
     private var fiveDayListViewModel = FiveDayWeatherListViewModel()
@@ -103,7 +103,7 @@ class MainWeatherViewController: UIViewController {
     }
 }
 
-extension MainWeatherViewController: UITableViewDataSource, UITableViewDelegate {
+extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         fiveDayListViewModel.numberOfRowInSection
