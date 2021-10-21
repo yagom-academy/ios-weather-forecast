@@ -33,6 +33,8 @@ class MainWeatherViewController: UIViewController {
         
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: width, height: height))
         imageView.image = UIImage(named: "seoul.jpeg")
+        imageView.mask = UIView(frame: CGRect(x: 0, y: 0, width: width, height: height))
+        imageView.mask?.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         imageView.contentMode = UIView.ContentMode.scaleAspectFill
         
         view.addSubview(imageView)
