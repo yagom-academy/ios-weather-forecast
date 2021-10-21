@@ -6,14 +6,15 @@
   
 */
 //TableView HeaderView
-"최고" = "최고 ";
-"최저" = "최저 ";
-"위치 변경" = "위치 변경";
+"HeaderView_HighestTemperatureLabel_Text" = "최고 ";
+"HeaderView_LowestTemperatureLabel_Text" = "최저 ";
+"HeaderView_LocationSettingButton_Title" = "위치 변경";
 
 //Change Location Alert
-"변경할 좌표를 입력해주세요" = "변경할 좌표를 입력해주세요";
-"위도" = "위도";
-"경도" = "경도";
-"변경" = "변경";
-"현재 위치로 재설정" = "현재 위치로 재설정";
-"취소" = "취소";
+"ChangeLocationAlert_Title" = "위치 변경";
+"ChangeLocationAlert_Message" = "변경할 좌표를 입력해주세요";
+"ChangeLocationAlert_LatitudeTextField_Placeholder" = "위도";
+"ChangeLocationAlert_LongitudeTextField_Placeholder" = "경도";
+"ChangeLocationAlert_ChangeAction_Title" = "변경";
+"ChangeLocationAlert_SetCurrentLocationAction_Title" = "현재 위치로 재설정";
+"ChangeLocationAlert_CancelAction_Title" = "취소";

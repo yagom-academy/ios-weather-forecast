@@ -224,16 +224,16 @@ extension MainWeatherViewController: ChangeLocationDelegate {
     }
     
     private func showLocationChangeAlert() {
-        let alert = UIAlertController(title: "위치 변경".localized(), message: "변경할 좌표를 입력해주세요".localized(), preferredStyle: .alert)
+        let alert = UIAlertController(title: "ChangeLocationAlert_Title".localized(), message: "ChangeLocationAlert_Message".localized(), preferredStyle: .alert)
         alert.addTextField { latitudeTextField in
-            latitudeTextField.placeholder = "위도".localized()
+            latitudeTextField.placeholder = "ChangeLocationAlert_LatitudeTextField_Placeholder".localized()
             latitudeTextField.keyboardType = .decimalPad
         }
         alert.addTextField { longitudeTextField in
-            longitudeTextField.placeholder = "경도".localized()
+            longitudeTextField.placeholder = "ChangeLocationAlert_LongitudeTextField_Placeholder".localized()
             longitudeTextField.keyboardType = .decimalPad
         }
-        let changeAction = UIAlertAction(title: "변경".localized(), style: .default) { [weak self, weak alert] _ in
+        let changeAction = UIAlertAction(title: "ChangeLocationAlert_ChangeAction_Title".localized(), style: .default) { [weak self, weak alert] _ in
             guard let self = self, let alert = alert else {
                 return
             }
@@ -243,10 +243,10 @@ extension MainWeatherViewController: ChangeLocationDelegate {
                 self.locationManager(self.locationManager, didUpdateLocations: [desiredLocation])
             }
         }
-        let setCurrentLocationAction = UIAlertAction(title: "현재 위치로 재설정".localized(), style: .default) { [weak self] _ in
+        let setCurrentLocationAction = UIAlertAction(title: "ChangeLocationAlert_SetCurrentLocationAction_Title".localized(), style: .default) { [weak self] _ in
             self?.locationManager.requestLocation()
         }
-        let cancelAction = UIAlertAction(title: "취소".localized(), style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "ChangeLocationAlert_CancelAction_Title".localized(), style: .cancel, handler: nil)
         
         alert.addAction(changeAction)
         if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
