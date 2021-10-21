@@ -88,9 +88,13 @@ extension WeatherTableViewCell {
         
         let weatherURI = apiURL.weatherURI
         self.urlString = weatherURI
-        self.dataTask = apiManager.downloadImage(resource: apiResource) { [weak self] image in
-            if self?.urlString == weatherURI {
-                self?.weatherIconImageView.image = image
+        if let image = ImageCacheManager.shared.loadCachedData(for: weatherURI) {
+            weatherIconImageView.image = image
+        } else {
+            self.dataTask = apiManager.downloadImage(resource: apiResource) { [weak self] image in
+                if self?.urlString == weatherURI {
+                    self?.weatherIconImageView.image = image
+                }
             }
         }
     }
