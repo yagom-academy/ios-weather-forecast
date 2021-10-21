@@ -28,7 +28,7 @@ class MainWeatherTableViewController: UITableViewController {
         super.viewDidLoad()
         tableView.refreshControl = makeRefreshControl(targetView: self, action: #selector(reloadWeatherData(_:)))
         tableView.tableHeaderView?.frame = makeHeaderViewFrame()
-        headerView.addButtonTarget(target: self, action: #selector(pressChangeButton))
+        headerView.addChangeLocationButtonTarget(target: self, action: #selector(tapChangeLocationButton))
         self.weatherDataViewModel.setDelegate(from: self)
     }
     
@@ -123,7 +123,7 @@ extension MainWeatherTableViewController: Requirable {
     }
     
     // MARK: - Alerts
-    @objc private func pressChangeButton() {
+    @objc private func tapChangeLocationButton() {
         presentChangeLocationAlert(title: "위치 변경", message: "변경할 좌표를 선택해주세요",
                                    options: ChangeLocation.allCases) { coordinate, option in
             switch option {
@@ -132,9 +132,8 @@ extension MainWeatherTableViewController: Requirable {
                       let latitude = Double(latitudeInput),
                       let longitudeInput = coordinate.longitude,
                       let longitude = Double(longitudeInput) else {
-                    NSLog("올바른 입력이 아님 - 에러 처리 필요.")
                     self.presentWarningAlert(title: "올바른 입력이 아닙니다", message: "다시 입력해주세요", options: "확인") { _ in
-                        self.reloadWeatherData()
+                        NSLog("올바른 입력이 아님 - 에러 처리 필요.")
                     }
                     return
                 }
@@ -156,8 +155,8 @@ extension MainWeatherTableViewController: Requirable {
                       let latitude = Double(latitudeInput),
                       let longitudeInput = coordinate.longitude,
                       let longitude = Double(longitudeInput) else {
-                    NSLog("올바른 입력이 아님 - 에러 처리 필요.")
                     self.presentWarningAlert(title: "올바른 입력이 아닙니다", message: "다시 입력해주세요", options: "확인") { _ in
+                        NSLog("올바른 입력이 아님 - 에러 처리 필요.")
                         self.reloadWeatherData()
                     }
                     return

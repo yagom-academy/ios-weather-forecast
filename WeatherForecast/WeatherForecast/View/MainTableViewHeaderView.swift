@@ -98,7 +98,7 @@ extension MainTableViewHeaderView {
 
 // MARK: - Internal 메서드
 extension MainTableViewHeaderView {
-    func addButtonTarget(target: NSObject, action: Selector) {
+    func addChangeLocationButtonTarget(target: NSObject, action: Selector) {
         changeLocationButton.addTarget(target, action: action, for: .touchUpInside)
     }
     

@@ -26,8 +26,7 @@ extension UIViewController {
     }
     
     func presentChangeLocationAlert(title: String, message: String, options: [ChangeLocation],
-                                    completion: @escaping ((latitude: String?, longitude: String?),
-                                                           ChangeLocation) -> Void) {
+                                    completion: @escaping ((latitude: String?, longitude: String?), ChangeLocation) -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addTextField { latitudeTextField in
             latitudeTextField.placeholder = "위도"
