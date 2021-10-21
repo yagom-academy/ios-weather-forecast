@@ -8,5 +8,6 @@
 import Foundation
 
 extension NSNotification.Name {
-    static let changeCoordinateAlert = NSNotification.Name("changeCoordinateAlert")
+    static let changeCoordinateAlert = Self("changeCoordinateAlert")
+    static let fetchFailedAlert = Self("fetchFailedAlert")
 }

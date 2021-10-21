@@ -14,7 +14,6 @@
 		2B38AF8B27035CD200081039 /* WeatherDataManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B38AF8A27035CD200081039 /* WeatherDataManger.swift */; };
 		2B5CDB4E2720D2F000E2E1CF /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CDB4D2720D2F000E2E1CF /* Weather.swift */; };
 		2B5CDB502720DB5B00E2E1CF /* extension + UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CDB4F2720DB5B00E2E1CF /* extension + UIView.swift */; };
-		2B5CDB522720DB8E00E2E1CF /* extension + WeatherListViewController in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CDB512720DB8E00E2E1CF /* extension + WeatherListViewController */; };
 		2B5CDB542720DC4400E2E1CF /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CDB532720DC4400E2E1CF /* ImageCacheManager.swift */; };
 		2B5CDB562720E13E00E2E1CF /* extension + NSNofitication.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CDB552720E13E00E2E1CF /* extension + NSNofitication.Name.swift */; };
 		2B7E731727182B9C00EA0F1C /* CurrentWeatherHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7E731627182B9C00EA0F1C /* CurrentWeatherHeaderView.swift */; };
@@ -22,6 +21,8 @@
 		2B7E731E2718B28100EA0F1C /* extension + UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7E731D2718B28100EA0F1C /* extension + UIImage.swift */; };
 		2B7E73202718B57200EA0F1C /* extension + Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7E731F2718B57200EA0F1C /* extension + Double.swift */; };
 		2B7E73222718C91A00EA0F1C /* extension + Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7E73212718C91A00EA0F1C /* extension + Date.swift */; };
+		2BC430512720E60C002A4A7E /* extension + WeatherListViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC430502720E60C002A4A7E /* extension + WeatherListViewController2.swift */; };
+		2BC430562720FFDC002A4A7E /* MainInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC430552720FFDC002A4A7E /* MainInfo.swift */; };
 		2BF212352710383E00F16190 /* URLResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF212342710383E00F16190 /* URLResource.swift */; };
 		2BF212372710388600F16190 /* URLMakable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF212362710388600F16190 /* URLMakable.swift */; };
 		2BF2123B271038F400F16190 /* URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF2123A271038F400F16190 /* URLBuilder.swift */; };
@@ -60,7 +61,6 @@
 		2B38AF8A27035CD200081039 /* WeatherDataManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataManger.swift; sourceTree = "<group>"; };
 		2B5CDB4D2720D2F000E2E1CF /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		2B5CDB4F2720DB5B00E2E1CF /* extension + UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension + UIView.swift"; sourceTree = "<group>"; };
-		2B5CDB512720DB8E00E2E1CF /* extension + WeatherListViewController */ = {isa = PBXFileReference; lastKnownFileType = text; path = "extension + WeatherListViewController"; sourceTree = "<group>"; };
 		2B5CDB532720DC4400E2E1CF /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		2B5CDB552720E13E00E2E1CF /* extension + NSNofitication.Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension + NSNofitication.Name.swift"; sourceTree = "<group>"; };
 		2B7E731627182B9C00EA0F1C /* CurrentWeatherHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherHeaderView.swift; sourceTree = "<group>"; };
@@ -68,6 +68,8 @@
 		2B7E731D2718B28100EA0F1C /* extension + UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension + UIImage.swift"; sourceTree = "<group>"; };
 		2B7E731F2718B57200EA0F1C /* extension + Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension + Double.swift"; sourceTree = "<group>"; };
 		2B7E73212718C91A00EA0F1C /* extension + Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension + Date.swift"; sourceTree = "<group>"; };
+		2BC430502720E60C002A4A7E /* extension + WeatherListViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension + WeatherListViewController2.swift"; sourceTree = "<group>"; };
+		2BC430552720FFDC002A4A7E /* MainInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInfo.swift; sourceTree = "<group>"; };
 		2BF212342710383E00F16190 /* URLResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLResource.swift; sourceTree = "<group>"; };
 		2BF212362710388600F16190 /* URLMakable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMakable.swift; sourceTree = "<group>"; };
 		2BF2123A271038F400F16190 /* URLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilder.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				27E513C327034D73001BDEBC /* CurrentWeather.swift */,
 				2B38AF8827034F8900081039 /* FiveDaysWeather.swift */,
 				2B5CDB4D2720D2F000E2E1CF /* Weather.swift */,
+				2BC430552720FFDC002A4A7E /* MainInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -186,8 +189,8 @@
 				2B7E731F2718B57200EA0F1C /* extension + Double.swift */,
 				2B7E73212718C91A00EA0F1C /* extension + Date.swift */,
 				2B5CDB4F2720DB5B00E2E1CF /* extension + UIView.swift */,
-				2B5CDB512720DB8E00E2E1CF /* extension + WeatherListViewController */,
 				2B5CDB552720E13E00E2E1CF /* extension + NSNofitication.Name.swift */,
+				2BC430502720E60C002A4A7E /* extension + WeatherListViewController2.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 			files = (
 				C79C8CF825ADDDF200EEE3F1 /* WeatherListViewController.swift in Sources */,
 				2B5CDB4E2720D2F000E2E1CF /* Weather.swift in Sources */,
+				2BC430512720E60C002A4A7E /* extension + WeatherListViewController2.swift in Sources */,
 				2BF212372710388600F16190 /* URLMakable.swift in Sources */,
 				2BF212352710383E00F16190 /* URLResource.swift in Sources */,
 				2B7E73222718C91A00EA0F1C /* extension + Date.swift in Sources */,
@@ -385,6 +389,7 @@
 				2B38AF8927034F8900081039 /* FiveDaysWeather.swift in Sources */,
 				27E513C927035087001BDEBC /* JSONDecodable.swift in Sources */,
 				2B38AF8B27035CD200081039 /* WeatherDataManger.swift in Sources */,
+				2BC430562720FFDC002A4A7E /* MainInfo.swift in Sources */,
 				2B5CDB562720E13E00E2E1CF /* extension + NSNofitication.Name.swift in Sources */,
 				2B7E73202718B57200EA0F1C /* extension + Double.swift in Sources */,
 				2B7E731727182B9C00EA0F1C /* CurrentWeatherHeaderView.swift in Sources */,
@@ -393,7 +398,6 @@
 				2B5CDB502720DB5B00E2E1CF /* extension + UIView.swift in Sources */,
 				2B7E731927182BAD00EA0F1C /* IntervalWeatherTableViewCell.swift in Sources */,
 				2726C3D92710363100E2F6B3 /* APIResource.swift in Sources */,
-				2B5CDB522720DB8E00E2E1CF /* extension + WeatherListViewController in Sources */,
 				2B7E731E2718B28100EA0F1C /* extension + UIImage.swift in Sources */,
 				2BF2123B271038F400F16190 /* URLBuilder.swift in Sources */,
 				C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */,

@@ -20,7 +20,6 @@ class CurrentWeatherHeaderView: UITableViewHeaderFooterView {
     
     var weatherImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "background")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -89,14 +88,14 @@ extension CurrentWeatherHeaderView {
     func configurationHeaderView(data: CurrentWeather, address: String) {
         guard let iconName = data.weather.first?.iconName, let imageUrl = urlBuilder.builderImageURL(resource: urlResource, iconName: iconName) else { return }
         
-            let minMaxTemperature = "최저\(String(format: "%.1f", data.mainInfo.temperatureMin))º 최고\(String(format: "%.1f",data.mainInfo.temperatureMax))º"
-            let currentTemperature = "\(data.mainInfo.temperature)º"
-            
-            self.addressLabel.text = address
-            self.currentTemperatureLabel.text = currentTemperature
-            self.mininumAndMaximumTemperatureLabel.text = minMaxTemperature
-            
-            self.weatherImageView.loadImage(from: imageUrl)
+        let minMaxTemperature = "최저\(String(format: "%.1f", data.mainInfo.temperatureMin))º 최고\(String(format: "%.1f",data.mainInfo.temperatureMax))º"
+        let currentTemperature = "\(data.mainInfo.temperature)º"
+        
+        self.addressLabel.text = address
+        self.currentTemperatureLabel.text = currentTemperature
+        self.mininumAndMaximumTemperatureLabel.text = minMaxTemperature
+        
+        self.weatherImageView.loadImage(from: imageUrl)
     }
     
     func setupHeaderView() {

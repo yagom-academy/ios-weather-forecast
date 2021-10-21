@@ -10,6 +10,6 @@ import Foundation
 var dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.locale = Locale(identifier: "ko_kr")
-    formatter.dateFormat = "MM / dd (EEEEE) HH"
+    formatter.dateFormat = "MM / dd (EEEEE) HH시"
     return formatter
 }()

@@ -8,9 +8,7 @@ import UIKit
 import CoreLocation
 
 class WeatherListViewController: UIViewController {
-    private var locationManager: CLLocationManager?
-    private var weatherImages: [UIImage?] = [UIImage?]()
-    private var downloadTasks = [URLSessionTask]()
+    private var locationManager = CLLocationManager()
     private var address: String?
     
     private lazy var refreshControl: UIRefreshControl = { [weak self] in
@@ -22,6 +20,7 @@ class WeatherListViewController: UIViewController {
     private var weatherListTableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorColor = .white
         tableView.register(IntervalWeatherTableViewCell.self, forCellReuseIdentifier: IntervalWeatherTableViewCell.identifier)
         tableView.register(CurrentWeatherHeaderView.self, forHeaderFooterViewReuseIdentifier: CurrentWeatherHeaderView.identifier)
         
@@ -29,12 +28,13 @@ class WeatherListViewController: UIViewController {
         backgroundImageView.image = UIImage(named: "background")
         tableView.backgroundView = backgroundImageView
         backgroundImageView.alpha = 0.9
+        
         return tableView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        generateLocationManager()
+        setLocationManager()
         bringCoordinates()
         configureTableView()
         designateTableViewDataSourceDelegate()
@@ -42,19 +42,9 @@ class WeatherListViewController: UIViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name.changeCoordinateAlert, object: nil, queue: .main) { _ in
             self.presentAlert()
         }
-    }
-}
-
-extension WeatherListViewController: UITableViewDataSourcePrefetching {
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        for indexPath in indexPaths {
-            downloadImage(at: indexPath.row)
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-        for indexPath in indexPaths {
-            cancelDownload(at: indexPath.row)
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.fetchFailedAlert, object: nil, queue: .main) { noti in
+            guard let errorMessage = noti.userInfo?["fetchFailedMessage"] as? String else { return }
+            self.showAlert(message: errorMessage)
         }
     }
 }
@@ -76,14 +66,13 @@ extension WeatherListViewController: UITableViewDataSource {
 extension WeatherListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CurrentWeatherHeaderView.identifier) as? CurrentWeatherHeaderView else {
-            return nil
+            return UIView()
         }
-        if let currentWeatherData = WeatherDataManager.shared.currentWeatherData, let address = address {
-            let minMaxTemperature = "최저\(String(format: "%.1f", currentWeatherData.mainInfo.temperatureMin))º 최고\(String(format: "%.1f",currentWeatherData.mainInfo.temperatureMax))º"
-            let currentTemperature = "\(currentWeatherData.mainInfo.temperature)º"
-            headerView.configurationHeaderView(address: address, minMaxTemperature: minMaxTemperature, currentTemperature: currentTemperature)
+        if let unWrappedCurrentWeatherData = WeatherDataManager.shared.currentWeatherData, let address = address {
+            headerView.configurationHeaderView(data: unWrappedCurrentWeatherData, address: address)
+            headerView.tintColor = .clear
+            
         }
-        headerView.tintColor = .clear
         return headerView
     }
 }
@@ -99,11 +88,14 @@ extension WeatherListViewController: CLLocationManagerDelegate {
             convertToAddress(latitude: WeatherDataManager.shared.latitude, longitude: WeatherDataManager.shared.longitude) { area, local in
                 self.address = area + local
             }
-            
-            WeatherDataManager.shared.fetchWeatherDatas(location: CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)) {
-                self.weatherListTableView.reloadData()
+            DispatchQueue.global().async {
+                WeatherDataManager.shared.fetchWeatherDatas(location: CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)) {
+                    DispatchQueue.main.async {
+                        self.weatherListTableView.reloadData()
+                    }
+                    
+                }
             }
-            
         case .notDetermined, .restricted:
             manager.requestWhenInUseAuthorization()
         case .denied:
@@ -112,27 +104,59 @@ extension WeatherListViewController: CLLocationManagerDelegate {
             }
         }
     }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        DispatchQueue.main.async {
+            self.reloadHeaderView(location: location)
+            self.weatherListTableView.reloadData()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
+    }
+    
 }
 extension WeatherListViewController {
+    
+    private func reloadHeaderView(location: CLLocation) {
+        let headerView = weatherListTableView.headerView(forSection: 0) as? CurrentWeatherHeaderView
+        
+        convertToAddress(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) { area, local in
+            self.address = area + local
+        }
+        
+        guard let address = address else { return }
+        WeatherDataManager.shared.fetchCurrentWeather(location: location) { result in
+            switch result {
+            case .success(let currentWeatherData):
+                DispatchQueue.main.async {
+                    headerView?.configurationHeaderView(data: currentWeatherData, address: address)
+                }
+            case .failure(let error):
+                NotificationCenter.default.post(name: NSNotification.Name.fetchFailedAlert, object: nil, userInfo: ["fetchFailedMessage" : "\(error.localizedDescription)의 이유로 데이터를 가져올 수 없습니다. 네트워크 연결을 확인 후 다시 시도해주세요."])
+            }
+        }
+    }
+    
     private func presentAlert() {
         let alert = UIAlertController(title: HeaderViewAlertResource.alertTitle.rawValue, message: HeaderViewAlertResource.alertMessage.rawValue, preferredStyle: .alert)
-        let coordinateChangeButton = UIAlertAction(title: HeaderViewAlertResource.changeButton.rawValue, style: .default) { [weak self] _ in
+        let coordinateChangeButton = UIAlertAction(title: HeaderViewAlertResource.changeButton.rawValue, style: .default) { [weak self, weak alert] _ in
+            guard let self = self, let alert = alert else { return }
             guard let latitudeString = alert.textFields?.first?.text,
                   let latitude = Double(latitudeString),
                   let longitudeString = alert.textFields?[1].text,
                   let longitude = Double(longitudeString) else { return }
-            
-            WeatherDataManager.shared.fetchWeatherDatas(location: CLLocation(latitude: latitude, longitude: longitude)) {
-                self?.weatherListTableView.reloadData()
-            }
+            self.locationManager(self.locationManager, didUpdateLocations: [CLLocation(latitude: latitude, longitude: longitude)])
             
         }
         let resetByCurrentCoorinateButton = UIAlertAction(title: HeaderViewAlertResource.resetCurrentCoordinateButton.rawValue, style: .default) { [weak self] _ in
+            guard let self = self else { return }
             guard let latitude = WeatherDataManager.shared.latitude, let longitude = WeatherDataManager.shared.longitude else { return }
+            self.locationManager(self.locationManager, didUpdateLocations: [CLLocation(latitude: latitude, longitude: longitude)])
             
-            WeatherDataManager.shared.fetchWeatherDatas(location: CLLocation(latitude: latitude, longitude: longitude)) {
-                self?.weatherListTableView.reloadData()
-            }
+            
         }
         let cancelButton = UIAlertAction(title: HeaderViewAlertResource.cancelButton.rawValue, style: .cancel, handler: nil)
         alert.addTextField { textField in
@@ -147,71 +171,20 @@ extension WeatherListViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func generateImageURL(at index: Int) -> URL {
-        let urlbuilder = URLBuilder()
-        let resource = URLResource()
-        guard let imageURL = urlbuilder.builderImageURL(resource: resource, index: index) else { fatalError("Invalid URL") }
-        return imageURL
-    }
-    
-    func downloadImage(at index: Int) {
-        guard weatherImages[index] == nil else {
-            return
-        }
-        let imageURL = generateImageURL(at: index)
-        guard !downloadTasks.contains(where: { task in
-            task.originalRequest?.url == imageURL
-        }) else { return }
-        
-        let task = URLSession.shared.dataTask(with: imageURL) { [weak self] data, response, error in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            if let data = data, let image = UIImage(data: data), let strongSelf = self {
-                strongSelf.weatherImages.append(image)
-                let reloadIndexPath = IndexPath(row: index, section: 0)
-                DispatchQueue.main.async {
-                    if strongSelf.weatherListTableView.indexPathsForVisibleRows?.contains(reloadIndexPath) == .some(true) {
-                        strongSelf.weatherListTableView.reloadRows(at: [reloadIndexPath], with: .automatic)
-                    }
-                }
-                strongSelf.completeTask()
-            }
-            
-        }
-        task.resume()
-        downloadTasks.append(task)
-    }
-    
-    func completeTask() {
-        downloadTasks = downloadTasks.filter({ task in
-            task.state != .completed
-        })
-    }
-    
-    func cancelDownload(at index: Int) {
-        let imageURL = generateImageURL(at: index)
-        guard let taskIndex = downloadTasks.firstIndex(where: { $0.originalRequest?.url == imageURL }) else { return }
-        let task = downloadTasks[taskIndex]
-        task.cancel()
-        downloadTasks.remove(at: taskIndex)
-    }
-    
     @objc private func refresh() {
         DispatchQueue.global().async { [weak self] in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
             
-            guard let currentLocation = self?.locationManager?.location?.coordinate else { return }
+            guard let currentLocation = self.locationManager.location?.coordinate else { return }
             
             WeatherDataManager.shared.fetchWeatherDatas(location: CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)) {
-                self?.weatherListTableView.reloadData()
+                self.reloadHeaderView(location: CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude))
+                self.weatherListTableView.reloadData()
             }
             
             DispatchQueue.main.async {
-                strongSelf.weatherListTableView.reloadData()
-                strongSelf.weatherListTableView.refreshControl?.endRefreshing()
+                self.weatherListTableView.reloadData()
+                self.weatherListTableView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -237,10 +210,7 @@ extension WeatherListViewController {
         ])
     }
     
-    private func generateLocationManager() {
-        locationManager = CLLocationManager()
-        guard let locationManager = locationManager else { return }
-        
+    private func setLocationManager() {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -248,7 +218,6 @@ extension WeatherListViewController {
     
     private func bringCoordinates() {
         if CLLocationManager.locationServicesEnabled() {
-            guard let locationManager = locationManager else { return }
             let currentCoordinate = locationManager.location?.coordinate
             
             locationManager.startUpdatingLocation()
@@ -271,13 +240,13 @@ extension WeatherListViewController {
         
         geoCoder.reverseGeocodeLocation(coordinate, preferredLocale: locale) { placemark, error in
             if error != nil {
-                print(error)
+                print(error?.localizedDescription)
                 return
             }
             if let administrativeArea = placemark?.first?.administrativeArea, let locality = placemark?.first?.locality {
                 completion(administrativeArea, locality)
             }
-            
         }
     }
 }
+

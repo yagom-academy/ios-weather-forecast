@@ -5,7 +5,7 @@
 //  Created by 호싱잉, 잼킹 on 2021/09/28.
 //
 
-import Foundation
+import UIKit
 import CoreLocation
 
 enum APIError: LocalizedError {
@@ -68,7 +68,7 @@ extension WeatherDataManager {
                 case .success(let currentWeatherData):
                     self.currentWeatherData = currentWeatherData
                 case .failure(let error):
-                    print(error.localizedDescription)
+                    NotificationCenter.default.post(name: NSNotification.Name.fetchFailedAlert, object: nil, userInfo: ["fetchFailedMessage" : "\(error.localizedDescription)의 이유로 데이터를 가져올 수 없습니다. 네트워크 연결을 확인 후 다시 시도해주세요."])
                 }
                 self.group.leave()
             }
@@ -81,6 +81,7 @@ extension WeatherDataManager {
                 case .success(let fiveDaysWeatherData):
                     self.fiveDaysWeatherData = fiveDaysWeatherData
                 case .failure(let error):
+                    
                     print(error.localizedDescription)
                 }
                 self.group.leave()
@@ -97,8 +98,8 @@ extension WeatherDataManager {
         builder.pathType = path
         if let latitude = WeatherDataManager.shared.latitude, let longitude = WeatherDataManager.shared.longitude {
             builder.addQueries([
-                URLResource.QueryParam(name: "\(ParamName.lat)", value: String(latitude)),
-                URLResource.QueryParam(name: "\(ParamName.lon)", value: String(longitude)),
+                URLResource.QueryParam(name: "\(ParamName.lat)", value: latitude.toString()),
+                URLResource.QueryParam(name: "\(ParamName.lon)", value: longitude.toString()),
                 URLResource.QueryParam(name: "\(ParamName.appid)", value: AppID.jamkingID),
                 URLResource.QueryParam(name: "\(ParamName.units)", value: Units.metric),
                 URLResource.QueryParam(name: "\(ParamName.lang)", value: Lang.korea)

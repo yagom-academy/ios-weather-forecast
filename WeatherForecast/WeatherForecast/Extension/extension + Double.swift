@@ -15,4 +15,8 @@ extension Double {
     func convertToFahrenheit() -> Double {
         self * 1.8 + 32
     }
+    
+    func toString() -> String {
+        return String(self)
+    }
 }
