@@ -106,7 +106,7 @@ class MainWeatherViewController: UIViewController {
 extension MainWeatherViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fiveDayListViewModel.numberOfRowInSection
+        fiveDayListViewModel.numberOfRowInSection
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

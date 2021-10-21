@@ -14,7 +14,7 @@ class FiveDayWeatherListViewModel {
     var weathers: [FiveDayWeatherViewModel] = []
     
     var numberOfRowInSection: Int {
-        return weathers.count
+        weathers.count
     }
     
     func mapFiveDayData() {
