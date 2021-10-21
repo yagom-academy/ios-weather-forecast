@@ -42,10 +42,7 @@ class FiveDayWeatherListViewModel {
            let sampleImage = UIImage(systemName: "circle") {
             return FiveDayWeatherViewModel("-", "-", sampleImage)
         }
-        let data = weathers[index]
-        return FiveDayWeatherViewModel(data.dateThreeHour,
-                                       data.temperatureThreeHour,
-                                       data.imageThreeHour)
+        return weathers[index]
     }
 }
 
