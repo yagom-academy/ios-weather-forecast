@@ -130,7 +130,6 @@ extension WeatherViewController {
     private func setupTableView() {
         view.addSubview(tableView)
         
-        let safeArea = view.safeAreaLayoutGuide
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         let layoutConstraintAttribute: [NSLayoutConstraint.Attribute] = [.leading, .trailing, .top, .bottom]
@@ -138,7 +137,7 @@ extension WeatherViewController {
             return NSLayoutConstraint(item: tableView,
                                       attribute: attr,
                                       relatedBy: .equal,
-                                      toItem: safeArea,
+                                      toItem: view,
                                       attribute: attr,
                                       multiplier: 1,
                                       constant: 0)
