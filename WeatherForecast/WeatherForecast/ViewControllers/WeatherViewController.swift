@@ -16,24 +16,17 @@ class WeatherViewController: UIViewController {
     private let geocoderManager = GeocoderManager()
     private let apiManager = APIManager()
     
+    private var weatherDataSource = WeatherDataSource()
     private var coordinate = CLLocationCoordinate2D() {
         didSet {
             fetchWeatherData(on: coordinate)
         }
     }
     
-    private var fiveDaysWeatherList: [List] = [] {
-        didSet {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.refreshControl.endRefreshing()
-            }
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTableView()
+        setupTableViewDataSource()
+        updateTableViewLayout()
         updateTableViewHeaderViewLayout()
         updateTableViewBackgroundView()
         setupRefreshControl()
@@ -50,23 +43,18 @@ class WeatherViewController: UIViewController {
     }
 }
 
-extension WeatherViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fiveDaysWeatherList.count
+extension WeatherViewController {
+    private func setupTableViewDataSource() {
+        weatherDataSource.dataDidUpdated = { [weak self] in
+            guard let this = self else {
+                return
+            }
+            this.tableView.reloadData()
+            this.refreshControl.endRefreshing()
+        }
+        tableView.dataSource = weatherDataSource
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherTableViewCell.identifier, for: indexPath) as? WeatherTableViewCell else {
-            return UITableViewCell()
-        }
-        
-        cell.configure(on: fiveDaysWeatherList[indexPath.row])
-        
-        return cell
-    }
-}
-
-extension WeatherViewController {
     private func updateTableViewBackgroundView() {
         tableView.backgroundView = UIImageView(image: UIImage(named: "sunset"))
     }
@@ -76,7 +64,7 @@ extension WeatherViewController {
         tableView.tableHeaderView?.frame.size.height = 150
     }
     
-    private func setupTableView() {
+    private func updateTableViewLayout() {
         view.addSubview(tableView)
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -94,7 +82,6 @@ extension WeatherViewController {
         NSLayoutConstraint.activate(tableVeiwContraints)
 
         tableView.register(WeatherTableViewCell.self, forCellReuseIdentifier: WeatherTableViewCell.identifier)
-        tableView.dataSource = self
     }
 }
 
@@ -137,7 +124,7 @@ extension WeatherViewController {
                             guard let list = data.list else {
                                 return
                             }
-                            self.fiveDaysWeatherList = list
+                            self.weatherDataSource.updateDataSource(on: list)
                         })
         fetchAddress(on: coordinate)
     }
