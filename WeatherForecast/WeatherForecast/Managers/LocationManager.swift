@@ -11,6 +11,7 @@ import CoreLocation
 class LocationManager: NSObject {
     private var locationManager: LocationManagerProtocol
     private var locationCompletion: ((CLLocation) -> Void)?
+    private var debounceManager = DebounceManager()
     
     init(locationManager: LocationManagerProtocol = CLLocationManager()) {
         self.locationManager = locationManager
@@ -58,7 +59,11 @@ extension LocationManager: LocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        locationCompletion?(location)
+        
+        debounceManager.processDebounce { [weak self] in
+            guard let self = self else { return }
+            self.locationCompletion?(location)
+        }
     }
     
     func locationManager(_ manager: CLLocationManager,

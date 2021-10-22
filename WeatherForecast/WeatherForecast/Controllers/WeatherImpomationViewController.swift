@@ -15,7 +15,6 @@ class WeatherImpormationViewController: UIViewController {
         frame: .zero,
         collectionViewLayout: UICollectionViewLayout())
     private let collectionViewDataSource = WeatherCollectionViewDataSource()
-    private var timer: Timer?
     private var currentLocation: CLLocation? = nil {
         didSet {
             fetchWeatherImpormation()
@@ -74,65 +73,60 @@ class WeatherImpormationViewController: UIViewController {
     }
     
     private func fetchWeatherImpormation() {
-        if timer != nil {
-            timer?.invalidate()
-        }
-        timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { timer in
-            guard timer.isValid else { return }
             self.processWeatherImpormation {
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                     self.collectionView.refreshControl?.endRefreshing()
                 }
-            }
         }
     }
     
     private func processWeatherImpormation(completion: @escaping () -> Void) {
-       
-            guard let location = currentLocation else { return }
-            let currentWeatherURL =
-            WeatherURL.weatherCoordinates(latitude: location.coordinate.latitude,
-                                          longitude: location.coordinate.longitude)
-            let fiveDaysWeatherURL =
-            WeatherURL.forecastCoordinates(latitude: location.coordinate.latitude,
-                                           longitude: location.coordinate.longitude)
-    
-            let group = DispatchGroup()
-            group.enter()
-            self.getWeatherImpormation(request: fiveDaysWeatherURL,
-                                  type: FiveDaysWeather.self) { result in
-               
-                if let result = result {
-                    self.collectionViewDataSource.fiveDaysWeather = result
-                }
-                group.leave()
-            }
+        
+        guard let location = currentLocation else { return }
+        let currentWeatherURL =
+        WeatherURL.weatherCoordinates(latitude: location.coordinate.latitude,
+                                      longitude: location.coordinate.longitude)
+        let fiveDaysWeatherURL =
+        WeatherURL.forecastCoordinates(latitude: location.coordinate.latitude,
+                                       longitude: location.coordinate.longitude)
+        
+        let group = DispatchGroup()
+        group.enter()
+        self.getWeatherImpormation(request: fiveDaysWeatherURL,
+                                   type: FiveDaysWeather.self) { result in
             
-            group.enter()
-            self.getWeatherImpormation(request: currentWeatherURL,
-                                  type: CurrentWeather.self) { result in
-                
-                if let result = result {
-                    self.collectionViewDataSource.currentWeather = result
-                }
-                group.leave()
+            if let result = result {
+                self.collectionViewDataSource.fiveDaysWeather = result
             }
+            group.leave()
+        }
+        
+        group.enter()
+        self.getWeatherImpormation(request: currentWeatherURL,
+                                   type: CurrentWeather.self) { result in
             
-            group.enter()
-            self.locationManager.getUserAddress(location: location) { address in
-                switch address {
-                case .success(let data):
-                    self.collectionViewDataSource.currentAddress = data
-                case .failure(let error):
-                    self.handlerError(error)
-                }
-                group.leave()
+            if let result = result {
+                self.collectionViewDataSource.currentWeather = result
             }
-            
-            group.notify(queue: .global()) {
-                completion()
+            group.leave()
+        }
+        
+        group.enter()
+        self.locationManager.getUserAddress(location: location) { address in
+            switch address {
+            case .success(let data):
+                self.collectionViewDataSource.currentAddress = data
+            case .failure(let error):
+                self.collectionViewDataSource.currentAddress = "주소 정보 없음"
+                self.handlerError(error)
             }
+            group.leave()
+        }
+        
+        group.notify(queue: .global()) {
+            completion()
+        }
     }
     
     private func getUserAddress() {
