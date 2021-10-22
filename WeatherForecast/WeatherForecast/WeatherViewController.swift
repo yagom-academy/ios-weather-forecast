@@ -114,13 +114,6 @@ extension WeatherViewController {
         locationManager.requestLocation()
     }
     
-    private func convertToCelsius(on fahrenheit: Double?) -> String {
-        guard let fahrenheit = fahrenheit else {
-            return " "
-        }
-        return "\(String(format: "%.2f", fahrenheit - 273.15)) ℃"
-    }
-    
     private func fetchWeatherData(on coordinate: CLLocationCoordinate2D) {
         fetchWeatherAPI(CurrentWeather.self,
                         weatherURL: .weatherCoordinates(latitude: coordinate.latitude,
@@ -133,8 +126,8 @@ extension WeatherViewController {
                                 return
                             }
                             DispatchQueue.main.async {
-                                self.tableViewHeaderView.updateMinMaxTemperatureLabel(to: "최저 \(self.convertToCelsius(on: minTemp)) 최고 \(self.convertToCelsius(on: maxTemp))")
-                                self.tableViewHeaderView.updateCurrentTemperatureLabel(to: "\(self.convertToCelsius(on: temp))")
+                                self.tableViewHeaderView.updateMinMaxTemperatureLabel(to: "최저 \(WeatherUtilManager.convertToCelsius(on: minTemp)) 최고 \(WeatherUtilManager.convertToCelsius(on: maxTemp))")
+                                self.tableViewHeaderView.updateCurrentTemperatureLabel(to: "\(WeatherUtilManager.convertToCelsius(on: temp))")
                             }
                         })
         fetchWeatherAPI(FiveDaysWeather.self,

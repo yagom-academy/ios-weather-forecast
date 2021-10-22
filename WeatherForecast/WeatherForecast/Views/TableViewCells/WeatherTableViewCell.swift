@@ -38,44 +38,9 @@ class WeatherTableViewCell: UITableViewCell {
 // MARK: - Configure Cell Data
 extension WeatherTableViewCell {
     func configure(on fiveDaysWeatherItem: List) {
-        dateLabel.text = parseDateInfo(on: fiveDaysWeatherItem.dtTxt)
-        temperatureLabel.text = convertToCelsius(on: fiveDaysWeatherItem.main?.temp)
+        dateLabel.text = WeatherUtilManager.parseDateInfo(on: fiveDaysWeatherItem.dtTxt)
+        temperatureLabel.text = WeatherUtilManager.convertToCelsius(on: fiveDaysWeatherItem.main?.temp)
         updateWeatherIcon(to: fiveDaysWeatherItem.weather?[0].icon)
-    }
-    
-    private func convertString2DateType(_ string: String) -> Date? {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        return formatter.date(from: string)
-    }
-    
-    private func convertDateType2String(_ date: Date?) -> String {
-        guard let date = date else {
-            return "-"
-        }
-        
-        let dateFommatter = DateFormatter()
-        dateFommatter.locale = Locale(identifier: "ko_KR")
-        dateFommatter.timeZone = TimeZone(abbreviation: "KST")
-        dateFommatter.dateFormat = "MM/dd (E) HH시"
-        
-        return dateFommatter.string(from: date)
-    }
-    
-    private func parseDateInfo(on dateText: String?) -> String {
-        guard let dateText = dateText else {
-            return " "
-        }
-        let dateType = convertString2DateType(dateText)
-        return convertDateType2String(dateType)
-    }
-    
-    private func convertToCelsius(on fahrenheit: Double?) -> String {
-        guard let fahrenheit = fahrenheit else {
-            return " "
-        }
-        return "\(String(format: "%.2f", fahrenheit - 273.15)) ℃"
     }
     
     private func updateWeatherIcon(to iconID: String?) {
