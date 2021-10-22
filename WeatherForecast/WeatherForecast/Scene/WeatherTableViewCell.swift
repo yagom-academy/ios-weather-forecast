@@ -79,6 +79,7 @@ extension WeatherTableViewCell: ViewConfiguration {
 
 extension WeatherTableViewCell {
     override func prepareForReuse() {
+        imageLoader.cancel()
         self.dateLabel.text = nil
         self.temperatureLabel.text = nil
         self.iconImageView.image = nil

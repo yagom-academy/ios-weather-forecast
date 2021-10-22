@@ -7,7 +7,7 @@
 
 import UIKit
 
-let imageLoader = ImageLoader(session: URLSession(configuration: .default))
+let imageLoader = ImageLoader(session: URLSession.shared)
 
 class ImageLoader {
     private let session: URLSessionable
