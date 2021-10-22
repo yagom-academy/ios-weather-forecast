@@ -47,7 +47,7 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
         return label
     }()
     
-    private let verticalStackView: UIStackView = {
+    private let labelInfoStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
@@ -57,7 +57,7 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
         return stackView
     }()
     
-    private let horizontalStackView: UIStackView = {
+    private let containerStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
@@ -103,26 +103,25 @@ extension CurrentWeatherHeader {
     }
     
     private func configureContents() {
-        contentView.addSubview(horizontalStackView)
-        contentView.addSubview(verticalStackView)
+        contentView.addSubview(containerStackView)
         
         NSLayoutConstraint.activate([
-            horizontalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            horizontalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            horizontalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            horizontalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
     
     private func configureVerticalStackView() {
-        verticalStackView.addArrangedSubview(locationLabel)
-        verticalStackView.addArrangedSubview(minMaxTemperatureLabel)
-        verticalStackView.addArrangedSubview(currentTemperatureLabel)
+        labelInfoStackView.addArrangedSubview(locationLabel)
+        labelInfoStackView.addArrangedSubview(minMaxTemperatureLabel)
+        labelInfoStackView.addArrangedSubview(currentTemperatureLabel)
     }
     
     private func configureHorizontalStackView() {
-        horizontalStackView.addArrangedSubview(weatherImageView)
-        horizontalStackView.addArrangedSubview(verticalStackView)
+        containerStackView.addArrangedSubview(weatherImageView)
+        containerStackView.addArrangedSubview(labelInfoStackView)
         
         NSLayoutConstraint.activate([
             weatherImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),

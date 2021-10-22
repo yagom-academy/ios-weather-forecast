@@ -31,7 +31,7 @@ class ThreeHourForecastCell: UITableViewCell {
         return imageView
     }()
     
-    private let stackView: UIStackView = {
+    private let weatherInfoStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
@@ -80,21 +80,21 @@ extension ThreeHourForecastCell {
     
     private func configureContents() {
         contentView.addSubview(dateLabel)
-        contentView.addSubview(stackView)
+        contentView.addSubview(weatherInfoStackView)
         
         NSLayoutConstraint.activate([
             dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
             dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            stackView.topAnchor.constraint(equalTo: dateLabel.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: dateLabel.bottomAnchor)
+            weatherInfoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            weatherInfoStackView.topAnchor.constraint(equalTo: dateLabel.topAnchor),
+            weatherInfoStackView.bottomAnchor.constraint(equalTo: dateLabel.bottomAnchor)
         ])
     }
     
     private func configureStackView() {
-        stackView.addArrangedSubview(temperatureLabel)
-        stackView.addArrangedSubview(weatherImageView)
+        weatherInfoStackView.addArrangedSubview(temperatureLabel)
+        weatherInfoStackView.addArrangedSubview(weatherImageView)
         
         weatherImageView.heightAnchor.constraint(equalToConstant: 10).isActive = true
     }
