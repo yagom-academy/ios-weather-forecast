@@ -7,30 +7,14 @@
 
 import UIKit
 
-class WeatherForecastCustomCell: UICollectionViewCell {
+final class WeatherForecastCustomCell: UICollectionViewCell {
     static let identifier = "fiveDay"
     var urlString: String?
     
-    let dateLabel: UILabel = {
-        let dateLabel = UILabel()
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.font = UIFont.preferredFont(forTextStyle: .title2)
-        dateLabel.textColor = .systemGray
-        dateLabel.adjustsFontForContentSizeCategory = true
-        dateLabel.text = Placeholder.date.text
-        return dateLabel
-    }()
+    private let dateLabel = UILabel.makeLabel(font: .body, text: Placeholder.date.text)
+    private let temperatureLabel = UILabel.makeLabel(font: .body)
     
-    let temperatureLabel: UILabel = {
-        let temperatureLabel = UILabel()
-        temperatureLabel.translatesAutoresizingMaskIntoConstraints = false
-        temperatureLabel.font = UIFont.preferredFont(forTextStyle: .title2)
-        temperatureLabel.textColor = .systemGray
-        temperatureLabel.adjustsFontForContentSizeCategory = true
-        return temperatureLabel
-    }()
-    
-    let weatherImage: UIImageView = {
+    private let weatherImage: UIImageView = {
         let weatherImage = UIImageView()
         weatherImage.translatesAutoresizingMaskIntoConstraints = false
         weatherImage.widthAnchor.constraint(equalTo: weatherImage.heightAnchor).isActive = true
@@ -38,7 +22,7 @@ class WeatherForecastCustomCell: UICollectionViewCell {
         return weatherImage
     }()
     
-    lazy var horizontalStackView: UIStackView = {
+    private lazy var horizontalStackView: UIStackView = {
         var horizontalStackView = UIStackView(arrangedSubviews: [dateLabel, temperatureLabel, weatherImage])
         horizontalStackView.alignment = .fill
         horizontalStackView.distribution = .fill
@@ -52,9 +36,6 @@ class WeatherForecastCustomCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = UIColor.clear
-        backgroundView?.backgroundColor = UIColor.clear
-        backgroundColor = UIColor.init(white: 1.0, alpha: 0.5)
         setLayoutForStackView()
     }
     
@@ -62,7 +43,7 @@ class WeatherForecastCustomCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setLayoutForStackView() {
+    private func setLayoutForStackView() {
         NSLayoutConstraint.activate([
             horizontalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             horizontalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
@@ -81,16 +62,18 @@ class WeatherForecastCustomCell: UICollectionViewCell {
         resetContents()
         
         dateLabel.text = format(date: date)
-        temperatureLabel.text = temparature.description + "°"
+        temperatureLabel.text = TemperatureManager.convert(kelvinValue: temparature,
+                                                           to: .celsius,
+                                                           fractionalCount: 1)
     }
     
-    func resetContents() {
+    private func resetContents() {
         dateLabel.text = nil
         temperatureLabel.text = nil
         weatherImage.image = nil
     }
     
-    func format(date: Int) -> String? {
+    private func format(date: Int) -> String? {
         let dateFormatter = DateFormatter()
         let date = Date(timeIntervalSince1970: TimeInterval(date))
         dateFormatter.locale = Locale(identifier: "ko_KR")

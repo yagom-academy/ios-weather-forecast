@@ -9,7 +9,7 @@ import CoreLocation
 
 typealias DataSource = UICollectionViewDiffableDataSource<WeatherHeader, FiveDayWeather.List>
 
-class ViewController: UIViewController {
+final class WeatherForecastViewController: UIViewController {
     private var networkManager = NetworkManager()
     private let locationManager = LocationManager()
     private var imageManager = ImageManager()
@@ -17,6 +17,8 @@ class ViewController: UIViewController {
     private var currentWeatherHeader = WeatherHeader()
     private var fiveDayWeathers: [FiveDayWeather.List] = []
     private var collecionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    private lazy var alert = initAlert()
+    private let downloadDataGroup = DispatchGroup()
     
     private var dataSource: DataSource?
     private var snapshot: NSDiffableDataSourceSnapshot<WeatherHeader, FiveDayWeather.List>?
@@ -24,22 +26,56 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
-        collecionView.backgroundColor = .white
+        if let image = UIImage(named: "dark") {
+            view.backgroundColor = UIColor(patternImage: image)
+        }
         setupCollectionView()
         initData()
         configureRefreshControl()
     }
     
-    private func initData() {
-        guard let location = locationManager.getGeographicCoordinates() else {
+    private func initAlert() -> UIAlertController {
+        if address.combined == " " {
+            return UIAlertController.makeInvalidLocationAlert { alert in
+                let latitude = alert.textFields?[0].text
+                let longitude = alert.textFields?[1].text
+                self.initData(latitude: latitude, longitude: longitude)
+            }
+        } else {
+            return UIAlertController.makeValidLocationAlert{ alert in
+                let latitude = alert.textFields?[0].text
+                let longitude = alert.textFields?[1].text
+                self.initData(latitude: latitude, longitude: longitude)
+            } resetToCurrentLocationHandler: {
+                self.initData()
+            }
+        }
+    }
+    
+    private func initData(latitude: String? = nil, longitude: String? = nil) {
+        var currentLocation: CLLocation?
+        
+        if let latitude = latitude,
+           let latitudeNumber = Double(latitude),
+           let longitude = longitude,
+           let longitudeNumber = Double(longitude) {
+            currentLocation = CLLocation(latitude: latitudeNumber, longitude: longitudeNumber)
+        } else {
+            currentLocation = locationManager.getGeographicCoordinates()
+        }
+        
+        guard let location = currentLocation else {
             return
         }
         
         getAddress(of: location) { address in
             self.address = address
+            self.alert = self.initAlert()
             self.getWeatherData(of: location, route: .current)
             self.getWeatherData(of: location, route: .fiveDay)
+            self.downloadDataGroup.notify(queue: DispatchQueue.main) {
+                self.makeSnapshot()
+            }
         }
     }
     
@@ -54,19 +90,24 @@ class ViewController: UIViewController {
         }
     }
     
+    
+    
     private func getWeatherData(of location: CLLocation, route: WeatherForecastRoute) {
         let queryItems = WeatherForecastRoute.createParameters(latitude: location.coordinate.latitude,
                                                                longitude: location.coordinate.longitude)
-        
-        networkManager.request(with: route,
-                               queryItems: queryItems,
-                               httpMethod: .get,
-                               requestType: .requestWithQueryItems) { result in
-            switch result {
-            case .success(let data):
-                self.extract(data: data, period: route)
-            case .failure(let networkError):
-                assertionFailure(networkError.localizedDescription)
+
+        DispatchQueue.global().async {
+            self.downloadDataGroup.enter()
+            self.networkManager.request(with: route,
+                                   queryItems: queryItems,
+                                   httpMethod: .get,
+                                   requestType: .requestWithQueryItems) { result in
+                switch result {
+                case .success(let data):
+                    self.extract(data: data, period: route)
+                case .failure(let networkError):
+                    assertionFailure(networkError.localizedDescription)
+                }
             }
         }
     }
@@ -82,7 +123,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func filter<T: WeatherModel>(parsedData: Result<T, ParsingError>) {
+    private func filter<T: WeatherModel>(parsedData: Result<T, ParsingError>) {
         switch parsedData {
         case .success(let data):
             if let currentWeatherData = data as? CurrentWeather {
@@ -91,18 +132,19 @@ class ViewController: UIViewController {
                     case .success(let image):
                         self.currentWeatherHeader = WeatherHeader(
                             address: self.address.combined,
-                            minTemperature: currentWeatherData.main.minTemperature.description,
-                            maxTemperature: currentWeatherData.main.maxTemperature.description,
-                            temperature: currentWeatherData.main.temperature.description,
+                            minTemperature: currentWeatherData.main.minTemperature,
+                            maxTemperature: currentWeatherData.main.maxTemperature,
+                            temperature: currentWeatherData.main.temperature,
                             weatherIcon: image
                         )
                     case .failure(let error):
                         assertionFailure(error.localizedDescription)
                     }
+                    self.downloadDataGroup.leave()
                 }
             } else if let fiveDayWeatherData = data as? FiveDayWeather {
                 self.fiveDayWeathers = fiveDayWeatherData.list
-                makeSnapshot()
+                downloadDataGroup.leave()
             }
         case .failure(let parsingError):
             assertionFailure(parsingError.localizedDescription)
@@ -114,7 +156,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController {
+extension WeatherForecastViewController {
     
     private func makeSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<WeatherHeader, FiveDayWeather.List>()
@@ -125,6 +167,7 @@ extension ViewController {
     }
     
     private func setupCollectionView() {
+        collecionView.backgroundColor = .clear
         setCollectionViewLayoutConfiguration()
         setAutoLayoutCollectionView()
         registerCell()
@@ -132,8 +175,9 @@ extension ViewController {
     }
     
     private func setCollectionViewLayoutConfiguration() {
-        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         configuration.headerMode = .supplementary
+        configuration.backgroundColor = .clear
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         collecionView.collectionViewLayout = layout
     }
@@ -181,17 +225,23 @@ extension ViewController {
         <WeatherHeaderView>(elementKind: UICollectionView.elementKindSectionHeader)
         { headerView, elementKind, indexPath in
             let headerItem = self.dataSource?.snapshot().sectionIdentifiers[indexPath.section]
+            
+            
+            let buttonType: LocationSelectButtonType = self.address.combined == " " ? .invalid : .valid
+            headerView.configureLocationSelectButton(button: buttonType) {
+                self.present(self.alert, animated: true, completion: nil)
+            }
             headerView.configureContents(from: headerItem)
         }
         
         dataSource?.supplementaryViewProvider = { (collecionView, elementKind, indexpath) in
             return collecionView.dequeueConfiguredReusableSupplementary(using: headerRegistration,
-                                                                              for: indexpath)
+                                                                        for: indexpath)
         }
     }
 }
 
-extension ViewController {
+extension WeatherForecastViewController {
     private func configureRefreshControl() {
         collecionView.refreshControl = UIRefreshControl()
         collecionView.refreshControl?.tintColor = .systemRed
@@ -200,7 +250,7 @@ extension ViewController {
                                                 for: .valueChanged)
     }
     
-    @objc func handleRefreshControl() {
+    @objc private func handleRefreshControl() {
         initData()
         self.collecionView.refreshControl?.endRefreshing()
     }
