@@ -30,7 +30,7 @@ class WeatherImpormationViewController: UIViewController {
         processCollectionView()
         registeredIdetifier()
         decidedBackGroundImage()
-        decidedCollectionViewLayout()
+        decidedCollectionViewLayout(layout: collectionViewDataSource)
     }
     
     private func getUserLocation() {
@@ -57,7 +57,7 @@ class WeatherImpormationViewController: UIViewController {
                                 withReuseIdentifier: CurrentWeatherHeaderView.identifier)
     }
     
-    private func decidedCollectionViewLayout() {
+    private func decidedCollectionViewLayout(layout: CompositionalLayoutProtocol) {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
         collectionView.topAnchor.constraint(
@@ -69,7 +69,8 @@ class WeatherImpormationViewController: UIViewController {
         collectionView.bottomAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
-        collectionViewDataSource.decidedLayout(collectionView)
+        collectionView.collectionViewLayout = layout.layout()
+        
     }
     
     private func fetchWeatherImpormation() {

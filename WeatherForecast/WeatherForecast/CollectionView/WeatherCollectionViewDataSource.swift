@@ -8,10 +8,13 @@
 import UIKit
 
 class WeatherCollectionViewDataSource: NSObject {
-    private let compositionalLayout = CompositionalLayout()
     var currentWeather: CurrentWeather?
     var fiveDaysWeather: FiveDaysWeather?
     var currentAddress: String?
+    private let scrollDirection: ScrollDirection = .vertical
+    private let horizontalNumber = 1
+    private let cellVerticalSize: NSCollectionLayoutDimension = .fractionalHeight(1/14)
+    private let headerVerticalSize: NSCollectionLayoutDimension = .fractionalHeight(2/14)
 }
 
 extension WeatherCollectionViewDataSource: UICollectionViewDataSource {
@@ -47,9 +50,12 @@ extension WeatherCollectionViewDataSource: UICollectionViewDataSource {
         cell.configure(list: fiveDayList)
         return cell
     }
-    
-    func decidedLayout(_ collectionView: UICollectionView) {
-        collectionView.collectionViewLayout =
-        compositionalLayout.create(contents: WeatherImpormationLayout())
+}
+
+extension WeatherCollectionViewDataSource: CompositionalLayoutProtocol {
+    func layout() -> UICollectionViewLayout {
+      return CompositionalLayout(scrollDirection: scrollDirection,
+                           cellVerticalSize: cellVerticalSize,
+                           headerVerticalSize: headerVerticalSize).create()
     }
 }
