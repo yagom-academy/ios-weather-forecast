@@ -9,6 +9,12 @@ import CoreLocation
 
 class WeatherDataViewModel {
     private var locationService: LocationService
+    private weak var delegate: Requirable?
+    private var currentLocation: CLLocation? {
+        didSet {
+            delegate?.reloadWeatherData(nil)
+        }
+    }
     
     private(set) var currentAddress: String = ""
     private(set) var currentTemperature: Double = 0
@@ -24,27 +30,49 @@ class WeatherDataViewModel {
 
 // MARK: - 데이터 Set-Up
 extension WeatherDataViewModel {
-    func setUpWeatherData(completion: @escaping () -> Void) {
-        locationService.requestLocation { location in
-            DispatchQueue.global().async {
-                let preparingGroup = DispatchGroup()
-
-                preparingGroup.enter()
-                self.fetchAddressInfomation(location) {
-                    preparingGroup.leave()
-                }
-                preparingGroup.enter()
-                self.fetchCurrentWeatherData(location) {
-                    preparingGroup.leave()
-                }
-                preparingGroup.enter()
-                self.fetchFiveDayWeatherData(location) {
-                    preparingGroup.leave()
-                }
+    func setDelegate(from delegate: Requirable) {
+        self.delegate = delegate
+    }
     
-                preparingGroup.wait()
+    func updateUserInputLocation(_ latitude: Double, _ longitude: Double) {
+        self.currentLocation = CLLocation(latitude: latitude, longitude: longitude)
+    }
+    
+    func setUpWeatherData(completion: @escaping () -> Void) {
+        if let location = currentLocation {
+            requestWeatherData(location) {
                 completion()
             }
+        } else {
+            locationService.requestLocation { result in
+                if let location = result {
+                    self.currentLocation = location
+                } else {
+                    self.delegate?.requireUserLocation()
+                }
+            }
+        }
+    }
+    
+    private func requestWeatherData(_ location: CLLocation, completion: @escaping () -> Void) {
+        DispatchQueue.global().async {
+            let preparingGroup = DispatchGroup()
+
+            preparingGroup.enter()
+            self.fetchAddressInfomation(location) {
+                preparingGroup.leave()
+            }
+            preparingGroup.enter()
+            self.fetchCurrentWeatherData(location) {
+                preparingGroup.leave()
+            }
+            preparingGroup.enter()
+            self.fetchFiveDayWeatherData(location) {
+                preparingGroup.leave()
+            }
+
+            preparingGroup.wait()
+            completion()
         }
     }
 }
