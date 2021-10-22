@@ -13,22 +13,51 @@ final class LocationManager: CLLocationManager {
     var fiveDaysData: FiveDaysForecast?
     var currentData: CurrentWeather?
     private var session = URLSession.shared
+    private var alertController = FailureAlertController()
     
-    func askUserLocation() {
+    private func askUserLocation() {
         self.requestWhenInUseAuthorization()
         self.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         self.startUpdatingLocation()
     }
+    
+    override init() {
+        super.init()
+        self.delegate = self
+        askUserLocation()
+    }
 }
 
 extension LocationManager: CLLocationManagerDelegate {
+    private func parseCurrent(networkManager: NetworkManager, weatherApi: WeatherApi, session: URLSession, completion: @escaping () -> Void) {
+        networkManager.getWeatherData(with: weatherApi, session) { requestedData
+            in
+            do {
+                self.currentData = try JSONDecoder().decode(CurrentWeather.self, from: requestedData)
+            } catch {
+                print("Decode Error")
+            }
+        }
+    }
+    
+    private func parseFiveDays(networkManager: NetworkManager, weatherApi: WeatherApi, session: URLSession, completion: @escaping () -> Void) {
+        networkManager.getWeatherData(with: weatherApi, session) { requestedData in
+            do {
+                self.fiveDaysData = try JSONDecoder().decode(FiveDaysForecast.self, from: requestedData)
+                completion()
+            } catch {
+                print("Decoding Error")
+            }
+        }
+    }
+
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let networkManager = NetworkManager()
         
         guard let longitude = manager.location?.coordinate.longitude,
               let latitude = manager.location?.coordinate.latitude,
-              let fiveDaysUrl = URL(string: "https://api.openweathermap.org/data/2.5/forecast"),
-        let currentWeather = URL(string: "https://api.openweathermap.org/data/2.5/weather")
+              let fiveDaysURL = URL(string: "https://api.openweathermap.org/data/2.5/forecast"),
+        let currentWeatherURL = URL(string: "https://api.openweathermap.org/data/2.5/weather")
         else  {
             return
         }
@@ -50,53 +79,31 @@ extension LocationManager: CLLocationManagerDelegate {
         }
 
         let requestInfo: Parameters = ["lat": latitude, "lon": longitude, "appid": networkManager.apiKey]
-        let fiveDaysWeatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: fiveDaysUrl)
-        let currentWeatherApi = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: currentWeather)
-        parseCurrent(networkManager: networkManager, weatherApi: currentWeatherApi, session: self.session) {
+        let fiveDaysWeatherAPI = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: fiveDaysURL)
+        let currentWeatherAPI = WeatherApi(httpTask: .request(withUrlParameters: requestInfo), httpMethod: .get, baseUrl: currentWeatherURL)
+        parseCurrent(networkManager: networkManager, weatherApi: currentWeatherAPI, session: self.session) {
             NotificationCenter.default.post(name: Notification.Name.completion, object: nil, userInfo: nil)
-//            NotificationCenter.default.post(name: Notification.Name.dataIsNotNil, object: nil, userInfo: nil)
         }
         
-        parseFiveDays(networkManager: networkManager, weatherApi: fiveDaysWeatherApi, session: self.session) {
+        parseFiveDays(networkManager: networkManager, weatherApi: fiveDaysWeatherAPI, session: self.session) {
             NotificationCenter.default.post(name: Notification.Name.dataIsNotNil, object: nil, userInfo: nil)
         }
     }
     
-    private func parseCurrent(networkManager: NetworkManager, weatherApi: WeatherApi, session: URLSession, completion: @escaping () -> Void) {
-        networkManager.getWeatherData(weatherAPI: weatherApi, session) { requestedData
-            in
-            do {
-                self.currentData = try JSONDecoder().decode(CurrentWeather.self, from: requestedData)
-            } catch {
-                print("Decode Error")
-            }
-        }
-    }
-    
-    private func parseFiveDays(networkManager: NetworkManager, weatherApi: WeatherApi, session: URLSession, completion: @escaping () -> Void) {
-        networkManager.getWeatherData(weatherAPI: weatherApi, session) { requestedData in
-            do {
-                self.fiveDaysData = try JSONDecoder().decode(FiveDaysForecast.self, from: requestedData)
-                completion()
-            } catch {
-                print("Decoding Error")
-            }
-        }
-    }
-    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        ViewController.showAlert(title: "🙋‍♀️", message: "새로고침을 해주세요.")
+        alertController.showAlert(title: "🙋‍♀️", message: "새로고침을 해주세요.")
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .restricted, .denied:
-            ViewController.showAlert(title: "❌", message: "날씨 정보를 사용 할 수 없습니다.")
+            alertController.showAlert(title: "❌", message: "날씨 정보를 사용 할 수 없습니다.")
             break
         case .authorizedWhenInUse, .authorizedAlways, .notDetermined:
             manager.requestLocation()
             break
+        @unknown default:
+            alertController.showAlert(title: "⚠️", message: "알수없는 에러")
         }
     }
-    
 }

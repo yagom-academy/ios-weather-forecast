@@ -43,7 +43,7 @@ final class NetworkManager {
         }
     }
     
-    func getWeatherData(weatherAPI: WeatherApi, _ session: URLSession, _ completion: @escaping (Data) -> ()) {
+    func getWeatherData(with weatherAPI: WeatherApi, _ session: URLSession, _ completion: @escaping (Data) -> ()) {
         router.request(weatherAPI, session) { data in
             completion(data)
         }

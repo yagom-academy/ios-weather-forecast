@@ -16,21 +16,23 @@ final class ViewController: UIViewController {
     private let addressLabel = UILabel()
     private let temperatureRangeLabel = UILabel()
     private let currentTemperatureLabel = UILabel()
+    private let fiveDaysWeatherImageCache = NSCache<NSString, UIImage>()
     
     //MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView(_:)), name: Notification.Name.dataIsNotNil, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(setupTableViewHeaderView), name: Notification.Name.completion, object: nil)
+        addObservers()
         setUpTableView()
         addSubviews()
         configureLayout()
-        locationManager.delegate = locationManager
-        locationManager.askUserLocation()
         setupBackgroundImage()
     }
     
     //MARK: - Methods
+    private func addObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView(_:)), name: Notification.Name.dataIsNotNil, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setupTableViewHeaderView), name: Notification.Name.completion, object: nil)
+    }
     
     private func setUpTableView() {
         tableView.delegate = self
@@ -56,15 +58,6 @@ final class ViewController: UIViewController {
     private func setupBackgroundImage() {
         self.view.addBackground(imageName: "sky")
         self.tableView.backgroundColor = .clear
-    }
-    
-    static func showAlert(title: String, message: String) {
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            let alertAction = UIAlertAction(title: "Test", style: .default, handler: nil)
-            alert.addAction(alertAction)
-            ViewController().present(alert, animated: true, completion: nil)
-        }
     }
     
     private func addSubviews() {
@@ -123,7 +116,8 @@ final class ViewController: UIViewController {
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherInfoCell.cellIdentifier, for: indexPath) as? WeatherInfoCell,
-              let item = locationManager.fiveDaysData else {
+              let item = locationManager.fiveDaysData,
+              let ParamIcon = item.list[indexPath.row].weather.first else {
                   return UITableViewCell()
         }
         
@@ -131,13 +125,22 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let roundedNumber = round(celsius * 10) / 10
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd HH시"
-        guard let weatherImageURL = URL(string: "https://openweathermap.org/img/w/\(item.list[indexPath.row].weather[0].icon).png") else {
+        guard let weatherImageURL = URL(string: "https://openweathermap.org/img/w/\(ParamIcon.icon).png") else {
             return UITableViewCell()
         }
         
         do {
             let data = try Data(contentsOf: weatherImageURL)
-            cell.weatherImageView.image = UIImage(data: data)
+            guard let image = UIImage(data: data) else {
+                return UITableViewCell()
+            }
+            
+            fiveDaysWeatherImageCache.setObject(image, forKey: "\(ParamIcon.icon)" as NSString)
+            if let cachedImage = fiveDaysWeatherImageCache.object(forKey: "\(ParamIcon.icon)" as NSString) {
+                cell.weatherImageView.image = cachedImage
+            } else {
+                cell.weatherImageView.image = image
+            }
             cell.backgroundColor = .clear
             cell.selectionStyle = .none
             cell.dateLabel.text = "\(dateFormatter.string(from: item.list[indexPath.row].date))"

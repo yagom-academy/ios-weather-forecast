@@ -8,7 +8,7 @@
 import UIKit
 
 final class WeatherInfoCell: UITableViewCell {
-    static let cellIdentifier: String = "Cell"
+    static let cellIdentifier: String = "WeatherInfoCell"
     let dateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
