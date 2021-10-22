@@ -19,18 +19,18 @@ class WeatherViewController: UIViewController {
     private let geocoderManager = GeocoderManager()
     private let apiManager = APIManager()
     
-    var timerForUpdating: Timer?
+    private var debounceWorkItem: DispatchWorkItem?
     private var coordinate = CLLocationCoordinate2D() {
         didSet {
-            if timerForUpdating != nil {
-                timerForUpdating?.invalidate()
-                timerForUpdating = nil
-            }
-            timerForUpdating = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { [weak self] timer in
+            debounceWorkItem?.cancel()
+            
+            let requestWorkItem = DispatchWorkItem { [weak self] in
                 guard let this = self else { return }
-                guard timer.isValid else { return }
                 this.fetchWeatherData(on: this.coordinate)
             }
+            
+            debounceWorkItem = requestWorkItem
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.3, execute: requestWorkItem)
         }
     }
     
