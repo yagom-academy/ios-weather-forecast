@@ -227,6 +227,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		79A488E52722FB49006BF85D /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C79C8CF725ADDDF200EEE3F1 /* WeatherViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		79FF2F93270B441400942D6F /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -268,6 +276,7 @@
 		C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */ = {
 			isa = PBXGroup;
 			children = (
+				79A488E52722FB49006BF85D /* ViewControllers */,
 				79A488E02722EA1C006BF85D /* Views */,
 				79FF2F98270B4BF600942D6F /* Extensions */,
 				79FF2F93270B441400942D6F /* Errors */,
@@ -277,7 +286,6 @@
 				4D3052122702EE7100898455 /* Models */,
 				C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */,
 				C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */,
-				C79C8CF725ADDDF200EEE3F1 /* WeatherViewController.swift */,
 				C79C8CF925ADDDF200EEE3F1 /* Main.storyboard */,
 				C79C8CFC25ADDDF300EEE3F1 /* Assets.xcassets */,
 				C79C8CFE25ADDDF300EEE3F1 /* LaunchScreen.storyboard */,
