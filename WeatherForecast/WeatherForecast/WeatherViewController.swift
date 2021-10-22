@@ -140,11 +140,16 @@ extension WeatherViewController {
     }
 }
 
+extension WeatherViewController: GeocoderManagible {
+    func updateCoordiante(coordinate: CLLocationCoordinate2D) {
+        self.coordinate = coordinate
+    }
+}
+
 extension WeatherViewController {
     private func requestLocationAuthorization() {
-        locationManager.requestAuthorization { [weak self] coordinate in
-            self?.coordinate = coordinate
-        }
+        geocoderManager.delegate = self
+        locationManager.requestAuthorization(feat: geocoderManager)
     }
     
     private func requestCoordinate() {
