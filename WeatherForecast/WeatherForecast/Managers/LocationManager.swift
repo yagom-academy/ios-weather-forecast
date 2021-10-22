@@ -13,6 +13,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     private var locationManager: LocationManagerProtocol
     private var completionHanler: RequestLocationAction?
+    private var debounceWorkItem: DispatchWorkItem?
     
     init(locationManager: LocationManagerProtocol = CLLocationManager()) {
         self.locationManager = locationManager
@@ -38,7 +39,15 @@ extension LocationManager {
             return
         }
         
-        completionHanler?(currentLocation.coordinate)
+        debounceWorkItem?.cancel()
+        let requestWorkItem = DispatchWorkItem { [weak self] in
+            guard let this = self else { return }
+            this.completionHanler?(currentLocation.coordinate)
+        }
+        
+        debounceWorkItem = requestWorkItem
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.3, execute: requestWorkItem)
+        
         locationManager.stopUpdatingLocation()
     }
     

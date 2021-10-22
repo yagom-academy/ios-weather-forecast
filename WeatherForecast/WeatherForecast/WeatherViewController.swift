@@ -19,18 +19,9 @@ class WeatherViewController: UIViewController {
     private let geocoderManager = GeocoderManager()
     private let apiManager = APIManager()
     
-    private var debounceWorkItem: DispatchWorkItem?
     private var coordinate = CLLocationCoordinate2D() {
         didSet {
-            debounceWorkItem?.cancel()
-            
-            let requestWorkItem = DispatchWorkItem { [weak self] in
-                guard let this = self else { return }
-                this.fetchWeatherData(on: this.coordinate)
-            }
-            
-            debounceWorkItem = requestWorkItem
-            DispatchQueue.global().asyncAfter(deadline: .now() + 0.3, execute: requestWorkItem)
+            fetchWeatherData(on: coordinate)
         }
     }
     
