@@ -47,6 +47,7 @@ class WeatherViewController: UIViewController {
         super.viewDidLoad()
         setupTableView()
         updateTableViewHeaderViewLayout()
+        updateTableViewBackgroundView()
         setupRefreshControl()
         requestLocationAuthorization()
     }
@@ -78,6 +79,10 @@ extension WeatherViewController: UITableViewDataSource {
 }
 
 extension WeatherViewController {
+    private func updateTableViewBackgroundView() {
+        tableView.backgroundView = UIImageView(image: UIImage(named: "sunset"))
+    }
+    
     private func updateTableViewHeaderViewLayout() {
         tableViewHeaderView.addSubview(headerAddrressLabel)
         tableViewHeaderView.addSubview(headerMinMaxTemperatureLabel)
@@ -95,6 +100,7 @@ extension WeatherViewController {
             equalTo: tableViewHeaderView.topAnchor,
             constant: 20
         ).isActive = true
+        headerAddrressLabel.textColor = .lightGray
         
         headerMinMaxTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
         headerMinMaxTemperatureLabel.leadingAnchor.constraint(
@@ -105,6 +111,7 @@ extension WeatherViewController {
             equalTo: headerAddrressLabel.bottomAnchor,
             constant: 10
         ).isActive = true
+        headerMinMaxTemperatureLabel.textColor = .lightGray
 
         headerCurrentTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
         headerCurrentTemperatureLabel.leadingAnchor.constraint(
@@ -115,6 +122,7 @@ extension WeatherViewController {
             equalTo: headerMinMaxTemperatureLabel.bottomAnchor,
             constant: 10
         ).isActive = true
+        headerCurrentTemperatureLabel.textColor = .white
         
         headerCurrentTemperatureLabel.font = UIFont.boldSystemFont(ofSize: CGFloat(40))
     }

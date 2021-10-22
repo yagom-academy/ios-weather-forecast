@@ -106,6 +106,7 @@ extension WeatherTableViewCell {
         updateDateLabelLayout()
         updateWeatherIconImageViewLayout()
         updateTemperatureLabelLayout()
+        backgroundColor = UIColor.clear
     }
     
     private func prepareForLayout(with view: UIView) {
@@ -130,6 +131,8 @@ extension WeatherTableViewCell {
             equalTo: contentView.bottomAnchor,
             constant: -10
         ).isActive = true
+        
+        dateLabel.textColor = .lightGray
     }
     
     private func updateWeatherIconImageViewLayout() {
@@ -164,5 +167,7 @@ extension WeatherTableViewCell {
         temperatureLabel.centerYAnchor.constraint(
             equalTo: contentView.centerYAnchor
         ).isActive = true
+        
+        temperatureLabel.textColor = .lightGray
     }
 }
