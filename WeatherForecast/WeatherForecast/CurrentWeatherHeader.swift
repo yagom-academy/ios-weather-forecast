@@ -16,6 +16,7 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "defaultIcon")
         imageView.contentMode = .scaleAspectFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -24,6 +25,7 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
         label.text = "😢위치 정보 없음"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 15)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -32,6 +34,7 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
         label.text = "😢최저최고기온 정보 없음"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 15)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -40,6 +43,7 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
         label.text = "😢현재기온 정보 없음"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 30)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -49,6 +53,7 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
         stackView.distribution = .fill
         stackView.alignment = .leading
         stackView.spacing = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
@@ -58,6 +63,7 @@ class CurrentWeatherHeader: UITableViewHeaderFooterView {
         stackView.distribution = .fill
         stackView.alignment = .center
         stackView.spacing = 15
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
@@ -106,13 +112,6 @@ extension CurrentWeatherHeader {
             horizontalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             horizontalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
-        
-        locationLabel.translatesAutoresizingMaskIntoConstraints = false
-        minMaxTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
-        currentTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
-        weatherImageView.translatesAutoresizingMaskIntoConstraints = false
-        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func configureVerticalStackView() {

@@ -13,18 +13,21 @@ class ThreeHourForecastCell: UITableViewCell {
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let temperatureLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let weatherImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -34,6 +37,7 @@ class ThreeHourForecastCell: UITableViewCell {
         stackView.distribution = .fill
         stackView.alignment = .center
         stackView.spacing = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
@@ -86,11 +90,6 @@ extension ThreeHourForecastCell {
             stackView.topAnchor.constraint(equalTo: dateLabel.topAnchor),
             stackView.bottomAnchor.constraint(equalTo: dateLabel.bottomAnchor)
         ])
-        
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        temperatureLabel.translatesAutoresizingMaskIntoConstraints = false
-        weatherImageView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func configureStackView() {
