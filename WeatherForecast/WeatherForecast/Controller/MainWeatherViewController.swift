@@ -36,7 +36,6 @@ extension MainWeatherViewController {
             return
         }
         locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
-        locationManager.requestLocation()
     }
 }
 
@@ -47,7 +46,7 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
         case .restricted, .denied:
             break
         case .authorizedAlways, .authorizedWhenInUse:
-            break
+            locationManager.requestLocation()
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         @unknown default:
