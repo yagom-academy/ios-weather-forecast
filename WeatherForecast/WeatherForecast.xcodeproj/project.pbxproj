@@ -16,6 +16,7 @@
 		3F756ADA2706FB340091A124 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F756AD92706FB340091A124 /* NetworkManager.swift */; };
 		3F7591C4271DD33A00BF3F2E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3F7591C6271DD33A00BF3F2E /* InfoPlist.strings */; };
 		3FAE34D52702DD5300A6C510 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAE34D42702DD5300A6C510 /* Weather.swift */; };
+		3FFABB872722A4EA0068C795 /* WeatherLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFABB862722A4EA0068C795 /* WeatherLocationManager.swift */; };
 		C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */; };
 		C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */; };
 		C79C8CF825ADDDF200EEE3F1 /* MainWeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF725ADDDF200EEE3F1 /* MainWeatherViewController.swift */; };
@@ -70,6 +71,7 @@
 		3F7591C5271DD33A00BF3F2E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3F7591CA271DD33F00BF3F2E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3FAE34D42702DD5300A6C510 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		3FFABB862722A4EA0068C795 /* WeatherLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherLocationManager.swift; sourceTree = "<group>"; };
 		C79C8CF025ADDDF200EEE3F1 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				C91EF6B52706E5250013E3D6 /* ParsingManager.swift */,
 				3F756AD92706FB340091A124 /* NetworkManager.swift */,
 				C9D4DB90270C460300EAF3A5 /* AddressManager.swift */,
+				3FFABB862722A4EA0068C795 /* WeatherLocationManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				C91EF69E2702E7430013E3D6 /* Clouds.swift in Sources */,
 				C9D93099271DCFAD00BDBCF7 /* String + Extension.swift in Sources */,
 				C9D9305227195C8300BDBCF7 /* ChangeLocationDelegate.swift in Sources */,
+				3FFABB872722A4EA0068C795 /* WeatherLocationManager.swift in Sources */,
 				C96F2EDC2714632800004338 /* MainWeatherTableViewDataSource.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* MainWeatherViewController.swift in Sources */,
 				C91EF6B127035D330013E3D6 /* WeatherAPI.swift in Sources */,
@@ -636,13 +640,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z9X27XS2Q8;
 				INFOPLIST_FILE = WeatherForecast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.WeatherForecast;
+				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.WeatherForecast.shapiro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -655,13 +660,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z9X27XS2Q8;
 				INFOPLIST_FILE = WeatherForecast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.WeatherForecast;
+				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.WeatherForecast.shapiro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

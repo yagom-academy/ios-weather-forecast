@@ -9,7 +9,7 @@ import CoreLocation
 
 final class MainWeatherViewController: UIViewController {
     //MARK: Properties
-    private let locationManager = CLLocationManager()
+    private let locationManager = WeatherLocationManager()
     private var userAddress: String?
     private var weatherForOneDay: WeatherForOneDay?
     private var fiveDayWeatherForecast: FiveDayWeatherForecast?
@@ -27,13 +27,16 @@ final class MainWeatherViewController: UIViewController {
         setUpRefreshControl()
     }
 }
-
+ 
 //MARK:- LocationManager
 extension MainWeatherViewController {
     private func setUpLocationManager() {
         locationManager.delegate = self
-        guard CLLocationManager.significantLocationChangeMonitoringAvailable() else { return }
-        locationManager.startMonitoringSignificantLocationChanges()
+        guard CLLocationManager.significantLocationChangeMonitoringAvailable() else {
+            return
+        }
+        locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+        locationManager.requestLocation()
     }
 }
 
@@ -61,20 +64,26 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
         updateWorkItem = nil
         
         updateWorkItem = DispatchWorkItem(block: { [weak self] in
-            self?.prepareWeatherInformation(with: lastLocation) { userAddress, weatherForOneDay, weatherForFiveDay in
-                if self?.userAddress != userAddress {
-                    self?.userAddress = userAddress
-                    self?.updateUserAddressLabel(to: userAddress)
+            guard let self = self else {
+                return
+            }
+            self.prepareWeatherInformation(with: lastLocation) { userAddress, weatherForOneDay, weatherForFiveDay in
+                if self.userAddress != userAddress {
+                    self.userAddress = userAddress
+                    self.updateUserAddressLabel(to: userAddress)
                 }
-                if self?.weatherForOneDay != weatherForOneDay {
-                    self?.weatherForOneDay = weatherForOneDay
-                    self?.updateHeaderView(to: weatherForOneDay)
+                if self.weatherForOneDay != weatherForOneDay {
+                    self.weatherForOneDay = weatherForOneDay
+                    self.updateHeaderView(to: weatherForOneDay)
                 }
-                if self?.fiveDayWeatherForecast != weatherForFiveDay {
-                    self?.fiveDayWeatherForecast = weatherForFiveDay
-                    self?.updateTableView(to: weatherForFiveDay?.weatherForFiveDays)
+                if self.fiveDayWeatherForecast != weatherForFiveDay {
+                    self.fiveDayWeatherForecast = weatherForFiveDay
+                    self.updateTableView(to: weatherForFiveDay?.weatherForFiveDays)
                 }
-                self?.tableView.refreshControl?.endRefreshing()
+                self.tableView.refreshControl?.endRefreshing()
+                if self.locationManager.isSignificantMonitoringEnabled == false {
+                    self.locationManager.startMonitoringSignificantLocationChanges()
+                }
             }
         })
         if let updateWorkItem = updateWorkItem {
@@ -84,6 +93,7 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         debugPrint(error)
+        tableView.refreshControl?.endRefreshing()
     }
 }
 
@@ -214,6 +224,9 @@ extension MainWeatherViewController {
     }
     
     @objc private func loadNewData() {
+        if locationManager.isSignificantMonitoringEnabled {
+            locationManager.stopMonitoringSignificantLocationChanges()
+        }
         locationManager.requestLocation()
     }
 }
@@ -244,7 +257,13 @@ extension MainWeatherViewController: ChangeLocationDelegate {
             }
         }
         let setCurrentLocationAction = UIAlertAction(title: "ChangeLocationAlert_SetCurrentLocationAction_Title".localized(), style: .default) { [weak self] _ in
-            self?.locationManager.requestLocation()
+            guard let self = self else {
+                return
+            }
+            if self.locationManager.isSignificantMonitoringEnabled {
+                self.locationManager.stopMonitoringSignificantLocationChanges()
+            }
+            self.locationManager.requestLocation()
         }
         let cancelAction = UIAlertAction(title: "ChangeLocationAlert_CancelAction_Title".localized(), style: .cancel, handler: nil)
         
