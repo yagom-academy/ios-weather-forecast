@@ -167,7 +167,6 @@
 		4D3052122702EE7100898455 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				79A48862271DD671006BF85D /* TableViewCells */,
 				4D30520C2702E2B300898455 /* CurrentWeather.swift */,
 				4D3052102702E6CE00898455 /* FiveDaysWeather.swift */,
 				4D3052132702EECB00898455 /* CommonWeatherModels.swift */,
@@ -214,6 +213,14 @@
 			path = TableViewCells;
 			sourceTree = "<group>";
 		};
+		79A488E02722EA1C006BF85D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				79A48862271DD671006BF85D /* TableViewCells */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		79FF2F93270B441400942D6F /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,6 +262,7 @@
 		C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */ = {
 			isa = PBXGroup;
 			children = (
+				79A488E02722EA1C006BF85D /* Views */,
 				79FF2F98270B4BF600942D6F /* Extensions */,
 				79FF2F93270B441400942D6F /* Errors */,
 				4D303276270600460047599D /* Protocols */,
