@@ -33,7 +33,7 @@
 		A8FB2E1E271E904F009967E2 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB2E1D271E904F009967E2 /* TableViewController.swift */; };
 		A8FB2E20271E93D5009967E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB2E1F271E93D5009967E2 /* ViewController.swift */; };
 		A8FB2E22271E940D009967E2 /* Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB2E21271E940D009967E2 /* Notification.Name.swift */; };
-		A8FB2E26271EA3BC009967E2 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB2E25271EA3BC009967E2 /* LocationViewController.swift */; };
+		A8FB2E26271EA3BC009967E2 /* LocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB2E25271EA3BC009967E2 /* LocationController.swift */; };
 		A8FB2E28271ED0B6009967E2 /* LocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB2E27271ED0B6009967E2 /* LocationManagerDelegate.swift */; };
 		C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */; };
 		C79C8CF625ADDDF200EEE3F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79C8CF525ADDDF200EEE3F1 /* SceneDelegate.swift */; };
@@ -89,7 +89,7 @@
 		A8FB2E1D271E904F009967E2 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		A8FB2E1F271E93D5009967E2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A8FB2E21271E940D009967E2 /* Notification.Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.Name.swift; sourceTree = "<group>"; };
-		A8FB2E25271EA3BC009967E2 /* LocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
+		A8FB2E25271EA3BC009967E2 /* LocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationController.swift; sourceTree = "<group>"; };
 		A8FB2E27271ED0B6009967E2 /* LocationManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerDelegate.swift; sourceTree = "<group>"; };
 		C79C8CF025ADDDF200EEE3F1 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C79C8CF325ADDDF200EEE3F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -261,7 +261,7 @@
 			isa = PBXGroup;
 			children = (
 				C79C8CF725ADDDF200EEE3F1 /* MainViewController.swift */,
-				A8FB2E25271EA3BC009967E2 /* LocationViewController.swift */,
+				A8FB2E25271EA3BC009967E2 /* LocationController.swift */,
 				A8FB2E1D271E904F009967E2 /* TableViewController.swift */,
 			);
 			path = Controller;
@@ -475,7 +475,7 @@
 				A86A636427206496007737F2 /* EmptyTableViewDelegate.swift in Sources */,
 				A86A636C27206697007737F2 /* CellHolder.swift in Sources */,
 				A84D475A270315A9002C1324 /* WeatherNetworkManager.swift in Sources */,
-				A8FB2E26271EA3BC009967E2 /* LocationViewController.swift in Sources */,
+				A8FB2E26271EA3BC009967E2 /* LocationController.swift in Sources */,
 				C79C8CF425ADDDF200EEE3F1 /* AppDelegate.swift in Sources */,
 				A84D475E27031F09002C1324 /* HTTPMethod.swift in Sources */,
 				A8570E762717C0E300C2EF01 /* ImageLoader.swift in Sources */,

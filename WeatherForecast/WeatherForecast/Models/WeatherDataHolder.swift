@@ -25,7 +25,6 @@ final class WeatherDataHolder {
             do {
                 let decodedData = try  Parser().decode(data, to: FiveDaysForecastData.self)
                 self.forcast = decodedData
-                NotificationCenter.default.post(name: .reloadTableView, object: nil)
             } catch {
                 print(error)
             }

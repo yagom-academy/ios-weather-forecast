@@ -15,15 +15,28 @@ final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
               let longitude = locations.last?.coordinate.longitude else {
             return
         }
+   
+        let currentLocation: CLLocation = CLLocation(latitude: latitude, longitude: longitude)
+        let locale = Locale(identifier: "ko")
         
-        let location: Location = (latitude, longitude)
-        
+        CLGeocoder().reverseGeocodeLocation(currentLocation, preferredLocale: locale) { placeMarks, error in
+            guard error == nil else {
+                return
+            }
+           
+            guard let addresses = placeMarks,
+                  let city = addresses.last?.locality,
+                  let subCity = addresses.last?.subLocality else {
+                return
+            }
+        }
+      
         if let manager = manager as? LocationManager {
-            manager.lastLocation = location
+            manager.validLocation = Location(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude)
         }
         
-        requestWeatherData(requestPurpose: .currentWeather, location: location)
-        requestWeatherData(requestPurpose: .forecast, location: location)
+        requestWeatherData(requestPurpose: .currentWeather, location: Location(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude))
+        requestWeatherData(requestPurpose: .forecast, location: Location(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude))
     }
     
     func locationManager(_ manager: CLLocationManager,

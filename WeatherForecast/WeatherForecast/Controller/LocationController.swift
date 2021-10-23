@@ -25,11 +25,11 @@ final class LocationViewController: UIViewController {
                                                object: nil)
     }
     
-    @objc func requestLocationAgain() {
+    @objc private func requestLocationAgain() {
         self.locationManager.requestLocation()
     }
-    
+
     func getLocation() -> Location? {
-        return locationManager.lastLocation
+        return locationManager.validLocation
     }
 }

@@ -23,4 +23,8 @@ final class MainViewController: UIViewController {
         self.view.addSubview(tableViewController.view)
         tableViewController.view.frame = self.view.bounds
     }
+    
+    func getLocation() -> Location? {
+        self.locationViewController.getLocation()
+    }
 }

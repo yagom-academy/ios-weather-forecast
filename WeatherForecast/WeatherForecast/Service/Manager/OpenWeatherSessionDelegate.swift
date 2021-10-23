@@ -23,13 +23,14 @@ final class OpenWeatherSessionDelegate: NSObject, URLSessionDataDelegate {
     }
     
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, willCacheResponse proposedResponse: CachedURLResponse, completionHandler: @escaping (CachedURLResponse?) -> Void) {
-        
         let requestData = proposedResponse.data
         let pathCompnent = dataTask.currentRequest?.url?.pathComponents.last
         
         if let path = pathCompnent {
             WeatherDataHolder.shared.generate(path, requestData)
+            NotificationCenter.default.post(name: .reloadTableView, object: nil)
         }
+        
         completionHandler(proposedResponse)
     }
 }

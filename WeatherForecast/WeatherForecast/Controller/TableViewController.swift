@@ -8,39 +8,27 @@
 import UIKit
 import CoreLocation
 
-func requestWeatherData(requestPurpose: RequestPurpose, location: Location?) {
-    let sessionDelegate = OpenWeatherSessionDelegate()
-    let networkManager = WeatherNetworkManager()
+final class TableViewController: UIViewController {
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.dataSource = tableViewDataSource
+        tableView.delegate = tableViewDelegate
+        return tableView
+    }()
     
-    networkManager
-        .fetchOpenWeatherData(latitudeAndLongitude: location,
-                              requestPurpose: .currentWeather,
-                              sessionDelegate.session)
-    
-    networkManager
-        .fetchOpenWeatherData(latitudeAndLongitude: location,
-                              requestPurpose: .forecast,
-                              sessionDelegate.session)
-}
-
-final class TableViewController: UIViewController, ButtonDelegate {
-  
-    private let tableView = UITableView(frame: .zero, style: .grouped)
     private let tableViewDataSource = WeatherTableviewDataSource()
     private let tableViewDelegate = WeatherTableViewDelegate()
-    private let emptyDataSource = EmptyDataSource()
-    private let emptyDelegate = EmptyDelegate()
+    private lazy var emptyDataSource = EmptyDataSource()
+    private lazy var emptyDelegate = EmptyDelegate()
     
     private let refreshControl = UIRefreshControl()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        drawTableView()
+        setTableView()
         setRefreshControl()
-        self.tableView.dataSource = self.tableViewDataSource
-        self.tableView.delegate = tableViewDelegate
         setButtonDelegate()
-
+        
         NotificationCenter
             .default
             .addObserver(self,
@@ -54,81 +42,53 @@ final class TableViewController: UIViewController, ButtonDelegate {
                          name: .stopRefresh,
                          object: nil)
     }
-
+    
     func cleanTableView() {
         self.tableView.dataSource = emptyDataSource
         self.tableView.delegate = emptyDelegate
-    }
-
-    private func setButtonDelegate() {
-        let firstSectionHeaderNumber = 0
-        guard let headerView = self.tableView.headerView(forSection: firstSectionHeaderNumber) as? OpenWeatherHeaderView else {
-            return
-        }
-        
-        headerView.buttonDelegate = self
-    }
-    
-    func notifyValidLocationAlert() {
-        showDetailViewController(validLocationAlert, sender: nil)
-        print("성공")
-    }
-    
-    func notifyInvalidLocationAlert() {
-        showDetailViewController(inValidLocationAlert, sender: nil)
     }
     
     private lazy var validLocationAlert: UIAlertController = {
         let alert = UIAlertController(title: "위치변경",
                                       message: "변경할 좌표를 선택해 주세요",
                                       preferredStyle: .alert)
-        
+
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
-        
         alert.addAction(UIAlertAction(title: "현재 위치로 재설정", style: .default) { _ in
-            NotificationCenter
-                .default
-                .post(name: .requestLocationAgain,
-                      object: nil)
-            alert.dismiss(animated: true) {
-                print("alert dismiss")
-            }
+            self.requestLocationAgain()
         })
         
         alert.addAction(UIAlertAction(title: "변경",
                                       style: .default) {[weak self] _ in
-            guard let `self` = self else { return }
+            guard let `self` = self else {
+                return
+            }
+            
             switch self.convertToValidLocation(alert.textFields) {
             case .failure(let error):
                 self.tableView.delegate = self.emptyDelegate
                 self.tableView.dataSource = self.emptyDataSource
-
-                alert.dismiss(animated: true) {
-                    print("alert dismiss")
-                }
-                
             case .success(let location):
                 self.deleteTextField(alert.textFields)
                 
                 requestWeatherData(requestPurpose: .currentWeather,
                                    location: location)
-                
-            }
-            
-            alert.dismiss(animated: true) {
-                print("alert dismiss")
             }
         })
         
-        alert.addTextField { [self] field in
-//            let latitude = self.locationViewController.getLocation()?.latitude
-//            field.text = String(describing: latitude ?? CLLocationDegrees())
+        var currentLcoation = Location(CLLocationDegrees(),CLLocationDegrees())
+        if let parentvc = self.findParentViewController() as? MainViewController,
+           let location = parentvc.getLocation() {
+            currentLcoation = location
+        }
+        
+        alert.addTextField { field in
+            field.text = String(currentLcoation.latitude)
             field.placeholder = "위도"
         }
         
         alert.addTextField { field in
-//            let longitude = self.locationViewController.getLocation()?.longitude
-//            field.text = String(describing: longitude ?? CLLocationDegrees())
+            field.text = String(currentLcoation.longitude)
             field.placeholder = "경도"
         }
         
@@ -141,7 +101,7 @@ final class TableViewController: UIViewController, ButtonDelegate {
                                       message: "날씨를 받아올 위치의 위도와 경도를 입력해 주세요",
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
-
+        
         alert.addAction(UIAlertAction(title: "변경",
                                       style: .default) { [weak self] _ in
             guard let `self` = self else { return }
@@ -150,52 +110,58 @@ final class TableViewController: UIViewController, ButtonDelegate {
             case .failure(let error):
                 self.tableView.delegate = self.emptyDelegate
                 self.tableView.dataSource = self.emptyDataSource
-
-                alert.dismiss(animated: true) {
-                    print("alert dismiss")
-                }
             case .success(let location):
-                self.deleteTextField(alert.textFields)
-                
                 requestWeatherData(requestPurpose: .forecast,
                                    location: location)
             }
-            alert.dismiss(animated: true) {
-                print("alert dismiss")
-            }
         })
-       
-        alert.addTextField { [self] field in
-//            let latitude = self.locationViewController.getLocation()?.latitude
-//            field.text = String(describing: latitude ?? CLLocationDegrees())
+        
+        var currentLcoation = Location(CLLocationDegrees(),CLLocationDegrees())
+        if let parentvc = self.findParentViewController() as? MainViewController,
+           let location = parentvc.getLocation(){
+            currentLcoation = location
+        }
+        
+        alert.addTextField { field in
+            field.text = String(currentLcoation.latitude)
             field.placeholder = "위도"
         }
         
         alert.addTextField { field in
-//            let longitude = self.locationViewController.getLocation()?.longitude
-//            field.text = String(describing: longitude ?? CLLocationDegrees())
+            field.text = String(currentLcoation.longitude)
             field.placeholder = "경도"
         }
+        
         return alert
     }()
 }
 
+extension TableViewController: ButtonDelegate {
+    func notifyValidLocationAlert() {
+        showDetailViewController(validLocationAlert, sender: nil)
+    }
+    
+    func notifyInvalidLocationAlert() {
+        showDetailViewController(inValidLocationAlert, sender: nil)
+    }
+}
+
 extension TableViewController {
-    private func drawTableView() {
+    private func setTableView() {
         self.view.addSubview(tableView)
         self.tableView.frame = self.view.bounds
         self.tableView.backgroundColor = UIColor.clear
-
-        self.tableView.register(FiveDaysForecastCell.self,
-                                forCellReuseIdentifier: "weatherCell")
-        self.tableView.register(OpenWeatherHeaderView.self,
-                                forHeaderFooterViewReuseIdentifier: "weatherHeaderView")
-
+        
         let iconSize: CGFloat = 50
         self.tableView.rowHeight = CGFloat(iconSize)
         
         let headerViewSize: CGFloat = 120
         self.tableView.sectionHeaderHeight = headerViewSize
+        
+        self.tableView.register(FiveDaysForecastCell.self,
+                                forCellReuseIdentifier: "weatherCell")
+        self.tableView.register(OpenWeatherHeaderView.self,
+                                forHeaderFooterViewReuseIdentifier: "weatherHeaderView")
     }
     
     private func setRefreshControl() {
@@ -208,6 +174,15 @@ extension TableViewController {
         self.refreshControl.addTarget(self,
                                       action: #selector(requestLocationAgain),
                                       for: .valueChanged)
+    }
+    
+    private func setButtonDelegate() {
+        let firstSectionHeaderNumber = 0
+        guard let headerView = self.tableView.headerView(forSection: firstSectionHeaderNumber) as? OpenWeatherHeaderView else {
+            return
+        }
+        
+        headerView.buttonDelegate = self
     }
 }
 

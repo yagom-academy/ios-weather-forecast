@@ -52,6 +52,7 @@ extension WeatherTableViewDelegate {
                 tableViewController.cleanTableView()
                 return
             }
+            
             let spacing = " "
             view.confifureAddress(city + spacing + subCity)
         }

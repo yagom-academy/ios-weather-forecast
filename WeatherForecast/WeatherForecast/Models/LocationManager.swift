@@ -9,7 +9,7 @@ import CoreLocation.CLLocationManager
 
 final class LocationManager: CLLocationManager {
     
-    var lastLocation: Location?
+    var validLocation: Location?
     
     func askUserLocation() {
         self.requestWhenInUseAuthorization()
