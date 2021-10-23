@@ -197,6 +197,7 @@ extension OpenWeatherHeaderView {
     
     private func setDynamicType(to label: UILabel, _ font: UIFont.TextStyle) {
         label.adjustsFontForContentSizeCategory = true
+        label.textColor = .white
         label.font = UIFont.preferredFont(forTextStyle: font)
     }
     

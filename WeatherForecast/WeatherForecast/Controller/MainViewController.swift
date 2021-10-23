@@ -14,19 +14,7 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addViewControllers()
-//        NotificationCenter
-//            .default
-//            .addObserver(self,
-//                         selector: #selector(showValidLocationAlert),
-//                         name: .showValidLocationAlert,
-//                         object: nil)
-//
-//        NotificationCenter
-//            .default
-//            .addObserver(self,
-//                         selector: #selector(showInValidLocation),
-//                         name: .showInValidLocationAlert,
-//                         object: nil)
+        self.view.addBackground(imageName: "OpenWeatherBackground")
     }
     
     private func addViewControllers() {
@@ -35,17 +23,4 @@ final class MainViewController: UIViewController {
         self.view.addSubview(tableViewController.view)
         tableViewController.view.frame = self.view.bounds
     }
-    
-//    @objc func showValidLocationAlert() {
-//        self.showDetailViewController(validLocationAlert, sender: nil)
-//    }
-//
-//    @objc private func showInValidLocation() {
-//        self.showDetailViewController(inValidLocationAlert, sender: nil)
-//    }
-  
-}
-
-extension MainViewController {
-   
 }

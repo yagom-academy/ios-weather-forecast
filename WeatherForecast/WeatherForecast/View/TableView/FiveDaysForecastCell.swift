@@ -21,13 +21,13 @@ final class FiveDaysForecastCell: UITableViewCell {
     
     private let dateLabel: UILabel = {
         let dateLabel = UILabel()
-        dateLabel.textColor = .black
+        dateLabel.textColor = .white
         return dateLabel
     }()
     
     private let temperatureLabel: UILabel = {
         let temLabel = UILabel()
-        temLabel.textColor = .black
+        temLabel.textColor = .white
         return temLabel
     }()
     
@@ -37,7 +37,6 @@ final class FiveDaysForecastCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         positionUIElements()
         setLabelStyle()
-        self.backgroundView?.backgroundColor = .clear
     }
     
     required init?(coder: NSCoder) {

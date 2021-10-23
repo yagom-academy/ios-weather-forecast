@@ -26,6 +26,10 @@ final class WeatherTableViewDelegate: NSObject, UITableViewDelegate {
         
         return headerView
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = .clear
+    }
 }
 
 extension WeatherTableViewDelegate {
