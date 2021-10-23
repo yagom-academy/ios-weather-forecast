@@ -13,7 +13,10 @@ final class EmptyDataSource: NSObject, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FiveDaysForecastCell.identifier, for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: FiveDaysForecastCell.identifier, for: indexPath) as? FiveDaysForecastCell else {
+            return UITableViewCell()
+        }
+        
         return cell
     }
 }

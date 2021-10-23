@@ -14,7 +14,6 @@ extension DateFormatter {
         formatter.timeStyle = .none
         formatter.locale = Locale(identifier: "ko")
         formatter.setLocalizedDateFormatFromTemplate("MM/dd(E) HH시")
-        
         return formatter
     }
 }

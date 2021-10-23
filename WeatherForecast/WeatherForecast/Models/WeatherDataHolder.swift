@@ -16,7 +16,7 @@ final class WeatherDataHolder {
     private init() { }
     
     func generate(_ path: String, _ data: Data) {
-        guard let path = PathOptions.Paths(rawValue: path) else {
+        guard let path = PathOptions.PathComponents(rawValue: path) else {
             return
         }
         

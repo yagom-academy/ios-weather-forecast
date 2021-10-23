@@ -39,7 +39,7 @@ final class TableViewController: UIViewController {
             .default
             .addObserver(self,
                          selector: #selector(cleanTableView),
-                         name: .cleanTalbeView,
+                         name: .cleanTableView,
                          object: nil)
     }
 
@@ -100,3 +100,4 @@ extension TableViewController {
         }
     }
 }
+

@@ -22,6 +22,7 @@ final class WeatherTableViewDelegate: NSObject, UITableViewDelegate {
 
         fetchIconImage(weatherData, view)
         fetchAddressData(weatherData, view)
+        view.setButton(state: .valid, title: "위치설정")
         
         return view
     }
@@ -40,7 +41,7 @@ extension WeatherTableViewDelegate {
             guard let addresses = placeMarks,
                   let city = addresses.last?.locality,
                   let subCity = addresses.last?.subLocality else {
-                NotificationCenter.default.post(name: .cleanTalbeView, object: nil)
+                NotificationCenter.default.post(name: .cleanTableView, object: nil)
                 return
             }
             let spacing = " "

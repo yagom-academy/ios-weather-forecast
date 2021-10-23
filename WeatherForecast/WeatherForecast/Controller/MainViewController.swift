@@ -33,10 +33,6 @@ final class MainViewController: UIViewController {
                          object: nil)
     }
     
-    @objc private func showInValidLocation() {
-        self.present(inValidLocationAlert, animated: true)
-    }
-    
     private func addViewControllers() {
         add(tableViewController)
         add(locationViewController)
@@ -45,22 +41,32 @@ final class MainViewController: UIViewController {
     }
     
     @objc func showValidLocationAlert() {
-        self.present(validLocationAlert, animated: true)
+        self.showDetailViewController(validLocationAlert, sender: nil)
+    }
+        
+    @objc private func showInValidLocation() {
+        self.showDetailViewController(inValidLocationAlert, sender: nil)
     }
     
-    private lazy var validLocationAlert: UIAlertController = {
+    private lazy var inValidLocationAlert: UIAlertController = {
         let alert = UIAlertController(title: "위치설정",
-                                      message: "변경할 좌표를 선택해주세요",
+                                      message: "날씨를 받아올 위치의 위도와 경도를 입력해 주세요",
                                       preferredStyle: .alert)
-        
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+
         alert.addAction(UIAlertAction(title: "변경",
-                                      style: .default) { _ in
+                                      style: .default) { [weak self] _ in
+            guard let `self` = self else { return }
+            
             switch self.convertToValidLocation(alert.textFields) {
             case .failure(let error):
                 NotificationCenter
                     .default
-                    .post(name: .cleanTalbeView,
+                    .post(name: .cleanTableView,
                           object: nil)
+                alert.dismiss(animated: true) {
+                    print("1 alert dismiss")
+                }
                 
             case .success(let location):
                 self.deleteTextField(alert.textFields)
@@ -78,44 +84,56 @@ final class MainViewController: UIViewController {
                                           requestPurpose: .forecast,
                                           sessionDelegate.session)
             }
+            alert.dismiss(animated: true) {
+                print("1 alert dismiss")
+            }
+            
         })
-        
-        alert.addAction(UIAlertAction(title: "현재 위치로 재설정", style: .default) { _ in
-            NotificationCenter
-                .default
-                .post(name: .requestLocationAgain,
-                      object: nil)
-        })
-        
+       
         alert.addTextField { [self] field in
-            let latitude = self.locationViewController.getLocation()?.coordinate.latitude
+            let latitude = self.locationViewController.getLocation()?.latitude
             field.text = String(describing: latitude ?? CLLocationDegrees())
-
             field.placeholder = "위도"
         }
         
         alert.addTextField { field in
-            let longitude = self.locationViewController.getLocation()?.coordinate.longitude
+            let longitude = self.locationViewController.getLocation()?.longitude
             field.text = String(describing: longitude ?? CLLocationDegrees())
             field.placeholder = "경도"
         }
         return alert
     }()
     
-    private lazy var inValidLocationAlert: UIAlertController = {
+    private lazy var validLocationAlert: UIAlertController = {
         let alert = UIAlertController(title: "위치변경",
-                                      message: "날씨를 받아올 위치의 위도와 경도를 입력해주세요",
+                                      message: "변경할 좌표를 선택해 주세요",
                                       preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        
+        alert.addAction(UIAlertAction(title: "현재 위치로 재설정", style: .default) { _ in
+            NotificationCenter
+                .default
+                .post(name: .requestLocationAgain,
+                      object: nil)
+            alert.dismiss(animated: true) {
+                print("alert dismiss")
+            }
+        })
+        
+        
         alert.addAction(UIAlertAction(title: "변경",
-                                      style: .default) { _ in
+                                      style: .default) {[weak self] _ in
+            guard let `self` = self else { return }
             switch self.convertToValidLocation(alert.textFields) {
             case .failure(let error):
                 NotificationCenter
                     .default
-                    .post(name: .cleanTalbeView,
+                    .post(name: .cleanTableView,
                           object: nil)
+                alert.dismiss(animated: true) {
+                    print("alert dismiss")
+                }
                 
             case .success(let location):
                 self.deleteTextField(alert.textFields)
@@ -133,16 +151,20 @@ final class MainViewController: UIViewController {
                                           requestPurpose: .forecast,
                                           sessionDelegate.session)
             }
+            
+            alert.dismiss(animated: true) {
+                print("alert dismiss")
+            }
         })
         
         alert.addTextField { [self] field in
-            let latitude = self.locationViewController.getLocation()?.coordinate.latitude
+            let latitude = self.locationViewController.getLocation()?.latitude
             field.text = String(describing: latitude ?? CLLocationDegrees())
             field.placeholder = "위도"
         }
         
         alert.addTextField { field in
-            let longitude = self.locationViewController.getLocation()?.coordinate.longitude
+            let longitude = self.locationViewController.getLocation()?.longitude
             field.text = String(describing: longitude ?? CLLocationDegrees())
             field.placeholder = "경도"
         }

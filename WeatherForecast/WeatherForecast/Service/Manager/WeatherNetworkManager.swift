@@ -10,27 +10,6 @@ import CoreLocation.CLLocationManager
 
 typealias Location = (latitude: CLLocationDegrees, longitude: CLLocationDegrees)
 
-enum PathOptions {
-    case current
-    case forecast
-    
-    enum Paths: String {
-        case data = "data"
-        case forecast = "forecast"
-        case current = "weather"
-        case twoPointFive = "2.5"
-    }
-    
-    var paths: [String] {
-        switch self {
-        case .forecast:
-            return ["\(Paths.data)", "\(Paths.twoPointFive.rawValue)", "\(Paths.forecast)"]
-        case .current:
-            return ["\(Paths.data)", "\(Paths.twoPointFive.rawValue)", "\(Paths.current.rawValue)"]
-        }
-    }
-}
-
 final class WeatherNetworkManager {
     private let router = Router<OpenWeatherAPI>()
     private let apiKey = "9cda367698143794391817f65f81c76e"
@@ -70,9 +49,9 @@ final class WeatherNetworkManager {
     private func maekPathComponents(_ requestPurpose: RequestPurpose) -> PathComponents {
         switch requestPurpose {
         case .currentWeather:
-            return PathOptions.current.paths
+            return PathOptions.current.fullPaths
         case .forecast:
-            return PathOptions.forecast.paths
+            return PathOptions.forecast.fullPaths
         }
     }
 }

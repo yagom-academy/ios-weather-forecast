@@ -62,16 +62,15 @@ extension FiveDaysForecastCell {
         self.contentView.addSubview(self.dateLabel)
         self.dateLabel.setPosition(top: self.contentView.topAnchor,
                                    bottom:  self.contentView.bottomAnchor,
-                                   leading: self.contentView.leadingAnchor,
-                                   leadingConstant: 20,
-                                   trailing: nil)
+                                   leading: self.contentView.leadingAnchor,                                   trailing: self.contentView.trailingAnchor,
+                                   trailingConstant: -(self.contentView.frame.size.width * 7 / 10))
         
         self.contentView.addSubview(self.temperatureLabel)
         self.temperatureLabel.setPosition(top: self.contentView.topAnchor,
                                           bottom:  self.contentView.bottomAnchor,
                                           leading: self.dateLabel.leadingAnchor,
-                                          leadingConstant: 290,
-                                          trailing: nil)
+                                          leadingConstant: (self.contentView.frame.size.width * 6 / 10),
+                                          trailing: self.contentView.trailingAnchor)
         
         self.contentView.addSubview(self.weatherIconImageView)
         
@@ -79,7 +78,7 @@ extension FiveDaysForecastCell {
                                               bottom:  self.contentView.bottomAnchor,
                                               leading: nil,
                                               trailing: self.contentView.trailingAnchor,
-                                              trailingConstant: -20)
+                                              trailingConstant: -(self.contentView.frame.size.width * 1 / 15))
     }
     
     override func prepareForReuse() {

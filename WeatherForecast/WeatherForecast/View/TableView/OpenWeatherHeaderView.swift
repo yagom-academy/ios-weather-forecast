@@ -13,11 +13,7 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     
     private let button: UIButton = {
         let button = UIButton()
-        button.setTitle("위치설정", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
-        button.addTarget(nil,
-                         action: #selector(notifyValidLocationAlert),
-                         for: .touchUpInside)
         return button
     }()
     
@@ -44,18 +40,28 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     private let minMaxTemperature = UILabel()
     private let currentTemperatureLabel = UILabel()
     private let iconImageView = UIImageView()
-
+    
     private lazy var verticalStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [self.addressLabel, self.minMaxTemperature, self.currentTemperatureLabel])
+        let stackView = UIStackView(
+            arrangedSubviews: [self.addressLabel,
+                               self.minMaxTemperature,
+                               self.currentTemperatureLabel]
+        )
+        
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .leading
         stackView.spacing = 10
         return stackView
     }()
-
+    
     private lazy var horizontalStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [self.iconImageView, self.verticalStackView, self.button])
+        let stackView = UIStackView(
+            arrangedSubviews: [self.iconImageView,
+                               self.verticalStackView,
+                               self.button]
+        )
+        
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.alignment = .leading
@@ -75,14 +81,27 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func changeButton() {
-        self.button.setTitle("위치변경", for: .normal)
-        self.button.removeTarget(self,
-                              action: #selector(notifyValidLocationAlert),
-                              for: .touchUpInside)
-        self.button.addTarget(nil,
-                              action: #selector(notifyInvalidLocationAlert),
-                              for: .touchUpInside)
+    enum LocationState {
+        case valid
+        case invalid
+    }
+    
+    func setButton(state: LocationState, title: String) {
+        self.button.setTitle(title, for: .normal)
+        self.button.removeTarget(nil,
+                                 action: nil,
+                                 for: .allEvents)
+        switch state {
+        case .valid:
+            self.button.addTarget(nil,
+                                  action: #selector(notifyValidLocationAlert),
+                                  for: .touchUpInside)
+        case .invalid:
+            self.button.addTarget(nil,
+                                  action: #selector(notifyInvalidLocationAlert),
+                                  for: .touchUpInside)
+            
+        }
     }
 
     func configureDateAndTemperature() {
@@ -111,6 +130,10 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     func confifureAddress(_ address: String) {
         self.addressLabel.text = address
     }
+    
+    func showRequestFailableCell() {
+        self.addressLabel.text = "위치정보가 없어요🥲"
+    }
 }
 
 extension OpenWeatherHeaderView {
@@ -121,7 +144,7 @@ extension OpenWeatherHeaderView {
                                         leading: self.contentView.leadingAnchor,
                                         trailing: self.contentView.trailingAnchor)
     }
-
+    
     private func setImageIconView() {
         NSLayoutConstraint.activate([
             iconImageView
@@ -144,7 +167,7 @@ extension OpenWeatherHeaderView {
             verticalStackView
                 .bottomAnchor
                 .constraint(equalTo: self.horizontalStackView.bottomAnchor),
-
+            
             verticalStackView
                 .leadingAnchor
                 .constraint(equalTo: horizontalStackView.leadingAnchor, constant: 100),

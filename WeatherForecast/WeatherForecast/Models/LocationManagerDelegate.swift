@@ -17,6 +17,11 @@ final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
         }
         
         let location: Location = (latitude, longitude)
+        
+        if let manager = manager as? LocationManager {
+            manager.lastLocation = location
+        }
+        
         let sessionDelegate = OpenWeatherSessionDelegate()
         let networkManager = WeatherNetworkManager()
         

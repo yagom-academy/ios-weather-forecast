@@ -29,7 +29,7 @@ final class LocationViewController: UIViewController {
         self.locationManager.requestLocation()
     }
     
-    func getLocation() -> CLLocation? {
-       return locationManager.location
+    func getLocation() -> Location? {
+        return locationManager.lastLocation
     }
 }
