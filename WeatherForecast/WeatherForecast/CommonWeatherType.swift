@@ -29,8 +29,8 @@ struct Main: Decodable {
     let feelsLike: Double?
     let pressure: Int?
     let humidity: Int?
-    let tempMin: Double?
-    let tempMax: Double?
+    let tempMin: Double
+    let tempMax: Double
     let seaLevel: Int?
     let grndLevel: Int?
     let tempKF: Double?
