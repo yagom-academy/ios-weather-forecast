@@ -13,7 +13,7 @@ final class EmptyDelegate: NSObject, UITableViewDelegate {
             return UIView()
         }
         
-        view.setButton(state: .invalid, title: "위치변경")
+        view.chaneButtonTargets(state: .invalid, title: "위치변경")
         view.showRequestFailableCell()
         return view
     }

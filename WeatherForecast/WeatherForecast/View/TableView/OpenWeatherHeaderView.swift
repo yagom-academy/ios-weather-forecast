@@ -8,8 +8,14 @@
 import UIKit
 import CoreLocation.CLLocationManager
 
+protocol ButtonDelegate: AnyObject {
+    func notifyValidLocationAlert()
+    func notifyInvalidLocationAlert()
+}
+
 class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     static let identifier = "weatherHeaderView"
+    weak var buttonDelegate: ButtonDelegate?
     
     private let button: UIButton = {
         let button = UIButton()
@@ -18,22 +24,27 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
     }()
     
     @objc private func notifyValidLocationAlert() {
-        NotificationCenter
-            .default
-            .post(name: .showValidLocationAlert,
-                  object: nil)
+        setButtonDelegate()
+        buttonDelegate?.notifyValidLocationAlert()
     }
     
     @objc private func notifyInvalidLocationAlert() {
-        NotificationCenter
-            .default
-            .post(name: .showInValidLocationAlert,
-                  object: nil)
+        setButtonDelegate()
+        buttonDelegate?.notifyInvalidLocationAlert()
+    }
+    
+    private func setButtonDelegate() {
+        guard let tableView = self.superview as? UITableView else {
+            return
+        }
+        guard let viewController = tableView.findViewController() as? ButtonDelegate else {
+            return
+        }
+        self.buttonDelegate = viewController
     }
     
     private let addressLabel: UILabel = {
         let addressLabel = UILabel()
-        addressLabel.text = "-- ----"
         return addressLabel
     }()
     
@@ -86,7 +97,7 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
         case invalid
     }
     
-    func setButton(state: LocationState, title: String) {
+    func chaneButtonTargets(state: LocationState, title: String) {
         self.button.setTitle(title, for: .normal)
         self.button.removeTarget(nil,
                                  action: nil,
@@ -103,7 +114,7 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
             
         }
     }
-
+    
     func configureDateAndTemperature() {
         guard let currentWeatherData = WeatherDataHolder.shared.current else {
             print("\(#function)에 들어갈 데이터가 없습니다.")

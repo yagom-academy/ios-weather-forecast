@@ -10,7 +10,7 @@ import CoreLocation.CLLocationManager
 
 final class WeatherTableViewDelegate: NSObject, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: OpenWeatherHeaderView.identifier) as? OpenWeatherHeaderView else {
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: OpenWeatherHeaderView.identifier) as? OpenWeatherHeaderView else {
             return UIView()
         }
         
@@ -18,13 +18,13 @@ final class WeatherTableViewDelegate: NSObject, UITableViewDelegate {
             return UIView()
         }
         
-        view.configureDateAndTemperature()
+        headerView.configureDateAndTemperature()
 
-        fetchIconImage(weatherData, view)
-        fetchAddressData(weatherData, view)
-        view.setButton(state: .valid, title: "위치설정")
+        fetchIconImage(weatherData, headerView)
+        fetchAddressData(weatherData, headerView)
+        headerView.chaneButtonTargets(state: .valid, title: "위치설정")
         
-        return view
+        return headerView
     }
 }
 
