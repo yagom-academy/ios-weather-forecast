@@ -42,10 +42,14 @@ extension WeatherTableViewDelegate {
                 return
             }
             
+            guard let tableViewController = view.findViewController() as? TableViewController else {
+                return
+            }
+            
             guard let addresses = placeMarks,
                   let city = addresses.last?.locality,
                   let subCity = addresses.last?.subLocality else {
-                NotificationCenter.default.post(name: .cleanTableView, object: nil)
+                tableViewController.cleanTableView()
                 return
             }
             let spacing = " "

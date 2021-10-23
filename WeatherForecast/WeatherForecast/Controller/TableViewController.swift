@@ -39,15 +39,9 @@ final class TableViewController: UIViewController, ButtonDelegate {
                          selector: #selector(stopRefesh),
                          name: .stopRefresh,
                          object: nil)
-        NotificationCenter
-            .default
-            .addObserver(self,
-                         selector: #selector(cleanTableView),
-                         name: .cleanTableView,
-                         object: nil)
     }
 
-    @objc private func cleanTableView() {
+    func cleanTableView() {
         self.tableView.dataSource = emptyDataSource
         self.tableView.delegate = emptyDelegate
         self.tableView.reloadData()
@@ -173,7 +167,7 @@ final class TableViewController: UIViewController, ButtonDelegate {
                                           sessionDelegate.session)
             }
             alert.dismiss(animated: true) {
-                print("1 alert dismiss")
+                print("alert dismiss")
             }
             
         })
@@ -298,5 +292,4 @@ extension TableViewController {
             return .failure(ConvertLocationError.invalidLocation)
         }
     }
-
 }
