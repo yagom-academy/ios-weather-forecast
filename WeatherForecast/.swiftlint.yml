@@ -1,0 +1,10 @@
+disabled_rules:
+- identifier_name
+- nesting
+- trailing_whitespace
+- line_length
+excluded:
+- WeatherForecast/SceneDelegate.swift
+- WeatherForecast/AppDelegate.swift
+- WeatherForecastTests/
+- WeatherForecastUITests
