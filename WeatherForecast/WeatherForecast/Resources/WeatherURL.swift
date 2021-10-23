@@ -10,6 +10,7 @@ import Foundation
 enum WeatherConfig {
     static let appKey = "5b0c9717f130cf0eb03095b31fe5417e"
     static let baseURL = "https://api.openweathermap.org/data/2.5"
+    static let iconURL = "https://openweathermap.org/img/w"
 }
 
 enum WeatherURL: UrlGeneratable {
@@ -27,23 +28,27 @@ enum WeatherURL: UrlGeneratable {
             return ["lat": String(latitude),
                     "lon": String(longitude),
                     "appid": WeatherConfig.appKey]
+        case .weatherIcon:
+            return nil
         }
     }
     
     case weatherCoordinates(latitude: Double, longitude: Double)
     case forecastCoordinates(latitude: Double, longitude: Double)
+    case weatherIcon(iconID: String)
     
-    private var weatherURI: String {
+    var weatherURI: String {
         switch self {
         case .weatherCoordinates:
-            return "/weather"
+            return "\(WeatherConfig.baseURL)/weather"
         case .forecastCoordinates:
-            return "/forecast"
+            return "\(WeatherConfig.baseURL)/forecast"
+        case .weatherIcon(let iconID):
+            return "\(WeatherConfig.iconURL)/\(iconID).png"
         }
     }
     
     func generateURL() -> URL? {
-        let weatherBaseURL = "\(WeatherConfig.baseURL)\(self.weatherURI)"
-        return URL(string: weatherBaseURL)
+        return URL(string: self.weatherURI)
     }
 }

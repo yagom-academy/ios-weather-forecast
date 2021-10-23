@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class APIManager {
     private let session: URLSessionProtocol
@@ -35,5 +36,31 @@ class APIManager {
             
             completion(.success(data))
         }.resume()
+    }
+    
+    func downloadImage(resource: RequestGeneratable,
+                       completion: @escaping (UIImage) -> Void) -> URLSessionDataTask? {
+        guard let request = resource.generateRequest() else {
+            return nil
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, _, error) in
+            guard error == nil else {
+                return
+            }
+            
+            if let imageData = data,
+               let image = UIImage(data: imageData) {
+                if let url = request.url {
+                    ImageCacheManager.shared.setData(of: image, for: url.absoluteString)
+                }
+                
+                DispatchQueue.main.async {
+                    completion(image)
+                }
+            }
+        }
+        task.resume()
+        return task
     }
 }
