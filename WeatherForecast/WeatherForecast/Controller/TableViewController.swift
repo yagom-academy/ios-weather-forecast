@@ -8,6 +8,20 @@
 import UIKit
 import CoreLocation
 
+func requestWeatherData(requestPurpose: RequestPurpose, location: Location?) {
+    let sessionDelegate = OpenWeatherSessionDelegate()
+    let networkManager = WeatherNetworkManager()
+    
+    networkManager
+        .fetchOpenWeatherData(latitudeAndLongitude: location,
+                              requestPurpose: .currentWeather,
+                              sessionDelegate.session)
+    
+    networkManager
+        .fetchOpenWeatherData(latitudeAndLongitude: location,
+                              requestPurpose: .forecast,
+                              sessionDelegate.session)
+}
 
 final class TableViewController: UIViewController, ButtonDelegate {
   
@@ -44,10 +58,9 @@ final class TableViewController: UIViewController, ButtonDelegate {
     func cleanTableView() {
         self.tableView.dataSource = emptyDataSource
         self.tableView.delegate = emptyDelegate
-        self.tableView.reloadData()
     }
 
-    func setButtonDelegate() {
+    private func setButtonDelegate() {
         let firstSectionHeaderNumber = 0
         guard let headerView = self.tableView.headerView(forSection: firstSectionHeaderNumber) as? OpenWeatherHeaderView else {
             return
@@ -97,18 +110,9 @@ final class TableViewController: UIViewController, ButtonDelegate {
             case .success(let location):
                 self.deleteTextField(alert.textFields)
                 
-                let sessionDelegate = OpenWeatherSessionDelegate()
-                let networkManager = WeatherNetworkManager()
+                requestWeatherData(requestPurpose: .currentWeather,
+                                   location: location)
                 
-                networkManager
-                    .fetchOpenWeatherData(latitudeAndLongitude: location,
-                                          requestPurpose: .currentWeather,
-                                          sessionDelegate.session)
-                
-                networkManager
-                    .fetchOpenWeatherData(latitudeAndLongitude: location,
-                                          requestPurpose: .forecast,
-                                          sessionDelegate.session)
             }
             
             alert.dismiss(animated: true) {
@@ -153,23 +157,12 @@ final class TableViewController: UIViewController, ButtonDelegate {
             case .success(let location):
                 self.deleteTextField(alert.textFields)
                 
-                let sessionDelegate = OpenWeatherSessionDelegate()
-                let networkManager = WeatherNetworkManager()
-                
-                networkManager
-                    .fetchOpenWeatherData(latitudeAndLongitude: location,
-                                          requestPurpose: .currentWeather,
-                                          sessionDelegate.session)
-                
-                networkManager
-                    .fetchOpenWeatherData(latitudeAndLongitude: location,
-                                          requestPurpose: .forecast,
-                                          sessionDelegate.session)
+                requestWeatherData(requestPurpose: .forecast,
+                                   location: location)
             }
             alert.dismiss(animated: true) {
                 print("alert dismiss")
             }
-            
         })
        
         alert.addTextField { [self] field in
@@ -239,7 +232,9 @@ extension TableViewController {
             self.tableView.reloadData()
         }
     }
-    
+}
+
+extension TableViewController {
     private func deleteTextField(_ fields: [UITextField]?) {
         guard let fields = fields else {
             return

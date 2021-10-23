@@ -22,16 +22,8 @@ final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
             manager.lastLocation = location
         }
         
-        let sessionDelegate = OpenWeatherSessionDelegate()
-        let networkManager = WeatherNetworkManager()
-        
-        networkManager.fetchOpenWeatherData(latitudeAndLongitude: location,
-                                            requestPurpose: .currentWeather,
-                                            sessionDelegate.session)
-        
-        networkManager.fetchOpenWeatherData(latitudeAndLongitude: location,
-                                            requestPurpose: .forecast,
-                                            sessionDelegate.session)
+        requestWeatherData(requestPurpose: .currentWeather, location: location)
+        requestWeatherData(requestPurpose: .forecast, location: location)
     }
     
     func locationManager(_ manager: CLLocationManager,
