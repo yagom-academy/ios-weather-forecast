@@ -76,7 +76,7 @@ final class MainWeatherHeaderView: UIView {
     }()
     private let locationSettingButton: UIButton = {
         let button = UIButton()
-        button.setTitle("위치 변경", for: .normal)
+        button.setTitle("HeaderView_LocationSettingButton_Title".localized(), for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
         button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -128,17 +128,9 @@ final class MainWeatherHeaderView: UIView {
     }
     
     func configure(weatherData: WeatherForOneDay) {
-        let absoluteZero = -273.15
-
-        if let highestKelvinTemperature = weatherData.mainWeatherInfomation?.maximumTemperature {
-            highestTemperatureLabel.text = "최고 " + (((highestKelvinTemperature + absoluteZero) * 10).rounded(.toNearestOrAwayFromZero) / 10).description
-        }
-        if let lowestKelvinTemperature = weatherData.mainWeatherInfomation?.minimumTemperature {
-            lowestTemperatureLabel.text = "최저 " + (((lowestKelvinTemperature + absoluteZero) * 10).rounded(.toNearestOrAwayFromZero) / 10).description
-        }
-        if let currentKelvinTemperature = weatherData.mainWeatherInfomation?.temperature {
-            currentTamperatureLabel.text = (((currentKelvinTemperature + absoluteZero) * 10).rounded(.toNearestOrAwayFromZero) / 10).description
-        }
+        highestTemperatureLabel.text = "HeaderView_HighestTemperatureLabel_Text".localized() + (weatherData.mainWeatherInfomation?.maximumTemperature?.description ?? "") + weatherData.temperatureNotation
+        lowestTemperatureLabel.text = "HeaderView_LowestTemperatureLabel_Text".localized() + (weatherData.mainWeatherInfomation?.minimumTemperature?.description ?? "") + weatherData.temperatureNotation
+        currentTamperatureLabel.text = (weatherData.mainWeatherInfomation?.temperature?.description ?? "") + weatherData.temperatureNotation
     }
     
     func configure(image: UIImage) {

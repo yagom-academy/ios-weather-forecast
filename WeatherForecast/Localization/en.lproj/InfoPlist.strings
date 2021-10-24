@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  WeatherForecast
+
+  Created by Kim Do hyung on 2021/10/19.
+  
+*/
+// Request Location Authorization
+NSLocationWhenInUseUsageDescription = "Use your current location to get weather information.";

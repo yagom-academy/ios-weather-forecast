@@ -54,7 +54,7 @@ struct NetworkManager {
         }.resume()
     }
     
-    static func imageRequest(using api: ImageAPI,
+    static func imageRequest(using api: APIable,
                              completionHandler: @escaping (Result<UIImage, Error>) -> Void) {
         guard let imageUrl = api.url else {
             return completionHandler(.failure(NetworkError.invaildURL))

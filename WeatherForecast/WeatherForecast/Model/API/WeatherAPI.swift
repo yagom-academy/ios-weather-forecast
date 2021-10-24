@@ -8,13 +8,10 @@
 import Foundation
 
 struct WeatherAPI: WeatherAPIable {
-    var requestType: RequestType = .get
     var url: URL?
-    var parameter: [String : Any]?
     var callType: CallType
     var forecastType: ForecastType
     private let apiKey: String = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String ?? ""
-    var contentType: ContentType?
     
     init(callType: CallType, forecastType: ForecastType) {
         self.callType = callType

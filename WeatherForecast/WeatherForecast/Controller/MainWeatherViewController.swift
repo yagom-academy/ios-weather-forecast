@@ -9,7 +9,7 @@ import CoreLocation
 
 final class MainWeatherViewController: UIViewController {
     //MARK: Properties
-    private let locationManager = CLLocationManager()
+    private let locationManager = WeatherLocationManager()
     private var userAddress: String?
     private var weatherForOneDay: WeatherForOneDay?
     private var fiveDayWeatherForecast: FiveDayWeatherForecast?
@@ -27,13 +27,15 @@ final class MainWeatherViewController: UIViewController {
         setUpRefreshControl()
     }
 }
-
+ 
 //MARK:- LocationManager
 extension MainWeatherViewController {
     private func setUpLocationManager() {
         locationManager.delegate = self
-        guard CLLocationManager.significantLocationChangeMonitoringAvailable() else { return }
-        locationManager.startMonitoringSignificantLocationChanges()
+        guard CLLocationManager.significantLocationChangeMonitoringAvailable() else {
+            return
+        }
+        locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
     }
 }
 
@@ -44,7 +46,7 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
         case .restricted, .denied:
             break
         case .authorizedAlways, .authorizedWhenInUse:
-            break
+            locationManager.requestLocation()
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         @unknown default:
@@ -61,20 +63,26 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
         updateWorkItem = nil
         
         updateWorkItem = DispatchWorkItem(block: { [weak self] in
-            self?.prepareWeatherInformation(with: lastLocation) { userAddress, weatherForOneDay, weatherForFiveDay in
-                if self?.userAddress != userAddress {
-                    self?.userAddress = userAddress
-                    self?.updateUserAddressLabel(to: userAddress)
+            guard let self = self else {
+                return
+            }
+            self.prepareWeatherInformation(with: lastLocation) { userAddress, weatherForOneDay, weatherForFiveDay in
+                if self.userAddress != userAddress {
+                    self.userAddress = userAddress
+                    self.updateUserAddressLabel(to: userAddress)
                 }
-                if self?.weatherForOneDay != weatherForOneDay {
-                    self?.weatherForOneDay = weatherForOneDay
-                    self?.updateHeaderView(to: weatherForOneDay)
+                if self.weatherForOneDay != weatherForOneDay {
+                    self.weatherForOneDay = weatherForOneDay
+                    self.updateHeaderView(to: weatherForOneDay)
                 }
-                if self?.fiveDayWeatherForecast != weatherForFiveDay {
-                    self?.fiveDayWeatherForecast = weatherForFiveDay
-                    self?.updateTableView(to: weatherForFiveDay?.weatherForFiveDays)
+                if self.fiveDayWeatherForecast != weatherForFiveDay {
+                    self.fiveDayWeatherForecast = weatherForFiveDay
+                    self.updateTableView(to: weatherForFiveDay?.weatherForFiveDays)
                 }
-                self?.tableView.refreshControl?.endRefreshing()
+                self.tableView.refreshControl?.endRefreshing()
+                if self.locationManager.isSignificantMonitoringEnabled == false {
+                    self.locationManager.startMonitoringSignificantLocationChanges()
+                }
             }
         })
         if let updateWorkItem = updateWorkItem {
@@ -83,7 +91,8 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error)
+        debugPrint(error)
+        tableView.refreshControl?.endRefreshing()
     }
 }
 
@@ -91,7 +100,8 @@ extension MainWeatherViewController: CLLocationManagerDelegate {
 extension MainWeatherViewController {
     private func prepareWeatherInformation(with location: CLLocation, completionHandler: @escaping (String?, WeatherForOneDay?, FiveDayWeatherForecast?) -> Void) {
         let userCoordinate = Coordinate(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        let callType = CallType.geographicCoordinates(coordinate: userCoordinate, parameter: nil)
+        let commonWeatherAPIParameter = CommonWeatherAPIParameter(responseFormat: nil, numberOfTimestamps: nil, unitsOfMeasurement: MeasurementType.getMeasurementType(by: Locale.preferredLanguages.first), language: nil)
+        let callType = CallType.geographicCoordinates(coordinate: userCoordinate, parameter: commonWeatherAPIParameter)
         let weatherForOneDayAPI = WeatherAPI(callType: callType, forecastType: .current)
         let fivedayWeatherForecastAPI = WeatherAPI(callType: callType, forecastType: .fiveDays)
         var userAddress: String?
@@ -145,7 +155,7 @@ extension MainWeatherViewController {
 extension MainWeatherViewController {
     private func setUpTableView() {
         view.addSubview(tableView)
-        tableView.register(MainWeatherTableViewCell.self, forCellReuseIdentifier: String(describing: MainWeatherTableViewCell.self))
+        tableView.register(MainWeatherTableViewCell.self, forCellReuseIdentifier: MainWeatherTableViewCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         let safeArea = view.safeAreaLayoutGuide
@@ -213,6 +223,9 @@ extension MainWeatherViewController {
     }
     
     @objc private func loadNewData() {
+        if locationManager.isSignificantMonitoringEnabled {
+            locationManager.stopMonitoringSignificantLocationChanges()
+        }
         locationManager.requestLocation()
     }
 }
@@ -223,28 +236,35 @@ extension MainWeatherViewController: ChangeLocationDelegate {
     }
     
     private func showLocationChangeAlert() {
-        let alert = UIAlertController(title: "위치변경", message: "변경할 좌표를 선택해주세요", preferredStyle: .alert)
+        let alert = UIAlertController(title: "ChangeLocationAlert_Title".localized(), message: "ChangeLocationAlert_Message".localized(), preferredStyle: .alert)
         alert.addTextField { latitudeTextField in
-            latitudeTextField.placeholder = "위도"
+            latitudeTextField.placeholder = "ChangeLocationAlert_LatitudeTextField_Placeholder".localized()
             latitudeTextField.keyboardType = .decimalPad
         }
         alert.addTextField { longitudeTextField in
-            longitudeTextField.placeholder = "경도"
+            longitudeTextField.placeholder = "ChangeLocationAlert_LongitudeTextField_Placeholder".localized()
             longitudeTextField.keyboardType = .decimalPad
         }
-        let changeAction = UIAlertAction(title: "변경", style: .default) { [weak self, weak alert] _ in
+        let changeAction = UIAlertAction(title: "ChangeLocationAlert_ChangeAction_Title".localized(), style: .default) { [weak self, weak alert] _ in
             guard let self = self, let alert = alert else {
                 return
             }
             if let latitudeText = alert.textFields?.first?.text, let longitudeText = alert.textFields?.last?.text,
                let latitude = Double(latitudeText), let longitude = Double(longitudeText) {
-                self.locationManager(self.locationManager, didUpdateLocations: [CLLocation(latitude: latitude, longitude: longitude)])
+                let desiredLocation = CLLocation(latitude: latitude, longitude: longitude)
+                self.locationManager(self.locationManager, didUpdateLocations: [desiredLocation])
             }
         }
-        let setCurrentLocationAction = UIAlertAction(title: "현재 위치로 재설정", style: .default) { [weak self] _ in
-            self?.locationManager.requestLocation()
+        let setCurrentLocationAction = UIAlertAction(title: "ChangeLocationAlert_SetCurrentLocationAction_Title".localized(), style: .default) { [weak self] _ in
+            guard let self = self else {
+                return
+            }
+            if self.locationManager.isSignificantMonitoringEnabled {
+                self.locationManager.stopMonitoringSignificantLocationChanges()
+            }
+            self.locationManager.requestLocation()
         }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "ChangeLocationAlert_CancelAction_Title".localized(), style: .cancel, handler: nil)
         
         alert.addAction(changeAction)
         if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {

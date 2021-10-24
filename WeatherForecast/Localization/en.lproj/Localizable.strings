@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings
+  WeatherForecast
+
+  Created by JINHONG AN on 2021/10/19.
+  
+*/
+//TableView HeaderView
+"HeaderView_HighestTemperatureLabel_Text" = "High ";
+"HeaderView_LowestTemperatureLabel_Text" = "Low ";
+"HeaderView_LocationSettingButton_Title" = "Change Location";
+
+//Change Location Alert
+"ChangeLocationAlert_Title" = "Change Location";
+"ChangeLocationAlert_Message" = "Please enter the coordinates";
+"ChangeLocationAlert_LatitudeTextField_Placeholder" = "latitude";
+"ChangeLocationAlert_LongitudeTextField_Placeholder" = "longitude";
+"ChangeLocationAlert_ChangeAction_Title" = "Change";
+"ChangeLocationAlert_SetCurrentLocationAction_Title" = "Reset to the current location";
+"ChangeLocationAlert_CancelAction_Title" = "Cancel";
+

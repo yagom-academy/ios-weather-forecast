@@ -25,6 +25,7 @@ struct WeatherForOneDay: Decodable, Equatable {
     let cityName: String?
     let statusCode: Int?
     let probabilityOfPrecipitation: Double?
+    let temperatureNotation = MeasurementType.getMeasurementType(by: Locale.preferredLanguages.first).notation
     
     enum CodingKeys: String, CodingKey {
         case base, sys, timezone

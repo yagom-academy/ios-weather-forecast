@@ -8,6 +8,7 @@
 import UIKit
 
 final class MainWeatherTableViewCell: UITableViewCell {
+    static let identifier = String(describing: MainWeatherTableViewCell.self)
     var iconId: String?
     
     private let weatherInformationStackView: UIStackView = {
@@ -67,20 +68,15 @@ final class MainWeatherTableViewCell: UITableViewCell {
     }
     
     func configure(data: WeatherForOneDay) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        if let forecastedDate = data.timeOfDataForecasted, let date = dateFormatter.date(from: forecastedDate), let preferredLanguage = Locale.preferredLanguages.first {
+        if let forecastedDate = data.timeOfDataCalculation, let preferredLanguage = Locale.preferredLanguages.first {
+            let date = Date(timeIntervalSince1970: forecastedDate)
+            let dateFormatter = DateFormatter()
             dateFormatter.locale = Locale(identifier: preferredLanguage)
             dateFormatter.setLocalizedDateFormatFromTemplate("MMMMdEHH")
             dateLabel.text = dateFormatter.string(from: date)
         }
         
-        if let kelvinTemperature = data.mainWeatherInfomation?.temperature {
-            let absoluteZero = -273.15
-            temperatureLabel.text = (((kelvinTemperature + absoluteZero) * 10).rounded(.toNearestOrAwayFromZero) / 10).description
-        }
-        
+        temperatureLabel.text = (data.mainWeatherInfomation?.temperature?.description ?? "") + data.temperatureNotation
     }
     
     func configure(image: UIImage) {

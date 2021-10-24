@@ -17,7 +17,7 @@ extension MainWeatherTableViewDataSource: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MainWeatherTableViewCell.self), for: indexPath) as? MainWeatherTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MainWeatherTableViewCell.identifier, for: indexPath) as? MainWeatherTableViewCell else {
             return UITableViewCell()
         }
         cell.resetAllContents()
