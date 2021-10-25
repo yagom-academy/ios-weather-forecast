@@ -32,7 +32,7 @@ final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
         }
       
         if let manager = manager as? LocationManager {
-            manager.validLocation = Location(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude)
+            manager.validLocation =  Location(latitude, longitude)
         }
         
         requestWeatherData(requestPurpose: .currentWeather, location: Location(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude))

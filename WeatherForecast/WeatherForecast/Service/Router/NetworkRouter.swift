@@ -10,14 +10,14 @@ import Foundation
 protocol NetworkRouter {
     associatedtype EndPointType = EndPoint
     
-    func request(_ route: EndPointType, _ session: URLSession)
+    func request(with route: EndPointType, and session: URLSession)
     func cancel()
 }
 
 final class Router<EndPointType: EndPoint>: NetworkRouter {
     private var task: URLSessionDataTask?
     
-    func request(_ route: EndPointType, _ session: URLSession) {
+    func request(with route: EndPointType, and session: URLSession) {
         do {
             let request = try self.buildRequest(from: route)
             task = session.dataTask(with: request)

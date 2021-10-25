@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -29,6 +29,7 @@
 		A86E0D0927145B5400822E96 /* FiveDaysForecastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86E0D0827145B5400822E96 /* FiveDaysForecastCell.swift */; };
 		A86E0D0D2714723200822E96 /* WeatherTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86E0D0C2714723100822E96 /* WeatherTableViewDataSource.swift */; };
 		A8B0E8DF27238FB100AF51A1 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B0E8DE27238FB100AF51A1 /* Path.swift */; };
+		A8B0E8E427244C5400AF51A1 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B0E8E327244C5400AF51A1 /* test.swift */; };
 		A8FB2DE7271D08D0009967E2 /* TemperatureConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB2DE6271D08D0009967E2 /* TemperatureConverter.swift */; };
 		A8FB2E1E271E904F009967E2 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB2E1D271E904F009967E2 /* TableViewController.swift */; };
 		A8FB2E20271E93D5009967E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB2E1F271E93D5009967E2 /* ViewController.swift */; };
@@ -85,6 +86,7 @@
 		A86E0D0827145B5400822E96 /* FiveDaysForecastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDaysForecastCell.swift; sourceTree = "<group>"; };
 		A86E0D0C2714723100822E96 /* WeatherTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTableViewDataSource.swift; sourceTree = "<group>"; };
 		A8B0E8DE27238FB100AF51A1 /* Path.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
+		A8B0E8E327244C5400AF51A1 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		A8FB2DE6271D08D0009967E2 /* TemperatureConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureConverter.swift; sourceTree = "<group>"; };
 		A8FB2E1D271E904F009967E2 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		A8FB2E1F271E93D5009967E2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -282,6 +284,7 @@
 		C79C8CE725ADDDF200EEE3F1 = {
 			isa = PBXGroup;
 			children = (
+				A8B0E8E327244C5400AF51A1 /* test.swift */,
 				C79C8CF225ADDDF200EEE3F1 /* WeatherForecast */,
 				C79C8D0925ADDDF400EEE3F1 /* WeatherForecastTests */,
 				C79C8D1425ADDDF400EEE3F1 /* WeatherForecastUITests */,
@@ -348,6 +351,8 @@
 			dependencies = (
 			);
 			name = WeatherForecast;
+			packageProductDependencies = (
+			);
 			productName = WeatherForecast;
 			productReference = C79C8CF025ADDDF200EEE3F1 /* WeatherForecast.app */;
 			productType = "com.apple.product-type.application";
@@ -419,6 +424,9 @@
 				Base,
 			);
 			mainGroup = C79C8CE725ADDDF200EEE3F1;
+			packageReferences = (
+				A8B0E8E02724488200AF51A1 /* XCRemoteSwiftPackageReference "SwiftPlantUML" */,
+			);
 			productRefGroup = C79C8CF125ADDDF200EEE3F1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -467,6 +475,7 @@
 				A8FB2E1E271E904F009967E2 /* TableViewController.swift in Sources */,
 				A84D476027031FBA002C1324 /* EndPoint.swift in Sources */,
 				A818BB292719A339007C4350 /* WeatherTableViewDelegate.swift in Sources */,
+				A8B0E8E427244C5400AF51A1 /* test.swift in Sources */,
 				A8FB2E20271E93D5009967E2 /* ViewController.swift in Sources */,
 				436B3DAA270321EE0069B3AA /* Networkerror.swift in Sources */,
 				C79C8CF825ADDDF200EEE3F1 /* MainViewController.swift in Sources */,
@@ -821,6 +830,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A8B0E8E02724488200AF51A1 /* XCRemoteSwiftPackageReference "SwiftPlantUML" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MarcoEidinger/SwiftPlantUML.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = C79C8CE825ADDDF200EEE3F1 /* Project object */;
 }

@@ -73,10 +73,12 @@ final class TableViewController: UIViewController {
                 
                 requestWeatherData(requestPurpose: .currentWeather,
                                    location: location)
+                
+                // 로케이션델리게이트의 마지막 위치 바꿔주기
             }
         })
         
-        var currentLcoation = Location(CLLocationDegrees(),CLLocationDegrees())
+        var currentLcoation = Location(CLLocationDegrees(), CLLocationDegrees())
         if let parentvc = self.findParentViewController() as? MainViewController,
            let location = parentvc.getLocation() {
             currentLcoation = location
@@ -116,9 +118,9 @@ final class TableViewController: UIViewController {
             }
         })
         
-        var currentLcoation = Location(CLLocationDegrees(),CLLocationDegrees())
+        var currentLcoation = Location(CLLocationDegrees(), CLLocationDegrees())
         if let parentvc = self.findParentViewController() as? MainViewController,
-           let location = parentvc.getLocation(){
+           let location = parentvc.getLocation() {
             currentLcoation = location
         }
         

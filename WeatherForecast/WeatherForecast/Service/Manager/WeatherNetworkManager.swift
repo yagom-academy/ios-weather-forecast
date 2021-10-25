@@ -34,7 +34,7 @@ final class WeatherNetworkManager {
                               _ session: URLSession) {
         let api = buildApi(location: latitudeAndLongitude,
                            requestPurpose: requestPurpose)
-        router.request(api, session)
+        router.request(with: api, and: session)
     }
     
     private func buildApi(location: Location?,
