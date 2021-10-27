@@ -121,16 +121,16 @@ class OpenWeatherHeaderView: UITableViewHeaderFooterView {
             return
         }
         
-        let maxTem = currentWeatherData.main.temperatureMaximum
-        let minTem = currentWeatherData.main.temperatureMinimum
-        let currentTem = currentWeatherData.main.currentTemperature
+        let maxTemperature = currentWeatherData.main.temperatureMaximum
+        let minTemperature = currentWeatherData.main.temperatureMinimum
+        let currentTemperature = currentWeatherData.main.currentTemperature
         
-        let convertedCurentTem = TemperatureConverter(celciusTemperature: currentTem).convertedTemperature
-        let convertedmaxTem = TemperatureConverter(celciusTemperature: maxTem).convertedTemperature
-        let convertedminTem = TemperatureConverter(celciusTemperature: minTem).convertedTemperature
+        let convertedCurentTemperature = TemperatureConverter(celciusTemperature: currentTemperature).convertedTemperature
+        let convertedMaxTemperature = TemperatureConverter(celciusTemperature: maxTemperature).convertedTemperature
+        let convertedMinTemperature = TemperatureConverter(celciusTemperature: minTemperature).convertedTemperature
         
-        self.minMaxTemperature.text = "최고 \(convertedmaxTem)° 최저 \(convertedminTem)°"
-        self.currentTemperatureLabel.text = "\(convertedCurentTem)°"
+        self.minMaxTemperature.text = "최고 \(convertedMaxTemperature)° 최저 \(convertedMinTemperature)°"
+        self.currentTemperatureLabel.text = "\(convertedCurentTemperature)°"
     }
     
     func configureIconImage(_ image: UIImage) {
