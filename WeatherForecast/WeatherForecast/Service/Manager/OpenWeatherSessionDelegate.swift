@@ -27,7 +27,7 @@ final class OpenWeatherSessionDelegate: NSObject, URLSessionDataDelegate {
         let pathCompnent = dataTask.currentRequest?.url?.pathComponents.last
         
         if let path = pathCompnent {
-            WeatherDataHolder.shared.generate(path, requestData)
+            WeatherDataHolder.shared.generate(path: path, data: requestData)
             NotificationCenter.default.post(name: .reloadTableView, object: nil)
         }
         
