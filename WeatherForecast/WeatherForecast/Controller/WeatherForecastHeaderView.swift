@@ -9,16 +9,51 @@ import UIKit
 import CoreLocation
 
 class WeatherForecastHeaderView: UIView {
-    private let iconImageView = UIImageView()
-    private let locationLabel = UILabel(color: .white)
-    private let minMaxTempLabel = UILabel(color: .white)
-    private let currentTempLabel = UILabel(color: .white)
-    private let stackView = UIStackView()
     private let measurementFormatter = MeasurementFormatter()
+    private let iconImageView: UIImageView = {
+        let iconImageView = UIImageView()
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
+        return iconImageView
+    }()
+
+    private let locationLabel: UILabel = {
+        let locationLabel = UILabel(color: .white)
+        locationLabel.translatesAutoresizingMaskIntoConstraints = false
+        locationLabel.numberOfLines = 1
+        locationLabel.adjustsFontSizeToFitWidth = true
+        return locationLabel
+    }()
+
+    private let minMaxTempLabel: UILabel = {
+        let minMaxTempLabel = UILabel(color: .white)
+        minMaxTempLabel.translatesAutoresizingMaskIntoConstraints = false
+        minMaxTempLabel.numberOfLines = 1
+        minMaxTempLabel.adjustsFontSizeToFitWidth = true
+        return minMaxTempLabel
+    }()
+
+    private let currentTempLabel: UILabel = {
+        let currentTempLabel = UILabel(color: .white)
+        currentTempLabel.translatesAutoresizingMaskIntoConstraints = false
+        currentTempLabel.numberOfLines = 1
+        currentTempLabel.font = UIFont.preferredFont(forTextStyle: .title1)
+        currentTempLabel.adjustsFontSizeToFitWidth = true
+        return currentTempLabel
+    }()
+
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.distribution = .fillProportionally
+        return stackView
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpLayout()
+        setUpConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -31,13 +66,9 @@ class WeatherForecastHeaderView: UIView {
         stackView.addArrangedSubview(locationLabel)
         stackView.addArrangedSubview(minMaxTempLabel)
         stackView.addArrangedSubview(currentTempLabel)
+    }
 
-        iconImageView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        locationLabel.translatesAutoresizingMaskIntoConstraints = false
-        minMaxTempLabel.translatesAutoresizingMaskIntoConstraints = false
-        currentTempLabel.translatesAutoresizingMaskIntoConstraints = false
-
+    private func setUpConstraints() {
         NSLayoutConstraint.activate([iconImageView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
                                      iconImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
                                      iconImageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.2),
@@ -46,19 +77,6 @@ class WeatherForecastHeaderView: UIView {
                                      stackView.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor),
                                      stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
                                      stackView.trailingAnchor.constraint(equalTo: trailingAnchor)])
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.distribution = .fillProportionally
-
-        locationLabel.numberOfLines = 1
-        locationLabel.adjustsFontSizeToFitWidth = true
-
-        minMaxTempLabel.numberOfLines = 1
-        minMaxTempLabel.adjustsFontSizeToFitWidth = true
-
-        currentTempLabel.numberOfLines = 1
-        currentTempLabel.font = UIFont.preferredFont(forTextStyle: .title1)
-        currentTempLabel.adjustsFontSizeToFitWidth = true
     }
 
     func configure(data: CurrentWeather?, placemark: CLPlacemark) {

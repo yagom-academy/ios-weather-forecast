@@ -64,9 +64,4 @@ struct ForecastWeather: Decodable {
             case coordinate = "coord"
         }
     }
-
-    struct Coordinate: Decodable {
-        let lat: Double
-        let lon: Double
-    }
 }

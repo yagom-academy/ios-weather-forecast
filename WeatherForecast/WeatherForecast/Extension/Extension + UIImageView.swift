@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIImageView {
-    func setImageURL(_ url: String, completion: @escaping ((NSString, UIImage)->Void)) {
+    func setImageURL(_ url: String, completion: @escaping ((NSString, UIImage) -> Void)) {
         let cacheKey = NSString(string: url)
         if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
             self.image = cachedImage

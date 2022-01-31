@@ -21,11 +21,6 @@ struct CurrentWeather: Decodable {
         case dataReceivingTime = "dt"
     }
 
-    struct Coordinate: Decodable {
-        let lon: Double
-        let lat: Double
-    }
-
     struct Weather: Decodable {
         let id: Int
         let main: String

@@ -9,6 +9,8 @@ import CoreLocation
 
 protocol LocationManagerDelegate: AnyObject {
     func didUpdateLocation()
+    func authorizationRejected()
+    func authorizationAllowed()
 }
 
 enum LocationManagerError: Error {
@@ -17,25 +19,21 @@ enum LocationManagerError: Error {
 }
 
 class LocationManager: NSObject {
-    private var manager: CLLocationManager?
+    private var manager = CLLocationManager()
     private var currentLocation: CLLocation?
     weak var delegate: LocationManagerDelegate?
 
-    init(manager: CLLocationManager = CLLocationManager()) {
+    override init() {
         super.init()
-        self.manager = manager
-        self.manager?.delegate = self
-        self.manager?.desiredAccuracy = kCLLocationAccuracyBest
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
     }
 
     func getCoordinate() -> CLLocationCoordinate2D? {
         return currentLocation?.coordinate
     }
 
-    func getAddress(completion: @escaping (Result<CLPlacemark, Error>) -> Void) {
-        guard let currentLocation = currentLocation else {
-            return
-        }
+    func getAddress(location: CLLocation, completion: @escaping (Result<CLPlacemark, Error>) -> Void) {
         var preferredLocale: Locale
         if let lang = Locale.preferredLanguages.first {
             preferredLocale = Locale(identifier: lang)
@@ -43,7 +41,7 @@ class LocationManager: NSObject {
             preferredLocale = Locale(identifier: "ko_KR")
         }
 
-        CLGeocoder().reverseGeocodeLocation(currentLocation, preferredLocale: preferredLocale) { placemark, error in
+        CLGeocoder().reverseGeocodeLocation(location, preferredLocale: preferredLocale) { placemark, error in
             guard error == nil else {
                 return completion(.failure(LocationManagerError.invalidLocation))
             }
@@ -55,7 +53,26 @@ class LocationManager: NSObject {
     }
 
     func requestLocation() {
-        manager?.requestLocation()
+        manager.requestLocation()
+    }
+
+    func isAuthorizationAllowed() -> Bool {
+        let authorizationStatus: CLAuthorizationStatus
+
+        if #available(iOS 14, *) {
+            authorizationStatus = manager.authorizationStatus
+        } else {
+            authorizationStatus = CLLocationManager.authorizationStatus()
+        }
+
+        switch authorizationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            return true
+        case .denied, .restricted:
+            return false
+        default:
+            return false
+        }
     }
 }
 
@@ -65,11 +82,13 @@ extension LocationManager: CLLocationManagerDelegate {
         case .notDetermined:
             manager.requestWhenInUseAuthorization()
         case .authorizedWhenInUse, .authorizedAlways:
-            manager.requestLocation()
+            debugPrint("권한받음")
+            delegate?.authorizationAllowed()
         case .denied, .restricted:
-            print("권한없음")
+            debugPrint("권한없음")
+            delegate?.authorizationRejected()
         default:
-            print("알수없음")
+            debugPrint("알수없음")
         }
     }
 
